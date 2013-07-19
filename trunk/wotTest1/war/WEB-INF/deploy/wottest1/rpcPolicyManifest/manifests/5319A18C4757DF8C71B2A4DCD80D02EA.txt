@@ -1,0 +1,2 @@
+serviceClass: com.wot.client.GreetingService
+path: 46A5F333A12769BA01F7650EEAA8B687.gwt.rpc
