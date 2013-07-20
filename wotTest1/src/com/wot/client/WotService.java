@@ -8,7 +8,7 @@ import com.wot.server.Clan;
  * The client side stub for the RPC service.
  */
 @RemoteServiceRelativePath("greet")
-public interface GreetingService extends RemoteService {
-	Clan greetServer(String clan) throws IllegalArgumentException;
-	String findMembersClan(String idClan) throws IllegalArgumentException;
+public interface WotService extends RemoteService {
+	Clan getClan(String clan) throws IllegalArgumentException;
+	String getMembersClan(String idClan) throws IllegalArgumentException;
 }
