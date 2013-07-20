@@ -13,18 +13,18 @@ import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.wot.client.GreetingService;
+import com.wot.client.WotService;
 import com.wot.shared.FieldVerifier;
 
 /**
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	String lieu = "maison";
 	
 	@Override
-	public Clan greetServer(String input) throws IllegalArgumentException {
+	public Clan getClan(String input) throws IllegalArgumentException {
 		Clan desClan =null;
 		// Verify that the input is valid.
 		if (!FieldVerifier.isValidName(input)) {
@@ -124,7 +124,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 
 	@Override
-	public String findMembersClan(String idClan) {
+	public String getMembersClan(String idClan) {
 
 	Clan desClan =null;
 	// Verify that the input is valid.

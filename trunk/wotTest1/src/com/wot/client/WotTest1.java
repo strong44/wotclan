@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Frame;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -41,8 +42,8 @@ public class WotTest1 implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final WotServiceAsync wotService = GWT
+			.create(WotService.class);
 
 	/**
 	 * This is the entry point method.
@@ -74,7 +75,7 @@ public class WotTest1 implements EntryPoint {
 		////////////
 								
 		///////////////////////
-		final Button sendButton = new Button("Send");
+		final Button sendButton = new Button("Recherche un clan");
 		rootPanel.add(sendButton, 224, 12);
 		
 		Label lblNewLabel = new Label("Clan");
@@ -141,12 +142,14 @@ public class WotTest1 implements EntryPoint {
 		rootPanel.add(findMembersClanButton, 29, 195);
 		findMembersClanButton.setSize("68px", "28px");
 		
-//				// We can add style names to widgets
-//				sendButton.addStyleName("sendButton");
-//				sendButton.setSize("66px", "30px");
-//				sendButton.addClickHandler(handler);
-//		nameField.selectAll();
-//		nameField.addKeyUpHandler(handler);
+		Frame frameSearchResultClan = new Frame("http://www.google.com");
+		rootPanel.add(frameSearchResultClan, 625, 81);
+		frameSearchResultClan.setSize("300px", "350px");
+		
+		Button searchClanButton = new Button("recherche Des clans");
+		rootPanel.add(searchClanButton, 374, 12);
+		searchClanButton.setSize("146px", "28px");
+		
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -182,13 +185,13 @@ public class WotTest1 implements EntryPoint {
 			}
 		});
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
+		// Create a handler for the Button search clan 
+		class HandlerGetClan implements ClickHandler, KeyUpHandler {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				findClan();
+				getClan();
 			}
 
 			/**
@@ -196,14 +199,14 @@ public class WotTest1 implements EntryPoint {
 			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					findClan();
+					getClan();
 				}
 			}
 
 			/**
 			 * Send the name from the nameField to the server and wait for a response.
 			 */
-			private void findClan() {
+			private void getClan() {
 				grid.resizeRows(0);
 				// First, we validate the input.
 				errorLabel.setText("");
@@ -217,7 +220,7 @@ public class WotTest1 implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				wotService.getClan(textToServer,
 						new AsyncCallback<Clan>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -246,36 +249,7 @@ public class WotTest1 implements EntryPoint {
 								//closeButton.setFocus(true);
 							}
 							
-							public void onSuccessSave(String  result) {
-								//dialogBox.setText("Remote Procedure Call");
-								//serverResponseLabel
-								//		.removeStyleName("serverResponseLabelError");
-								//serverResponseLabel.setHTML(result);
-								//write to grid name; batailles name;batailles
-								String tabTes [] = result.split(" ");
-								//StringTokenizer strTokeniser = new StringTokenizer(result," ");
-								int row = 0;
-								int col = 0;
-								grid.resizeRows(tabTes.length);
-								grid.setBorderWidth(2);
-								grid.setCellPadding(5);
-								grid.setCellSpacing(5);
-								for (int i = 0 ; i < tabTes.length; i++ ) {
-									String ele = tabTes[i];  //name;battle
-									String name = ele.substring(0,  ele.indexOf(";"));
-									String battle = ele.substring(ele.indexOf(";")+1);
-									grid.setText(row, col, name); col++;
-									grid.setText(row, col, battle); 
-									row ++ ; col =0;
-									
-								}
-								
-								
-								
-								//dialogBox.center();
-								//closeButton.setFocus(true);
-							}
-						});
+					});
 				sendButton.setEnabled(true);
 				sendButton.setFocus(true);
 			}
@@ -286,12 +260,12 @@ public class WotTest1 implements EntryPoint {
 
 		///////////
 		// Create a handler for the sendButton and nameField
-		class HandlerFindMembersClan implements ClickHandler, KeyUpHandler {
+		class HandlerGetMembersClan implements ClickHandler, KeyUpHandler {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				findMembersClan();
+				getMembersClan();
 			}
 
 			/**
@@ -299,14 +273,14 @@ public class WotTest1 implements EntryPoint {
 			 */
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					findMembersClan();
+					getMembersClan();
 				}
 			}
 
 			/**
 			 * Send the name from the nameField to the server and wait for a response.
 			 */
-			private void findMembersClan() {
+			private void getMembersClan() {
 				grid.resizeRows(0);
 				// First, we validate the input.
 				errorLabel.setText("");
@@ -320,7 +294,7 @@ public class WotTest1 implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.findMembersClan(textToServer,
+				wotService.getMembersClan(textToServer,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -333,29 +307,10 @@ public class WotTest1 implements EntryPoint {
 								closeButton.setFocus(true);
 							}
 
-//							public void onSuccess(Clan result) {
-//								//dialogBox.setText("Remote Procedure Call");
-//								//serverResponseLabel
-//								//		.removeStyleName("serverResponseLabelError");
-//								//serverResponseLabel.setHTML(result);
-//								//write to grid name; batailles name;batailles
-//								mottoClan.setText(result.getData().getItems().get(0).getMotto());
-//								imageClan.setUrl(result.getData().getItems().get(0).getClan_emblem_url());
-//								ownerClan.setText(result.getData().getItems().get(0).getOwner());
-//								nbMembersClan.setText(result.getData().getItems().get(0).getMember_count());
-//								abbrevClan.setText(result.getData().getItems().get(0).getAbbreviation());
-//								//dialogBox.center();
-//								//closeButton.setFocus(true);
-//							}
 //							
 							public void onSuccess(String  result) {
-								//dialogBox.setText("Remote Procedure Call");
-								//serverResponseLabel
-								//		.removeStyleName("serverResponseLabelError");
-								//serverResponseLabel.setHTML(result);
 								//write to grid name; batailles name;batailles
 								String tabTes [] = result.split(" ");
-								//StringTokenizer strTokeniser = new StringTokenizer(result," ");
 								int row = 0;
 								int col = 0;
 								grid.resizeRows(tabTes.length);
@@ -388,20 +343,17 @@ public class WotTest1 implements EntryPoint {
 		
 		////
 		// Add a handler to send the name to the server
-		HandlerFindMembersClan handlerFindMembers = new HandlerFindMembersClan();
+		HandlerGetMembersClan handlerFindMembers = new HandlerGetMembersClan();
 		findMembersClanButton.addClickHandler(handlerFindMembers);
 				
 				
 
 		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
+		HandlerGetClan handler = new HandlerGetClan();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
 		
 		//second button
 		
 	}
-	
-	
-	
 }
