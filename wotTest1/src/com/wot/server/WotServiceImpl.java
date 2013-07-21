@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -301,6 +302,95 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 	return resultAchievement;
 	
+	}
+
+	@Override
+	public Clan getClans(String input, int offset) throws IllegalArgumentException {
+		Clan clan = null;
+		//int offset = 0 ;
+		int limit = 100;
+		
+		// Verify that the input is valid.
+		if (!FieldVerifier.isValidName(input)) {
+			// If the input is not valid, throw an IllegalArgumentException back to
+			// the client.
+			throw new IllegalArgumentException("Name must be at least 1 characters long");
+		}
+	
+		String serverInfo = getServletContext().getServerInfo();
+		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+	
+		// Escape data from the client to avoid cross-site script vulnerabilities.
+		input = escapeHtml(input);
+		userAgent = escapeHtml(userAgent);
+		String resultAchievement = "";
+		
+		try {
+			long maxAchievement = 0;
+			String maxAchievementuserName = "";
+	
+			//recup id clan avec son son nom 
+			// http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=NOVA%20SNAIL&offset=0&limit=1
+			/**
+			 * {
+				  "status": "ok", 
+				  "status_code": "NO_ERROR", 
+				  "data": {
+				    "items": [
+				      {
+				        "abbreviation": "NVS", 
+				        "created_at": 1328978449.00, 
+				        "name": "NOVA SNAIL", 
+				        "member_count": 57, 
+				        "owner": "hentz44", 
+				        "motto": "Un escargot qui avale un obus a confiance en sa coquille.", 
+				        "clan_emblem_url": "http://cw.worldoftanks.eu/media/clans/emblems/clans_5/500006074/emblem_64x64.png", 
+				        "id": 500006074, 
+				        "clan_color": "#4a426c"
+				      }
+				    ], 
+				    "offset": 0, 
+				    "filtered_count": 2
+				  }
+				}
+			 */
+			URL urlClan = null ;
+			input = input.replace(" ", "%20");
+			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				urlClan = new URL("http://redblouse.info/index.php?q=http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");				
+			}
+			else {
+				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);		
+			}
+			
+			//lecture de la réponse recherche du clan
+			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+			String line = "";
+			String AllLines = "";
+	
+			while ((line = reader.readLine()) != null) {
+				AllLines = AllLines + line;
+			}
+			reader.close();
+	
+			Gson gson = new Gson();
+			//System.out.println("before " + AllLines);
+			
+			//parsing gson
+			clan = gson.fromJson(AllLines, Clan.class );
+			//ItemsDataClan  myItemsDataClan = null ;
+			
+	
+		} catch (MalformedURLException e) {
+			// ...
+			e.printStackTrace();
+		} catch (IOException e) {
+			// ...
+			e.printStackTrace();
+		}
+	
+		//return resultAchievement;
+		return clan;
 	}
 
 }
