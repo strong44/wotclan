@@ -1,26 +1,21 @@
-package com.wot.server;
+package com.wot.shared;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.Gson;
 
-public class Clan implements Serializable{
+public class CommunityClan {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1957641052913871761L;
 	private String status;
 	private String status_code;
 	
-	private DataClan data;
+	private DataCommunityClan data;
 	
-    public DataClan getData() {
+    public DataCommunityClan getData() {
 		return data;
 	}
 
-	public void setData(DataClan data) {
+	public void setData(DataCommunityClan data) {
 		this.data = data;
 	}
 

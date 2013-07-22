@@ -1,4 +1,4 @@
-package com.wot.server;
+package com.wot.shared;
 
 import java.util.List;
 

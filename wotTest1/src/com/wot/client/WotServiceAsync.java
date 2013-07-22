@@ -3,7 +3,7 @@ package com.wot.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.wot.server.Clan;
+import com.wot.shared.Clan;
 
 /**
  * The async counterpart of <code>GreetingService</code>.

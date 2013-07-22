@@ -2,9 +2,9 @@ package com.wot.client;
 
 import java.util.List;
 
-import com.wot.server.Clan;
-import com.wot.server.ItemsDataClan;
+import com.wot.shared.Clan;
 import com.wot.shared.FieldVerifier;
+import com.wot.shared.ItemsDataClan;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
