@@ -12,9 +12,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.jdo.PersistenceManager;
+
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.wot.client.WotService;
+import com.wot.shared.Clan;
+import com.wot.shared.CommunityAccount;
+import com.wot.shared.CommunityClan;
+import com.wot.shared.DataCommunityAccount;
+import com.wot.shared.DataCommunityAccountAchievements;
+import com.wot.shared.DataCommunityClan;
+import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.FieldVerifier;
 
 /**
@@ -22,7 +31,7 @@ import com.wot.shared.FieldVerifier;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison";
+	String lieu = "boulot";
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
@@ -80,7 +89,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");		
 			}
 			
-			//lecture de la réponse recherche du clan
+			//lecture de la rï¿½ponse recherche du clan
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
 			String line = "";
 			String AllLines = "";
@@ -96,7 +105,12 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			//parsing gson
 			desClan = gson.fromJson(AllLines, Clan.class);
 			//ItemsDataClan  myItemsDataClan = null ;
-			
+			PersistenceManager pm = PMF.get().getPersistenceManager();
+	        try {
+	            pm.makePersistent(desClan);
+	        } finally {
+	            pm.close();
+	        }
 	
 		} catch (MalformedURLException e) {
 			// ...
@@ -190,7 +204,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 				//
 				// String nameUser ="";
-				String idUser = dataMember.account_id;
+				String idUser = dataMember.getAccount_id();
 
 				// recup des datas du USER
 				// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
@@ -357,13 +371,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("http://redblouse.info/index.php?q=http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");				
+				urlClan = new URL("http://redblouse.info/index.php?q=http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
 			}
 			else {
 				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);		
 			}
 			
-			//lecture de la réponse recherche du clan
+			//lecture de la rï¿½ponse recherche du clan
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
 			String line = "";
 			String AllLines = "";

@@ -1,12 +1,21 @@
-package com.wot.server;
+package com.wot.shared;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+import com.google.appengine.api.datastore.Key;
+
+@PersistenceCapable
 public class ItemsDataClan implements Serializable{
 
-	/**
-	 * 
-	 */
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+	
 	private static final long serialVersionUID = 2005352612781524708L;
 	/*
 	 * "abbreviation": "NVS", 
@@ -19,16 +28,34 @@ public class ItemsDataClan implements Serializable{
         "id": 500006074, 
         "clan_color": "#4a426c"
 	 */
+	@Persistent
+	String abbreviation;
 	
-	String abbreviation; 
-    String name; 
+	@Persistent
+    String name;
+	
+	@Persistent
     String created_at;
-    String member_count; 
-    String owner; 
-    String motto; 
+	
+	@Persistent
+    String member_count;
+	
+	@Persistent
+    String owner;
+	
+	@Persistent
+    String motto;
+	
+	@Persistent
     String clan_emblem_url;
+	
+	@Persistent
     String id;
+	
+	@Persistent
     String clan_color;
+    
+    
 	public String getAbbreviation() {
 		return abbreviation;
 	}

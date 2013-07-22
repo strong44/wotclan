@@ -1,11 +1,11 @@
-package com.wot.server;
+package com.wot.shared;
 
 import java.util.List;
 
 public class DataCommunityClan {
 	
 
-	List<DataCommunityClanMembers> members; //médailles du joueur
+	List<DataCommunityClanMembers> members; //mï¿½dailles du joueur
 
 	public List<DataCommunityClanMembers> getMembers() {
 		return members;

@@ -1,4 +1,4 @@
-package com.wot.server;
+package com.wot.shared;
 
 public class DataCommunityAccount {
 	
@@ -11,7 +11,7 @@ public class DataCommunityAccount {
 		this.name = name;
 	}
 
-	DataCommunityAccountAchievements achievements; //médailles du joueur
+	DataCommunityAccountAchievements achievements; //mï¿½dailles du joueur
 	
 	/**
 	 * "stats": {
