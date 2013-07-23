@@ -17,6 +17,7 @@ import javax.jdo.PersistenceManager;
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.wot.client.WotService;
+import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
@@ -31,7 +32,7 @@ import com.wot.shared.FieldVerifier;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot";
+	String lieu = "maison";
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
@@ -107,7 +108,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			//ItemsDataClan  myItemsDataClan = null ;
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 	        try {
-	            pm.makePersistent(desClan);
+	        	//must transform before persist the objet clan
+	        	DaoClan daoClan = TransformDtoObject.TransformClanToDaoClan(desClan);
+	        	
+	            pm.makePersistent(daoClan);
 	        } finally {
 	            pm.close();
 	        }
