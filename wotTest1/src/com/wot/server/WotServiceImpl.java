@@ -32,7 +32,7 @@ import com.wot.shared.FieldVerifier;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison";
+	String lieu = "boulot";
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
@@ -84,7 +84,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("http://redblouse.info/index.php?q=http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");				
+				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");				
 			}
 			else {
 				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset=0&limit=1");		
@@ -171,7 +171,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		// recup des membres du clan NVS
 		urlClan = null ;
 		if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-			urlClan = new URL("http://redblouse.info/index.php?q=http%3A%2F%2Fapi.worldoftanks.eu%2Fcommunity%2Fclans%2F" + idClan + "%2Fapi%2F1.0%2F%3Fsource_token%3DWG-WoT_Assistant-1.3.2&hl=0000000001");				
+			urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu%2Fcommunity%2Fclans%2F" + idClan + "%2Fapi%2F1.0%2F%3Fsource_token%3DWG-WoT_Assistant-1.3.2&hl=0000000001");				
 		}
 		else {
 			//500006074
@@ -215,7 +215,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 				URL url = null ;
 				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("http://redblouse.info/index.php?q=http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+					url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
 				}
 				else {
 					url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
