@@ -5,6 +5,10 @@ import java.util.List;
 
 public class DataClan implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5281655363063088636L;
 	List<ItemsDataClan> items; //données du clan 
 
 	public List<ItemsDataClan> getItems() {

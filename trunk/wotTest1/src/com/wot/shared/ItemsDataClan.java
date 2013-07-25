@@ -5,6 +5,11 @@ import java.io.Serializable;
 
 public class ItemsDataClan implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5761913518505341471L;
+
 	/*
 	 * "abbreviation": "NVS", 
         "created_at": 1328978449.00, 
