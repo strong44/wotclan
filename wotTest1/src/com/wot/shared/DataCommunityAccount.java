@@ -1,7 +1,14 @@
 package com.wot.shared;
 
-public class DataCommunityAccount {
+import java.io.Serializable;
+
+public class DataCommunityAccount implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2305944422816143878L;
+
 	String name ;
 	public String getName() {
 		return name;

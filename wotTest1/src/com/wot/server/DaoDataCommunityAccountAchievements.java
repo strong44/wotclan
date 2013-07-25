@@ -1,13 +1,22 @@
-package com.wot.shared;
+package com.wot.server;
 
 import java.io.Serializable;
 
-public class DataCommunityAccountAchievements implements Serializable {
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
 
-	/**
-	 * 
-	 */
+@PersistenceCapable
+public class DaoDataCommunityAccountAchievements implements Serializable {
+
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+	
 	private static final long serialVersionUID = -5885034969613644473L;
 	public int getMedalCarius() {
 		return medalCarius;
@@ -183,33 +192,91 @@ public class DataCommunityAccountAchievements implements Serializable {
 	public void setMedalKnispel(int medalKnispel) {
 		this.medalKnispel = medalKnispel;
 	}
+	
+	@Persistent
 	private int medalCarius;
+	
+	@Persistent
 	private int medalHalonen;
+	
+	@Persistent
 	private int invader;
+	
+	@Persistent
 	private int medalFadin;
+	
+	@Persistent
 	private int medalEkins;
+	
+	@Persistent
 	private int mousebane;
+	
+	@Persistent
     private int medalKay;
+	
+	@Persistent
     private int defender;
+	
+	@Persistent
     private int medalLeClerc;
+	
+	@Persistent
     private int supporter;
-    private int medalAbrams; 
+	
+	@Persistent
+    private int medalAbrams;
+	
+	@Persistent
     private int medalPoppel;
+	
+	@Persistent
     private int medalOrlik;
-    private int sniper; 
+	
+	@Persistent
+    private int sniper;
+	
+	@Persistent
     private int warrior;
+	
+	@Persistent
     private int titleSniper;
+	
+	@Persistent
     private int medalWittmann;
+	
+	@Persistent
     private int medalBurda;
+	
+	@Persistent
     private int scout;
+	
+	@Persistent
     private int beasthunter;
+	
+	@Persistent
     private int raider;
+	
+	@Persistent
     private int medalOskin;
+	
+	@Persistent
     private int medalBillotte;
+	
+	@Persistent
     private int medalLavrinenko;
+	
+	@Persistent
     private int medalKolobanov;
+	
+	@Persistent
     private int lumberjack;
+	
+	@Persistent
     private int tankExpert;
+	
+	@Persistent
     private int diehard;
+	
+	@Persistent
     private int medalKnispel;
 }

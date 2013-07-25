@@ -1,7 +1,13 @@
 package com.wot.shared;
 
-public class CommunityAccount {
+import java.io.Serializable;
 
+public class CommunityAccount implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5612196058981975635L;
 	private String status;
 	private String status_code;
 	

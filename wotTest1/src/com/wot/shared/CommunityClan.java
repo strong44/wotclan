@@ -1,8 +1,14 @@
 package com.wot.shared;
 
+import java.io.Serializable;
 
-public class CommunityClan {
 
+public class CommunityClan implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1244678860855383625L;
 	private String status;
 	private String status_code;
 	

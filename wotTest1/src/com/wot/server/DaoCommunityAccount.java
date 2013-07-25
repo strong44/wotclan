@@ -1,7 +1,6 @@
 package com.wot.server;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -9,12 +8,9 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.gson.Gson;
-import com.wot.shared.Clan;
-import com.wot.shared.DataClan;
 
 @PersistenceCapable
-public class DaoClan implements Serializable{
+public class DaoCommunityAccount implements Serializable{
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -28,21 +24,23 @@ public class DaoClan implements Serializable{
 		this.key = key;
 	}
 
-	private static final long serialVersionUID = 1957641052913871761L;
-	private String status;
-	private String status_code;
-
-
+	private static final long serialVersionUID = -5612196058981975635L;
 	
 	@Persistent
-	private DaoDataClan daoDataClan;
+	private String status;
 	
-    public DaoDataClan getData() {
-		return daoDataClan;
+	@Persistent
+	private String status_code;
+	
+	@Persistent
+	private DaoDataCommunityAccount data;
+	
+    public DaoDataCommunityAccount getData() {
+		return data;
 	}
 
-	public void setData(DaoDataClan data) {
-		this.daoDataClan = data;
+	public void setData(DaoDataCommunityAccount data) {
+		this.data = data;
 	}
 
 	public String getStatus() {
@@ -61,12 +59,6 @@ public class DaoClan implements Serializable{
 		this.status_code = status_code;
 	}
 
-	
-	
-	
-	
-	
-	
 	
 	
 	
