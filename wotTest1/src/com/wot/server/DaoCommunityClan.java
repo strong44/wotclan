@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -33,6 +34,31 @@ public class DaoCommunityClan implements Serializable{
 	private String status;
 	private String status_code;
 	
+	
+	@Persistent
+	private String idClan;
+	
+	@Persistent
+	private Date dateCommunityClan;
+
+	
+	public String getIdClan() {
+		return idClan;
+	}
+
+	public void setIdClan(String idClan) {
+		this.idClan = idClan;
+	}
+
+	public Date getDateCommunityClan() {
+		return dateCommunityClan;
+	}
+
+	public void setDateCommunityClan(Date dateCommunityClan) {
+		this.dateCommunityClan = dateCommunityClan;
+	}
+
+
 	@Persistent
 	private DaoDataCommunityClan data;
 	

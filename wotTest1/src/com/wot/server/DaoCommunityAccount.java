@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -27,10 +28,43 @@ public class DaoCommunityAccount implements Serializable{
 	private static final long serialVersionUID = -5612196058981975635L;
 	
 	@Persistent
+	String name ;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
+	@Persistent
 	private String status;
 	
 	@Persistent
 	private String status_code;
+	
+	@Persistent
+	private String idUser;
+	
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
+	public Date getDateCommunityAccount() {
+		return dateCommunityAccount;
+	}
+
+	public void setDateCommunityAccount(Date dateCommunityAccount) {
+		this.dateCommunityAccount = dateCommunityAccount;
+	}
+
+	@Persistent
+	private Date dateCommunityAccount;
 	
 	@Persistent
 	private DaoDataCommunityAccount data;

@@ -90,6 +90,9 @@ public class TransformDtoObject {
 		daoCommunityClan.setStatus( communityClan.getStatus());
 		daoCommunityClan.setStatus_code(communityClan.getStatus_code());
 		
+		daoCommunityClan.setIdClan(communityClan.getIdClan());
+		daoCommunityClan.setDateCommunityClan(communityClan.getDateCommunityClan());
+		
 		daoCommunityClan.setData(TransformDataCommunityClanToDaoDataCommunityClan(communityClan.getData()));
 		return daoCommunityClan;
 	}
@@ -120,12 +123,14 @@ public class TransformDtoObject {
 		return myDaoDataCommunityClanMembers;
 	}
 
-	public static DaoCommunityAccount TransformCommunityCommunityAccountToDaoCommunityAccount(CommunityAccount account) {
+	public static DaoCommunityAccount TransformCommunityAccountToDaoCommunityAccount(CommunityAccount account) {
 		// TODO Auto-generated method stub
 		DaoCommunityAccount myDaoCommunityAccount = new DaoCommunityAccount();
 		myDaoCommunityAccount.setStatus( account.getStatus());
 		myDaoCommunityAccount.setStatus_code(account.getStatus_code());
-		
+		myDaoCommunityAccount.setIdUser(account.getIdUser());
+		//myDaoCommunityAccount.setDateCommunityAccount(account.getDateCommunityAccount());
+		myDaoCommunityAccount.setName(account.getName());	
 		myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
 		
 		return myDaoCommunityAccount;
