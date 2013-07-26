@@ -2,7 +2,9 @@ package com.wot.client;
 
 import java.util.List;
 
+import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
+import com.wot.shared.CommunityAccount;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.google.gwt.core.client.EntryPoint;
@@ -429,7 +431,7 @@ public class WotTest1 implements EntryPoint {
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
 				wotService.getMembersClan(textToServer,
-						new AsyncCallback<String>() {
+						new AsyncCallback<AllCommunityAccount>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
 								dialogBox
@@ -441,13 +443,80 @@ public class WotTest1 implements EntryPoint {
 								closeButton.setFocus(true);
 							}
 
+							
+							public void onSuccess(AllCommunityAccount listAccount) {
+								//write to grid name; batailles name;batailles
+								int row = 0;
+								int col = 0;
+								grid.resizeRows(listAccount.getListCommunityAccount().size() + 1);
+								grid.resizeColumns(12);  //les  colonnes
+								grid.setBorderWidth(1);
+								grid.setCellPadding(1);
+								grid.setCellSpacing(1);
+								
+								
+								//les entetes
+								grid.setText(row, col, "Soldier"); col++;
+								grid.setText(row, col, String.valueOf("Battles")); col++;
+								grid.setText(row, col, String.valueOf("Perf Moy Battle"));col++; //battleAvgPerf Perf Moy Battle
+								grid.setText(row, col, String.valueOf("Xp Moy Battle"));col++; //battleAvgXp Xp moy bataille
+								grid.setText(row, col, String.valueOf("Victories"));col++; //battleWins Victories
+								grid.setText(row, col, String.valueOf("Capture Points"));col++; //ctfPoints Cpature points
+								grid.setText(row, col, String.valueOf("Damage"));col++; //damageDealt Damage
+								grid.setText(row, col, String.valueOf("Defense Points"));col++;  //droppedCtfPoints defense points
+								grid.setText(row, col, String.valueOf("Destroyed"));col++; //frags = destroyed
+								grid.setText(row, col, String.valueOf("integratedRating"));col++;
+								grid.setText(row, col, String.valueOf("Detected"));col++;
+								grid.setText(row, col, String.valueOf("xp"));col++;
+								
+								
+								row ++ ; col =0;
+								
+								//les données 
+								for(CommunityAccount myCommunityAccount : listAccount.getListCommunityAccount()) {
+									int battle = myCommunityAccount.getData().getStats().getBattles();
+									String name = myCommunityAccount.getName();
+									int  battleAvgPerf = myCommunityAccount.getData().getStats().getBattle_avg_performance();
+									int  battleAvgXp = myCommunityAccount.getData().getStats().getBattle_avg_xp();
+									int  battleWins = myCommunityAccount.getData().getStats().getBattle_wins();
+									int  ctfPoints = myCommunityAccount.getData().getStats().getCtf_points();
+									int  damageDealt = myCommunityAccount.getData().getStats().getDamage_dealt();
+									int  droppedCtfPoints = myCommunityAccount.getData().getStats().getDropped_ctf_points();
+									int  frags = myCommunityAccount.getData().getStats().getFrags();
+									int  integratedRating = myCommunityAccount.getData().getStats().getIntegrated_rating();
+									int  spotted = myCommunityAccount.getData().getStats().getSpotted();
+									int  xp = myCommunityAccount.getData().getStats().getXp();
+									
+									
+									//set dans les colonnes
+									grid.setText(row, col, name); col++;
+									grid.setText(row, col, String.valueOf(battle)); col++;
+									grid.setText(row, col, String.valueOf(battleAvgPerf));col++;
+									grid.setText(row, col, String.valueOf(battleAvgXp));col++;
+									grid.setText(row, col, String.valueOf(battleWins));col++;
+									grid.setText(row, col, String.valueOf(ctfPoints));col++;
+									grid.setText(row, col, String.valueOf(damageDealt));col++;
+									grid.setText(row, col, String.valueOf(droppedCtfPoints));col++;
+									grid.setText(row, col, String.valueOf(frags));col++;
+									grid.setText(row, col, String.valueOf(integratedRating));col++;
+									grid.setText(row, col, String.valueOf(spotted));col++;
+									grid.setText(row, col, String.valueOf(xp));col++;
+									
+									
+									row ++ ; col =0;
+								}
+								
+								//dialogBox.center();
+								//closeButton.setFocus(true);
+							}
 //							
-							public void onSuccess(String  result) {
+							public void onSuccess2(String result ) {
 								//write to grid name; batailles name;batailles
 								String tabTes [] = result.split(" ");
 								int row = 0;
 								int col = 0;
 								grid.resizeRows(tabTes.length);
+								grid.resizeColumns(5);  //cinq colonnes
 								grid.setBorderWidth(2);
 								grid.setCellPadding(5);
 								grid.setCellSpacing(5);

@@ -1,16 +1,40 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 public class CommunityClan implements Serializable{
 
 	/**
-	 * 
+	 * query.setFilter("dateField < dateParam");
+	query.declareParameters("java.util.Date dateParam");
+	List<...> results = (List<...>) query.execute(new java.util.Date());
 	 */
 	private static final long serialVersionUID = 1244678860855383625L;
 	private String status;
 	private String status_code;
+	
+	private String idClan;
+	private Date dateCommunityClan;
+	
+	public String getIdClan() {
+		return idClan;
+	}
+
+	public void setIdClan(String idClan) {
+		this.idClan = idClan;
+	}
+
+	public Date getDateCommunityClan() {
+		return dateCommunityClan;
+	}
+
+	public void setDateCommunityClan(Date dateCommunityClan) {
+		this.dateCommunityClan = dateCommunityClan;
+	}
+
+	
 	
 	private DataCommunityClan data;
 	

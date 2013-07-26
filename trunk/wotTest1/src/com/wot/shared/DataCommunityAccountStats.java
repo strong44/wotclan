@@ -1,7 +1,13 @@
 package com.wot.shared;
 
-public class DataCommunityAccountStats {
+import java.io.Serializable;
 
+public class DataCommunityAccountStats implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2580719093758162023L;
 	/**
 	 * "stats": {
       "spotted": 6205, 

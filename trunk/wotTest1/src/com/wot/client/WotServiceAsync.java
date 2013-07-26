@@ -3,7 +3,9 @@ package com.wot.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
+import com.wot.shared.CommunityAccount;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -16,7 +18,7 @@ public interface WotServiceAsync {
 			throws IllegalArgumentException;
 	
 	void getMembersClan(String textToServer,
-			AsyncCallback<String> asyncCallback);
+			AsyncCallback<AllCommunityAccount> asyncCallback);
 	
 	
 }
