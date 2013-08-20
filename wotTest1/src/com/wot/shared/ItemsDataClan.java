@@ -2,12 +2,23 @@ package com.wot.shared;
 
 import java.io.Serializable;
 
+import com.google.gwt.view.client.ProvidesKey;
 
-public class ItemsDataClan implements Serializable{
+
+public class ItemsDataClan implements Serializable, Comparable<ItemsDataClan>{
 
 	/**
 	 * 
 	 */
+	
+	
+	 public static final ProvidesKey<ItemsDataClan> KEY_PROVIDER = new ProvidesKey<ItemsDataClan>() {
+	        @Override
+	        public Object getKey(ItemsDataClan item) {
+	          return item == null ? null : item.getId();
+	        }
+	      };
+	      
 	private static final long serialVersionUID = -5761913518505341471L;
 
 	/*
@@ -94,5 +105,20 @@ public class ItemsDataClan implements Serializable{
 	public void setClan_color(String clan_color) {
 		this.clan_color = clan_color;
 	}
+	
+	@Override
+	public int compareTo(ItemsDataClan o) {
+		// TODO Auto-generated method stub
+		return (o == null || o.getName() == null) ? -1 : o.getName().compareTo(getName());
+	}
+
+	@Override
+    public boolean equals(Object o) {
+      if (o instanceof ItemsDataClan) {
+        return getId().equalsIgnoreCase(((ItemsDataClan) o).getId());
+      }
+      return false;
+    }
+	
 	
 }
