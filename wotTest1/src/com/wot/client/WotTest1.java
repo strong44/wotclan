@@ -1,7 +1,11 @@
 package com.wot.client;
 
+
 import java.util.Comparator;
 import java.util.List;
+
+
+
 
 import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.core.client.EntryPoint;
@@ -727,28 +731,16 @@ public class WotTest1 implements EntryPoint {
 	          }
 	        });
     
-	    
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<ItemsDataClan> selectionModel = new SingleSelectionModel<ItemsDataClan>();
 	    tableClan.setSelectionModel(selectionModel);
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
 	    	  ItemsDataClan selected = selectionModel.getSelectedObject();
+	    	  
 	        if (selected != null) {
-	          Window.alert("You selected: " + selected.getName() + " You can find members now !");
-	          
-//		          mottoClan.setText(selected.getMotto());
-//		          imageClan.setUrl(selected.getClan_emblem_url());
-//		          ownerClan.setText(selected.getOwner());
-//		          nbMembersClan.setText(selected.getMember_count());
-//		          abbrevClan.setText(selected.getAbbreviation());
+	          Window.alert("You selected: " + selected.getName() +". You can find members now !");
 	          idClan = selected.getId();
-//		          nameClan.setText(selected.getName());
-	        //bouton search members 
-//	          if (idClan != null)
-//					findMembersClanButton.setEnabled(true);
-//				else
-//					findMembersClanButton.setEnabled(false);
 	        }
 	        
 	      }
@@ -939,6 +931,14 @@ public class WotTest1 implements EntryPoint {
 	
 								
 								public void onSuccess(Clan listClan) {
+									try {
+										//String translatedText =Translate.execute("Bonjour le monde", Languages.FRENCH, Languages.ENGLISH);
+										//System.out.println("Bonjour le monde : " + translatedText);
+										
+									} catch (Exception e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									String status_code= listClan.getStatus_code();
 									String status= listClan.getStatus();
 //									"status": "ok", 

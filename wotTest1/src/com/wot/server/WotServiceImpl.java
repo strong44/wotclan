@@ -19,6 +19,9 @@ import org.apache.bcel.generic.DALOAD;
 
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.memetix.mst.detect.Detect;
+import com.memetix.mst.language.Language;
+import com.memetix.mst.translate.Translate;
 import com.wot.client.WotService;
 import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.AllCommunityAccount;
@@ -30,6 +33,7 @@ import com.wot.shared.DataCommunityAccountAchievements;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.FieldVerifier;
+import com.wot.shared.ItemsDataClan;
 
 /**
  * The server side implementation of the RPC service.
@@ -464,7 +468,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 			
 			//lecture de la r�ponse recherche du clan
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
 			String line = "";
 			String AllLines = "";
 	
@@ -480,6 +484,65 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			clan = gson.fromJson(AllLines, Clan.class );
 			//ItemsDataClan  myItemsDataClan = null ;
 			
+			//translate the motto
+			//https://www.googleapis.com/language/translate/v2/detect?{parameters}
+			URL urlTranslate = null ;
+			String key = "AIzaSyBVwNDYZ1d3ERToxoZSFhW7jQrOeEvJVMM";
+			
+			// Set your Windows Azure Marketplace client info - See http://msdn.microsoft.com/en-us/library/hh454950.aspx
+		    
+		    String translatedText = "";
+		    //String idClient = "a41ecfea-8da4-41a9-8f66-be116476de4b";
+		    //String secretClient = "LgIs7oBcmBUSZ0964xZxdqkZDMWSSSzvGHUZf1sUEMs";
+		    
+		    String idClient = "wotachievement";
+		    String secretClient = "/upbsAfsZzh82dNC1ehpW8u8CVNR9afujtIko9ZW22E=";
+		    
+		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
+		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
+
+		    Detect.setClientId(idClient);
+	        Detect.setClientSecret(secretClient);
+	        
+			try {
+				//translatedText = Translate.execute("Bonjour le monde", Language.FRENCH, Language.ENGLISH);
+				//System.out.println(translatedText);
+				
+				// Set the Client ID / Client Secret once per JVM. It is set statically and applies to all services
+		        
+		        //Detect returns a Language Enum representing the language code
+//		        Language detectedLanguage = Detect.execute("Bonjour le monde");
+		        
+		        // Prints out the language code
+//		        System.out.println(detectedLanguage);
+		        
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			int nbTrad = 0;
+			for (ItemsDataClan myItemsDataClan : clan.getData().getItems()) {
+				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
+				String motto = myItemsDataClan.getMotto();
+				//detect lang motto
+				Language detectedLanguage = null;
+				try {
+					detectedLanguage = Detect.execute(motto);
+					
+					if (nbTrad < 6 && detectedLanguage != null ) {
+						translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
+						nbTrad++;
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				}
+		        
+		        // Prints out the language code
+				if (detectedLanguage != null)
+					myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
+			}
 	
 		} catch (MalformedURLException e) {
 			// ...
