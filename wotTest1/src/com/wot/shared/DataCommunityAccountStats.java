@@ -29,7 +29,9 @@ public class DataCommunityAccountStats implements Serializable {
 	  private int battles;
 	  private int damage_dealt;
 	  private int battle_avg_performance; 
-	  private int integrated_rating; 
+	  private Double battle_avg_performanceCalc; 
+
+	private int integrated_rating; 
 	  private int frags;
 	  private int xp;
 	  private int ctf_points;
@@ -65,6 +67,8 @@ public class DataCommunityAccountStats implements Serializable {
 	public void setDamage_dealt(int damage_dealt) {
 		this.damage_dealt = damage_dealt;
 	}
+	
+	//win rate
 	public int getBattle_avg_performance() {
 		return battle_avg_performance;
 	}
@@ -102,6 +106,11 @@ public class DataCommunityAccountStats implements Serializable {
 		this.battle_wins = battle_wins;
 	}
 	  
-	  
+	public Double getBattle_avg_performanceCalc() {
+		return battle_avg_performanceCalc;
+	}
+	public void setBattle_avg_performanceCalc(Double battle_avg_performanceCalc) {
+		this.battle_avg_performanceCalc = battle_avg_performanceCalc;
+	}  
 	
 }

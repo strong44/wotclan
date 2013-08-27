@@ -59,7 +59,7 @@ public class WotTest1 implements EntryPoint {
 	  RootPanel rootPanel ;
 	  DockPanel dockPanel;
 	  
-	  //mécanisme de pagination
+	  //mï¿½canisme de pagination
 	  SimplePager pagerCommunityAccount;
 	  SimplePager pagerClan;
 	  
@@ -151,7 +151,7 @@ public class WotTest1 implements EntryPoint {
 	    tableCommAcc.addColumn(idColumn, "User Id");
 
 	    
-	    // Add a text column to show the address.
+	    // Add a text column to show the win rate.
 	    TextColumn<CommunityAccount> wrColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
@@ -181,6 +181,36 @@ public class WotTest1 implements EntryPoint {
 	        });
 
 	    
+	    
+	    // Add a text column to show the win rate.
+	    TextColumn<CommunityAccount> wrCalcColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	        return String.valueOf(object.getData().getStats().getBattle_avg_performanceCalc());
+	      }
+	    };
+	    tableCommAcc.addColumn(wrCalcColumn, "Win rate calculated");
+	    
+	    wrCalcColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(wrCalcColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double val1 = o1.getData().getStats().getBattle_avg_performanceCalc();
+	            	Double val2 = o2.getData().getStats().getBattle_avg_performanceCalc();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
 	    
 	    
 	    // Add a text column to show avgXpColumn
@@ -869,7 +899,7 @@ public class WotTest1 implements EntryPoint {
 				 * Fired when the user clicks on the sendButton.
 				 */
 				public void onClick(ClickEvent event) {
-					//si c'est bouton find more on incrémente offset por trouver les 100 clans suivnats
+					//si c'est bouton find more on incrï¿½mente offset por trouver les 100 clans suivnats
 					if ( ((Button)event.getSource()).getText().equalsIgnoreCase(searchClansButtonMore.getText())) {
 						offsetClan = offsetClan + 100;
 						limitClan = 100;
@@ -977,7 +1007,7 @@ public class WotTest1 implements EntryPoint {
 										findMembersClanButton.setEnabled(true);
 
 										
-										//on autorise le bouton  more clans s'il y a en core 100 élments dans TAB
+										//on autorise le bouton  more clans s'il y a en core 100 ï¿½lments dans TAB
 										if(listClan.getData().getItems().size()== 100)
 											searchClansButtonMore.setEnabled(true);
 										else {

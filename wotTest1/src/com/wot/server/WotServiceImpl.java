@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataCommunityAccount;
 import com.wot.shared.DataCommunityAccountAchievements;
+import com.wot.shared.DataCommunityAccountStats;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.FieldVerifier;
@@ -302,6 +304,22 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					account.setName(account.getData().getName());
 					//account.setDateCommunityAccount(new java.util.Date());
 					
+					//make some calculation of stats 
+					DataCommunityAccountStats myDataCommunityAccountStats = account.getData().getStats();
+					
+					//== WR calculated
+					int battles = myDataCommunityAccountStats.getBattles();
+					int battlesWin = myDataCommunityAccountStats.getBattle_wins();
+					Double wrCal = (double) ((double)battlesWin/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					wrCal = wrCal * 100; //ex : 51,844444
+					int intWrCal = (int) (wrCal * 100); //ex : 5184
+					
+					wrCal = (double)intWrCal / 100 ; //ex : 51,84
+					myDataCommunityAccountStats.setBattle_avg_performanceCalc(wrCal);
+					
+					//add account
 					listCommunityAccount.add(account);
 					
 					//persist communityAccount ?
