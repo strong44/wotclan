@@ -319,6 +319,17 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					wrCal = (double)intWrCal / 100 ; //ex : 51,84
 					myDataCommunityAccountStats.setBattle_avg_performanceCalc(wrCal);
 					
+					//== Ratio capture points calculated
+					int ctfPoints = myDataCommunityAccountStats.getCtf_points();
+					Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
+					
+					ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex : 1,28
+					myDataCommunityAccountStats.setCtf_pointsCalc(ctfPointsCal);
+					
 					//add account
 					listCommunityAccount.add(account);
 					

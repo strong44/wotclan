@@ -333,6 +333,38 @@ public class WotTest1 implements EntryPoint {
 	          }
 	        });
 	    
+	    //Add column to show ratio capture points
+	    TextColumn<CommunityAccount> ratioCtfColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	        return String.valueOf(object.getData().getStats().getCtf_PointsCal());
+	      }
+	    };
+	    tableCommAcc.addColumn(ratioCtfColumn, "Ratio capture points");
+	    
+	    ratioCtfColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(ratioCtfColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double val1 = o1.getData().getStats().getCtf_PointsCal();
+	            	Double val2 = o2.getData().getStats().getCtf_PointsCal();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
+	    
+	    
+	    
 	    // Add a text column to show dmgColumn
 	    TextColumn<CommunityAccount> dmgColumn = new TextColumn<CommunityAccount>() {
 	      @Override
