@@ -40,7 +40,7 @@ import com.wot.shared.ItemsDataClan;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison";
+	String lieu = "boulot"; //ou maison 
 	boolean saveData = false;
 	
 	@Override
