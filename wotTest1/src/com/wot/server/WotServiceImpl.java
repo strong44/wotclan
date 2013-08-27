@@ -328,7 +328,32 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
 					
 					ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex : 1,28
-					myDataCommunityAccountStats.setCtf_pointsCalc(ctfPointsCal);
+					myDataCommunityAccountStats.setRatioCtfPoints(ctfPointsCal);
+					
+					//==Damage Ration calculated
+					int damagePoints = myDataCommunityAccountStats.getDamage_dealt();
+					Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
+					
+					ratioDamagePoints = (double)intRatioDamagePoints / 100 ; //ex : 1,28
+					myDataCommunityAccountStats.setRatioDamagePoints(ratioDamagePoints);
+					
+					
+					//==Defense Ration calculated
+					int droppedCtfPoints = myDataCommunityAccountStats.getDropped_ctf_points();
+					Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
+					
+					ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountStats.setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
+					
+					
 					
 					//add account
 					listCommunityAccount.add(account);

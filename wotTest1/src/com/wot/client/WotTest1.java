@@ -337,7 +337,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getCtf_PointsCal());
+	        return String.valueOf(object.getData().getStats().getRatioCtfPoints());
 	      }
 	    };
 	    tableCommAcc.addColumn(ratioCtfColumn, "Ratio capture points");
@@ -354,8 +354,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getCtf_PointsCal();
-	            	Double val2 = o2.getData().getStats().getCtf_PointsCal();
+	            	Double val1 = o1.getData().getStats().getRatioCtfPoints();
+	            	Double val2 = o2.getData().getStats().getRatioCtfPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -393,6 +393,36 @@ public class WotTest1 implements EntryPoint {
 	          }
 	        });
 	    
+	    //Add column to show ratio damage points ratio
+	    TextColumn<CommunityAccount> ratioDamageColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	        return String.valueOf(object.getData().getStats().getRatioDamagePoints());
+	      }
+	    };
+	    tableCommAcc.addColumn(ratioDamageColumn, "Ratio damage points");
+	    
+	    ratioDamageColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(ratioDamageColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double val1 = o1.getData().getStats().getRatioDamagePoints();
+	            	Double val2 = o2.getData().getStats().getRatioDamagePoints();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
+	    
 	    // Add a text column to show dropCtfColumn
 	    TextColumn<CommunityAccount> dropCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
@@ -420,7 +450,38 @@ public class WotTest1 implements EntryPoint {
 	            return -1;
 	          }
 	        });
-		    
+	
+	    
+	    //Add column to show ratio capture points
+	    TextColumn<CommunityAccount> ratioDroppedCtfColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	        return String.valueOf(object.getData().getStats().getRatioDroppedCtfPoints());
+	      }
+	    };
+	    tableCommAcc.addColumn(ratioDroppedCtfColumn, "Ratio Defense points");
+	    
+	    ratioDroppedCtfColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(ratioDroppedCtfColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double val1 = o1.getData().getStats().getRatioDroppedCtfPoints();
+	            	Double val2 = o2.getData().getStats().getRatioDroppedCtfPoints();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
+	    
 	    // Add a text column to show fragsColumn
 	    TextColumn<CommunityAccount> fragsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
