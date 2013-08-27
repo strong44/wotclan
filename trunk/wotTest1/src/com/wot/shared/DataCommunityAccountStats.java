@@ -36,10 +36,19 @@ public class DataCommunityAccountStats implements Serializable {
 	  private int xp;
 	  private int ctf_points;
 	  private int battle_wins;
-	private Double ctfPointsCal;
-	  
-	public Double getCtf_PointsCal() {
-		return ctfPointsCal;
+	private Double ratioCtfPoints;
+	private Double ratioDamagePoints;
+	private Double ratioDroppedCtfPoints;
+	
+	
+	public Double getRatioDroppedCtfPoints() {
+		return ratioDroppedCtfPoints;
+	}
+	public Double getRatioDamagePoints() {
+		return ratioDamagePoints;
+	}
+	public Double getRatioCtfPoints() {
+		return ratioCtfPoints;
 	}
 	public int getSpotted() {
 		return spotted;
@@ -116,9 +125,17 @@ public class DataCommunityAccountStats implements Serializable {
 	public void setBattle_avg_performanceCalc(Double battle_avg_performanceCalc) {
 		this.battle_avg_performanceCalc = battle_avg_performanceCalc;
 	}
-	public void setCtf_pointsCalc(Double ctfPointsCal) {
+	public void setRatioCtfPoints(Double ctfPointsCal) {
 		// TODO Auto-generated method stub
-		this.ctfPointsCal = ctfPointsCal ;
+		this.ratioCtfPoints = ctfPointsCal ;
+	}
+	public void setRatioDamagePoints(Double ratioFragsPoints) {
+		// TODO Auto-generated method stub
+		this.ratioDamagePoints = ratioFragsPoints;
+	}
+	public void setRatioDroppedCtfPoints(Double ratioDroppedCtfPoints) {
+		// TODO Auto-generated method stub
+		this.ratioDroppedCtfPoints = ratioDroppedCtfPoints;
 	}  
 	
 }
