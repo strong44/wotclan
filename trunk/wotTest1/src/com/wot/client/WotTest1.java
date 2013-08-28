@@ -99,6 +99,8 @@ public class WotTest1 implements EntryPoint {
 	 */
 	public  void buildACellTableForCommunityAccountWithData(List<CommunityAccount> listCommAcc) {
 	    
+		tableCommAcc.setPageSize(30);
+		
 	    //update dataprovider with some known list 
 	    dataProvider.setList(listCommAcc);
 		
@@ -141,7 +143,7 @@ public class WotTest1 implements EntryPoint {
 	 // We know that the data is sorted alphabetically by default.
 	    tableCommAcc.getColumnSortList().push(nameColumn);
 	    
-	    // Add a text column to show the address.
+	    // Add a text column to show the user id.
 	    TextColumn<CommunityAccount> idColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
@@ -150,35 +152,52 @@ public class WotTest1 implements EntryPoint {
 	    };
 	    tableCommAcc.addColumn(idColumn, "User Id");
 
+	    idColumn.setSortable(true);
 	    
-	    // Add a text column to show the win rate.
-	    TextColumn<CommunityAccount> wrColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattle_avg_performance());
-	      }
-	    };
-	    tableCommAcc.addColumn(wrColumn, "Win rate");
-	    
-	    wrColumn.setSortable(true);
-	    
-	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(wrColumn,
+	 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(idColumn,
 	        new Comparator<CommunityAccount>() {
 	          public int compare(CommunityAccount o1, CommunityAccount o2) {
 	            if (o1 == o2) {
 	              return 0;
 	            }
 
-	            // Compare the columns.
+	            // Compare the name columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getBattle_avg_performance();
-	            	int val2 = o2.getData().getStats().getBattle_avg_performance();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+	              return (o2 != null) ? o1.getIdUser().toUpperCase().compareTo(o2.getIdUser().toUpperCase()) : 1;
 	            }
 	            return -1;
 	          }
 	        });
+	    
+//	    // Add a text column to show the win rate.
+//	    TextColumn<CommunityAccount> wrColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getBattle_avg_performance());
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(wrColumn, "Win rate");
+//	    
+//	    wrColumn.setSortable(true);
+//	    
+//	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(wrColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getBattle_avg_performance();
+//	            	int val2 = o2.getData().getStats().getBattle_avg_performance();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
 
 	    
 	    
@@ -189,7 +208,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getBattle_avg_performanceCalc());
 	      }
 	    };
-	    tableCommAcc.addColumn(wrCalcColumn, "Win rate calculated");
+	    tableCommAcc.addColumn(wrCalcColumn, "Win rate");
 	    
 	    wrCalcColumn.setSortable(true);
 	    
@@ -213,38 +232,10 @@ public class WotTest1 implements EntryPoint {
 
 	    
 	    
-	    // Add a text column to show avgXpColumn
-	    TextColumn<CommunityAccount> avgXpColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattle_avg_xp() );
-	      }
-	    };
-	    tableCommAcc.addColumn(avgXpColumn, "Avg Xp");
-	    
-	    avgXpColumn.setSortable(true);
-	    
-	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(avgXpColumn,
-	        new Comparator<CommunityAccount>() {
-	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getBattle_avg_xp();
-	            	int val2 = o2.getData().getStats().getBattle_avg_xp();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-	            }
-	            return -1;
-	          }
-	        });
 
 	    
 	    
-	    // Add a text column 
+	    // Add a text column battleWinsColumn
 	    TextColumn<CommunityAccount> battleWinsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
@@ -304,35 +295,35 @@ public class WotTest1 implements EntryPoint {
 	        });
 	    
 		    
-	    // Add a text column to show ctfColumn
-	    TextColumn<CommunityAccount> ctfColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getCtf_points() );
-	      }
-	    };
-	    tableCommAcc.addColumn(ctfColumn, "Capture Points");
-
-	    ctfColumn.setSortable(true);
-	    
-		// Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(ctfColumn,
-	        new Comparator<CommunityAccount>() {
-	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getCtf_points();
-	            	int val2 = o2.getData().getStats().getCtf_points();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-	    
+//	    // Add a text column to show ctfColumn
+//	    TextColumn<CommunityAccount> ctfColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getCtf_points() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(ctfColumn, "Capture Points");
+//
+//	    ctfColumn.setSortable(true);
+//	    
+//		// Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(ctfColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getCtf_points();
+//	            	int val2 = o2.getData().getStats().getCtf_points();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//	    
 	    //Add column to show ratio capture points
 	    TextColumn<CommunityAccount> ratioCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
@@ -340,7 +331,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioCtfPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioCtfColumn, "Ratio capture points");
+	    tableCommAcc.addColumn(ratioCtfColumn, "Avg capture points");
 	    
 	    ratioCtfColumn.setSortable(true);
 	    
@@ -365,34 +356,34 @@ public class WotTest1 implements EntryPoint {
 	    
 	    
 	    
-	    // Add a text column to show dmgColumn
-	    TextColumn<CommunityAccount> dmgColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getDamage_dealt() );
-	      }
-	    };
-	    tableCommAcc.addColumn(dmgColumn, "Damage");
-	    dmgColumn.setSortable(true);
-	    
-		// Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(dmgColumn,
-	        new Comparator<CommunityAccount>() {
-	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getDamage_dealt();
-	            	int val2 = o2.getData().getStats().getDamage_dealt();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-	    
+//	    // Add a text column to show dmgColumn
+//	    TextColumn<CommunityAccount> dmgColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getDamage_dealt() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(dmgColumn, "Damage");
+//	    dmgColumn.setSortable(true);
+//	    
+//		// Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(dmgColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getDamage_dealt();
+//	            	int val2 = o2.getData().getStats().getDamage_dealt();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//	    
 	    //Add column to show ratio damage points ratio
 	    TextColumn<CommunityAccount> ratioDamageColumn = new TextColumn<CommunityAccount>() {
 	      @Override
@@ -400,7 +391,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDamagePoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioDamageColumn, "Ratio damage points");
+	    tableCommAcc.addColumn(ratioDamageColumn, "Avg damage points");
 	    
 	    ratioDamageColumn.setSortable(true);
 	    
@@ -424,33 +415,33 @@ public class WotTest1 implements EntryPoint {
 
 	    
 	    // Add a text column to show dropCtfColumn
-	    TextColumn<CommunityAccount> dropCtfColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getDropped_ctf_points() );
-	      }
-	    };
-	    tableCommAcc.addColumn(dropCtfColumn, "Defense Points");
-	    dropCtfColumn.setSortable(true);
-	    
-		// Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(dropCtfColumn,
-	        new Comparator<CommunityAccount>() {
-	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getDropped_ctf_points();
-	            	int val2 = o2.getData().getStats().getDropped_ctf_points();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-	
+//	    TextColumn<CommunityAccount> dropCtfColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getDropped_ctf_points() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(dropCtfColumn, "Defense Points");
+//	    dropCtfColumn.setSortable(true);
+//	    
+//		// Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(dropCtfColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getDropped_ctf_points();
+//	            	int val2 = o2.getData().getStats().getDropped_ctf_points();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//	
 	    
 	    //Add column to show ratio capture points
 	    TextColumn<CommunityAccount> ratioDroppedCtfColumn = new TextColumn<CommunityAccount>() {
@@ -459,7 +450,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDroppedCtfPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioDroppedCtfColumn, "Ratio Defense points");
+	    tableCommAcc.addColumn(ratioDroppedCtfColumn, "Avg Defense points");
 	    
 	    ratioDroppedCtfColumn.setSortable(true);
 	    
@@ -482,18 +473,47 @@ public class WotTest1 implements EntryPoint {
 	        });
 
 	    
-	    // Add a text column to show fragsColumn
-	    TextColumn<CommunityAccount> fragsColumn = new TextColumn<CommunityAccount>() {
+//	    // Add a text column to show fragsColumn
+//	    TextColumn<CommunityAccount> fragsColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getFrags() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(fragsColumn, "Destroyed");
+//	    fragsColumn.setSortable(true);
+//	    
+//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(fragsColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getFrags();
+//	            	int val2 = o2.getData().getStats().getFrags();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//	    
+	    //Add column to show avg destroyed
+	    TextColumn<CommunityAccount> ratioFragsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getFrags() );
+	        return String.valueOf(object.getData().getStats().getRatioDestroyedPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(fragsColumn, "Destroyed");
-	    fragsColumn.setSortable(true);
+	    tableCommAcc.addColumn(ratioFragsColumn, "Avg destroyed");
 	    
-		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(fragsColumn,
+	    ratioFragsColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(ratioFragsColumn,
 	        new Comparator<CommunityAccount>() {
 	          public int compare(CommunityAccount o1, CommunityAccount o2) {
 	            if (o1 == o2) {
@@ -502,59 +522,91 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getFrags();
-	            	int val2 = o2.getData().getStats().getFrags();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+	            	Double val1 = o1.getData().getStats().getRatioDestroyedPoints();
+	            	Double val2 = o2.getData().getStats().getRatioDestroyedPoints();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
 	          }
 	        });
-	    
-	    // Add a text column to show irColumn
-	    TextColumn<CommunityAccount> irColumn = new TextColumn<CommunityAccount>() {
-	      @Override
-	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getIntegrated_rating() );
-	      }
-	    };
-	    tableCommAcc.addColumn(irColumn, "Integrated Rating");
-	    irColumn.setSortable(true);
-	    
-		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    // java.util.List.
-	    columnSortHandler.setComparator(irColumn,
-	        new Comparator<CommunityAccount>() {
-	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
 
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getIntegrated_rating();
-	            	int val2 = o2.getData().getStats().getIntegrated_rating();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-		    
-	
+
+	    
+	    
+//	    // Add a text column to show irColumn
+//	    TextColumn<CommunityAccount> irColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getIntegrated_rating() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(irColumn, "Integrated Rating");
+//	    irColumn.setSortable(true);
+//	    
+//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    // java.util.List.
+//	    columnSortHandler.setComparator(irColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getIntegrated_rating();
+//	            	int val2 = o2.getData().getStats().getIntegrated_rating();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//		    
+//	
 	    
 	    // Add a text column to show spottedColumn
-	    TextColumn<CommunityAccount> spottedColumn = new TextColumn<CommunityAccount>() {
+//	    TextColumn<CommunityAccount> spottedColumn = new TextColumn<CommunityAccount>() {
+//	      @Override
+//	      public String getValue(CommunityAccount object) {
+//	        return String.valueOf(object.getData().getStats().getSpotted() );
+//	      }
+//	    };
+//	    tableCommAcc.addColumn(spottedColumn, "Detected");
+//
+//	    spottedColumn.setSortable(true);
+//	    
+//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    // java.util.List.
+//	    columnSortHandler.setComparator(spottedColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	int val1 = o1.getData().getStats().getSpotted();
+//	            	int val2 = o2.getData().getStats().getSpotted();
+//	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+//	    
+	    //Add column to show avg detected
+	    TextColumn<CommunityAccount> ratioDetectedColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getSpotted() );
+	        return String.valueOf(object.getData().getStats().getRatioDetectedPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(spottedColumn, "Detected");
-
-	    spottedColumn.setSortable(true);
+	    tableCommAcc.addColumn(ratioDetectedColumn, "Avg detected");
 	    
-		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    // java.util.List.
-	    columnSortHandler.setComparator(spottedColumn,
+	    ratioDetectedColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(ratioDetectedColumn,
 	        new Comparator<CommunityAccount>() {
 	          public int compare(CommunityAccount o1, CommunityAccount o2) {
 	            if (o1 == o2) {
@@ -563,13 +615,14 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getSpotted();
-	            	int val2 = o2.getData().getStats().getSpotted();
-	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+	            	Double val1 = o1.getData().getStats().getRatioDetectedPoints();
+	            	Double val2 = o2.getData().getStats().getRatioDetectedPoints();
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
 	          }
 	        });
+
 	    
 	    // Add a text column to show xpColumn
 	    TextColumn<CommunityAccount> xpColumn = new TextColumn<CommunityAccount>() {
@@ -601,6 +654,35 @@ public class WotTest1 implements EntryPoint {
 	          }
 	        });
 		    
+	    // Add a text column to show avgXpColumn
+	    TextColumn<CommunityAccount> avgXpColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	        return String.valueOf(object.getData().getStats().getBattle_avg_xp() );
+	      }
+	    };
+	    tableCommAcc.addColumn(avgXpColumn, "Avg Xp");
+	    
+	    avgXpColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(avgXpColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	int val1 = o1.getData().getStats().getBattle_avg_xp();
+	            	int val2 = o2.getData().getStats().getBattle_avg_xp();
+	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
 	    tableCommAcc.setSelectionModel(selectionModel);
@@ -608,7 +690,7 @@ public class WotTest1 implements EntryPoint {
 	      public void onSelectionChange(SelectionChangeEvent event) {
 	    	  CommunityAccount selected = selectionModel.getSelectedObject();
 	        if (selected != null) {
-	          Window.alert("You selected: " + selected.getName());
+	          //Window.alert("You selected: " + selected.getName());
 	        }
 	      }
 	    });
@@ -624,7 +706,6 @@ public class WotTest1 implements EntryPoint {
 	 // Connect the table to the data provider.
 	    dataProvider.addDataDisplay(tableCommAcc);
 	    dataProvider.refresh();
-    
    }
 	
 
@@ -862,7 +943,7 @@ public class WotTest1 implements EntryPoint {
 	    	  ItemsDataClan selected = selectionModel.getSelectedObject();
 	    	  
 	        if (selected != null) {
-	          Window.alert("You selected: " + selected.getName() +". You can find members now !");
+	          //Window.alert("You selected: " + selected.getName() +". You can find members now !");
 	          idClan = selected.getId();
 	        }
 	        

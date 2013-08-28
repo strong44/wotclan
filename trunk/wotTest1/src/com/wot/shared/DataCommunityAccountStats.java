@@ -39,8 +39,20 @@ public class DataCommunityAccountStats implements Serializable {
 	private Double ratioCtfPoints;
 	private Double ratioDamagePoints;
 	private Double ratioDroppedCtfPoints;
+	private Double ratioDestroyedPoints;
+	private Double ratioDetectedPoints;
 	
 	
+
+	public Double getRatioDetectedPoints() {
+		return ratioDetectedPoints;
+	}
+	public Double getRatioDestroyedPoints() {
+		return ratioDestroyedPoints;
+	}
+	public void setRatioDestroyedPoints(Double ratioDestroyedPoints) {
+		this.ratioDestroyedPoints = ratioDestroyedPoints;
+	}
 	public Double getRatioDroppedCtfPoints() {
 		return ratioDroppedCtfPoints;
 	}
@@ -136,6 +148,11 @@ public class DataCommunityAccountStats implements Serializable {
 	public void setRatioDroppedCtfPoints(Double ratioDroppedCtfPoints) {
 		// TODO Auto-generated method stub
 		this.ratioDroppedCtfPoints = ratioDroppedCtfPoints;
-	}  
+	}
+	public void setRatioDetectedPoints(Double ratioDetectedPoints) {
+		this.ratioDetectedPoints = ratioDetectedPoints;
+		
+	}
+	
 	
 }
