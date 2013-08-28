@@ -342,7 +342,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					myDataCommunityAccountStats.setRatioDamagePoints(ratioDamagePoints);
 					
 					
-					//==Defense Ration calculated
+					//==Ratio Defense calculated
 					int droppedCtfPoints = myDataCommunityAccountStats.getDropped_ctf_points();
 					Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
 					
@@ -352,6 +352,29 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
 					myDataCommunityAccountStats.setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
+					
+					
+					//==Ratio Destroyed calculated
+					int destroyedPoints = myDataCommunityAccountStats.getFrags();
+					Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
+					
+					ratiodestroyedPoints = (double)intRatiodestroyedPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountStats.setRatioDestroyedPoints(ratiodestroyedPoints);
+					
+					//==Ratio Detected calculated
+					int detectedPoints = myDataCommunityAccountStats.getSpotted();
+					Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
+					
+					ratioDetectedPoints = (double)intRatioDetectedPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountStats.setRatioDetectedPoints(ratioDetectedPoints);
 					
 					
 					
@@ -580,22 +603,26 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
 				String motto = myItemsDataClan.getMotto();
 				//detect lang motto
-				Language detectedLanguage = null;
 				try {
-					detectedLanguage = Detect.execute(motto);
+					Language detectedLanguage = null;
 					
-					if (nbTrad < 6 && detectedLanguage != null ) {
-						translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
-						nbTrad++;
-					}
+						detectedLanguage = Detect.execute(motto);
+						
+						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français") && nbTrad < 6  ) {
+							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
+							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
+							nbTrad++;
+						}
+					
+			        
+			        // Prints out the language code
+//					if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français"))
+//						myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
+					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println(e.getMessage());
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
 				}
-		        
-		        // Prints out the language code
-				if (detectedLanguage != null)
-					myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
 			}
 	
 		} catch (MalformedURLException e) {
