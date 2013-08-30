@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import com.google.gwt.cell.client.ImageCell;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,6 +18,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
@@ -60,20 +63,27 @@ public class WotTest1 implements EntryPoint {
 	  DockPanel dockPanel;
 	  
 	  //m�canisme de pagination
-	  SimplePager pagerCommunityAccount;
+	  SimplePager pagerStatsCommunityAccount;
 	  SimplePager pagerClan;
+	  SimplePager pagerAchievementsCommunityAccount;
 	  
-	  //tableau des joueurs
-	  CellTable<CommunityAccount> tableCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+	  //tableau des stats joueurs
+	  CellTable<CommunityAccount> tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 	  
-	  //tablau des clans
+	  //tableau des stats joueurs
+	  CellTable<CommunityAccount> tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+
+	  //tableau des clans
 	  CellTable<ItemsDataClan> tableClan = new  CellTable<ItemsDataClan> (ItemsDataClan.KEY_PROVIDER);
 	  
 	  // Create a data provider for tab players.
-	  ListDataProvider<CommunityAccount> dataProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
+	  ListDataProvider<CommunityAccount> dataStatsProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
+	  
+	  // Create a data provider for achievement players.
+	  ListDataProvider<CommunityAccount> dataAchievementsProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
 	  
 	  //create data provider for tab clans
-	  ListDataProvider<ItemsDataClan> dataProviderClan = new ListDataProvider<ItemsDataClan>(ItemsDataClan.KEY_PROVIDER);
+	  ListDataProvider<ItemsDataClan> dataClanProvider = new ListDataProvider<ItemsDataClan>(ItemsDataClan.KEY_PROVIDER);
 	     
  
 
@@ -97,20 +107,20 @@ public class WotTest1 implements EntryPoint {
 	/*
 	 * call this when we have data to put in table
 	 */
-	public  void buildACellTableForCommunityAccountWithData(List<CommunityAccount> listCommAcc) {
+	public  void buildACellTableForStatsCommunityAccount(List<CommunityAccount> listCommAcc) {
 	    
-		tableCommAcc.setPageSize(30);
+		tableStatsCommAcc.setPageSize(30);
 		
 	    //update dataprovider with some known list 
-	    dataProvider.setList(listCommAcc);
+	    dataStatsProvider.setList(listCommAcc);
 		
 		// Create a CellTable.
-		tableCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		tableStatsCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	    
 	    
 	    ListHandler<CommunityAccount> columnSortHandler =
-		        new ListHandler<CommunityAccount>(dataProvider.getList());
-	    tableCommAcc.addColumnSortHandler(columnSortHandler);
+		        new ListHandler<CommunityAccount>(dataStatsProvider.getList());
+	    tableStatsCommAcc.addColumnSortHandler(columnSortHandler);
 	    
 	    
 	    // Add a text column to show the name.
@@ -120,7 +130,7 @@ public class WotTest1 implements EntryPoint {
 	        return object.getName();
 	      }
 	    };
-	    tableCommAcc.addColumn(nameColumn, "Name");
+	    tableStatsCommAcc.addColumn(nameColumn, "Name");
 
 	    nameColumn.setSortable(true);
 	    
@@ -141,7 +151,7 @@ public class WotTest1 implements EntryPoint {
 	        });
 	    
 	 // We know that the data is sorted alphabetically by default.
-	    tableCommAcc.getColumnSortList().push(nameColumn);
+	    tableStatsCommAcc.getColumnSortList().push(nameColumn);
 	    
 	    // Add a text column to show the user id.
 	    TextColumn<CommunityAccount> idColumn = new TextColumn<CommunityAccount>() {
@@ -150,7 +160,7 @@ public class WotTest1 implements EntryPoint {
 	        return object.getIdUser();
 	      }
 	    };
-	    tableCommAcc.addColumn(idColumn, "User Id");
+	    tableStatsCommAcc.addColumn(idColumn, "User Id");
 
 	    idColumn.setSortable(true);
 	    
@@ -208,7 +218,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getBattle_avg_performanceCalc());
 	      }
 	    };
-	    tableCommAcc.addColumn(wrCalcColumn, "Win rate");
+	    tableStatsCommAcc.addColumn(wrCalcColumn, "Win rate");
 	    
 	    wrCalcColumn.setSortable(true);
 	    
@@ -242,7 +252,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getBattle_wins() );
 	      }
 	    };
-	    tableCommAcc.addColumn(battleWinsColumn, "Victories");
+	    tableStatsCommAcc.addColumn(battleWinsColumn, "Victories");
 	    
 	    battleWinsColumn.setSortable(true);
 	    
@@ -271,7 +281,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getBattles() );
 	      }
 	    };
-	    tableCommAcc.addColumn(battlesColumn, "Battles");
+	    tableStatsCommAcc.addColumn(battlesColumn, "Battles");
 
 	    //////
 	    battlesColumn.setSortable(true);
@@ -331,7 +341,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioCtfPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioCtfColumn, "Avg capture points");
+	    tableStatsCommAcc.addColumn(ratioCtfColumn, "Avg capture points");
 	    
 	    ratioCtfColumn.setSortable(true);
 	    
@@ -391,7 +401,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDamagePoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioDamageColumn, "Avg damage points");
+	    tableStatsCommAcc.addColumn(ratioDamageColumn, "Avg damage points");
 	    
 	    ratioDamageColumn.setSortable(true);
 	    
@@ -450,7 +460,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDroppedCtfPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioDroppedCtfColumn, "Avg Defense points");
+	    tableStatsCommAcc.addColumn(ratioDroppedCtfColumn, "Avg Defense points");
 	    
 	    ratioDroppedCtfColumn.setSortable(true);
 	    
@@ -508,7 +518,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDestroyedPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioFragsColumn, "Avg destroyed");
+	    tableStatsCommAcc.addColumn(ratioFragsColumn, "Avg destroyed");
 	    
 	    ratioFragsColumn.setSortable(true);
 	    
@@ -601,7 +611,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getRatioDetectedPoints());
 	      }
 	    };
-	    tableCommAcc.addColumn(ratioDetectedColumn, "Avg detected");
+	    tableStatsCommAcc.addColumn(ratioDetectedColumn, "Avg detected");
 	    
 	    ratioDetectedColumn.setSortable(true);
 	    
@@ -631,7 +641,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getXp() );
 	      }
 	    };
-	    tableCommAcc.addColumn(xpColumn, "Experience");
+	    tableStatsCommAcc.addColumn(xpColumn, "Experience");
 
 	    xpColumn.setSortable(true);
 	    
@@ -661,7 +671,7 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(object.getData().getStats().getBattle_avg_xp() );
 	      }
 	    };
-	    tableCommAcc.addColumn(avgXpColumn, "Avg Xp");
+	    tableStatsCommAcc.addColumn(avgXpColumn, "Avg Xp");
 	    
 	    avgXpColumn.setSortable(true);
 	    
@@ -685,7 +695,7 @@ public class WotTest1 implements EntryPoint {
 
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
-	    tableCommAcc.setSelectionModel(selectionModel);
+	    tableStatsCommAcc.setSelectionModel(selectionModel);
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	      public void onSelectionChange(SelectionChangeEvent event) {
 	    	  CommunityAccount selected = selectionModel.getSelectedObject();
@@ -698,16 +708,157 @@ public class WotTest1 implements EntryPoint {
 	    // Set the total row count. This isn't strictly necessary, but it affects
 	    // paging calculations, so its good habit to keep the row count up to date.
 	    
-	    tableCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
+	    tableStatsCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
 
 	    // Push the data into the widget.
-	    tableCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
+	    tableStatsCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
 	    
 	 // Connect the table to the data provider.
-	    dataProvider.addDataDisplay(tableCommAcc);
-	    dataProvider.refresh();
+	    dataStatsProvider.addDataDisplay(tableStatsCommAcc);
+	    dataStatsProvider.refresh();
    }
 	
+
+	/*
+		 * call this when we have data to put in table
+		 */
+		public  void buildACellTableAchivementsForCommunityAccount(List<CommunityAccount> listCommAcc) {
+		    
+			tableAchivementCommAcc.setPageSize(30);
+			
+		    //update dataprovider with some known list 
+			dataAchievementsProvider.setList(listCommAcc);
+			
+			// Create a CellTable.
+		    tableAchivementCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		    
+		    
+		    ListHandler<CommunityAccount> columnSortHandler =
+			        new ListHandler<CommunityAccount>(dataStatsProvider.getList());
+		    tableAchivementCommAcc.addColumnSortHandler(columnSortHandler);
+		    
+		    
+		    // Add a text column to show the name.
+		    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return object.getName();
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nameColumn, "Name");
+	
+		    nameColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nameColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    // We know that the data is sorted alphabetically by default.
+		    tableAchivementCommAcc.getColumnSortList().push(nameColumn);
+	    
+		    //add column Hunter
+		    Column<CommunityAccount, String > hunterColumn = new Column<CommunityAccount, String>(new ImageCell()) {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  String url = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
+		        return String.valueOf(url );
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(hunterColumn, "Title Hunter");
+	
+		    hunterColumn.setSortable(false);
+	
+		    //-- Add column number Hunter
+		    TextColumn<CommunityAccount> nbHunterColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getBeasthunter());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbHunterColumn, "Nb");
+
+		    nbHunterColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbHunterColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	String val1 = String.valueOf(o1.getData().getAchievements().getBeasthunter());
+		            	String val2 = String.valueOf(o2.getData().getAchievements().getBeasthunter());
+		            	return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    //SafeHtml 
+		    //add column Hunter
+		    Column<CommunityAccount, SafeHtml > hunter2Column = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
+					String urlTarget = "http://wiki.worldoftanks.com/Images";
+					String title ="Hunter";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return null;
+				}
+				
+			};
+			
+		    tableAchivementCommAcc.addColumn(hunter2Column, "Title Hunter");
+	
+		    hunter2Column.setSortable(false);
+		    
+		    
+		    
+		    // Add a selection model to handle user selection.
+		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
+		    tableAchivementCommAcc.setSelectionModel(selectionModel);
+		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		      public void onSelectionChange(SelectionChangeEvent event) {
+		    	  CommunityAccount selected = selectionModel.getSelectedObject();
+		        if (selected != null) {
+		          //Window.alert("You selected: " + selected.getName());
+		        }
+		      }
+		    });
+	
+		    // Set the total row count. This isn't strictly necessary, but it affects
+		    // paging calculations, so its good habit to keep the row count up to date.
+		    
+		    tableAchivementCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
+	
+		    // Push the data into the widget.
+		    tableAchivementCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
+		    
+		 // Connect the table to the data provider.
+		    dataAchievementsProvider.addDataDisplay(tableAchivementCommAcc);
+		    dataAchievementsProvider.refresh();
+	   }
+
 
 	/*
 	 * call this when we have data to put in table
@@ -715,7 +866,7 @@ public class WotTest1 implements EntryPoint {
 	public  void buildACellTableForCommunityClan(Clan listClan) {
 			    
 	    //update dataprovider with some known list 
-	    dataProviderClan.setList(listClan.getData().getItems());
+	    dataClanProvider.setList(listClan.getData().getItems());
 		
 		// Create a CellTable.
 	    //CellTable<CommunityAccount> table = new CellTable<CommunityAccount>();
@@ -723,7 +874,7 @@ public class WotTest1 implements EntryPoint {
 	    
 	    
 	    ListHandler<ItemsDataClan> columnSortHandler =
-		        new ListHandler<ItemsDataClan>(dataProviderClan.getList());
+		        new ListHandler<ItemsDataClan>(dataClanProvider.getList());
 	    tableClan.addColumnSortHandler(columnSortHandler);
 	    
     
@@ -959,8 +1110,8 @@ public class WotTest1 implements EntryPoint {
 	    tableClan.setRowData(0, listClan.getData().getItems());            //idem no nedd dataprovider
 	    
 	 // Connect the table to the data provider.
-	    dataProviderClan.addDataDisplay(tableClan);
-	    dataProviderClan.refresh();
+	    dataClanProvider.addDataDisplay(tableClan);
+	    dataClanProvider.refresh();
 		    
 	}
 
@@ -1004,30 +1155,20 @@ public class WotTest1 implements EntryPoint {
 			nameClan.setFocus(true);
 			////////////
 									
-			///////////////////////
-			//final Button searchClanButton = new Button("Recherche un clan");
-			//rootPanel.add(searchClanButton, 224, 12);
-			
+			//label clan
 			Label lblNewLabel = new Label("Clan");
 			lblNewLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			rootPanel.add(lblNewLabel, 26, 16);
 			lblNewLabel.setSize("52px", "24px");
 			
+			//button search member's clan
 			final Button findMembersClanButton = new Button("Send");
-			
-			//
-			
-//			findMembersClanButton.addClickHandler(new ClickHandler() {
-//				public void onClick(ClickEvent event) {
-//					
-//				}
-//			});
-			
 			findMembersClanButton.setText("Find Clan's members");
 			rootPanel.add(findMembersClanButton, 29, 50);
 			findMembersClanButton.setSize("214px", "28px");
 			findMembersClanButton.setEnabled(false);
 			
+			//button search Clans
 			Button searchClansButton = new Button("Find Clans");
 			rootPanel.add(searchClansButton, 374, 12);
 			searchClansButton.setSize("146px", "28px");
@@ -1038,7 +1179,17 @@ public class WotTest1 implements EntryPoint {
 			searchClansButtonMore.setSize("146px", "28px");
 			searchClansButtonMore.setEnabled(false);
 	
-			// Create the popup dialog box
+			
+			//button achievement's member
+			final Button findAchievementsMemberButton = new Button("Send");
+			findAchievementsMemberButton.setText("Find Achivement's member");
+			rootPanel.add(findAchievementsMemberButton, 250, 50);
+			findAchievementsMemberButton.setSize("250px", "28px");
+			findAchievementsMemberButton.setEnabled(false);
+			
+			
+			
+			// Create the popup dialog box in case of error
 			final DialogBox dialogBox = new DialogBox();
 			dialogBox.setText("Remote Procedure Call");
 			dialogBox.setAnimationEnabled(true);
@@ -1107,7 +1258,7 @@ public class WotTest1 implements EntryPoint {
 				 * Send the name from the nameField to the server and wait for a response.
 				 */
 				private void getClans() {
-					tableCommAcc.setVisible(false);
+					tableStatsCommAcc.setVisible(false);
 					// First, we validate the input.
 					errorLabel.setText("");
 					String textToServer = nameClan.getText();
@@ -1149,15 +1300,15 @@ public class WotTest1 implements EntryPoint {
 //									  "status_code": "NO_ERROR", 
 									
 									if (status.equalsIgnoreCase("ok")) {  
-										dockPanel.remove(tableCommAcc);
+										dockPanel.remove(tableStatsCommAcc);
 										dockPanel.remove(tableClan);
-										if (pagerCommunityAccount != null) 
-											dockPanel.remove(pagerCommunityAccount);
+										if (pagerStatsCommunityAccount != null) 
+											dockPanel.remove(pagerStatsCommunityAccount);
 										if (pagerClan != null) 
 											dockPanel.remove(pagerClan);
 										
-										if (dataProviderClan.getDataDisplays()!= null && !dataProviderClan.getDataDisplays().isEmpty()) 
-											dataProviderClan.removeDataDisplay(tableClan);
+										if (dataClanProvider.getDataDisplays()!= null && !dataClanProvider.getDataDisplays().isEmpty()) 
+											dataClanProvider.removeDataDisplay(tableClan);
 										
 										tableClan = new  CellTable<ItemsDataClan> (ItemsDataClan.KEY_PROVIDER);
 										
@@ -1179,7 +1330,7 @@ public class WotTest1 implements EntryPoint {
 										tableClan.setVisible(true);
 
 										findMembersClanButton.setEnabled(true);
-
+										findAchievementsMemberButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 �lments dans TAB
 										if(listClan.getData().getItems().size()== 100)
@@ -1208,6 +1359,131 @@ public class WotTest1 implements EntryPoint {
 			}
 	
 			////
+			///////////
+			// Create a handler for search achivement's member
+			class HandlerGetAchivementsMember implements ClickHandler, KeyUpHandler {
+				/**
+				 * Fired when the user clicks on the sendButton.
+				 */
+				public void onClick(ClickEvent event) {
+					getAchievementMember();
+//					offsetClan = 0;
+//					limitClan = 100;
+				}
+	
+				/**
+				 * Fired when the user types in the nameField.
+				 */
+				public void onKeyUp(KeyUpEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						getAchievementMember();
+//						offsetClan = 0;
+//						limitClan = 100;
+					}
+				}
+	
+				/**
+				 * 
+				 */
+				private void getAchievementMember() {
+					// First, we validate the input.
+					errorLabel.setText("");
+					String textToServer = idClan;
+					if (!FieldVerifier.isValidName(textToServer)) {
+						errorLabel.setText("Please enter at least four characters");
+						
+						/////
+						dialogBox
+						.setText("Select a Clan before!!");
+						serverResponseLabel
+								.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML("Click on a clan before find members !"  );
+						dialogBox.center();
+						closeButton.setFocus(true);
+						return;
+					}
+	
+					// Then, we send the input to the server.
+					//searchClanButton.setEnabled(false);
+					textToServerLabel.setText(textToServer);
+					serverResponseLabel.setText("");
+					wotService.getMembersClan(textToServer,
+							new AsyncCallback<AllCommunityAccount>() {
+								public void onFailure(Throwable caught) {
+									// Show the RPC error message to the user
+									dialogBox
+											.setText("Remote Procedure Call - Failure");
+									serverResponseLabel
+											.addStyleName("serverResponseLabelError");
+									serverResponseLabel.setHTML(SERVER_ERROR);
+									dialogBox.center();
+									closeButton.setFocus(true);
+								}
+	
+								public void onSuccess(AllCommunityAccount listAccount) {
+									
+									dockPanel.remove(tableAchivementCommAcc);
+									dockPanel.remove(tableStatsCommAcc);
+									dockPanel. remove(tableClan);
+									
+									if (pagerAchievementsCommunityAccount != null) 
+										dockPanel.remove(pagerAchievementsCommunityAccount);
+									if (pagerStatsCommunityAccount != null) 
+										dockPanel.remove(pagerStatsCommunityAccount);
+									if (pagerClan != null) 
+										dockPanel.remove(pagerClan);
+									
+									
+									if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
+										dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
+									
+									//on re-construit 1 nouveau tableau
+									tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+									
+									//construct column in celltable tableCommAcc , set data set sort handler etc ..
+									buildACellTableAchivementsForCommunityAccount(listAccount.getListCommunityAccount());
+									  
+									//Create a Pager to control the table.
+								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+								    pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+								    pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
+									
+							    
+								    //add to dock panel ======
+								    //add tab achievement a the end 
+								    dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
+								    pagerAchievementsCommunityAccount.setPage(10);
+								    pagerAchievementsCommunityAccount.setVisible(true);
+									
+									dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
+									tableAchivementCommAcc.setVisible(true);
+								    
+								    //add tab stats 
+								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
+									pagerStatsCommunityAccount.setPage(10);
+									pagerStatsCommunityAccount.setVisible(true);
+									
+									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
+									tableStatsCommAcc.setVisible(true);
+								    
+									//add tab clan at the begin
+									dockPanel.add(pagerClan, DockPanel.SOUTH);
+									dockPanel.add(tableClan, DockPanel.SOUTH);
+									tableClan.setVisible(true);
+									pagerClan.setVisible(true);
+									
+									//dialogBox.center();
+									//closeButton.setFocus(true);
+								}
+							});
+					//searchClanButton.setEnabled(true);
+					//searchClanButton.setFocus(true);
+				}
+				
+				
+				
+			}
+			
 			
 			///////////
 			// Create a handler for search clan's members
@@ -1272,36 +1548,36 @@ public class WotTest1 implements EntryPoint {
 	
 								public void onSuccess(AllCommunityAccount listAccount) {
 									
-									dockPanel.remove(tableCommAcc);
+									dockPanel.remove(tableStatsCommAcc);
 									dockPanel. remove(tableClan);
 									
-									if (pagerCommunityAccount != null) 
-										dockPanel.remove(pagerCommunityAccount);
+									if (pagerStatsCommunityAccount != null) 
+										dockPanel.remove(pagerStatsCommunityAccount);
 									if (pagerClan != null) 
 										dockPanel.remove(pagerClan);
 									
-									if (dataProvider.getDataDisplays()!= null && !dataProvider.getDataDisplays().isEmpty()) 
-										dataProvider.removeDataDisplay(tableCommAcc);
+									if (dataStatsProvider.getDataDisplays()!= null && !dataStatsProvider.getDataDisplays().isEmpty()) 
+										dataStatsProvider.removeDataDisplay(tableStatsCommAcc);
 									
 									//on re-construit 1 nouveau tableau
-									tableCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+									tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 									
 									//construct column in celltable tableCommAcc , set data set sort handler etc ..
-									buildACellTableForCommunityAccountWithData(listAccount.getListCommunityAccount());
+									buildACellTableForStatsCommunityAccount(listAccount.getListCommunityAccount());
 									  
 									//Create a Pager to control the table.
 								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-								    pagerCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-								    pagerCommunityAccount.setDisplay(tableCommAcc);
+								    pagerStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+								    pagerStatsCommunityAccount.setDisplay(tableStatsCommAcc);
 									
 							    
 								    //add to dock panel ======
-								    dockPanel.add(pagerCommunityAccount, DockPanel.SOUTH);
-									pagerCommunityAccount.setPage(10);
-									pagerCommunityAccount.setVisible(true);
+								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
+									pagerStatsCommunityAccount.setPage(10);
+									pagerStatsCommunityAccount.setVisible(true);
 									
-									dockPanel.add(tableCommAcc, DockPanel.SOUTH);
-									tableCommAcc.setVisible(true);
+									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
+									tableStatsCommAcc.setVisible(true);
 								    
 									dockPanel.add(pagerClan, DockPanel.SOUTH);
 									dockPanel.add(tableClan, DockPanel.SOUTH);
@@ -1324,7 +1600,7 @@ public class WotTest1 implements EntryPoint {
 			HandlerGetMembersClan handlerFindMembers = new HandlerGetMembersClan();
 			findMembersClanButton.addClickHandler(handlerFindMembers);
 					
-			// Add a handler to find clans
+			// Add a handler to find more clans
 			HandlerGetClans handlerGetClans = new HandlerGetClans();
 			searchClansButton.addClickHandler(handlerGetClans);
 			searchClansButtonMore.addClickHandler(handlerGetClans);
@@ -1332,7 +1608,9 @@ public class WotTest1 implements EntryPoint {
 			nameClan.addKeyUpHandler(handlerGetClans);
 	
 			
-			//second button
+			// button HandlerGetAchivementsMember
+			HandlerGetAchivementsMember myHandlerGetAchivementsMember = new HandlerGetAchivementsMember();
+			findAchievementsMemberButton.addClickHandler(myHandlerGetAchivementsMember);
 			
 		}
 }
