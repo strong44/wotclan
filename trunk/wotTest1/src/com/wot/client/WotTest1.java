@@ -734,7 +734,7 @@ public class WotTest1 implements EntryPoint {
 		    
 		    
 		    ListHandler<CommunityAccount> columnSortHandler =
-			        new ListHandler<CommunityAccount>(dataStatsProvider.getList());
+			        new ListHandler<CommunityAccount>(dataAchievementsProvider.getList());
 		    tableAchivementCommAcc.addColumnSortHandler(columnSortHandler);
 		    
 		    
@@ -768,18 +768,28 @@ public class WotTest1 implements EntryPoint {
 		    // We know that the data is sorted alphabetically by default.
 		    tableAchivementCommAcc.getColumnSortList().push(nameColumn);
 	    
+	
 		    //add column Hunter
-		    Column<CommunityAccount, String > hunterColumn = new Column<CommunityAccount, String>(new ImageCell()) {
-		      @Override
-		      public String getValue(CommunityAccount object) {
-		    	  String url = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
-		        return String.valueOf(url );
-		      }
-		    };
-		    tableAchivementCommAcc.addColumn(hunterColumn, "Title Hunter");
-	
-		    hunterColumn.setSortable(false);
-	
+		    Column<CommunityAccount, SafeHtml > hunter2Column = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
+					String urlTarget = "http://worldoftanks.com/en/content/guide/general/achievements/";
+					String title ="Tank Hunter Destroy 100 or more: Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(hunter2Column, "Title Hunter");
+		    hunter2Column.setSortable(false);
+		    
+		    
 		    //-- Add column number Hunter
 		    TextColumn<CommunityAccount> nbHunterColumn = new TextColumn<CommunityAccount>() {
 		      @Override
@@ -788,7 +798,6 @@ public class WotTest1 implements EntryPoint {
 		      }
 		    };
 		    tableAchivementCommAcc.addColumn(nbHunterColumn, "Nb");
-
 		    nbHunterColumn.setSortable(true);
 		    
 		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
@@ -808,29 +817,6 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
-		    
-		    //SafeHtml 
-		    //add column Hunter
-		    Column<CommunityAccount, SafeHtml > hunter2Column = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
-				
-				@Override
-				public SafeHtml getValue(CommunityAccount object) {
-					// TODO Auto-generated method stub
-					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
-					String urlTarget = "http://wiki.worldoftanks.com/Images";
-					String title ="Hunter";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
-					
-					sb.appendHtmlConstant(html);
-					return null;
-				}
-				
-			};
-			
-		    tableAchivementCommAcc.addColumn(hunter2Column, "Title Hunter");
-	
-		    hunter2Column.setSortable(false);
 		    
 		    
 		    
@@ -1366,7 +1352,7 @@ public class WotTest1 implements EntryPoint {
 				 * Fired when the user clicks on the sendButton.
 				 */
 				public void onClick(ClickEvent event) {
-					getAchievementMember();
+					getAchievementMember2();
 //					offsetClan = 0;
 //					limitClan = 100;
 				}
@@ -1376,12 +1362,78 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						getAchievementMember();
+						getAchievementMember2();
 //						offsetClan = 0;
 //						limitClan = 100;
 					}
 				}
-	
+				private void getAchievementMember2() {
+					// First, we validate the input.
+					errorLabel.setText("");
+					String textToServer = idClan;
+					if (!FieldVerifier.isValidName(textToServer)) {
+						errorLabel.setText("Please enter at least four characters");
+						
+						/////
+						dialogBox
+						.setText("Select a Clan before!!");
+						serverResponseLabel
+								.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML("Click on a clan before find members !"  );
+						dialogBox.center();
+						closeButton.setFocus(true);
+						return;
+					}
+					dockPanel.remove(tableAchivementCommAcc);
+					dockPanel.remove(tableStatsCommAcc);
+					dockPanel. remove(tableClan);
+					
+					if (pagerAchievementsCommunityAccount != null) 
+						dockPanel.remove(pagerAchievementsCommunityAccount);
+					if (pagerStatsCommunityAccount != null) 
+						dockPanel.remove(pagerStatsCommunityAccount);
+					if (pagerClan != null) 
+						dockPanel.remove(pagerClan);
+					
+					
+					if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
+						dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
+					
+					//on re-construit 1 nouveau tableau
+					tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+					
+					//construct column in celltable tableCommAcc , set data set sort handler etc ..
+					buildACellTableAchivementsForCommunityAccount(dataStatsProvider.getList());
+					  
+					//Create a Pager to control the table.
+				    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+				    pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+				    pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
+					
+			    
+				    //add to dock panel ======
+				    //add tab achievement a the end 
+				    dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
+				    pagerAchievementsCommunityAccount.setPage(10);
+				    pagerAchievementsCommunityAccount.setVisible(true);
+					
+					dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
+					tableAchivementCommAcc.setVisible(true);
+				    
+				    //add tab stats 
+				    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
+					pagerStatsCommunityAccount.setPage(10);
+					pagerStatsCommunityAccount.setVisible(true);
+					
+					dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
+					tableStatsCommAcc.setVisible(true);
+				    
+					//add tab clan at the begin
+					dockPanel.add(pagerClan, DockPanel.SOUTH);
+					dockPanel.add(tableClan, DockPanel.SOUTH);
+					tableClan.setVisible(true);
+					pagerClan.setVisible(true);
+				}
 				/**
 				 * 
 				 */
