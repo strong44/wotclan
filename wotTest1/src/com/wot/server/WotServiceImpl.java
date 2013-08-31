@@ -42,7 +42,7 @@ import com.wot.shared.ItemsDataClan;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //ou maison 
+	String lieu = "maison"; //ou maison 
 	boolean saveData = false;
 	
 	@Override
@@ -608,7 +608,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 						detectedLanguage = Detect.execute(motto);
 						
-						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Fran√ßais") && nbTrad < 6  ) {
+						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("FranÁais") && nbTrad < 6  ) {
 							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
 							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
 							nbTrad++;
