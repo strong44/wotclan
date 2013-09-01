@@ -1687,13 +1687,567 @@ public class WotTest1 implements EntryPoint {
 		    
 		
 		    
+		    //===ADD column getMedalLeClerc
+		    Column<CommunityAccount, SafeHtml > getMedalLeClercColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getMedalLeClerc();
+					String urlImgSrc = noData;
+					//urlImgSrc = "http://wiki.worldoftanks.com/images/7/75/MedalKolobanov.png";
+					
+					switch (val) {
+						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/8/83/MedalLeClerc1.png"; break ;
+						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/6/62/MedalLeClerc2.png"; break ;
+						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/3/3d/MedalLeClerc3.png"; break ;
+						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/1/1d/MedalLeClerc4.png"; break ;
+						
+					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Leclerc's Medal - Awarded for the total amount of the player's enemy base capture points. An unsuccessful or reduced capture does not count toward this number. The award is established in four classes: Class IV - 30 points Class III - 300 points Class II - 3,000 points Class I - 30,000 points\nPhilippe Leclerc was a General of the Free French Forces during WWII and one of the leaders of the Paris liberation operation.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getMedalLeClercColumn, "Medal Le Clerc ");
+		    
+		    
+		    //====  ADD column number Medal getMedalLeClerc
+		    TextColumn<CommunityAccount> nbgetMedalLeClercColumnColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getMedalLeClerc());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetMedalLeClercColumnColumn, "Class");
+		    nbgetMedalLeClercColumnColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetMedalLeClercColumnColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getMedalLeClerc();
+		            	int val2 = o2.getData().getAchievements().getMedalLeClerc();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		 
+		    
+		    
+		    
+		    //===ADD column getMedalOrlik
+		    Column<CommunityAccount, SafeHtml > getMedalOrlikColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getMedalOrlik();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/2/2b/MedalOrlik.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/8/83/MedalLeClerc1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/6/62/MedalLeClerc2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/3/3d/MedalLeClerc3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/1/1d/MedalLeClerc4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Orlik's Medal - Awarded for destroying three or more enemy tanks or tank destroyers with a light tank. The targets must be at least two tiers higher than the player's tank.\nRoman Edmund Orlik, a Polish Army sergeant, was a tank ace who knocked out 13 German tanks with his light TKS tankette in September, 1939.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getMedalOrlikColumn, "Medal Orlik");
+		    
+		    
+		    //====  ADD column number Medal getMedalOrlik
+		    TextColumn<CommunityAccount> nbgetMedalOrlikColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getMedalOrlik());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetMedalOrlikColumn, "Nb");
+		    nbgetMedalOrlikColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetMedalOrlikColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getMedalOrlik();
+		            	int val2 = o2.getData().getAchievements().getMedalOrlik();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		    //===ADD column getMedalOskin
+		    Column<CommunityAccount, SafeHtml > getMedalOskinColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getMedalOskin();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/5/5f/MedalOskin.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/8/83/MedalLeClerc1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/6/62/MedalLeClerc2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/3/3d/MedalLeClerc3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/1/1d/MedalLeClerc4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Oskin's Medal - Awarded for destroying three enemy vehicles with a medium tank. The targets must be at least two tiers higher than the player's tank.\nAlexander Oskin, a Hero of the Soviet Union, was a tank commander who destroyed three King Tigers with his T-34 during a reconnaissance operation near Oglenduv on August 11, 1944.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getMedalOskinColumn, "Medal Oskin");
+		    
+		    
+		    //====  ADD column number Medal getMedalOskin
+		    TextColumn<CommunityAccount> nbgetMedalOskinColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getMedalOskin());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetMedalOskinColumn, "Nb");
+		    nbgetMedalOskinColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetMedalOskinColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getMedalOskin();
+		            	int val2 = o2.getData().getAchievements().getMedalOskin();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		    
+		    //===ADD column getMedalOskin
+		    Column<CommunityAccount, SafeHtml > getMedalPoppelColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getMedalPoppel();
+					String urlImgSrc = noData;
+					//urlImgSrc = "http://wiki.worldoftanks.com/images/5/5f/MedalOskin.png";
+					
+					switch (val) {
+						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+						
+					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Popel's Medal - Awarded for detecting enemy tanks and self-propelled guns in all battles, in four classes: Class IV - 20 vehicles Class III - 200 vehicles Class II - 2,000 vehicles Class I - 20,000 vehicles\nLieutenant General of Tank Forces, Nikolay Popel, a Soviet military leader and political worker, organized a raid against the enemy rear using captured vehicles during the battle of Dubno in the Summer of 1941.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getMedalPoppelColumn, "Medal Poppel");
+		    
+		    
+		    //====  ADD column number Medal getMedalOskin
+		    TextColumn<CommunityAccount> nbgetMedalPoppelColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getMedalPoppel());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetMedalPoppelColumn, "Class");
+		    nbgetMedalPoppelColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetMedalPoppelColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getMedalPoppel();
+		            	int val2 = o2.getData().getAchievements().getMedalPoppel();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		    //===ADD column getMousebane
+		    Column<CommunityAccount, SafeHtml > getMousebaneColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getMousebane();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/d/db/Mousebane.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Mouse Trap - Destroy 10 or more PzKpfw VIII Maus tanks. The icon in the service record displays the number of times the achievement was awarded.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getMousebaneColumn, "Medal Mouse Trap");
+		    
+		    
+		    //====  ADD column number Medal getMousebane
+		    TextColumn<CommunityAccount> nbgetMousebaneColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getMousebane());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetMousebaneColumn, "Nb");
+		    nbgetMousebaneColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetMousebaneColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getMousebane();
+		            	int val2 = o2.getData().getAchievements().getMousebane();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		
+		    //===ADD column getRaider
+		    Column<CommunityAccount, SafeHtml > getRaiderColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getRaider();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/e/e7/Raider.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Raider - Capture the enemy base and remain undetected during the entire battle. The icon in the service record displays the number of times the achievement was awarded.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getRaiderColumn, "Medal Raider");
+		    
+		    
+		    //====  ADD column number Medal getRaider
+		    TextColumn<CommunityAccount> nbgetRaiderColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getRaider());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetRaiderColumn, "Nb");
+		    nbgetRaiderColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetRaiderColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getRaider();
+		            	int val2 = o2.getData().getAchievements().getRaider();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		    //===ADD column getScout
+		    Column<CommunityAccount, SafeHtml > getScoutColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getScout();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/6/69/Scout.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Scout - Detect most enemy tanks and self-propelled guns than anyone else on your team (at least nine). The achievement is granted to the winning team only. \nIf two or more players have detected equal number of enemy vehicles, the achievement is granted to the player who has earned more XP, including additional XP provided to Premium account users. If the amount of XP is equal as well, the achievement is not granted.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getScoutColumn, "Medal Scout");
+		    
+		    
+		    //====  ADD column number Medal getScout
+		    TextColumn<CommunityAccount> nbgetScoutColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getScout());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetScoutColumn, "Nb");
+		    nbgetScoutColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetScoutColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getScout();
+		            	int val2 = o2.getData().getAchievements().getScout();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
 		    
 		    
 		    
 		    
+		    //===ADD column getSniper
+		    Column<CommunityAccount, SafeHtml > getSniperColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getSniper();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/8/8f/Sniper.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Sniper - Achieve at least 85% hits out of a minimum of ten shots fired with the potential damage of 1,000 HP and more. Non-penetrating hits are included, but hits on friendly units are not included. \nIf two or more players have an equal hit ratio, the achievement is granted to the player with the highest potential damage. If two or more players have an equal amount of potential damage, the achievement is granted to the player who earned more XP for the battle, including additional XP provided to Premium Account users. If the amount of XP is equal as well, the achievement is not granted.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getSniperColumn, "Medal Sniper");
+		    
+		    
+		    //====  ADD column number Medal getSniper
+		    TextColumn<CommunityAccount> nbgetSniperColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getSniper());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetSniperColumn, "Nb");
+		    nbgetSniperColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetSniperColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getSniper();
+		            	int val2 = o2.getData().getAchievements().getSniper();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    
+		    
+		   
+		    
+		    
+		    //===ADD column getTankExpert
+		    Column<CommunityAccount, SafeHtml > getTankExpertColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+				
+				@Override
+				public SafeHtml getValue(CommunityAccount object) {
+					// TODO Auto-generated method stub
+					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+					//the img depend of value
+					int val = object.getData().getAchievements().getTankExpert();
+					String urlImgSrc = noData;
+					urlImgSrc = "http://wiki.worldoftanks.com/images/b/be/TankExpert.png";
+					
+//					switch (val) {
+//						case 1  :  urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/MedalPoppel1.png"; break ;
+//						case 2  :  urlImgSrc = "http://wiki.worldoftanks.com/images/f/fe/MedalPoppel2.png"; break ;
+//						case 3  :  urlImgSrc = "http://wiki.worldoftanks.com/images/9/95/MedalPoppel3.png"; break ;
+//						case 4  :  urlImgSrc = "http://wiki.worldoftanks.com/images/5/55/MedalPoppel4.png"; break ;
+//						
+//					};
+					
+					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
+					String title ="Master Tanker - Destroy at least one of every type of enemy vehicle currently available in the game. In the event that new vehicles are added to any tech tree, the icon becomes gray in the player's Service Record.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					
+					sb.appendHtmlConstant(html);
+					return sb.toSafeHtml();
+				}
+				
+			};
+		    tableAchivementCommAcc.addColumn(getTankExpertColumn, "Medal Tank expert");
+		    
+		    
+		    //====  ADD column number Medal getTankExpert
+		    TextColumn<CommunityAccount> nbgetTankExpertColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return String.valueOf(object.getData().getAchievements().getTankExpert());
+		      }
+		    };
+		    tableAchivementCommAcc.addColumn(nbgetTankExpertColumn, "Nb");
+		    nbgetTankExpertColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nbgetTankExpertColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getTankExpert();
+		            	int val2 = o2.getData().getAchievements().getTankExpert();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
 		    
 		    
 		    
+	
 		    
 		    
 		    
