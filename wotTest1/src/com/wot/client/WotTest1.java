@@ -781,7 +781,7 @@ public class WotTest1 implements EntryPoint {
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Tank Hunter Destroy 100 or more: Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -832,7 +832,7 @@ public class WotTest1 implements EntryPoint {
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/Defender.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Defender - Reduce the amount of enemy capture points on a friendly base by 70 or more. If two or more players have reduced equal amount of capture points, the achievement is granted to the player who has earned more XP in the battle (including additional XP provided to Premium account users). If the amount of XP is equal as well, the achievement is not awarded.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -883,7 +883,7 @@ public class WotTest1 implements EntryPoint {
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/7/7e/Diehard.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Survive 20 or more consecutive battles. Battles fought using self-propelled guns do not break the sequence, but are not included either.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -933,7 +933,7 @@ public class WotTest1 implements EntryPoint {
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/7/77/Invader.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Invader - Capture the maximum number of points from the enemy base, but not less than 80. The achievement is granted on successful base capture, including only the points that were part of the base capture. If the battle ends in a draw, the achievement is granted to the first player to receive 80 or more capture points.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -999,7 +999,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Abrams' Medal - Awarded in one of four classes for the total number of team victories in which the player survived the battle: \nClass IV - 5 victories \nClass III - 50 victories \nClass II - 500 victories \nClass I - 5,000 victories.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1065,7 +1065,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Billotte's Medal - Awarded to players who destroy at least one enemy vehicle and survive the battle to victory despite receiving at least five different critical hits and 80% or more loss of hit points. ";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1130,7 +1130,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Burda's Medal - Awarded for the destruction of five or more enemy self-propelled guns. \nGuards Colonel Alexander Burda was a Soviet tank ace and a Hero of the Soviet Union. On October 4, 1941, Burda organized an ambush and destroyed an enemy armored column, including 10 medium and light tanks, 2 trucks with antitank guns and 5 infantry vehicles. Not awarded to SPG drivers.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1194,7 +1194,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Carius' Medal - Awarded for the destruction of enemy tanks and self-propelled guns in four classes:\nClass IV - 10 vehicles \nClass III - 100 vehicles \nClass II - 1,000 vehicles \nClass I - 10,000 vehicles. \nOtto Carius was one of the most efficient tank aces of WWII. He commanded the Pz.Kpfw. 38 (t), the Pz.Kpfw. VI Tiger and the Jagdtiger tank destroyer during his impressive career.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1258,7 +1258,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Ekins' Medal - Awarded in four classes for destroying tier 8, 9 or 10 enemy tanks and self-propelled guns: \nClass IV - 3 vehicles \nClass III - 30 vehicles \nClass II - 300 vehicles \nClass I - 3,000 vehicles. \nJoe Ekins was a private in the Northamptonshire Division of the British Territorial Army. A number of sources confirm Ekins as the final nemesis of famous German tank ace Michael Wittmann.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1324,7 +1324,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Fadin's Medal - Awarded for destroying the last enemy vehicle in the battle with the last shell remaining in the player's tank. \nA hero of the Soviet Union, Alexander Fadin was a T-34 commander. Supported by one infantry platoon, Fadin managed to capture and hold the Dashukovka village for 5 hours with one tank, and destroyed 3 tanks, 1 halftrack, 2 mortars and 12 machinegun nests. His crew also shot down an enemy plane with his tank's coaxial machinegun.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1391,7 +1391,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Halonen's Medal - Awarded for destroying three or more enemy vehicles with a tank destroyer. \nThe targets must be at least two tiers higher than the player's vehicle.\nErkki Halonen, a sergeant in the Finnish Army and a tank ace, destroyed three T-34, two KV-1, and two ISU-152 with his StuG III in battles during June and July, 1944.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1456,8 +1456,8 @@ public class WotTest1 implements EntryPoint {
 					
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
-					String title ="Kay's Medal - Awarded for achieving the Battle Hero status in four classes:\nClass IV - 1 time \nClass III - 10 times \nClass II - 100 times \nClass I - 1,000 times.\nDouglas Kay, a British Army sergeant, and gunner on a Sherman Firefly, participated in the Allied landing in Normandy and was famous for the popularization of the history of tank warfare.\nNote: Only the medals listed under 'Battle Hero Achievements' above are counted in the 'Kay’s Medal' achievement.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String title ="Kay's Medal - Awarded for achieving the Battle Hero status in four classes:\nClass IV - 1 time \nClass III - 10 times \nClass II - 100 times \nClass I - 1,000 times.\nDouglas Kay, a British Army sergeant, and gunner on a Sherman Firefly, participated in the Allied landing in Normandy and was famous for the popularization of the history of tank warfare.\nNote: Only the medals listed under 'Battle Hero Achievements' above are counted in the 'Kayï¿½s Medal' achievement.";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1520,7 +1520,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Knispel's Medal - Awarded for the total amount of damage caused and received in four classes: \nClass IV - 10,000 HP \nClass III - 100,000 HP \nClass II - 1,000,000 HP \nClass I - 10,000,000 HP.\nKurt Knispel, a German tank ace during WWII, participated in battles on both the Western and Eastern Fronts fighting on Pz.Kpfw. II, Pz.Kpfw. III, Pz.Kpfw. IV, Pz.Kpfw. VI Tiger, and Pz.Kpfw. Tiger II.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1583,7 +1583,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Kolobanov's Medal - Awarded to a player who stands alone against five or more enemy tanks or self-propelled guns and wins (this means that you can capture the enemy base by yourself when you are against five enemies and you will recieve the achievement.)\nColonel Zinoviy Kolobanov was a Soviet tank ace who destroyed 22 German tanks, 2 guns and 2 halftracks with his KV in battle on August 19, 1941.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1646,7 +1646,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Lavrinenko's Medal - Awarded for reducing the total number of capture points of a friendly base, up to 100 points per battle. This award is established in four classes: \nClass IV - 30 points \nClass III - 300 points\n Class II - 3,000 points \nClass I - 30,000 points.\nDmitry Lavrinenko, a Hero of the Soviet Union, Guards Lieutenant, and tank ace was recognized as the most efficient Soviet tanker, destroying 52 tanks in 28 battles over the course of just two months.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1709,7 +1709,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Leclerc's Medal - Awarded for the total amount of the player's enemy base capture points. An unsuccessful or reduced capture does not count toward this number. The award is established in four classes: Class IV - 30 points Class III - 300 points Class II - 3,000 points Class I - 30,000 points\nPhilippe Leclerc was a General of the Free French Forces during WWII and one of the leaders of the Paris liberation operation.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1774,7 +1774,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Orlik's Medal - Awarded for destroying three or more enemy tanks or tank destroyers with a light tank. The targets must be at least two tiers higher than the player's tank.\nRoman Edmund Orlik, a Polish Army sergeant, was a tank ace who knocked out 13 German tanks with his light TKS tankette in September, 1939.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1835,7 +1835,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Oskin's Medal - Awarded for destroying three enemy vehicles with a medium tank. The targets must be at least two tiers higher than the player's tank.\nAlexander Oskin, a Hero of the Soviet Union, was a tank commander who destroyed three King Tigers with his T-34 during a reconnaissance operation near Oglenduv on August 11, 1944.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1897,7 +1897,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Popel's Medal - Awarded for detecting enemy tanks and self-propelled guns in all battles, in four classes: Class IV - 20 vehicles Class III - 200 vehicles Class II - 2,000 vehicles Class I - 20,000 vehicles\nLieutenant General of Tank Forces, Nikolay Popel, a Soviet military leader and political worker, organized a raid against the enemy rear using captured vehicles during the battle of Dubno in the Summer of 1941.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -1958,7 +1958,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Mouse Trap - Destroy 10 or more PzKpfw VIII Maus tanks. The icon in the service record displays the number of times the achievement was awarded.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -2019,7 +2019,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Raider - Capture the enemy base and remain undetected during the entire battle. The icon in the service record displays the number of times the achievement was awarded.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -2080,7 +2080,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Scout - Detect most enemy tanks and self-propelled guns than anyone else on your team (at least nine). The achievement is granted to the winning team only. \nIf two or more players have detected equal number of enemy vehicles, the achievement is granted to the player who has earned more XP, including additional XP provided to Premium account users. If the amount of XP is equal as well, the achievement is not granted.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -2143,7 +2143,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Sniper - Achieve at least 85% hits out of a minimum of ten shots fired with the potential damage of 1,000 HP and more. Non-penetrating hits are included, but hits on friendly units are not included. \nIf two or more players have an equal hit ratio, the achievement is granted to the player with the highest potential damage. If two or more players have an equal amount of potential damage, the achievement is granted to the player who earned more XP for the battle, including additional XP provided to Premium Account users. If the amount of XP is equal as well, the achievement is not granted.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -2207,7 +2207,7 @@ public class WotTest1 implements EntryPoint {
 					
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
 					String title ="Master Tanker - Destroy at least one of every type of enemy vehicle currently available in the game. In the event that new vehicles are added to any tech tree, the icon becomes gray in the player's Service Record.";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " >" + "</a>";
+					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
