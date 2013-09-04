@@ -42,7 +42,7 @@ import com.wot.shared.ItemsDataClan;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //ou maison 
+	String lieu = "maison"; //ou maison 
 	boolean saveData = false;
 	
 	@Override
@@ -539,131 +539,150 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 		
 		
+		parseHtmlAchievement(AllLinesWot, cat1BattleHero, cat2Comm);
+		
 		
 		int pos1 = AllLinesWot.indexOf(cat1BattleHero + "</span></div>");
 		int pos2 = AllLinesWot.indexOf(cat2Comm + "</span></div>");
 		
-		System.out.println("=======" + cat1BattleHero);
+//		System.out.println("=======>>>>>>>> " + cat1BattleHero);
 		int posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-				int posDebutB = AllLinesWot.indexOf("<b>", pos1);
-				int posFinB = AllLinesWot.indexOf("</b>", pos1);
-				String b= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
-				System.out.println(b);
-				pos1= posFinB;
-			}
-		}
-		
-		pos1 = AllLinesWot.indexOf(cat2Comm + "</span></div>");
-		pos2 = AllLinesWot.indexOf(cat3Epc + " <i>");
-		
-		System.out.println("=======" + cat2Comm);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
-		
-		pos1 = AllLinesWot.indexOf(cat3Epc + " <i>");
-		pos2 = AllLinesWot.indexOf(cat4Special + "</span></div>");
-		
-		System.out.println("=======" + cat3Epc);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
-		
-		pos1 = AllLinesWot.indexOf(cat4Special + "</span></div>");
-		pos2 = AllLinesWot.indexOf(cat5Step + "</span></div>");
-		
-		System.out.println("=======" + cat4Special);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String srcImgMedal= AllLinesWot.substring(posSrc, posWidth);
+//				
+//				pos1= posWidth;
+//				int posDebutB = AllLinesWot.indexOf("<b>", pos1);
+//				int posFinB = AllLinesWot.indexOf("</b>", pos1);
+//				
+//				String titleMedal= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
+//				System.out.println(srcImgMedal + "\t" + titleMedal + "\t"); //titre de la médaille
+//				pos1= posFinB;
+//				
+//				//la description de la médaille se trouve entre </b> et le prochain "<"
+//				int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
+//				String descMedalWithB= AllLinesWot.substring(posDebutB + "<".length(), posInf);
+//				System.out.println("\t" + descMedalWithB);
+//			}
+//		}
 		
 		
-		pos1 = AllLinesWot.indexOf(cat5Step + "</span></div>");
-		pos2 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
 		
-		System.out.println("=======" + cat5Step);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
+		parseHtmlAchievement(AllLinesWot, cat2Comm, cat3Epc);
 		
-		pos1 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
-		pos2 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
-		
-		System.out.println("=======" + cat6Rise);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
+//		pos1 = AllLinesWot.indexOf(cat2Comm + "</span></div>");
+//		pos2 = AllLinesWot.indexOf(cat3Epc + " <i>");
+//		System.out.println("=======" + cat2Comm);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
 
-		pos1 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
-		pos2 = AllLinesWot.indexOf("printfooter");
 		
-		System.out.println("=======" + cat7Clan);
- 		posSrc = 0 ;
-		while(posSrc != -1 && posSrc<pos2) {
-			posSrc = AllLinesWot.indexOf("src=", pos1);
-			if (posSrc != -1 && posSrc<pos2) {
-				//on est dans les medailles en question
-				posSrc=  posSrc+"src=".length();
-				int posWidth = AllLinesWot.indexOf("width", posSrc);
-				String src= AllLinesWot.substring(posSrc, posWidth);
-				System.out.println(src);
-				pos1= posWidth;
-			}
-		}
+		parseHtmlAchievement(AllLinesWot, cat3Epc, cat4Special);
+
+//		pos1 = AllLinesWot.indexOf(cat3Epc + " <i>");
+//		pos2 = AllLinesWot.indexOf(cat4Special + "</span></div>");
+//		
+//		System.out.println("=======" + cat3Epc);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
+
+		parseHtmlAchievement(AllLinesWot, cat4Special, cat5Step);
+
+//		pos1 = AllLinesWot.indexOf(cat4Special + "</span></div>");
+//		pos2 = AllLinesWot.indexOf(cat5Step + "</span></div>");
+//		
+//		System.out.println("=======" + cat4Special);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
+//		
+		parseHtmlAchievement(AllLinesWot, cat5Step, cat6Rise);
+		
+//		pos1 = AllLinesWot.indexOf(cat5Step + "</span></div>");
+//		pos2 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
+//		System.out.println("=======" + cat5Step);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
+	
+		
+		parseHtmlAchievement(AllLinesWot, cat6Rise, cat7Clan);
+
+//		pos1 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
+//		pos2 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
+//		System.out.println("=======" + cat6Rise);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
+
+		parseHtmlAchievement(AllLinesWot, cat7Clan, "printfooter");
+
+//		pos1 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
+//		pos2 = AllLinesWot.indexOf("printfooter");
+//		System.out.println("=======" + cat7Clan);
+// 		posSrc = 0 ;
+//		while(posSrc != -1 && posSrc<pos2) {
+//			posSrc = AllLinesWot.indexOf("src=", pos1);
+//			if (posSrc != -1 && posSrc<pos2) {
+//				//on est dans les medailles en question
+//				posSrc=  posSrc+"src=".length();
+//				int posWidth = AllLinesWot.indexOf("width", posSrc);
+//				String src= AllLinesWot.substring(posSrc, posWidth);
+//				System.out.println(src);
+//				pos1= posWidth;
+//			}
+//		}
 
 		
 		Clan clan = null;
@@ -814,6 +833,76 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 		//return resultAchievement;
 		return clan;
+	}
+	
+	/**
+	 * parse le HTML du wiki achieveemnt pour en extraire les noms de médailles , les src d'icônes et les descriptions
+	 * @param AllLinesWot
+	 * @param cat1Medal
+	 * @param cat2Medal
+	 */
+	void parseHtmlAchievement (String AllLinesWot, String cat1Medal, String cat2Medal) {
+//		int pos1 = AllLinesWot.indexOf(cat1Medal + "</span></div>");
+//		int pos2 = AllLinesWot.indexOf(cat2Medal + "</span></div>");
+		
+		int pos1 = AllLinesWot.indexOf(cat1Medal+"</span></div>" );
+		int pos2 = -1; 
+		if ("printfooter".equalsIgnoreCase(cat2Medal))
+			pos2 = AllLinesWot.indexOf(cat2Medal );
+		else
+			pos2 = AllLinesWot.indexOf(cat2Medal+"</span></div>" );
+		
+		
+		//selon les catégories de médailles, on doit aller rechercher la 2ème pour la 1ére ocurence du nom de la catégorie de médailles
+		//donc on prend toujours la dernière 
+		
+		if (pos1 == -1)
+			pos1 = AllLinesWot.indexOf(cat1Medal+ " <i>" );
+		
+		
+		if (pos2 == -1)
+			pos2 = AllLinesWot.indexOf(cat2Medal+ " <i>" );
+		
+		
+		System.out.println("=======>>>>>>>>>>>>>" + cat1Medal);
+		if (pos1 != -1 && pos2 !=-1) {
+			int posSrc = 0 ;
+			while(posSrc != -1 && posSrc<pos2) {
+				posSrc = AllLinesWot.indexOf("src=", pos1);
+				int posSlashDiv = AllLinesWot.indexOf("</div>", posSrc); //on doit rechercher tous les src avant </div>
+				
+				if (posSrc != -1 && posSrc<pos2) {
+					
+					//on est dans les medailles en question
+					String srcImgMedal = "";
+					List<String> listSrcImgMedal = new ArrayList<String>();
+					do {
+						posSrc = AllLinesWot.indexOf("src=", pos1);
+						posSrc=  posSrc+"src=".length();
+						int posWidth = AllLinesWot.indexOf("width", posSrc);
+						srcImgMedal = AllLinesWot.substring(posSrc, posWidth);
+						listSrcImgMedal.add(srcImgMedal);
+						
+						pos1= posWidth;
+						posSrc = AllLinesWot.indexOf("src=", pos1);
+					}while(posSrc < posSlashDiv);
+					
+					int posDebutB = AllLinesWot.indexOf("<b>", pos1);
+					int posFinB = AllLinesWot.indexOf("</b>", pos1);
+					
+					String titleMedal= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
+					for (String src : listSrcImgMedal) { 
+						System.out.println(src + "\t" + titleMedal + "\t"); //titre de la médaille
+					}
+					pos1= posFinB;
+					
+					//la description de la médaille se trouve entre </b> et le prochain "<"
+					int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
+					String descMedalWithB= AllLinesWot.substring(posDebutB + "<".length(), posInf);
+					System.out.println("\t" + descMedalWithB);
+				}
+			}
+		}
 	}
 
 }

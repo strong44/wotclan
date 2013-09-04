@@ -803,8 +803,18 @@ public class WotTest1 implements EntryPoint {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
-					String title ="Tank Hunter Destroy 100 or more: Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
-					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
+					String titleSave ="<b>Bölter's Medal</b> Tank Hunter Destroy 100 or more: <br />" +"Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
+					
+					String title = 	"<b>Bölter's Medal</b> - With the release of Version 0.8.0, this medal is no longer being awarded."+  
+							"Prior to 0.8.0, this was awarded for destroying seven or more enemy tanks and self-propelled guns with a tank or tank destroyer,"+ 
+							"or 10 or more vehicles with a self-propelled gun in one battle.	The targets must be at least tier four enemy vehicles."+  
+							"<br />"+
+							"<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"http://en.wikipedia.org/wiki/Johannes_B%C3%B6lter\">Johannes Bölter</a>"+
+							"was one of the most successful German tank aces of WWII. He participated in operations in the invasions of Poland, France, "+
+							"Greece and the Soviet Union, and the defense of France.";
+
+					String html = "<a title =\"" + titleSave + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
+					
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
