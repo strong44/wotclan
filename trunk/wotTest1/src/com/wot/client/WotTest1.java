@@ -1,6 +1,10 @@
 package com.wot.client;
 
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 
@@ -724,8 +728,27 @@ public class WotTest1 implements EntryPoint {
 	/*
 		 * call this when we have data to put in table
 		 */
-		public  void buildACellTableAchivementsForCommunityAccount(List<CommunityAccount> listCommAcc) {
+		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc) {
 		    
+//			URL urlAchievement = null;
+//			String AllLines = "";
+//			try {
+//				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
+//				BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
+//				String line = "";
+//				
+//
+//				while ((line = reader.readLine()) != null) {
+//					AllLines = AllLines + line;
+//				}
+//				reader.close();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println(AllLines);
+			
+			
 			tableAchivementCommAcc.setPageSize(30);
 			
 		    //update dataprovider with some known list 
@@ -2836,7 +2859,7 @@ public class WotTest1 implements EntryPoint {
 					tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 					
 					//construct column in celltable tableCommAcc , set data set sort handler etc ..
-					buildACellTableAchivementsForCommunityAccount(dataStatsProvider.getList());
+					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList());
 					  
 					//Create a Pager to control the table.
 				    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -2926,7 +2949,7 @@ public class WotTest1 implements EntryPoint {
 									tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 									
 									//construct column in celltable tableCommAcc , set data set sort handler etc ..
-									buildACellTableAchivementsForCommunityAccount(listAccount.getListCommunityAccount());
+									buildACellTableForAchivementsCommunityAccount(listAccount.getListCommunityAccount());
 									  
 									//Create a Pager to control the table.
 								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);

@@ -185,31 +185,76 @@ public class DataCommunityAccountAchievements implements Serializable {
 	}
 	private int medalCarius;
 	private int medalHalonen;
+	private int medalPascucci; //ajout 1.8
 	private int invader;
 	private int medalFadin;
+	private int armorPiercer; //ajout
 	private int medalEkins;
 	private int mousebane;
+	private String mechanicEngineer; //Ajout false true
+	private int medalBrunoPietro;//ajout
+	private int heroesOfRassenay;//ajout
+	
     private int medalKay;
+    private int evileye; //A
+    
+    private TankExperts tankExperts ;//Ajout : nations
+    
     private int defender;
     private int medalLeClerc;
     private int supporter;
-    private int medalAbrams; 
+    
+    
+    
+    
+    
+    private int medalTamadaYoshio;
+    private int steelwall;
+    private int bombardier;
+    private int medalAbrams;
+    private int medalBrothersInArms;
+    private int maxDiehardSeries;
     private int medalPoppel;
     private int medalOrlik;
-    private int sniper; 
+    private int maxKillingSeries;
+    private int handOfDeath;
+    private int medalTarczay;
+    private int sinai;
+    private int sniper;
     private int warrior;
     private int titleSniper;
+    private int maxInvincibleSeries;
+    private int medalCrucialContribution;
+    private int medalDeLanglade;
     private int medalWittmann;
     private int medalBurda;
+    private int maxPiercingSeries;
     private int scout;
     private int beasthunter;
+    private int kamikaze;
+    private int medalRadleyWalters;
     private int raider;
+    private int medalNikolas;
     private int medalOskin;
     private int medalBillotte;
     private int medalLavrinenko;
     private int medalKolobanov;
+    private int invincible;
     private int lumberjack;
+    private int medalBoelter;
     private int tankExpert;
     private int diehard;
+    private int medalLafayettePool;
+    
+    private TankExperts mechanicEngineers ;//Ajout : nations
+    
+    private int medalLehvaslaiho;
+    private int medalDumitru;
+    private int maxSniperSeries;
     private int medalKnispel;
+    
+    
+    
+    
+    
 }

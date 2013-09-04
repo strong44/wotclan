@@ -19,7 +19,7 @@ import com.wot.shared.CommunityClan;
 import com.wot.shared.DataClan;
 import com.wot.shared.DataCommunityAccount;
 import com.wot.shared.DataCommunityAccountAchievements;
-import com.wot.shared.DataCommunityAccountStats;
+import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.ItemsDataClan;
@@ -145,7 +145,7 @@ public class TransformDtoObject {
 		return myDaoDataCommunityAccount;
 	}
 
-	private static DaoDataCommunityAccountStats TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(DataCommunityAccountStats stats) {
+	private static DaoDataCommunityAccountStats TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(DataCommunityAccountRatings stats) {
 		DaoDataCommunityAccountStats myDaoDataCommunityAccountStats =  new DaoDataCommunityAccountStats();
 		
 		myDaoDataCommunityAccountStats.setBattle_avg_performance(stats.getBattle_avg_performance());

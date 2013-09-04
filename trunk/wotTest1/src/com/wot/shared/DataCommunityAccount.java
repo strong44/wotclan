@@ -38,14 +38,14 @@ public class DataCommunityAccount implements Serializable {
 	 * @return
 	 */
 
-	DataCommunityAccountStats stats;
+	DataCommunityAccountRatings ratings;
 	
-	public DataCommunityAccountStats getStats() {
-		return stats;
+	public DataCommunityAccountRatings getStats() {
+		return ratings;
 	}
 
-	public void setStats(DataCommunityAccountStats stats) {
-		this.stats = stats;
+	public void setStats(DataCommunityAccountRatings stats) {
+		this.ratings = stats;
 	}
 
 	public DataCommunityAccountAchievements getAchievements() {
