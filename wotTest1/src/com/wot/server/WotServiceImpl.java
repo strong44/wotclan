@@ -31,7 +31,7 @@ import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataCommunityAccount;
 import com.wot.shared.DataCommunityAccountAchievements;
-import com.wot.shared.DataCommunityAccountStats;
+import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.FieldVerifier;
@@ -42,11 +42,15 @@ import com.wot.shared.ItemsDataClan;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //ou maison 
+	String lieu = "boulot"; //ou maison 
 	boolean saveData = false;
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
+		
+		//
+
+		
 		Clan desClan =null;
 		// Verify that the input is valid.
 		if (!FieldVerifier.isValidName(input)) {
@@ -281,10 +285,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 					URL url = null ;
 					if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+						url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 					}
 					else {
-						url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+						url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 					}
 					BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
 					String lineUser = "";
@@ -305,7 +309,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					//account.setDateCommunityAccount(new java.util.Date());
 					
 					//make some calculation of stats 
-					DataCommunityAccountStats myDataCommunityAccountStats = account.getData().getStats();
+					DataCommunityAccountRatings myDataCommunityAccountStats = account.getData().getStats();
 					
 					//== WR calculated
 					int battles = myDataCommunityAccountStats.getBattles();
@@ -487,6 +491,63 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 	@Override
 	public Clan getClans(String input, int offset) throws IllegalArgumentException {
+		URL urlAchievement = null;
+		String AllLinesWot = "";
+		try {
+			urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
+			String line = "";
+			
+
+			while ((line = reader.readLine()) != null) {
+				AllLinesWot = AllLinesWot + line;
+			}
+			reader.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(AllLinesWot);
+		
+		//find "Battle Hero Achievements"
+		
+		//find "Commemorative Achievements"
+		
+		//"Epic Achievements (medals)"
+		
+		//"Special Achievements (titles)"
+		
+		//"Step Achievements (medals)"
+		
+		
+		//"Rise of the Americas Achievements (medals)"
+		
+		//"Clan Wars Campaigns Achievements (medals)"
+		
+		//"printfooter"
+		
+		//entre  "Battle Hero Achievements" et "Commemorative Achievements" se positionner à la fin le la chaine "src="
+		// et extraire depuis cette position jusqu'au début de  la chaine width 
+		
+		int pos1 = AllLinesWot.indexOf("Battle Hero Achievements</span></div>");
+		int pos2 = AllLinesWot.indexOf("Commemorative Achievements</span></div>");
+		
+ 
+		int posSrc = 0 ;
+		while(posSrc != -1) {
+			posSrc = AllLinesWot.indexOf("src=", pos1);
+			if (posSrc != -1 && posSrc<pos2) {
+				//on est dans les medailles en question
+				posSrc=  posSrc+"src=".length();
+				int posWidth = AllLinesWot.indexOf("width", posSrc);
+				String src= AllLinesWot.substring(posSrc, posWidth);
+				System.out.println(src);
+				pos1= posWidth;
+				
+			}
+		}
+		
+		
 		Clan clan = null;
 		//int offset = 0 ;
 		int limit = 100;
@@ -608,7 +669,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 						detectedLanguage = Detect.execute(motto);
 						
-						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Fran�ais") && nbTrad < 6  ) {
+						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français") && nbTrad < 6  ) {
 							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
 							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
 							nbTrad++;
