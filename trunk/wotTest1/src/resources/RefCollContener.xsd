@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:ref="http://dcns.fr/refcol/data"
+		targetNamespace="http://dcns.fr/refcol/data"
+		elementFormDefault="qualified"
+		version="0.1 beta">
+		
+	
+	<!-- THE ROOT ELEMENT -->
+	
+	<xs:element 		type="ref:XmlContainer" 		name="CONTAINER"/>
+	
+	<xs:complexType name="XmlContainer">
+		<xs:sequence>
+			<xs:element type="ref:XmlDefinedObject"			name="DEFINED_OBJECT"		minOccurs="1"			maxOccurs="1"/>
+			<xs:element	type="ref:XmlUseContext"			name="USE_CONTEXT"			minOccurs="1"			maxOccurs="unbounded"/>
+			<xs:element	type="ref:XmlProcessusContext"		name="PROCESSUS_CONTEXT"	minOccurs="1"			maxOccurs="unbounded"/>
+			<xs:element	type="ref:XmlListObjects"			name="OBJECTS"				minOccurs="0"			maxOccurs="1"/>
+			<xs:element	type="ref:XmlListLinks"				name="LINKS"				minOccurs="0"			maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute	type="xs:string"			name="NAME"			use="required"/>
+		<xs:attribute	type="xs:string"			name="VERSION"		use="required"/>
+		<xs:attribute	type="xs:string"			name="TYPE"			use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlDefinedObject">
+		<xs:attribute	type="xs:string"			name="NAME"			use="optional"/>
+		<xs:attribute	type="xs:string"			name="ID"			use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlUseContext">
+		<xs:attribute	type="xs:string"			name="NAME"			use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlProcessusContext">
+		<xs:attribute	type="xs:string"			name="NAME"			use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlListObjects">
+		<xs:sequence>
+			<xs:element	type="ref:XmlObject"		name="OBJECT"		minOccurs="0"	maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlObject">
+		<xs:sequence>
+			<xs:element type="ref:XmlUseContext" name="USE_CONTEXT"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element type="ref:XmlProcessusContext"
+				name="PROCESSUS_CONTEXT" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element type="ref:XmlDesignation" name="DESIGNATION"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element type="ref:XmlVersion" name="VERSION"
+				minOccurs="1" maxOccurs="unbounded" />
+			<xs:element type="ref:XmlObjectRef" name="FROM_OBJECT"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="ref:XmlContainerRef" name="FROM_CONTAINER"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="ref:XmlClassification"
+				name="CLASSIFICATION" minOccurs="0" maxOccurs="1" />
+			<xs:element type="ref:XmlAttribute" name="ATTRIBUTE"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="NAME" use="required" />
+		<xs:attribute type="xs:string" name="ID" use="required" />
+		<xs:attribute type="ref:AttYesNoShort" name="CITATION" use="optional" />
+		<xs:attribute type="xs:string" name="STATE" use="optional" />
+		<xs:attribute type="xs:string" name="DATE_CREATE"
+			use="optional" />
+		<xs:attribute type="xs:string" name="DATE_UPDATE"
+			use="optional" />
+		<xs:attribute type="xs:string" name="URI_REFCOL" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="XmlDesignation">
+		<xs:attribute	type="xs:string"		name="CODE"			use="required"/>
+		<xs:attribute	type="xs:string"		name="VALUE"		use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlObjectRef">
+		<xs:attribute	type="xs:string"		name="NAME"			use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlContainerRef">
+		<xs:attribute	type="xs:string"		name="NAME"			use="required"/>
+		<xs:attribute	type="xs:string"		name="VERSION"		use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlClassification">
+		<xs:attribute	type="xs:string"		name="NAME"			use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlAttribute">
+		<xs:attribute	type="xs:string"		name="NAME"			use="required"/>
+		<xs:attribute	type="xs:string"		name="CODE"			use="optional"/>
+		<xs:attribute	type="xs:string"		name="VALUE"		use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlListLinks">
+		<xs:sequence>
+			<xs:element	type="ref:XmlLink"		name="LINK"			minOccurs="0"		maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlLink">
+		<xs:sequence>
+			<xs:element	type="ref:XmlUseContext"			name="USE_CONTEXT"			minOccurs="0"	maxOccurs="unbounded"/>
+			<xs:element	type="ref:XmlProcessusContext"		name="PROCESSUS_CONTEXT"	minOccurs="0"	maxOccurs="unbounded"/>
+			<xs:element	type="ref:XmlObjectLinked"			name="OBJECT"				minOccurs="2"	maxOccurs="2"/>
+			<xs:element	type="ref:XmlAttribute"				name="ATTRIBUTE"			minOccurs="0"	maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute	type="xs:string"		name="NAME"			use="required"/>
+		<xs:attribute	type="xs:string"		name="STATE"		use="optional"/>
+		<xs:attribute	type="xs:string"		name="DATE_CREATE"		use="optional"/>
+		<xs:attribute	type="xs:string"		name="DATE_UPDATE"		use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="XmlObjectLinked">
+		<xs:sequence>
+			<xs:element	type="ref:XmlUseContext"			name="USE_CONTEXT"			minOccurs="0"	maxOccurs="1"/>
+			<xs:element	type="ref:XmlProcessusContext"		name="PROCESSUS_CONTEXT"	minOccurs="0"	maxOccurs="1"/>
+			<xs:element	type="ref:XmlVersion"				name="VERSION"				minOccurs="0"	maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute	type="xs:string"		name="NAME"		use="required"/>
+		<xs:attribute	type="xs:string"		name="ID"		use="required"/>
+		<xs:attribute 	type="ref:AttYesNoShort" name="CITATION" use="optional" />
+	</xs:complexType>
+	
+	<xs:complexType name="XmlVersion">
+		<xs:attribute	type="xs:string"		name="NAME"		use="required"/>
+		<xs:attribute	type="xs:string"		name="VALUE"	use="required"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="AttYesNoShort">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:maxLength value="1" />
+			<xs:enumeration value="Y"></xs:enumeration>
+			<xs:enumeration value="N"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	
+</xs:schema>
