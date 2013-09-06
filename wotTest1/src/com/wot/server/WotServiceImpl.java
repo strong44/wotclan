@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -15,6 +16,11 @@ import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.bcel.generic.DALOAD;
 
@@ -36,13 +42,21 @@ import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
+import com.wot.shared.ObjectFactory;
+import com.wot.shared.XmlAchievements;
+import com.wot.shared.XmlDescription;
+import com.wot.shared.XmlListAchievement;
+import com.wot.shared.XmlListCategoryAchievement;
+import com.wot.shared.XmlListSrcImg;
+import com.wot.shared.XmlSrc;
+import com.wot.shared.XmlWiki;
 
 /**
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //ou maison 
+	String lieu = "boulot"; //ou maison 
 	boolean saveData = false;
 	
 	@Override
@@ -100,7 +114,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			String inputTransform = input.replace(" ", "%20");
 			//input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  inputTransform + "&offset=0&limit=1");				
+				urlClan = new URL("https://tractro.appspot.com//api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  inputTransform + "&offset=0&limit=1");				
 			}
 			else {
 				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  inputTransform + "&offset=0&limit=1");		
@@ -222,7 +236,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			// recup des membres du clan NVS
 			urlClan = null ;
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");				
+				urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");				
 			}
 			else {
 				//500006074
@@ -285,7 +299,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 					URL url = null ;
 					if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+						url = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 					}
 					else {
 						url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
@@ -494,7 +508,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		URL urlAchievement = null;
 		String AllLinesWot = "";
 		try {
-			urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
+			urlAchievement = new URL ("https://tractro.appspot.com/wiki.worldoftanks.com/achievements");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
 			String line = "";
 			
@@ -509,23 +523,6 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		}
 		System.out.println(AllLinesWot);
 		
-		//find "Battle Hero Achievements"
-		
-		//find "Commemorative Achievements"
-		
-		//"Epic Achievements (medals)"
-		
-		//"Special Achievements (titles)"
-		
-		//"Step Achievements (medals)"
-		
-		
-		//"Rise of the Americas Achievements (medals)"
-		
-		//"Clan Wars Campaigns Achievements (medals)"
-		
-		//"printfooter"
-		
 		//entre  "Battle Hero Achievements" et "Commemorative Achievements" se positionner Ã  la fin le la chaine "src="
 		// et extraire depuis cette position jusqu'au dÃ©but de  la chaine width 
 		String cat1BattleHero =  "Battle Hero Achievements";
@@ -536,155 +533,58 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		String cat6Rise = "Rise of the Americas Achievements (medals)" ;
 		String cat7Clan = "Clan Wars Campaigns Achievements (medals)";
 		
+		ObjectFactory objFactory = null;
+		try {
+			JAXBContext context = JAXBContext.newInstance(XmlWiki.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			objFactory = new ObjectFactory();
+			
+			//crÃ©ation WIKI
+			XmlWiki wiki = objFactory.createXmlWiki();
+			
+			//crÃ©ation ACHIEVEMENTS
+			XmlAchievements myXmlAchievements = objFactory.createXmlAchievements();
+			wiki.setACHIEVEMENTS(myXmlAchievements);
+			
+			//parsing HTML WIKI
+			parseHtmlAchievement(AllLinesWot, cat1BattleHero, cat2Comm, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat2Comm, cat3Epc, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat3Epc, cat4Special, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat4Special, cat5Step, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat5Step, cat6Rise, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat6Rise, cat7Clan, objFactory, wiki);
+			parseHtmlAchievement(AllLinesWot, cat7Clan, "printfooter", objFactory, wiki);
+			
+			m.marshal(wiki, System.out);
+			m.marshal(wiki, new File("aa.xml"));
+			//JAXBContext.newInstance("com.wot.shared").createMarshaller().marshal(wiki, System.out);
+			
+			
+			//A partir du XML instanciÃ© les classes !!
+//			Unmarshaller unmarshaller = context.createUnmarshaller();
+//			XmlWiki wiki = (XmlWiki) unmarshaller.unmarshal(new File("wotWiki.xml"));
+//			System.out.println(wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().get(0).getNAME());
+			
+		} catch (JAXBException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
 		
 		
-		parseHtmlAchievement(AllLinesWot, cat1BattleHero, cat2Comm);
 		
+
 		
-		int pos1 = AllLinesWot.indexOf(cat1BattleHero + "</span></div>");
-		int pos2 = AllLinesWot.indexOf(cat2Comm + "</span></div>");
-		
-//		System.out.println("=======>>>>>>>> " + cat1BattleHero);
-		int posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String srcImgMedal= AllLinesWot.substring(posSrc, posWidth);
-//				
-//				pos1= posWidth;
-//				int posDebutB = AllLinesWot.indexOf("<b>", pos1);
-//				int posFinB = AllLinesWot.indexOf("</b>", pos1);
-//				
-//				String titleMedal= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
-//				System.out.println(srcImgMedal + "\t" + titleMedal + "\t"); //titre de la médaille
-//				pos1= posFinB;
-//				
-//				//la description de la médaille se trouve entre </b> et le prochain "<"
-//				int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
-//				String descMedalWithB= AllLinesWot.substring(posDebutB + "<".length(), posInf);
-//				System.out.println("\t" + descMedalWithB);
-//			}
+//		try {
+//			JAXBContext.newInstance("com.wot.shared").createMarshaller().marshal(wiki, System.out);
+//		} catch (JAXBException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
 //		}
 		
 		
-		
-		parseHtmlAchievement(AllLinesWot, cat2Comm, cat3Epc);
-		
-//		pos1 = AllLinesWot.indexOf(cat2Comm + "</span></div>");
-//		pos2 = AllLinesWot.indexOf(cat3Epc + " <i>");
-//		System.out.println("=======" + cat2Comm);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-
-		
-		parseHtmlAchievement(AllLinesWot, cat3Epc, cat4Special);
-
-//		pos1 = AllLinesWot.indexOf(cat3Epc + " <i>");
-//		pos2 = AllLinesWot.indexOf(cat4Special + "</span></div>");
-//		
-//		System.out.println("=======" + cat3Epc);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-
-		parseHtmlAchievement(AllLinesWot, cat4Special, cat5Step);
-
-//		pos1 = AllLinesWot.indexOf(cat4Special + "</span></div>");
-//		pos2 = AllLinesWot.indexOf(cat5Step + "</span></div>");
-//		
-//		System.out.println("=======" + cat4Special);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-//		
-		parseHtmlAchievement(AllLinesWot, cat5Step, cat6Rise);
-		
-//		pos1 = AllLinesWot.indexOf(cat5Step + "</span></div>");
-//		pos2 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
-//		System.out.println("=======" + cat5Step);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-	
-		
-		parseHtmlAchievement(AllLinesWot, cat6Rise, cat7Clan);
-
-//		pos1 = AllLinesWot.indexOf(cat6Rise + "</span></div>");
-//		pos2 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
-//		System.out.println("=======" + cat6Rise);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-
-		parseHtmlAchievement(AllLinesWot, cat7Clan, "printfooter");
-
-//		pos1 = AllLinesWot.indexOf(cat7Clan + "</span></div>");
-//		pos2 = AllLinesWot.indexOf("printfooter");
-//		System.out.println("=======" + cat7Clan);
-// 		posSrc = 0 ;
-//		while(posSrc != -1 && posSrc<pos2) {
-//			posSrc = AllLinesWot.indexOf("src=", pos1);
-//			if (posSrc != -1 && posSrc<pos2) {
-//				//on est dans les medailles en question
-//				posSrc=  posSrc+"src=".length();
-//				int posWidth = AllLinesWot.indexOf("width", posSrc);
-//				String src= AllLinesWot.substring(posSrc, posWidth);
-//				System.out.println(src);
-//				pos1= posWidth;
-//			}
-//		}
-
-		
+		//////////////////////////////////////////////////////////////////
 		Clan clan = null;
 		//int offset = 0 ;
 		int limit = 100;
@@ -736,7 +636,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
+				urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
 			}
 			else {
 				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);		
@@ -836,15 +736,28 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 	
 	/**
-	 * parse le HTML du wiki achieveemnt pour en extraire les noms de médailles , les src d'icônes et les descriptions
+	 * parse le HTML du wiki achieveemnt pour en extraire les noms de mï¿½dailles , les src d'icï¿½nes et les descriptions
 	 * @param AllLinesWot
 	 * @param cat1Medal
 	 * @param cat2Medal
+	 * @param objFactory 
+	 * @param wiki 
 	 */
-	void parseHtmlAchievement (String AllLinesWot, String cat1Medal, String cat2Medal) {
-//		int pos1 = AllLinesWot.indexOf(cat1Medal + "</span></div>");
-//		int pos2 = AllLinesWot.indexOf(cat2Medal + "</span></div>");
+	void parseHtmlAchievement (String AllLinesWot, String cat1Medal, String cat2Medal, ObjectFactory objFactory, XmlWiki wiki) {
+
+		//crÃ©ation category achievement
+		XmlListCategoryAchievement myXmlListCategoryAchievement = objFactory.createXmlListCategoryAchievement();
+		myXmlListCategoryAchievement.setNAME(cat1Medal);
 		
+		//crÃ©ation xlmDescrition category achievement
+		XmlDescription myXmlDescription= objFactory.createXmlDescription();
+		myXmlDescription.setVALUE("Desccription de la ctÃ©gorie de mÃ©dailles");
+		myXmlListCategoryAchievement.setDESCRIPTION(myXmlDescription);
+		
+		//Ajouter la catÃ©gorie achievement au wiki
+		wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().add(myXmlListCategoryAchievement);
+		
+		//parse WIKI HTML
 		int pos1 = AllLinesWot.indexOf(cat1Medal+"</span></div>" );
 		int pos2 = -1; 
 		if ("printfooter".equalsIgnoreCase(cat2Medal))
@@ -853,8 +766,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			pos2 = AllLinesWot.indexOf(cat2Medal+"</span></div>" );
 		
 		
-		//selon les catégories de médailles, on doit aller rechercher la 2ème pour la 1ére ocurence du nom de la catégorie de médailles
-		//donc on prend toujours la dernière 
+		//selon les catï¿½gories de mï¿½dailles, on doit aller rechercher la 2ï¿½me pour la 1ï¿½re ocurence du nom de la catï¿½gorie de mï¿½dailles
+		//donc on prend toujours la derniï¿½re 
 		
 		if (pos1 == -1)
 			pos1 = AllLinesWot.indexOf(cat1Medal+ " <i>" );
@@ -892,16 +805,49 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					String titleMedal= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
 					for (String src : listSrcImgMedal) { 
-						System.out.println(src + "\t" + titleMedal + "\t"); //titre de la médaille
+						System.out.println(src + "\t" + titleMedal + "\t"); //titre de la mï¿½daille
 					}
 					pos1= posFinB;
 					
-					//la description de la médaille se trouve entre </b> et le prochain "<"
+					//la description de la mï¿½daille se trouve entre </b> et le prochain "<"
 					int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
 					String descMedalWithB= AllLinesWot.substring(posDebutB + "<".length(), posInf);
 					System.out.println("\t" + descMedalWithB);
+					
+					
+					//crÃ©ation d'un achievement
+					XmlListAchievement myXmlListAchievement = objFactory.createXmlListAchievement();
+					
+					//set du nom de la mÃ©daille
+					myXmlListAchievement.setNAME(titleMedal);
+					
+					//set description de la mÃ©daille
+					//crÃ©ation xlmDescrition achievement
+					myXmlDescription= objFactory.createXmlDescription();
+					myXmlDescription.setVALUE(descMedalWithB);
+					myXmlListAchievement.setDESCRIPTION(myXmlDescription);
+					
+					//set des src des icÃ´nes des mÃ©dailles
+					XmlListSrcImg myXmlListSrcImg = objFactory.createXmlListSrcImg();
+					
+					for (String src : listSrcImgMedal) {
+						//crÃ©ation des src
+						XmlSrc myXmlSrc = objFactory.createXmlSrc();
+						myXmlSrc.setVALUE(src);
+						
+						//ajout Ã  la liste des src de la mÃ©daille
+						myXmlListSrcImg.getSRC().add(myXmlSrc);
+					}
+					
+					myXmlListAchievement.setSRCIMG(myXmlListSrcImg);
+					
+					//ajouter listAchievement Ã  CatÃ©gory achievement
+					myXmlListCategoryAchievement.getACHIEVEMENT().add(myXmlListAchievement);
 				}
+				
+				
 			}
+			
 		}
 	}
 
