@@ -8,6 +8,8 @@
 
 package com.wot.shared;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -39,10 +41,14 @@ import javax.xml.bind.annotation.XmlType;
     "achievements"
 })
 @XmlRootElement
-public class XmlWiki {
+public class XmlWiki implements Serializable {
 
 	
-    @XmlElement(name = "ACHIEVEMENTS", required = true)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -546500409767228244L;
+	@XmlElement(name = "ACHIEVEMENTS", required = true)
     protected XmlAchievements achievements;
 
     /**

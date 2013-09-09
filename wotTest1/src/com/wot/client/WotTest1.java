@@ -58,6 +58,8 @@ import com.wot.shared.CommunityAccount;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.XmlListAchievement;
+import com.wot.shared.XmlListCategoryAchievement;
+import com.wot.shared.XmlSrc;
 import com.wot.shared.XmlWiki;
 
 
@@ -739,7 +741,7 @@ public class WotTest1 implements EntryPoint {
 		 */
 		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc, XmlWiki xmlWiki) {
 		    
-			final HashMap<String, XmlListAchievement> hashMapAch = BuildWikiFile.BuidHashMapAchievement(xmlWiki);
+			final HashMap<String, XmlListAchievement> hashMapAch = buidHashMapAchievement(xmlWiki);
 			
 			tableAchivementCommAcc.setPageSize(30);
 			
@@ -800,19 +802,22 @@ public class WotTest1 implements EntryPoint {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
 					String urlTarget = "http://wiki.worldoftanks.com/Achievements";
-					String titleSave ="<b>Bölter's Medal</b> Tank Hunter Destroy 100 or more: <br />" +"Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
+					String titleSave ="<b>Bï¿½lter's Medal</b> Tank Hunter Destroy 100 or more: <br />" +"Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
 					
-					String title = 	"<b>Bölter's Medal</b> - With the release of Version 0.8.0, this medal is no longer being awarded."+  
+					String title = 	"<b>Bï¿½lter's Medal</b> - With the release of Version 0.8.0, this medal is no longer being awarded."+  
 							"Prior to 0.8.0, this was awarded for destroying seven or more enemy tanks and self-propelled guns with a tank or tank destroyer,"+ 
 							"or 10 or more vehicles with a self-propelled gun in one battle.	The targets must be at least tier four enemy vehicles."+  
 							"<br />"+
-							"<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"http://en.wikipedia.org/wiki/Johannes_B%C3%B6lter\">Johannes Bölter</a>"+
+							"<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"http://en.wikipedia.org/wiki/Johannes_B%C3%B6lter\">Johannes Bï¿½lter</a>"+
 							"was one of the most successful German tank aces of WWII. He participated in operations in the invasions of Poland, France, "+
 							"Greece and the Soviet Union, and the defense of France.";
 
 					//String html = "<a title =\"" + titleSave + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
-					String html = "<a title =\"" + title2 + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc2 + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
+					//String html = "<a title =\"" + title2 + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc2 + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
+					String html = 
+							"<div id=\"achievement\" >" + " <div class=\"floatleft\"> " +
+							" <img alt=\"Sinai.png\" src=\"" + urlImgSrc2 + "\" width=\"67\" height=\"71\" />" + title2 + "</div>";
 					
 					sb.appendHtmlConstant(html);
 					return sb.toSafeHtml();
@@ -2765,7 +2770,7 @@ public class WotTest1 implements EntryPoint {
 										//construct column in celltable tableClan , set data set sort handler etc ..
 										buildACellTableForCommunityClan(listClan);
 										
-										//get wiki wot (pour les médailles)
+										//get wiki wot (pour les mï¿½dailles)
 										xmlWiki = listClan.getWiki();
 										
 										//Create a Pager to control the table.
@@ -3195,13 +3200,13 @@ public class WotTest1 implements EntryPoint {
 						SafeHtmlBuilder sb = new SafeHtmlBuilder();
 						String urlImgSrc = "http://wiki.worldoftanks.com/images/4/44/Beasthunter.png";
 						String urlTarget = "http://wiki.worldoftanks.com/Achievements";
-						String titleSave ="<b>Bölter's Medal</b> Tank Hunter Destroy 100 or more: <br />" +"Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
+						String titleSave ="<b>Bï¿½lter's Medal</b> Tank Hunter Destroy 100 or more: <br />" +"Jagdpanther, Jagdtiger, PzKpfw V Panther, Panther II, PzKpfw VI Tiger, PzKpfw VI Ausf. B Tiger II, Gw-Panther, Gw-Tiger. ";
 						
-						String title = 	"<b>Bölter's Medal</b> - With the release of Version 0.8.0, this medal is no longer being awarded."+  
+						String title = 	"<b>Bï¿½lter's Medal</b> - With the release of Version 0.8.0, this medal is no longer being awarded."+  
 								"Prior to 0.8.0, this was awarded for destroying seven or more enemy tanks and self-propelled guns with a tank or tank destroyer,"+ 
 								"or 10 or more vehicles with a self-propelled gun in one battle.	The targets must be at least tier four enemy vehicles."+  
 								"<br />"+
-								"<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"http://en.wikipedia.org/wiki/Johannes_B%C3%B6lter\">Johannes Bölter</a>"+
+								"<a rel=\"nofollow\" target=\"_blank\" class=\"external text\" href=\"http://en.wikipedia.org/wiki/Johannes_B%C3%B6lter\">Johannes Bï¿½lter</a>"+
 								"was one of the most successful German tank aces of WWII. He participated in operations in the invasions of Poland, France, "+
 								"Greece and the Soviet Union, and the defense of France.";
 	
@@ -4702,4 +4707,30 @@ public class WotTest1 implements EntryPoint {
 			    dataAchievementsProvider.addDataDisplay(tableAchivementCommAcc);
 			    dataAchievementsProvider.refresh();
 		   }
+			
+			/**
+			 * build a hashMap of achievement from wiki
+			 * @param xmlWiki
+			 * @return
+			 */
+			public static HashMap<String, XmlListAchievement> buidHashMapAchievement (XmlWiki xmlWiki) {
+				HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
+				
+				
+				//parcours de toutes les catï¿½gories de mï¿½dailles
+				for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
+					for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
+						for (XmlSrc src : ach.getSRCIMG().getSRC()) {
+							String srcValue = src.getVALUE();
+							int posLastSlash  = srcValue.lastIndexOf("/");
+							String nameFile = srcValue.substring(posLastSlash+1);
+							hashMapAchievement.put(nameFile, ach);
+						}
+						
+					}
+				}
+				
+				return hashMapAchievement;
+				
+			}		
 }

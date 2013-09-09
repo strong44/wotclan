@@ -8,6 +8,8 @@
 
 package com.wot.shared;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -33,9 +35,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "XmlDescription")
-public class XmlDescription {
+public class XmlDescription implements Serializable{
 
-    @XmlAttribute(name = "VALUE", required = true)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3612254014238870672L;
+	@XmlAttribute(name = "VALUE", required = true)
     protected String value;
 
     /**

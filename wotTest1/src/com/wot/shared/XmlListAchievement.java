@@ -8,6 +8,8 @@
 
 package com.wot.shared;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -41,9 +43,13 @@ import javax.xml.bind.annotation.XmlType;
     "srcimg",
     "description"
 })
-public class XmlListAchievement {
+public class XmlListAchievement implements Serializable{
 
-    @XmlElement(name = "SRC_IMG", required = true)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4203749363506536793L;
+	@XmlElement(name = "SRC_IMG", required = true)
     protected XmlListSrcImg srcimg;
     @XmlElement(name = "DESCRIPTION", required = true)
     protected XmlDescription description;
