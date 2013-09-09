@@ -56,9 +56,9 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //ou maison 
+	String lieu = "maison"; //ou maison 
 	boolean saveData = false;
-	
+	XmlWiki wiki =  null;
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
 		
@@ -508,7 +508,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		URL urlAchievement = null;
 		String AllLinesWot = "";
 		try {
-			urlAchievement = new URL ("https://tractro.appspot.com/wiki.worldoftanks.com/achievements");
+			if(lieu.equalsIgnoreCase("boulot")) //on passe par 1 proxy
+				urlAchievement = new URL ("https://tractro.appspot.com/wiki.worldoftanks.com/achievements");
+			else
+				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
+			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
 			String line = "";
 			
@@ -534,55 +538,30 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		String cat7Clan = "Clan Wars Campaigns Achievements (medals)";
 		
 		ObjectFactory objFactory = null;
+		//wiki =  null;
 		try {
 			JAXBContext context = JAXBContext.newInstance(XmlWiki.class);
-			Marshaller m = context.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			objFactory = new ObjectFactory();
+//			Marshaller m = context.createMarshaller();
+//			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			
-			//création WIKI
-			XmlWiki wiki = objFactory.createXmlWiki();
+//			
+//			//création WIKI
+			if (wiki== null) {
+				objFactory = new ObjectFactory();
 			
-			//création ACHIEVEMENTS
-			XmlAchievements myXmlAchievements = objFactory.createXmlAchievements();
-			wiki.setACHIEVEMENTS(myXmlAchievements);
-			
-			//parsing HTML WIKI
-			parseHtmlAchievement(AllLinesWot, cat1BattleHero, cat2Comm, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat2Comm, cat3Epc, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat3Epc, cat4Special, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat4Special, cat5Step, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat5Step, cat6Rise, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat6Rise, cat7Clan, objFactory, wiki);
-			parseHtmlAchievement(AllLinesWot, cat7Clan, "printfooter", objFactory, wiki);
-			
-			m.marshal(wiki, System.out);
-			m.marshal(wiki, new File("aa.xml"));
-			//JAXBContext.newInstance("com.wot.shared").createMarshaller().marshal(wiki, System.out);
-			
-			
-			//A partir du XML instancié les classes !!
-//			Unmarshaller unmarshaller = context.createUnmarshaller();
-//			XmlWiki wiki = (XmlWiki) unmarshaller.unmarshal(new File("wotWiki.xml"));
-//			System.out.println(wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().get(0).getNAME());
+				wiki = objFactory.createXmlWiki();
+
+				//A partir du XML instancié les classes !!
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				wiki = (XmlWiki) unmarshaller.unmarshal(new File("wotWiki.xml"));
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>unmarshaller wotWiki.xml");
+				System.out.println(wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().get(0).getNAME());
+			}
 			
 		} catch (JAXBException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-		
-		
-		
-
-		
-//		try {
-//			JAXBContext.newInstance("com.wot.shared").createMarshaller().marshal(wiki, System.out);
-//		} catch (JAXBException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		
 		
 		//////////////////////////////////////////////////////////////////
 		Clan clan = null;
@@ -732,6 +711,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		}
 	
 		//return resultAchievement;
+		clan.setWiki(wiki);
 		return clan;
 	}
 	
@@ -793,7 +773,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						posSrc = AllLinesWot.indexOf("src=", pos1);
 						posSrc=  posSrc+"src=".length();
 						int posWidth = AllLinesWot.indexOf("width", posSrc);
-						srcImgMedal = AllLinesWot.substring(posSrc, posWidth);
+						srcImgMedal = AllLinesWot.substring(posSrc+1, posWidth-2);
 						listSrcImgMedal.add(srcImgMedal);
 						
 						pos1= posWidth;
@@ -811,7 +791,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					//la description de la m�daille se trouve entre </b> et le prochain "<"
 					int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
-					String descMedalWithB= AllLinesWot.substring(posDebutB + "<".length(), posInf);
+					String descMedalWithB= AllLinesWot.substring(posDebutB-1 + "<".length(), posInf);
 					System.out.println("\t" + descMedalWithB);
 					
 					
@@ -849,6 +829,37 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 			
 		}
+		
+		
+	}
+	
+	//xx
+	public HashMap<String, XmlListAchievement> BuidHashMapAchievement (XmlWiki xmlWiki) {
+		HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
+		
+		
+		//parcours de toutes les cat�gories de m�dailles
+		for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
+			for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
+				for (XmlSrc src : ach.getSRCIMG().getSRC()) {
+					String srcValue = src.getVALUE();
+					int posLastSlash  = srcValue.lastIndexOf("/");
+					String nameFile = srcValue.substring(posLastSlash);
+					hashMapAchievement.put(nameFile, ach);
+				}
+				
+			}
+		}
+		
+		return hashMapAchievement;
+		
+	}
+	
+	static void main (String arg[]) {
+		WotServiceImpl wot  = new WotServiceImpl();
+		 wot.getClans("NOVA_SNAIL", 0);
+		 System.exit(0);
+		
 	}
 
 }

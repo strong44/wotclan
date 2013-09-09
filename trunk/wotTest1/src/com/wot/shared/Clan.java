@@ -11,7 +11,17 @@ public class Clan implements Serializable{
 	private static final long serialVersionUID = 9216784168895883666L;
 	private String status;
 	private String status_code;
+	private XmlWiki wiki;
 	
+	/////////////////
+	public XmlWiki getWiki() {
+		return wiki;
+	}
+
+	public void setWiki(XmlWiki wiki) {
+		this.wiki = wiki;
+	}
+
 	private DataClan data;
 	
     public DataClan getData() {
