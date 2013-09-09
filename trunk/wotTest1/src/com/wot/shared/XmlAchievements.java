@@ -8,6 +8,7 @@
 
 package com.wot.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -39,9 +40,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "XmlAchievements", propOrder = {
     "categoryachievement"
 })
-public class XmlAchievements {
+public class XmlAchievements implements Serializable{
 
-    @XmlElement(name = "CATEGORY_ACHIEVEMENT", required = true)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3473771750923322644L;
+	@XmlElement(name = "CATEGORY_ACHIEVEMENT", required = true)
     protected List<XmlListCategoryAchievement> categoryachievement;
 
     /**

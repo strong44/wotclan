@@ -25,7 +25,7 @@ import com.wot.shared.XmlSrc;
 import com.wot.shared.XmlWiki;
 
 public class BuildWikiFile {
-	static String lieu ="maison"; 
+	static String lieu ="boulot"; 
 	
 	static public void buildWikiXML() throws IllegalArgumentException {
 		URL urlAchievement = null;
@@ -182,11 +182,51 @@ public class BuildWikiFile {
 					}
 					pos1= posFinB;
 					
-					//la description de la m�daille se trouve entre </b> et le prochain "<"
-					int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
-					String descMedalWithB= AllLinesWot.substring(posDebutB-1 + "<".length(), posInf);
-					System.out.println("\t" + descMedalWithB);
+					//la description de la m�daille se trouve entre </b> et le prochain "</div"
+					int posNextSlashDiv = AllLinesWot.indexOf("</div", posFinB + "</b>".length());
 					
+					//dans cette description, il faut supprimer un certain nombre de choses les  href,  les title les </a> s'il y en a bien sur  
+					//<a href="/Jagdpanther" title="Jagdpanther">Jagdpanther</a>, 
+					//<b>Hunter</b> - Destroy 100 or more of the following tanks: 
+//							<a href="/wiki.worldoftanks.com/Jagdpanther" title="Jagdpanther">Jagdpanther</a>, 
+//							<a href="/wiki.worldoftanks.com/Jagdtiger" title="Jagdtiger">Jagdtiger</a>, 
+//							<a href="/wiki.worldoftanks.com/Pz.Kpfw._V_Panther" title="Pz.Kpfw. V Panther">Pz.Kpfw. V Panther</a>, 
+//							<a href="/wiki.worldoftanks.com/Panther/M10" title="Panther/M10">Panther/M10</a>, 
+//							<a href="/wiki.worldoftanks.com/Panther_II" title="Panther II">Panther II</a>, 
+//							<a href="/wiki.worldoftanks.com/Pz.Kpfw._VI_Tiger" title="Pz.Kpfw. VI Tiger">Pz.Kpfw. VI Tiger</a>, 
+//							<a href="/wiki.worldoftanks.com/Pz.Kpfw._VI_Tiger_(P)" title="Pz.Kpfw. VI Tiger (P)">Pz.Kpfw. VI Tiger (P)</a>, 
+//							<a href="/wiki.worldoftanks.com/Pz.Kpfw._Tiger_II" title="Pz.Kpfw. Tiger II">Pz.Kpfw. Tiger II</a>, 
+//							<a href="/wiki.worldoftanks.com/L%C3%B6we" title="Löwe">Löwe</a>, 
+//							<a href="/wiki.worldoftanks.com/GW_Panther" title="GW Panther" class="mw-redirect">GW Panther</a>, 
+//							<a href="/wiki.worldoftanks.com/GW_Tiger" title="GW Tiger" class="mw-redirect">GW Tiger</a>, 
+//							<a href="/wiki.worldoftanks.com/Jagdpanther_II" title="Jagdpanther II">Jagdpanther II</a> and 
+//							<a href="/wiki.worldoftanks.com/8,8_cm_PaK_43_Jagdtiger" title="8,8 cm PaK 43 Jagdtiger">8,8 cm PaK 43 Jagdtiger</a>
+							
+					String finalDescMedal = "";
+					String descMedalWithB= AllLinesWot.substring(posDebutB-1 + "<".length(), posNextSlashDiv);
+					while (descMedalWithB.contains("<a")) {
+						
+						//ci dessous une seule fois
+						if (finalDescMedal.equalsIgnoreCase("")) {
+							int posInfA = descMedalWithB.indexOf("<a");
+							finalDescMedal = descMedalWithB.substring(posFinB + "</b>".length()+ " - ".length(), posInfA); //recup toute la description avant <a
+						}
+						
+						//boucle
+						int posSlashA = descMedalWithB.indexOf("</a>");
+						int posSupHref = descMedalWithB.indexOf(">");
+						String partDesc = descMedalWithB.substring(posSupHref+1, posSlashA);
+						finalDescMedal = finalDescMedal + " " + partDesc;
+					
+						//on supprime le début de la description jusqu'au </a>
+						descMedalWithB = descMedalWithB.substring(posSlashA+"</a>".length());
+						
+					}
+					if (finalDescMedal.equalsIgnoreCase("")) {
+						finalDescMedal = descMedalWithB; //recup toute la description avant <a
+					}
+					
+					System.out.println("\t" + descMedalWithB);
 					
 					//création d'un achievement
 					XmlListAchievement myXmlListAchievement = objFactory.createXmlListAchievement();
@@ -197,7 +237,7 @@ public class BuildWikiFile {
 					//set description de la médaille
 					//création xlmDescrition achievement
 					myXmlDescription= objFactory.createXmlDescription();
-					myXmlDescription.setVALUE(descMedalWithB);
+					myXmlDescription.setVALUE(finalDescMedal);
 					myXmlListAchievement.setDESCRIPTION(myXmlDescription);
 					
 					//set des src des icônes des médailles
@@ -229,7 +269,7 @@ public class BuildWikiFile {
 		HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
 		
 		
-		//parcours de toutes les cat�gories de m�dailles
+		//parcours de toutes les cat�gories de m�dailles
 		for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
 			for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
 				for (XmlSrc src : ach.getSRCIMG().getSRC()) {

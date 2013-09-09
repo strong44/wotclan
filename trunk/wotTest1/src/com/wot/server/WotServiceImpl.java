@@ -56,7 +56,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //ou maison 
+	String lieu = "boulot"; //ou maison 
 	boolean saveData = false;
 	XmlWiki wiki =  null;
 	@Override
@@ -838,7 +838,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
 		
 		
-		//parcours de toutes les catégories de médailles
+		//parcours de toutes les catï¿½gories de mï¿½dailles
 		for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
 			for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
 				for (XmlSrc src : ach.getSRCIMG().getSRC()) {
