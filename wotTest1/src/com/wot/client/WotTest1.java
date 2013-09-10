@@ -810,58 +810,31 @@ public class WotTest1 implements EntryPoint {
 				
 			};
 			
-			//pour le HEADER de la colonne
-			String nameAch = "Beasthunter";
-			final String html = buildHtmlHeader(hashMapAch, nameAch);
-			
+			//pour le HEADER de la colonne Hunter
 			Header<String> header = new Header<String>(new ClickableTextCell())
 			{
-
 		      @Override
 		      public String getValue()
 		      {
-		            return "Your_header";
+		            return "Hunter";
 		      }
-		      @Override
-		    	public void onBrowserEvent(Context context, Element elem, NativeEvent event) {
-		    		super.onBrowserEvent(context, elem, event);
-//		    		HTML htmlWidget = new HTML(html);
-//			    	VerticalPanel popupContent = new VerticalPanel();
-//			    	popupContent.add(htmlWidget);
-//			    	PopupPanel popup = new PopupPanel();
-//			    	popup.add(popupContent);
-//		    	    popup.setAnimationEnabled(true);
-//		    	    popup.setAutoHideEnabled(true);
-//		    	    popup.setSize("20ex", "15ex");
-//		    	    popup.show();
-		    	}
+//		      @Override
+//		    	public void onBrowserEvent(Context context, Element elem, NativeEvent event) {
+//		    		super.onBrowserEvent(context, elem, event);
+//		    	}
 			};
 			
 			header.setUpdater(new ValueUpdater<String>() {
 			    @Override
 			    public void update(String value) {
-			        //Window.alert(html);
-//			    	HTML htmlWidget = new HTML(html);
-//			    	VerticalPanel verticalPanel = new VerticalPanel();
-//			    	verticalPanel.add(htmlWidget);
-//			    	PopupPanel popup = new PopupPanel();
-//			    	popup.add(verticalPanel);
-//		    	    popup.setAnimationEnabled(true);
-//		    	    popup.setAutoHideEnabled(true);
-//		    	    popup.setSize("20ex", "15ex");
-//		    	    
-//		    	    popup.showRelativeTo(tableStatsCommAcc);
-//		    	    popup.setVisible(true);
-//		    	    popup.setModal(true);
-//		    	    popup.show();
-		    	    
-		    	    ///////////////////
-		    	    
+	    	    ///////////////////
+			    	String nameAch = "Beasthunter";
+					String html = buildHtmlHeader(hashMapAch, nameAch);		    	    
 					// Create the popup dialog box in case of error
 					final DialogBox dialogBox = new DialogBox();
 					dialogBox.setText("Achievement Description");
 					dialogBox.setAnimationEnabled(true);
-					final Button closeButton = new Button("Close");
+					Button closeButton = new Button("Close");
 					// We can set the id of a widget by accessing its Element
 					closeButton.getElement().setId("closeButtonAch");
 					VerticalPanel dialogVPanel = new VerticalPanel();
@@ -890,12 +863,12 @@ public class WotTest1 implements EntryPoint {
 			});
 			
 			
-			SafeHtmlBuilder sbHeadercolumn = new SafeHtmlBuilder();
-			sbHeadercolumn.appendHtmlConstant(html);
+			//SafeHtmlBuilder sbHeadercolumn = new SafeHtmlBuilder();
+			//sbHeadercolumn.appendHtmlConstant(html);
 			//Header header = new Header
-		    tableAchivementCommAcc.addColumn(hunter2Column, header, new TextHeader("hunter"));
+		    tableAchivementCommAcc.addColumn(hunter2Column, header);
 		    //tableAchivementCommAcc.addColumn(hunter2Column, sbHeadercolumn.toSafeHtml());
-		    hunter2Column.setSortable(true);
+		    hunter2Column.setSortable(false);
 		    
 		    
 //		    //-- Add column number Hunter
@@ -951,12 +924,12 @@ public class WotTest1 implements EntryPoint {
 				
 			};
 			
-			nameAch = "Defender";
+			String nameAch = "Defender";
 			String html2 = buildHtmlHeader(hashMapAch, nameAch);
-			sbHeadercolumn = new SafeHtmlBuilder();
+			SafeHtmlBuilder sbHeadercolumn = new SafeHtmlBuilder();
 			sbHeadercolumn.appendHtmlConstant(html2);
 
-		    tableAchivementCommAcc.addColumn(defenderColumn, sbHeadercolumn.toSafeHtml());
+		    tableAchivementCommAcc.addColumn(defenderColumn, "Defender");
 		    defenderColumn.setSortable(false);
 		    
 		    
