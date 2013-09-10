@@ -83,7 +83,7 @@ public class BuildWikiFile {
 			parseHtmlAchievement(AllLinesWot, cat7Clan, "printfooter", objFactory, wiki);
 			
 			m.marshal(wiki, System.out);
-			m.marshal(wiki, new File("wotWiki.xml")); // D:\workspace\wotclan\\D:\workspace\wotclan
+			m.marshal(wiki, new File("./war/wotWiki.xml")); // D:\workspace\wotclan\\D:\workspace\wotclan
 			//JAXBContext.newInstance("com.wot.shared").createMarshaller().marshal(wiki, System.out);
 			
 			
@@ -204,28 +204,29 @@ public class BuildWikiFile {
 							
 					String finalDescMedal = "";
 					String descMedalWithB= AllLinesWot.substring(posDebutB-1 + "<".length(), posNextSlashDiv);
-					while (descMedalWithB.contains("<a")) {
-						
-						//ci dessous une seule fois
-						if (finalDescMedal.equalsIgnoreCase("")) {
-							int posInfA = descMedalWithB.indexOf("<a");
-							finalDescMedal = descMedalWithB.substring(posFinB + "</b>".length()+ " - ".length(), posInfA); //recup toute la description avant <a
-						}
-						
-						//boucle
-						int posSlashA = descMedalWithB.indexOf("</a>");
-						int posSupHref = descMedalWithB.indexOf(">");
-						String partDesc = descMedalWithB.substring(posSupHref+1, posSlashA);
-						finalDescMedal = finalDescMedal + " " + partDesc;
-					
-						//on supprime le début de la description jusqu'au </a>
-						descMedalWithB = descMedalWithB.substring(posSlashA+"</a>".length());
-						
-					}
+//					while (descMedalWithB.contains("<a")) {
+//						
+//						//ci dessous une seule fois
+//						if (finalDescMedal.equalsIgnoreCase("")) {
+//							int posInfA = descMedalWithB.indexOf("<a");
+//							finalDescMedal = descMedalWithB.substring(posFinB + "</b>".length()+ " - ".length(), posInfA); //recup toute la description avant <a
+//						}
+//						
+//						//boucle
+//						int posSlashA = descMedalWithB.indexOf("</a>");
+//						int posSupHref = descMedalWithB.indexOf(">");
+//						String partDesc = descMedalWithB.substring(posSupHref+1, posSlashA);
+//						finalDescMedal = finalDescMedal + " " + partDesc;
+//					
+//						//on supprime le début de la description jusqu'au </a>
+//						descMedalWithB = descMedalWithB.substring(posSlashA+"</a>".length());
+//						
+//					}
 					if (finalDescMedal.equalsIgnoreCase("")) {
 						finalDescMedal = descMedalWithB; //recup toute la description avant <a
 					}
-					
+					///replace /wiki
+					finalDescMedal = finalDescMedal.replaceAll("/wiki.", "http://wiki.");
 					System.out.println("\t" + descMedalWithB);
 					
 					//création d'un achievement
@@ -246,6 +247,7 @@ public class BuildWikiFile {
 					for (String src : listSrcImgMedal) {
 						//création des src
 						XmlSrc myXmlSrc = objFactory.createXmlSrc();
+						src = src.replaceAll("/wiki.", "http://wiki.");
 						myXmlSrc.setVALUE(src);
 						
 						//ajout à la liste des src de la médaille
