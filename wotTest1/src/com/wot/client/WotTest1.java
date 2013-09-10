@@ -17,8 +17,10 @@ import java.util.List;
 
 
 
+
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -796,19 +798,62 @@ public class WotTest1 implements EntryPoint {
 		    tableAchivementCommAcc.getColumnSortList().push(nameColumn);
 	    
 	
+		    Column<CommunityAccount, String> hunter2Column = new Column<CommunityAccount, String>(new  ClickableTextCell()){
+		        @Override
+		        public String getValue(CommunityAccount obj){
+		            return "ououououou";
+		        }
+
+		    };
+		    hunter2Column.setFieldUpdater(new FieldUpdater<CommunityAccount, String>(){
+		        @Override
+		        public void update(int index, CommunityAccount obj, String value){
+		        	 ///////////////////
+			    	String nameAch = "Beasthunter";
+					String html = buildHtmlHeader(hashMapAch, nameAch);		    	    
+					// Create the popup dialog box in case of error
+					final DialogBox dialogBox = new DialogBox();
+					dialogBox.setText("Achievement Description");
+					dialogBox.setAnimationEnabled(true);
+					Button closeButton = new Button("Close");
+					// We can set the id of a widget by accessing its Element
+					closeButton.getElement().setId("closeButtonAch");
+					VerticalPanel dialogVPanel = new VerticalPanel();
+					
+					dialogVPanel.addStyleName("dialogVPanel");
+					dialogVPanel.add(new HTML(html));
+					dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+					dialogVPanel.add(closeButton);
+					dialogBox.setWidget(dialogVPanel);
+					dialogBox.showRelativeTo(tableStatsCommAcc);
+					dialogBox.show();
+				
+					
+					// Add a handler to close the DialogBox
+					closeButton.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							dialogBox.hide();
+//							searchClanButton.setEnabled(true);
+//							searchClanButton.setFocus(true);
+						}
+					});
+		        }
+		    });
+		     
 		    //add column Hunter
-		    Column<CommunityAccount, SafeHtml > hunter2Column = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
-				
-				@Override
-				public SafeHtml getValue(CommunityAccount object) {
-					String nameAch = "Beasthunter";
-					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					String html = buildHtml(hashMapAch, nameAch, object);
-					sb.appendHtmlConstant(html);
-					return sb.toSafeHtml();
-				}
-				
-			};
+//		    Column<CommunityAccount, SafeHtml > hunter2Column = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+//		    	
+//		    	
+//				@Override
+//				public SafeHtml getValue(CommunityAccount object) {
+//					String nameAch = "Beasthunter";
+//					SafeHtmlBuilder sb = new SafeHtmlBuilder();
+//					String html = buildHtml(hashMapAch, nameAch, object); //img src + nb --> il faut remettre la description en clickant sur img src 
+//					sb.appendHtmlConstant(html);
+//					return sb.toSafeHtml();
+//				}
+//				
+//			};
 			
 			//pour le HEADER de la colonne Hunter
 			Header<String> header = new Header<String>(new ClickableTextCell())
