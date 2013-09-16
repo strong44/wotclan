@@ -7,7 +7,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.datanucleus.plugin.Bundle;
 
 
 
@@ -18,10 +22,12 @@ import java.util.List;
 
 
 
+import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
+import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.EntryPoint;
@@ -35,6 +41,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -48,6 +56,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -855,6 +864,15 @@ public class WotTest1 implements EntryPoint {
 //				
 //			};
 			
+//		    Column<CommunityAccount,Anchor> col = new Column<CommunityAccount, Anchor>() {
+//				
+//				@Override
+//				public Anchor getValue(CommunityAccount object) {
+//					// TODO Auto-generated method stub
+//					return null;
+//				}
+//			};
+		    
 			//pour le HEADER de la colonne Hunter
 			Header<String> header = new Header<String>(new ClickableTextCell())
 			{
@@ -944,13 +962,39 @@ public class WotTest1 implements EntryPoint {
 //		          }
 //		        });
 //		    
-//		    
+		    ImageResourceCell myImgCell = new ImageResourceCell() {
+		        public Set<String> getConsumedEvents() {
+		            HashSet<String> events = new HashSet<String>();
+		            events.add("click");
+		            return events;
+		        }
+		    };
+		    //ClientBundle cb = ClientBundle.		    
+		    
+//		    Column<CommunityAccount, ImageResource> imageColumn = new Column<CommunityAccount, ImageResource>(myImgCell) {
+//		        @Override
+//		        public ImageResource getValue(CommunityAccount dataObj) {
+//		        	
+//		        	ImageResource img = ImageResource() ;
+//		       
+//		                    return img;
+//		        }
+//
+//		        @Override
+//		        public void onBrowserEvent(Context context, Element elem,
+//		        		CommunityAccount object, NativeEvent event) {
+//		            super.onBrowserEvent(context, elem, object, event); 
+//		            if ("click".equals(event.getType())) {
+//		                //call your click event handler here
+//		            }
+//		        }
+//		    };
 		    
 		    //add column defender
-		    Column<CommunityAccount, SafeHtml > defenderColumn = new Column<CommunityAccount, SafeHtml>(new SafeHtmlCell()) {
+		    Column<CommunityAccount, String> defenderColumn = new Column<CommunityAccount, String>(new  ClickableTextCell()) {
 				
 				@Override
-				public SafeHtml getValue(CommunityAccount object) {
+				public String getValue(CommunityAccount object) {
 					// TODO Auto-generated method stub
 //					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 //					String urlImgSrc = "http://wiki.worldoftanks.com/images/0/0d/Defender.png";
@@ -959,15 +1003,48 @@ public class WotTest1 implements EntryPoint {
 //					String html = "<a title =\"" + title + "\"" + " href=\"" +  urlTarget +  " \">" + "<img src=\"" + urlImgSrc + "\"" +  " width=\"25\" height=\"25\" >" + "</a>";
 					
 					String nameAch = "Defender";
-					SafeHtmlBuilder sb = new SafeHtmlBuilder();
-					String html = buildHtml(hashMapAch, nameAch, object);
-					sb.appendHtmlConstant(html);
-					return sb.toSafeHtml();
+					SafeHtmlBuilder html = buildHtml(hashMapAch, nameAch, object);
+					return "" ; //html.toSafeHtml();
 					
 					
 				}
 				
 			};
+			
+			defenderColumn.setFieldUpdater(new FieldUpdater<CommunityAccount, String>(){
+		        @Override
+		        public void update(int index, CommunityAccount obj, String value){
+		        	 ///////////////////
+			    	String nameAch = "Beasthunter";
+					String html = buildHtmlHeader(hashMapAch, nameAch);		    	    
+					// Create the popup dialog box in case of error
+					final DialogBox dialogBox = new DialogBox();
+					dialogBox.setText("Achievement Description");
+					dialogBox.setAnimationEnabled(true);
+					Button closeButton = new Button("Close");
+					// We can set the id of a widget by accessing its Element
+					closeButton.getElement().setId("closeButtonAch");
+					VerticalPanel dialogVPanel = new VerticalPanel();
+					
+					dialogVPanel.addStyleName("dialogVPanel");
+					dialogVPanel.add(new HTML(html));
+					dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+					dialogVPanel.add(closeButton);
+					dialogBox.setWidget(dialogVPanel);
+					dialogBox.showRelativeTo(tableStatsCommAcc);
+					dialogBox.show();
+				
+					
+					// Add a handler to close the DialogBox
+					closeButton.addClickHandler(new ClickHandler() {
+						public void onClick(ClickEvent event) {
+							dialogBox.hide();
+//							searchClanButton.setEnabled(true);
+//							searchClanButton.setFocus(true);
+						}
+					});
+		        }
+		    });
 			
 			String nameAch = "Defender";
 			String html2 = buildHtmlHeader(hashMapAch, nameAch);
@@ -2675,12 +2752,15 @@ public class WotTest1 implements EntryPoint {
 		 */
 	public void onModuleLoad() {
 			
-			
+			Helloworld helloWorld = new Helloworld("ooooooooooooooo");
+			helloWorld.setVisible(true);
 			final Label errorLabel = new Label();
 	
 			// Add the nameField and sendButton to the RootPanel
 			// Use RootPanel.get() to get the entire body element
 			rootPanel = RootPanel.get();
+			rootPanel.add(helloWorld);
+			
 			//RootPanel.get("errorLabelContainer").add(errorLabel);
 			
 			dockPanel = new DockPanel();
@@ -2762,6 +2842,7 @@ public class WotTest1 implements EntryPoint {
 			dialogVPanel.add(closeButton);
 			dialogBox.setWidget(dialogVPanel);
 		
+			
 			
 			// Add a handler to close the DialogBox
 			closeButton.addClickHandler(new ClickHandler() {
@@ -4834,18 +4915,18 @@ public class WotTest1 implements EntryPoint {
 			}
 			///////
 			
-			static public String buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
+			static public SafeHtmlBuilder buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
 				//String nameAch = "Beasthunter";
 				XmlListAchievement ach = hashMapAch.get(nameAch+".png");
 				String urlImgSrc2 =  ach.getSRCIMG().getSRC().get(0).getVALUE();
 				SafeHtmlBuilder sb = new SafeHtmlBuilder();
 				
 				String nb= String.valueOf(object.getData().getAchievements().getBeasthunter());
-				String html = 
+				sb.appendEscaped(
 						"<div id=\"achievement\" >" + " <div class=\"floatleft\"> " +
-						" <img alt=\"" + nameAch+ ".png\" src=\"" + urlImgSrc2 + "\" width=\"67\" height=\"71\" />" + nb + "</div>";
+						" <img alt=\"" + nameAch+ ".png\" src=\"" + urlImgSrc2 + "\" width=\"67\" height=\"71\" />" + nb + "</div>");
 				
-				return html;
+				return sb;
 			}
 			
 			static public String buildHtmlHeader(HashMap<String, XmlListAchievement> hashMapAch, String nameAch) {
@@ -4857,4 +4938,50 @@ public class WotTest1 implements EntryPoint {
 				return html;
 			}
 			
+			
+			/**
+			 * 
+			 * @param imageSrc
+			 * @param columnName
+			 * @param action
+			 */
+//			private void addButtonCell(final String imageSrc, String columnName, final String action){
+//				
+//				 ActionCell<CommunityAccount> imageButtonCell = new ActionCell(new SafeHtmlBuilder().appendEscaped("").toSafeHtml(), new Delegate()
+//					        {
+//					           @Override
+//					           public void execute(final CommunityAccount object)
+//					           {
+////					               if(action.equalsIgnoreCase("download"))
+////					               {
+////					                   download(object);
+////					               }
+////					               else
+////					               {
+////					                   eventBus.fireEvent(new ImgButtonClickEvent(object));
+////					               }
+//					           }
+//					        })
+//					        {
+//					           @Override
+//					           public void render(Context context, CommunityAccount value, SafeHtmlBuilder sb)
+//					           {
+////					                 Image icon = new Image(imageSrc);
+////					                 SafeHtmlBuilder builder = new SafeHtmlBuilder();
+////					                 builder.appendHtmlConstant(icon.toString());
+////					                 sb.append(builder.toSafeHtml());
+//					           }
+//					        };
+//					    final Column<CommunityAccount, CommunityAccount> column = new Column<CommunityAccount, CommunityAccount>(imageButtonCell) 
+//					       {
+//					            @Override
+//					            public CommunityAccount getValue(CommunityAccount object) 
+//					            {
+//					                return object;
+//					            }
+//					       };
+////					    cellTable.addColumn(column, columnName); 
+////					    column.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+////					    cellTable.setColumnWidth(column, "80px");   
+//			}
 }
