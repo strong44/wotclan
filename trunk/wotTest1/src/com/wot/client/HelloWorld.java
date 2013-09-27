@@ -1,7 +1,6 @@
 package com.wot.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -12,21 +11,21 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Helloworld extends Composite implements HasText {
+public class HelloWorld extends Composite implements HasText {
 
-	private static HelloworldUiBinder uiBinder = GWT.create(HelloworldUiBinder.class);
+	private static HelloWorldUiBinder uiBinder = GWT.create(HelloWorldUiBinder.class);
 
-	interface HelloworldUiBinder extends UiBinder<Widget, Helloworld> {
+	interface HelloWorldUiBinder extends UiBinder<Widget, HelloWorld> {
 	}
 
-	public Helloworld() {
+	public HelloWorld() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@UiField
 	Button button;
 
-	public Helloworld(String firstName) {
+	public HelloWorld(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
 		button.setText(firstName);
 	}
@@ -42,18 +41,6 @@ public class Helloworld extends Composite implements HasText {
 
 	public String getText() {
 		return button.getText();
-	}
-	
-	/*
-	 * 
-	 */
-	public static void main(String args[]) {
-		System.out.println("main");
-		Helloworld helloWorld = new Helloworld();
-		helloWorld.getElement();
-		// Don't forget, this is DOM only; will not work with GWT widgets
-		//Document.get().getBody().appendChild(helloWorld.getElement());
-		//helloWorld.setName("World");
 	}
 
 }

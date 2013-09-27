@@ -1,4 +1,4 @@
-package com.wot.server;
+package com.wot;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -291,7 +291,7 @@ public class BuildWikiFile {
 	public static void main(String[] args) {
 		
 		buildWikiXML();
-		System.exit(0);
+		//System.exit(0);
 		
 	}
 
