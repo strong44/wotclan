@@ -183,6 +183,62 @@ public class DataCommunityAccountAchievements implements Serializable {
 	public void setMedalKnispel(int medalKnispel) {
 		this.medalKnispel = medalKnispel;
 	}
+	public String getMechanicEngineer() {
+		return mechanicEngineer;
+	}
+	public void setMechanicEngineer(String mechanicEngineer) {
+		this.mechanicEngineer = mechanicEngineer;
+	}
+	public int getMedalPascucci() {
+		return medalPascucci;
+	}
+	public void setMedalPascucci(int medalPascucci) {
+		this.medalPascucci = medalPascucci;
+	}
+	
+	public int getMedalBrunoPietro() {
+		return medalBrunoPietro;
+	}
+	public void setMedalBrunoPietro(int medalBrunoPietro) {
+		this.medalBrunoPietro = medalBrunoPietro;
+	}
+    public int getHeroesOfRassenay() {
+		return heroesOfRassenay;
+	}
+	public void setHeroesOfRassenay(int heroesOfRassenay) {
+		this.heroesOfRassenay = heroesOfRassenay;
+	}
+    public int getEvileye() {
+		return evileye;
+	}
+	public void setEvileye(int evileye) {
+		this.evileye = evileye;
+	}
+    public TankExperts getTankExperts() {
+		return tankExperts;
+	}
+	public void setTankExperts(TankExperts tankExperts) {
+		this.tankExperts = tankExperts;
+	}
+    public int getMedalTamadaYoshio() {
+		return medalTamadaYoshio;
+	}
+	public void setMedalTamadaYoshio(int medalTamadaYoshio) {
+		this.medalTamadaYoshio = medalTamadaYoshio;
+	}
+    public int getBombardier() {
+		return bombardier;
+	}
+	public void setBombardier(int bombardier) {
+		this.bombardier = bombardier;
+	}
+    public int getMedalBrothersInArms() {
+		return medalBrothersInArms;
+	}
+	public void setMedalBrothersInArms(int medalBrothersInArms) {
+		this.medalBrothersInArms = medalBrothersInArms;
+	}
+
 	private int medalCarius;
 	private int medalHalonen;
 	private int medalPascucci; //ajout 1.8
@@ -193,14 +249,18 @@ public class DataCommunityAccountAchievements implements Serializable {
 	private int mousebane;
 	private String mechanicEngineer; //Ajout false true
 	private int medalBrunoPietro;//ajout
+
+
 	private int heroesOfRassenay;//ajout
 	
-    private int medalKay;
+ 	private int medalKay;
     private int evileye; //A
     
-    private TankExperts tankExperts ;//Ajout : nations
+
+	private TankExperts tankExperts ;//Ajout : nations
     
-    private int defender;
+
+	private int defender;
     private int medalLeClerc;
     private int supporter;
     
@@ -209,11 +269,14 @@ public class DataCommunityAccountAchievements implements Serializable {
     
     
     private int medalTamadaYoshio;
-    private int steelwall;
+
+	private int steelwall;
     private int bombardier;
-    private int medalAbrams;
+
+	private int medalAbrams;
     private int medalBrothersInArms;
-    private int maxDiehardSeries;
+
+	private int maxDiehardSeries;
     private int medalPoppel;
     private int medalOrlik;
     private int maxKillingSeries;
