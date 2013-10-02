@@ -238,6 +238,24 @@ public class DataCommunityAccountAchievements implements Serializable {
 	public void setMedalBrothersInArms(int medalBrothersInArms) {
 		this.medalBrothersInArms = medalBrothersInArms;
 	}
+    public int getHandOfDeath() {
+		return handOfDeath;
+	}
+	public void setHandOfDeath(int handOfDeath) {
+		this.handOfDeath = handOfDeath;
+	}
+    public int getMedalTarczay() {
+		return medalTarczay;
+	}
+	public void setMedalTarczay(int medalTarczay) {
+		this.medalTarczay = medalTarczay;
+	}
+    public int getSinai() {
+		return sinai;
+	}
+	public void setSinai(int sinai) {
+		this.sinai = sinai;
+	}
 
 	private int medalCarius;
 	private int medalHalonen;
@@ -249,45 +267,145 @@ public class DataCommunityAccountAchievements implements Serializable {
 	private int mousebane;
 	private String mechanicEngineer; //Ajout false true
 	private int medalBrunoPietro;//ajout
-
-
 	private int heroesOfRassenay;//ajout
-	
  	private int medalKay;
     private int evileye; //A
-    
-
 	private TankExperts tankExperts ;//Ajout : nations
-    
-
 	private int defender;
     private int medalLeClerc;
     private int supporter;
-    
-    
-    
-    
-    
     private int medalTamadaYoshio;
-
 	private int steelwall;
     private int bombardier;
-
 	private int medalAbrams;
     private int medalBrothersInArms;
-
 	private int maxDiehardSeries;
     private int medalPoppel;
     private int medalOrlik;
     private int maxKillingSeries;
     private int handOfDeath;
-    private int medalTarczay;
-    private int sinai;
-    private int sniper;
+	private int medalTarczay;
+
+	private int sinai;
+
+	private int sniper;
     private int warrior;
     private int titleSniper;
     private int maxInvincibleSeries;
-    private int medalCrucialContribution;
+    
+    public int getArmorPiercer() {
+		return armorPiercer;
+	}
+	public void setArmorPiercer(int armorPiercer) {
+		this.armorPiercer = armorPiercer;
+	}
+	public int getSteelwall() {
+		return steelwall;
+	}
+	public void setSteelwall(int steelwall) {
+		this.steelwall = steelwall;
+	}
+	public int getMaxDiehardSeries() {
+		return maxDiehardSeries;
+	}
+	public void setMaxDiehardSeries(int maxDiehardSeries) {
+		this.maxDiehardSeries = maxDiehardSeries;
+	}
+	public int getMaxKillingSeries() {
+		return maxKillingSeries;
+	}
+	public void setMaxKillingSeries(int maxKillingSeries) {
+		this.maxKillingSeries = maxKillingSeries;
+	}
+	public int getMaxInvincibleSeries() {
+		return maxInvincibleSeries;
+	}
+	public void setMaxInvincibleSeries(int maxInvincibleSeries) {
+		this.maxInvincibleSeries = maxInvincibleSeries;
+	}
+	public int getMedalCrucialContribution() {
+		return medalCrucialContribution;
+	}
+	public void setMedalCrucialContribution(int medalCrucialContribution) {
+		this.medalCrucialContribution = medalCrucialContribution;
+	}
+	public int getMedalDeLanglade() {
+		return medalDeLanglade;
+	}
+	public void setMedalDeLanglade(int medalDeLanglade) {
+		this.medalDeLanglade = medalDeLanglade;
+	}
+	public int getMaxPiercingSeries() {
+		return maxPiercingSeries;
+	}
+	public void setMaxPiercingSeries(int maxPiercingSeries) {
+		this.maxPiercingSeries = maxPiercingSeries;
+	}
+	public int getKamikaze() {
+		return kamikaze;
+	}
+	public void setKamikaze(int kamikaze) {
+		this.kamikaze = kamikaze;
+	}
+	public int getMedalRadleyWalters() {
+		return medalRadleyWalters;
+	}
+	public void setMedalRadleyWalters(int medalRadleyWalters) {
+		this.medalRadleyWalters = medalRadleyWalters;
+	}
+	public int getMedalNikolas() {
+		return medalNikolas;
+	}
+	public void setMedalNikolas(int medalNikolas) {
+		this.medalNikolas = medalNikolas;
+	}
+	public int getInvincible() {
+		return invincible;
+	}
+	public void setInvincible(int invincible) {
+		this.invincible = invincible;
+	}
+	public int getMedalBoelter() {
+		return medalBoelter;
+	}
+	public void setMedalBoelter(int medalBoelter) {
+		this.medalBoelter = medalBoelter;
+	}
+	public int getMedalLafayettePool() {
+		return medalLafayettePool;
+	}
+	public void setMedalLafayettePool(int medalLafayettePool) {
+		this.medalLafayettePool = medalLafayettePool;
+	}
+	public TankExperts getMechanicEngineers() {
+		return mechanicEngineers;
+	}
+	public void setMechanicEngineers(TankExperts mechanicEngineers) {
+		this.mechanicEngineers = mechanicEngineers;
+	}
+	public int getMedalLehvaslaiho() {
+		return medalLehvaslaiho;
+	}
+	public void setMedalLehvaslaiho(int medalLehvaslaiho) {
+		this.medalLehvaslaiho = medalLehvaslaiho;
+	}
+	public int getMedalDumitru() {
+		return medalDumitru;
+	}
+	public void setMedalDumitru(int medalDumitru) {
+		this.medalDumitru = medalDumitru;
+	}
+	public int getMaxSniperSeries() {
+		return maxSniperSeries;
+	}
+	public void setMaxSniperSeries(int maxSniperSeries) {
+		this.maxSniperSeries = maxSniperSeries;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	private int medalCrucialContribution;
     private int medalDeLanglade;
     private int medalWittmann;
     private int medalBurda;
