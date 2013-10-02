@@ -18,4 +18,6 @@ public interface CwConstants extends Constants {
 	    String cwDataGridEmpty();
 
 	    String cwDataGridName();
+	    
+	    String[] cwListAchievementCategories() ;
 }

@@ -68,6 +68,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -77,6 +78,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import com.wot.client.ContactDatabase.DatabaseConstants;
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
@@ -4105,7 +4107,17 @@ public class WotTest1 implements EntryPoint {
 		 * This is the entry point method.
 		 */
 	public void onModuleLoad() {
+			
+		
 			final Label errorLabel = new Label();
+			
+			 /**
+			   * An instance of the constants.
+			   */
+			final CwConstants constants = GWT.create(CwConstants.class);
+			
+			//final CwConstants constants = null;
+
 	
 			// Add the nameField and sendButton to the RootPanel
 			// Use RootPanel.get() to get the entire body element
@@ -4170,7 +4182,15 @@ public class WotTest1 implements EntryPoint {
 			findAchievementsMemberButton.setSize("250px", "28px");
 			findAchievementsMemberButton.setEnabled(false);
 			
-			
+		    // Add a drop box with the list types
+		    final ListBox dropBox = new ListBox(false);
+		    String[] listTypes = constants.cwListAchievementCategories();
+		    for (int i = 0; i < listTypes.length; i++) {
+		      dropBox.addItem(listTypes[i]);
+		    }
+		    dropBox.setSize("250px", "28px");
+		    dropBox.ensureDebugId("cwListBox-dropBox");
+		    rootPanel.add(dropBox, 774, 50);
 			
 			// Create the popup dialog box in case of error
 			final DialogBox dialogBox = new DialogBox();
@@ -4353,7 +4373,12 @@ public class WotTest1 implements EntryPoint {
 				 * Fired when the user clicks on the sendButton.
 				 */
 				public void onClick(ClickEvent event) {
-					getAchievementMember2();
+					int indexSelected = dropBox.getSelectedIndex();
+					if (indexSelected >= 0 )
+					{
+						String valueSelected  = dropBox.getValue(indexSelected);
+						getAchievementMember2(valueSelected);
+					}
 //					offsetClan = 0;
 //					limitClan = 100;
 				}
@@ -4363,12 +4388,17 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						getAchievementMember2();
+						int indexSelected = dropBox.getSelectedIndex();
+						if (indexSelected >= 0 )
+						{
+							String valueSelected  = dropBox.getValue(indexSelected);
+							getAchievementMember2(valueSelected);
+						}
 //						offsetClan = 0;
 //						limitClan = 100;
 					}
 				}
-				private void getAchievementMember2() {
+				private void getAchievementMember2(String valueSelected) {
 					// First, we validate the input.
 					errorLabel.setText("");
 					String textToServer = idClan;
@@ -4404,7 +4434,7 @@ public class WotTest1 implements EntryPoint {
 					tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 					
 					//construct column in celltable tableCommAcc , set data set sort handler etc ..
-					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, "Battle Hero Achievements");
+					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, valueSelected);
 					  
 					//Create a Pager to control the table.
 				    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -6300,7 +6330,7 @@ public class WotTest1 implements EntryPoint {
 								hashMapAchievement.put(nameFile, ach);
 							}
 						}else {
-							if (nameCategoryToFilter == null ) {
+							if (nameCategoryToFilter.equalsIgnoreCase("All Achievements" )) {
 								for (XmlSrc src : ach.getSRCIMG().getSRC()) {
 									String srcValue = src.getVALUE();
 									int posLastSlash  = srcValue.lastIndexOf("/");
