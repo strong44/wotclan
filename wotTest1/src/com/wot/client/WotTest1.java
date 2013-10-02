@@ -764,9 +764,9 @@ public class WotTest1 implements EntryPoint {
 	/*
 		 * call this when we have data to put in table
 		 */
-		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc, XmlWiki xmlWiki) {
+		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc, XmlWiki xmlWiki, String categoryAchievement) {
 		    
-			final HashMap<String, XmlListAchievement> hashMapAch = buidHashMapAchievement(xmlWiki);
+			final HashMap<String, XmlListAchievement> hashMapAch = buidHashMapAchievement(xmlWiki, categoryAchievement);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
 			
 			tableAchivementCommAcc.setPageSize(30);
 			
@@ -847,10 +847,59 @@ public class WotTest1 implements EntryPoint {
 	    
 		    
 		    
-	
-		    //============= colonne Defender ==========================
+		    //============= colonne Top gun  ==========================
 		    MyButtonCell buttonCell = new MyButtonCell() ;
-		    String nameAch = getNameAch(hashMapAch, "Defender");
+		    String nameAch = getNameAch(hashMapAch, "Warrior");
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		      @Override
+		      public String getValue(CommunityAccount contact) {
+		    	  String nameAch = "Warrior";
+		    	  int val =contact.getData().getAchievements().getWarrior();
+					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+					String valStr = String.valueOf(val);
+					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+		      }
+
+		      
+		    }, new FieldUpdater<CommunityAccount, String>() {
+		        @Override
+		        public void update(int index, CommunityAccount object, String value) {
+			    	String nameAch = "Warrior";
+			    	buildPopup(nameAch, hashMapAch);
+		        }
+		      });
+
+		    //tri sur colonne
+		    column.setSortable(true);
+		    
+			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(column,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getWarrior();
+		            	int val2 = o2.getData().getAchievements().getWarrior();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    }
+		    //========= fin création colonne =============
+
+		    //============= colonne Defender ==========================
+		    buttonCell = new MyButtonCell() ;
+		    nameAch = getNameAch(hashMapAch, "Defender");
+
+		    //Column<CommunityAccount, String> column = new Column<CommunityAccount, String>();
+		    
+		    if(nameAch != null) {
 		    //buttonCell.
 		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
@@ -891,12 +940,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne Hunter ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Beasthunter");
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Beasthunter";
@@ -935,14 +986,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    
 		    //============= colonne Diehard ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Diehard");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Diehard";
@@ -981,6 +1033,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    
@@ -988,8 +1041,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne Invader ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Invader");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Invader";
@@ -1028,14 +1081,23 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
 		    
 		    //============= colonne MedalAbrams (class)==========================
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalAbrams1");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1085,14 +1147,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		
 		    
 		    //============= colonne MedalBillotte ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalBillotte");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalBillotte";
@@ -1131,13 +1194,63 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
-	    
+
+		    //============= colonne Steelwall ==========================
+		    buttonCell = new MyButtonCell() ;
+		    nameAch = getNameAch(hashMapAch, "Steelwall");
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		      @Override
+		      public String getValue(CommunityAccount contact) {
+		    	  String nameAch = "Steelwall";
+		    	  int val =contact.getData().getAchievements().getSteelwall();
+					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+					String valStr = String.valueOf(val);
+					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+		      }
+
+		      
+		    }, new FieldUpdater<CommunityAccount, String>() {
+		        @Override
+		        public void update(int index, CommunityAccount object, String value) {
+			    	String nameAch = "Steelwall";
+			    	buildPopup(nameAch, hashMapAch);
+		        }
+		      });
+
+		    //tri sur colonne
+		    column.setSortable(true);
+		    
+			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(column,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getSteelwall();
+		            	int val2 = o2.getData().getAchievements().getSteelwall();
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    }
+		    //========= fin création colonne =============
+	  
+
+		    
+		    
 		    //============= colonne MedalBurda ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalBurda");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalBurda";
@@ -1176,14 +1289,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MedalCarius1 (class)==========================
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalCarius1");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1234,14 +1348,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MedalEkins1 (class)==========================
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalEkins1");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1292,13 +1407,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    //============= colonne MedalFadin ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalFadin");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalFadin";
@@ -1337,13 +1453,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MedalHalonen ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalHalonen");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalHalonen";
@@ -1382,6 +1499,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 
@@ -1389,8 +1507,8 @@ public class WotTest1 implements EntryPoint {
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalKay1");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1441,6 +1559,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    
@@ -1448,8 +1567,8 @@ public class WotTest1 implements EntryPoint {
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalKnispel1");
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1500,14 +1619,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    
 		    //============= colonne MedalKolobanov ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
@@ -1546,6 +1666,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 
@@ -1554,8 +1675,8 @@ public class WotTest1 implements EntryPoint {
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalLavrinenko1");// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1606,6 +1727,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    
@@ -1614,8 +1736,8 @@ public class WotTest1 implements EntryPoint {
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalLeClerc1");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1666,13 +1788,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    //============= colonne MedalKolobanov ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
@@ -1711,13 +1834,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne MedalOrlik ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalOrlik");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalOrlik";								// TO CHANGE !!
@@ -1756,6 +1880,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 
@@ -1763,8 +1888,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne MedalOskin ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalOskin");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalOskin";								// TO CHANGE !!
@@ -1803,6 +1928,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 
@@ -1810,8 +1936,8 @@ public class WotTest1 implements EntryPoint {
 		    buttonCell = new MyButtonCell() ;
 		    //recherche du titre de la médaille
 		    nameAch = getNameAch(hashMapAch, "MedalPoppel1");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  
@@ -1858,13 +1984,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    //============= colonne Mousebane ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Mousebane");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Mousebane";								// TO CHANGE !!
@@ -1903,6 +2030,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    
@@ -1910,8 +2038,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne Raider ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Raider");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Raider";								// TO CHANGE !!
@@ -1950,63 +2078,19 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    
 		    
-
-		    //============= colonne Scout ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Scout");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Scout";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getScout();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Scout";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getScout();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getScout();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    //========= fin création colonne =============
 
 
 
 		    //============= colonne Sniper ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Sniper");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Sniper";								// TO CHANGE !!
@@ -2045,13 +2129,61 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
+	
+		    //============= colonne Scout ==========================
+		    buttonCell = new MyButtonCell() ;
+		    nameAch = getNameAch(hashMapAch, "Scout");						// TO CHANGE !!
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		      @Override
+		      public String getValue(CommunityAccount contact) {
+		    	  String nameAch = "Scout";								// TO CHANGE !!
+		    	  int val =contact.getData().getAchievements().getScout();	// TO CHANGE !!
+					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+					String valStr = String.valueOf(val);
+					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+		      }
+
+		      
+		    }, new FieldUpdater<CommunityAccount, String>() {
+		        @Override
+		        public void update(int index, CommunityAccount object, String value) {
+			    	String nameAch = "Scout";								// TO CHANGE !!
+			    	buildPopup(nameAch, hashMapAch);
+		        }
+		      });
+
+		    //tri sur colonne
+		    column.setSortable(true);
 		    
+			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(column,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int val1 = o1.getData().getAchievements().getScout();	// TO CHANGE !!
+		            	int val2 = o2.getData().getAchievements().getScout();	// TO CHANGE !!
+		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+		            }
+		            return -1;
+		          }
+		        });
+		    }
+		    //========= fin création colonne =============
+
+
 		    //============= colonne MedalPascucci ==========================
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalPascucci");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalPascucci";								// TO CHANGE !!
@@ -2090,13 +2222,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MechanicEngineer or MechanicEngineergray
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer";								// TO CHANGE !!
@@ -2139,13 +2272,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne  MedalBrunoPietro 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalBrunoPietro");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalBrunoPietro";								// TO CHANGE !!
@@ -2184,13 +2318,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne  HeroesOfRassenay 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "HeroesOfRassenay");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "HeroesOfRassenay";								// TO CHANGE !!
@@ -2229,13 +2364,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne Evileye
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Evileye");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Evileye";								// TO CHANGE !!
@@ -2274,13 +2410,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 		    //============= colonne Expert: U.S.A. TankExpert2
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert2");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert2";								// TO CHANGE !!
@@ -2323,13 +2460,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne  Expert: Germany 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert1");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert1";								// TO CHANGE !!
@@ -2372,13 +2510,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne Expert: France 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert4");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert4";								// TO CHANGE !!
@@ -2421,14 +2560,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    
 		    //============= colonne Expert: U.S.S.R. 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert0");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert0";								// TO CHANGE !!
@@ -2471,13 +2611,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne Expert: United Kingdom 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert5");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert5";								// TO CHANGE !!
@@ -2520,13 +2661,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne Expert: China
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert3");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert3";								// TO CHANGE !!
@@ -2569,13 +2711,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MedalTamadaYoshio
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalTamadaYoshio");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalTamadaYoshio";								// TO CHANGE !!
@@ -2614,14 +2757,15 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 	
 			    
 		    //============= colonne Bombardier
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Bombardier");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Bombardier";								// TO CHANGE !!
@@ -2660,13 +2804,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne MedalBrothersInArms
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalBrothersInArms");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalBrothersInArms";								// TO CHANGE !!
@@ -2705,6 +2850,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne maxDiehardSeries --> pas trouvé
@@ -2714,8 +2860,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne HandOfDeath
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "HandOfDeath");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "HandOfDeath";								// TO CHANGE !!
@@ -2754,13 +2900,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne MedalTarczay
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalTarczay");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalTarczay";								// TO CHANGE !!
@@ -2799,13 +2946,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne Sinai
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Sinai");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Sinai";								// TO CHANGE !!
@@ -2844,6 +2992,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne maxInvincibleSeries --> Invincible ?
@@ -2851,8 +3000,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne MedalCrucialContribution
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalCrucialContribution");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalCrucialContribution";								// TO CHANGE !!
@@ -2891,13 +3040,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne TitleSniper
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TitleSniper");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TitleSniper";								// TO CHANGE !!
@@ -2936,13 +3086,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne MedalDeLanglade
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalDeLanglade");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalDeLanglade";								// TO CHANGE !!
@@ -2981,6 +3132,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============= colonne medalWittmann --> pas trouvé dans wiki
@@ -2990,8 +3142,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne Kamikaze
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "Kamikaze");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "Kamikaze";								// TO CHANGE !!
@@ -3030,13 +3182,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 			    
 		    //============= colonne MedalRadleyWalters
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalRadleyWalters");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalRadleyWalters";								// TO CHANGE !!
@@ -3075,6 +3228,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    
@@ -3082,8 +3236,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne MedalNikolas
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalNikolas");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalNikolas";								// TO CHANGE !!
@@ -3122,6 +3276,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne medalBoelter -> pas trouvé
@@ -3129,8 +3284,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne TankExpert (gray) 
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "TankExpert");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "TankExpert";								// TO CHANGE !!
@@ -3173,13 +3328,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne MedalLafayettePool
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalLafayettePool");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalLafayettePool";								// TO CHANGE !!
@@ -3218,13 +3374,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne Technical Engineer, U.S.A.  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer2");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer2";								// TO CHANGE !!
@@ -3267,6 +3424,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    
@@ -3274,8 +3432,8 @@ public class WotTest1 implements EntryPoint {
 		    //============== colonne Technical Engineer, Germany  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer1");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer1";								// TO CHANGE !!
@@ -3318,6 +3476,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    
@@ -3325,8 +3484,8 @@ public class WotTest1 implements EntryPoint {
 		    //============== colonne Technical Engineer, France  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer4");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer4";								// TO CHANGE !!
@@ -3369,13 +3528,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============== colonne Technical Engineer, U.S.S.R.  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer0");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer0";								// TO CHANGE !!
@@ -3418,13 +3578,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============== colonne Technical Engineer, United Kingdom  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer5");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer5";								// TO CHANGE !!
@@ -3467,13 +3628,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    //============== colonne Technical Engineer, China  
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MechanicEngineer3");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MechanicEngineer3";								// TO CHANGE !!
@@ -3516,6 +3678,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 		    
 		    
@@ -3525,8 +3688,8 @@ public class WotTest1 implements EntryPoint {
 		    //============= colonne MedalLehvaslaiho
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalLehvaslaiho");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalLehvaslaiho";								// TO CHANGE !!
@@ -3565,13 +3728,14 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne MedalDumitru
 		    buttonCell = new MyButtonCell() ;
 		    nameAch = getNameAch(hashMapAch, "MedalDumitru");						// TO CHANGE !!
-		    
-		    column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+		    if(nameAch != null) {
+		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
 		      @Override
 		      public String getValue(CommunityAccount contact) {
 		    	  String nameAch = "MedalDumitru";								// TO CHANGE !!
@@ -3610,6 +3774,7 @@ public class WotTest1 implements EntryPoint {
 		            return -1;
 		          }
 		        });
+		    }
 		    //========= fin création colonne =============
 
 		    //============= colonne maxSniperSeries -> pas trouvé dans wiki
@@ -4239,7 +4404,7 @@ public class WotTest1 implements EntryPoint {
 					tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 					
 					//construct column in celltable tableCommAcc , set data set sort handler etc ..
-					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki);
+					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, "Battle Hero Achievements");
 					  
 					//Create a Pager to control the table.
 				    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -4329,7 +4494,7 @@ public class WotTest1 implements EntryPoint {
 									tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 									
 									//construct column in celltable tableCommAcc , set data set sort handler etc ..
-									buildACellTableForAchivementsCommunityAccount(listAccount.getListCommunityAccount(), xmlWiki);
+									buildACellTableForAchivementsCommunityAccount(listAccount.getListCommunityAccount(), xmlWiki, null);
 									  
 									
 									//Create a Pager to control the table.
@@ -6098,6 +6263,7 @@ public class WotTest1 implements EntryPoint {
 				//parcours de toutes les cat�gories de m�dailles
 				for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
 					for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
+						String nameCategory = listCatAch.getNAME();
 						for (XmlSrc src : ach.getSRCIMG().getSRC()) {
 							String srcValue = src.getVALUE();
 							int posLastSlash  = srcValue.lastIndexOf("/");
@@ -6111,6 +6277,46 @@ public class WotTest1 implements EntryPoint {
 				return hashMapAchievement;
 				
 			}
+			
+			
+			/**
+			 * build a hashMap of achievement in a category  from wiki (if category is null return all) 
+			 * @param xmlWiki
+			 * @return
+			 */
+			public static HashMap<String, XmlListAchievement> buidHashMapAchievement (XmlWiki xmlWiki, String nameCategoryToFilter) {
+				HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
+				
+				
+				//parcours de toutes les cat�gories de m�dailles
+				for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
+					for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
+						String nameCategory = listCatAch.getNAME();
+						if (nameCategoryToFilter != null && nameCategory != null && nameCategory.equalsIgnoreCase(nameCategoryToFilter)) {
+							for (XmlSrc src : ach.getSRCIMG().getSRC()) {
+								String srcValue = src.getVALUE();
+								int posLastSlash  = srcValue.lastIndexOf("/");
+								String nameFile = srcValue.substring(posLastSlash+1);
+								hashMapAchievement.put(nameFile, ach);
+							}
+						}else {
+							if (nameCategoryToFilter == null ) {
+								for (XmlSrc src : ach.getSRCIMG().getSRC()) {
+									String srcValue = src.getVALUE();
+									int posLastSlash  = srcValue.lastIndexOf("/");
+									String nameFile = srcValue.substring(posLastSlash+1);
+									hashMapAchievement.put(nameFile, ach);
+								}
+							}
+						}
+						
+					}
+				}
+				
+				return hashMapAchievement;
+				
+			}
+
 			///////
 			
 			static public SafeHtmlBuilder buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
@@ -6157,8 +6363,10 @@ public class WotTest1 implements EntryPoint {
 			static public String getNameAch(HashMap<String, XmlListAchievement> hashMapAch, String nameAch) {
 				//String nameAch = "Beasthunter";
 				XmlListAchievement ach = hashMapAch.get(nameAch+".png");
-				String urlImgSrc2 =  ach.getNAME();
-				return urlImgSrc2;
+				if(ach != null)
+					return ach.getNAME();
+				else 
+					return null;
 			}
 			
 			static void buildPopup(String nameAch, final HashMap<String, XmlListAchievement> hashMapAch) {
