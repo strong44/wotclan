@@ -56,7 +56,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = false;
 	XmlWiki wiki =  null;
 	@Override

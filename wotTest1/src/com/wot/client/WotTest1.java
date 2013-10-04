@@ -61,14 +61,18 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -1117,7 +1121,7 @@ public class WotTest1 implements EntryPoint {
 		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
 		    		}
 					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
 		      }
 
 		      
@@ -4175,13 +4179,6 @@ public class WotTest1 implements EntryPoint {
 			searchClansButtonMore.setEnabled(false);
 	
 			
-			//button achievement's member
-			final Button findAchievementsMemberButton = new Button("Send");
-			findAchievementsMemberButton.setText("Find Achivement's member");
-			rootPanel.add(findAchievementsMemberButton, 250, 50);
-			findAchievementsMemberButton.setSize("250px", "28px");
-			findAchievementsMemberButton.setEnabled(false);
-			
 		    // Add a drop box with the list types
 		    final ListBox dropBox = new ListBox(false);
 		    String[] listTypes = constants.cwListAchievementCategories();
@@ -4190,8 +4187,24 @@ public class WotTest1 implements EntryPoint {
 		    }
 		    dropBox.setSize("250px", "28px");
 		    dropBox.ensureDebugId("cwListBox-dropBox");
-		    rootPanel.add(dropBox, 774, 50);
+		    rootPanel.add(dropBox, 250, 50);
 			
+			//button achievement's member
+			final Button findAchievementsMemberButton = new Button("Send");
+			findAchievementsMemberButton.setText("Find Achivement's member");
+			rootPanel.add(findAchievementsMemberButton, 550, 50);
+			findAchievementsMemberButton.setSize("250px", "28px");
+			findAchievementsMemberButton.setEnabled(false);
+			
+
+		    
+			//loading .gif
+			Image image = new Image("loading.gif");
+			final HorizontalPanel hPanel = new HorizontalPanel();
+			hPanel.add(image);
+			hPanel.setVisible(false);
+		    rootPanel.add(hPanel, 350, 90);
+		    
 			// Create the popup dialog box in case of error
 			final DialogBox dialogBox = new DialogBox();
 			dialogBox.setText("Remote Procedure Call");
@@ -4262,6 +4275,7 @@ public class WotTest1 implements EntryPoint {
 				 * Send the name from the nameField to the server and wait for a response.
 				 */
 				private void getClans() {
+					hPanel.setVisible(true);
 					tableStatsCommAcc.setVisible(false);
 					// First, we validate the input.
 					errorLabel.setText("");
@@ -4278,6 +4292,7 @@ public class WotTest1 implements EntryPoint {
 					wotService.getClans(textToServer ,offsetClan,
 							new AsyncCallback<Clan>() {
 								public void onFailure(Throwable caught) {
+									hPanel.setVisible(false);
 									// Show the RPC error message to the user
 									dialogBox
 											.setText("Remote Procedure Call - Failure");
@@ -4290,6 +4305,7 @@ public class WotTest1 implements EntryPoint {
 	
 								
 								public void onSuccess(Clan listClan) {
+									hPanel.setVisible(false);
 									try {
 										//String translatedText =Translate.execute("Bonjour le monde", Languages.FRENCH, Languages.ENGLISH);
 										//System.out.println("Bonjour le monde : " + translatedText);
@@ -4399,6 +4415,7 @@ public class WotTest1 implements EntryPoint {
 					}
 				}
 				private void getAchievementMember2(String valueSelected) {
+					hPanel.setVisible(true);
 					// First, we validate the input.
 					errorLabel.setText("");
 					String textToServer = idClan;
@@ -4413,6 +4430,7 @@ public class WotTest1 implements EntryPoint {
 						serverResponseLabel.setHTML("Click on a clan before find members !"  );
 						dialogBox.center();
 						closeButton.setFocus(true);
+						hPanel.setVisible(false);
 						return;
 					}
 					dockPanel.remove(tableAchivementCommAcc);
@@ -4457,115 +4475,15 @@ public class WotTest1 implements EntryPoint {
 					pagerStatsCommunityAccount.setVisible(true);
 					
 					dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
-					tableStatsCommAcc.setVisible(true);
+					tableStatsCommAcc.setVisible(false);
 				    
 					//add tab clan at the begin
 					dockPanel.add(pagerClan, DockPanel.SOUTH);
 					dockPanel.add(tableClan, DockPanel.SOUTH);
 					tableClan.setVisible(true);
 					pagerClan.setVisible(true);
+					hPanel.setVisible(false);
 				}
-				/**
-				 * 
-				 */
-				private void getAchievementMember() {
-					// First, we validate the input.
-					errorLabel.setText("");
-					String textToServer = idClan;
-					if (!FieldVerifier.isValidName(textToServer)) {
-						errorLabel.setText("Please enter at least four characters");
-						
-						/////
-						dialogBox
-						.setText("Select a Clan before!!");
-						serverResponseLabel
-								.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("Click on a clan before find members !"  );
-						dialogBox.center();
-						closeButton.setFocus(true);
-						return;
-					}
-	
-					// Then, we send the input to the server.
-					//searchClanButton.setEnabled(false);
-					textToServerLabel.setText(textToServer);
-					serverResponseLabel.setText("");
-					wotService.getMembersClan(textToServer,
-							new AsyncCallback<AllCommunityAccount>() {
-								public void onFailure(Throwable caught) {
-									// Show the RPC error message to the user
-									dialogBox
-											.setText("Remote Procedure Call - Failure");
-									serverResponseLabel
-											.addStyleName("serverResponseLabelError");
-									serverResponseLabel.setHTML(SERVER_ERROR);
-									dialogBox.center();
-									closeButton.setFocus(true);
-								}
-	
-								public void onSuccess(AllCommunityAccount listAccount) {
-									
-									dockPanel.remove(tableAchivementCommAcc);
-									dockPanel.remove(tableStatsCommAcc);
-									dockPanel. remove(tableClan);
-									
-									if (pagerAchievementsCommunityAccount != null) 
-										dockPanel.remove(pagerAchievementsCommunityAccount);
-									if (pagerStatsCommunityAccount != null) 
-										dockPanel.remove(pagerStatsCommunityAccount);
-									if (pagerClan != null) 
-										dockPanel.remove(pagerClan);
-									
-									
-									if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
-										dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
-									
-									//on re-construit 1 nouveau tableau
-									tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
-									
-									//construct column in celltable tableCommAcc , set data set sort handler etc ..
-									buildACellTableForAchivementsCommunityAccount(listAccount.getListCommunityAccount(), xmlWiki, null);
-									  
-									
-									//Create a Pager to control the table.
-								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-								    pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-								    pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
-									
-							    
-								    //add to dock panel ======
-								    //add tab achievement a the end 
-								    dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
-								    pagerAchievementsCommunityAccount.setPage(10);
-								    pagerAchievementsCommunityAccount.setVisible(true);
-									
-									dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
-									tableAchivementCommAcc.setVisible(true);
-								    
-								    //add tab stats 
-								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
-									pagerStatsCommunityAccount.setPage(10);
-									pagerStatsCommunityAccount.setVisible(true);
-									
-									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
-									tableStatsCommAcc.setVisible(true);
-								    
-									//add tab clan at the begin
-									dockPanel.add(pagerClan, DockPanel.SOUTH);
-									dockPanel.add(tableClan, DockPanel.SOUTH);
-									tableClan.setVisible(true);
-									pagerClan.setVisible(true);
-									
-									//dialogBox.center();
-									//closeButton.setFocus(true);
-								}
-							});
-					//searchClanButton.setEnabled(true);
-					//searchClanButton.setFocus(true);
-				}
-				
-				
-				
 			}
 			
 			
@@ -4597,6 +4515,8 @@ public class WotTest1 implements EntryPoint {
 				 */
 				private void getMembersClan() {
 					// First, we validate the input.
+					hPanel.setVisible(true);
+				    
 					errorLabel.setText("");
 					String textToServer = idClan;
 					if (!FieldVerifier.isValidName(textToServer)) {
@@ -4620,6 +4540,7 @@ public class WotTest1 implements EntryPoint {
 					wotService.getMembersClan(textToServer,
 							new AsyncCallback<AllCommunityAccount>() {
 								public void onFailure(Throwable caught) {
+									hPanel.setVisible(false);
 									// Show the RPC error message to the user
 									dialogBox
 											.setText("Remote Procedure Call - Failure");
@@ -4628,10 +4549,11 @@ public class WotTest1 implements EntryPoint {
 									serverResponseLabel.setHTML(SERVER_ERROR);
 									dialogBox.center();
 									closeButton.setFocus(true);
+									
 								}
 	
 								public void onSuccess(AllCommunityAccount listAccount) {
-									
+									hPanel.setVisible(false);
 									dockPanel.remove(tableStatsCommAcc);
 									dockPanel. remove(tableClan);
 									
