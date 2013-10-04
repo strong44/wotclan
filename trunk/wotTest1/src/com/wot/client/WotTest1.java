@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -4179,20 +4180,25 @@ public class WotTest1 implements EntryPoint {
 			searchClansButtonMore.setEnabled(false);
 	
 			
-		    // Add a drop box with the list types
-		    final ListBox dropBox = new ListBox(false);
-		    String[] listTypes = constants.cwListAchievementCategories();
-		    for (int i = 0; i < listTypes.length; i++) {
-		      dropBox.addItem(listTypes[i]);
-		    }
-		    dropBox.setSize("250px", "28px");
-		    dropBox.ensureDebugId("cwListBox-dropBox");
-		    rootPanel.add(dropBox, 250, 50);
+		    // Add a drop box with the category of achievement
+
+//			final HashMap<String, List<XmlListAchievement>> hashMapAch = buidHashMapCategoryAchievement(xmlWiki);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
+//			Set<String> setKeysCat = hashMapAch.keySet();
+//			String[] listCat = (String[])setKeysCat.toArray();
+			
+		    final ListBox dropBoxCategoryAchievement = new ListBox(false);
+		    //String[] listTypes = constants.cwListAchievementCategories();
+//		    for (int i = 0; i < listCat.length; i++) {
+//		      dropBox.addItem(listCat[i]);
+//		    }
+		    dropBoxCategoryAchievement.setSize("300px", "28px");
+		    dropBoxCategoryAchievement.ensureDebugId("cwListBox-dropBox");
+		    rootPanel.add(dropBoxCategoryAchievement, 250, 50);
 			
 			//button achievement's member
 			final Button findAchievementsMemberButton = new Button("Send");
 			findAchievementsMemberButton.setText("Find Achivement's member");
-			rootPanel.add(findAchievementsMemberButton, 550, 50);
+			rootPanel.add(findAchievementsMemberButton, 650, 50);
 			findAchievementsMemberButton.setSize("250px", "28px");
 			findAchievementsMemberButton.setEnabled(false);
 			
@@ -4338,6 +4344,16 @@ public class WotTest1 implements EntryPoint {
 										//get wiki wot (pour les m�dailles)
 										xmlWiki = listClan.getWiki();
 										
+										//add items to listbox of category achievement
+										final HashMap<String, List<XmlListAchievement>> hashMapAch = buidHashMapCategoryAchievement(xmlWiki);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
+										Set<String> setKeysCat = hashMapAch.keySet();
+										Object[] listCat = (Object[])setKeysCat.toArray();
+
+										dropBoxCategoryAchievement.addItem("All Achievements");
+									    for (int i = 0; i < listCat.length; i++) {
+										      dropBoxCategoryAchievement.addItem((String)listCat[i]);
+										}
+									    
 										//Create a Pager to control the table.
 									    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 									    pagerClan = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -4389,10 +4405,10 @@ public class WotTest1 implements EntryPoint {
 				 * Fired when the user clicks on the sendButton.
 				 */
 				public void onClick(ClickEvent event) {
-					int indexSelected = dropBox.getSelectedIndex();
+					int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
 					if (indexSelected >= 0 )
 					{
-						String valueSelected  = dropBox.getValue(indexSelected);
+						String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
 						getAchievementMember2(valueSelected);
 					}
 //					offsetClan = 0;
@@ -4404,10 +4420,10 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						int indexSelected = dropBox.getSelectedIndex();
+						int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
 						if (indexSelected >= 0 )
 						{
-							String valueSelected  = dropBox.getValue(indexSelected);
+							String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
 							getAchievementMember2(valueSelected);
 						}
 //						offsetClan = 0;
@@ -6190,20 +6206,6 @@ public class WotTest1 implements EntryPoint {
 //		   }
 			
 			/**
-			 * This is the entry point method.
-			 */
-		public void onModuleLoad2() {
-			
-			HelloWorld  helloWorld =   new HelloWorld("aaaaaaa");
-			// Don't forget, this is DOM only; will not work with GWT widgets
-			
-			RootPanel.get().add(helloWorld);
-			//Document.get().getBody().appendChild(helloWorld.getElement());
-			//helloWorld.setName("World");
-		}
-
-
-			/**
 			 * build a hashMap of achievement from wiki
 			 * @param xmlWiki
 			 * @return
@@ -6232,7 +6234,7 @@ public class WotTest1 implements EntryPoint {
 			
 			
 			/**
-			 * build a hashMap of achievement in a category  from wiki (if category is null return all) 
+			 * build a hashMap of achievement in a category  from wiki (if category is null return all) key : path of image -- value : the object achievement  
 			 * @param xmlWiki
 			 * @return
 			 */
@@ -6269,6 +6271,37 @@ public class WotTest1 implements EntryPoint {
 				
 			}
 
+			/**
+			 * build a hashMap of category / and list achievement from wiki  key : category  -- value : list of achievement   
+			 * @param xmlWiki
+			 * @return
+			 */
+			public static HashMap<String, List<XmlListAchievement>> buidHashMapCategoryAchievement (XmlWiki xmlWiki) {
+				HashMap<String, List<XmlListAchievement>> hashMapAchievement = new HashMap<String,  List<XmlListAchievement>>();
+				
+				
+				//parcours de toutes les cat�gories de m�dailles
+				for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
+					List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
+					String nameCategory = listCatAch.getNAME();
+					
+					//Parcours des achievements 
+					for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
+						//String nameCategory = listCatAch.getNAME();
+						
+						//ajout de l'achievement à la liste
+						if ( nameCategory != null ) {
+							listAchievement.add(ach);
+						}
+					}
+					hashMapAchievement.put(nameCategory, listAchievement);
+				}
+				
+				return hashMapAchievement;
+				
+			}
+
+			
 			///////
 			
 			static public SafeHtmlBuilder buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
