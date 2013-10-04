@@ -40,6 +40,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -4195,10 +4197,25 @@ public class WotTest1 implements EntryPoint {
 		    dropBoxCategoryAchievement.ensureDebugId("cwListBox-dropBox");
 		    rootPanel.add(dropBoxCategoryAchievement, 250, 50);
 			
+		    
+		    final ListBox dropBoxAchievement = new ListBox(false);
+		    dropBoxAchievement.setSize("300px", "28px");
+		    dropBoxAchievement.ensureDebugId("cwListBox-dropBox");
+		    rootPanel.add(dropBoxAchievement, 450, 50);
+			
+//		    // Add a handler to handle drop box events
+//		    dropBoxCategoryAchievement.addChangeHandler(new ChangeHandler() {
+//		      public void onChange(ChangeEvent event) {
+//		        showCategory(dropBoxAchievement, dropBoxCategoryAchievement.getSelectedIndex());
+//		        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
+//		      }
+//		    });
+
+		    
 			//button achievement's member
 			final Button findAchievementsMemberButton = new Button("Send");
 			findAchievementsMemberButton.setText("Find Achivement's member");
-			rootPanel.add(findAchievementsMemberButton, 650, 50);
+			rootPanel.add(findAchievementsMemberButton, 850, 50);
 			findAchievementsMemberButton.setSize("250px", "28px");
 			findAchievementsMemberButton.setEnabled(false);
 			
@@ -4353,6 +4370,30 @@ public class WotTest1 implements EntryPoint {
 									    for (int i = 0; i < listCat.length; i++) {
 										      dropBoxCategoryAchievement.addItem((String)listCat[i]);
 										}
+									    
+									    // Add a handler to handle dropBoxCategoryAchievement events
+									    dropBoxCategoryAchievement.addChangeHandler(new ChangeHandler() {
+									      public void onChange(ChangeEvent event) {
+									        //showCategory(dropBoxAchievement, dropBoxCategoryAchievement.getSelectedIndex());
+									    	  
+									        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
+									        
+									        //
+									        dropBoxCategoryAchievement.clear();
+									        int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
+									        
+									        if(indexSelected >= 0 ) {
+									        	String valueSelected = dropBoxCategoryAchievement.getValue(indexSelected);
+										        List<XmlListAchievement> listAchievement = hashMapAch.get(valueSelected);
+										        
+										        for ( XmlListAchievement ach : listAchievement)	{
+										        	String nameAch = ach.getNAME();
+										        	dropBoxCategoryAchievement.addItem(nameAch);
+										        }
+									        }
+									        
+									      }
+									    });
 									    
 										//Create a Pager to control the table.
 									    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -6383,6 +6424,9 @@ public class WotTest1 implements EntryPoint {
 				});
 			
 			}
+
+
+	
 			
 			
 			
