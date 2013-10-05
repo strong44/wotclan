@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
+import com.wot.shared.CommunityClan;
 
 /**
  * The client side stub for the RPC service.
@@ -15,6 +16,6 @@ import com.wot.shared.CommunityAccount;
 public interface WotService extends RemoteService {
 	Clan getClan(String clan) throws IllegalArgumentException;
 	Clan getClans(String clan, int offset) throws IllegalArgumentException;
-	
-	AllCommunityAccount getMembersClan(String idClan) throws IllegalArgumentException;
+	AllCommunityAccount getAllMembersClanAndStats(String idClan, List<String> listIdUser) throws IllegalArgumentException;
+	CommunityClan getAllMembersClan(String idClan) throws IllegalArgumentException;
 }
