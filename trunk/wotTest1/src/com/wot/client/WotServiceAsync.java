@@ -21,6 +21,9 @@ public interface WotServiceAsync {
 	void getAllMembersClanAndStats(String textToServer,
 			List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
 	
+	void getAllMembersClanAndStatsHistorised(String textToServer,
+			List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
+	
 	void getAllMembersClan(String textToServer,
 			AsyncCallback<CommunityClan> asyncCallback);
 }
