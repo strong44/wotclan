@@ -3831,7 +3831,7 @@ public class WotTest1 implements EntryPoint {
 	public  void buildACellTableForCommunityClan(Clan listClan) {
 			    
 	    //update dataprovider with some known list 
-	    dataClanProvider.setList(listClan.getData().getItems());
+	    dataClanProvider.setList(listClan.getItems());
 		
 		// Create a CellTable.
 	    //CellTable<CommunityAccount> table = new CellTable<CommunityAccount>();
@@ -4069,10 +4069,10 @@ public class WotTest1 implements EntryPoint {
 	    // Set the total row count. This isn't strictly necessary, but it affects
 	    // paging calculations, so its good habit to keep the row count up to date.
 	    
-	    tableClan.setRowCount(listClan.getData().getItems().size(), true); //no need to do here because we have add list to data provider
+	    tableClan.setRowCount(listClan.getItems().size(), true); //no need to do here because we have add list to data provider
 
 	    // Push the data into the widget.
-	    tableClan.setRowData(0, listClan.getData().getItems());            //idem no nedd dataprovider
+	    tableClan.setRowData(0, listClan.getItems());            //idem no nedd dataprovider
 	    
 	 // Connect the table to the data provider.
 	    dataClanProvider.addDataDisplay(tableClan);
@@ -4164,7 +4164,7 @@ public class WotTest1 implements EntryPoint {
 			lblNewLabel.setSize("50px", "24px");
 			
 			
-			//noom du clan à rechercher
+			//noom du clan ï¿½ rechercher
 			final TextBox nameClan = new TextBox();
 			rootPanel.add(nameClan, 350, posTop);
 			nameClan.setText("NOVA SNAIL");
@@ -4386,7 +4386,7 @@ public class WotTest1 implements EntryPoint {
 									    	  
 									        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
 									        
-									        //on efface la liste box des médailles
+									        //on efface la liste box des mï¿½dailles
 									        dropBoxAchievement.clear();
 									        int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
 									        
@@ -4445,7 +4445,7 @@ public class WotTest1 implements EntryPoint {
 										findAchievementsMemberButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 ï¿½lments dans TAB
-										if(listClan.getData().getItems().size()== 100)
+										if(listClan.getItems().size()== 100)
 											searchClansButtonMore.setEnabled(true);
 										else {
 											searchClansButtonMore.setEnabled(false);
@@ -4772,7 +4772,7 @@ public class WotTest1 implements EntryPoint {
 									List<String> listAccName = new ArrayList<String>();
 									HashMap<String, String>  hmAccName =new HashMap<String, String >();
 									
-									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers()) {
+									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers().values()) {
 										listAccName.add(dataCom.getAccount_name());
 										hmAccName.put(dataCom.getAccount_name(), dataCom.getAccount_id());
 										//dropBoxClanUsers.addItem(dataCom.getAccount_name());

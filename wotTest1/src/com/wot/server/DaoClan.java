@@ -34,17 +34,28 @@ public class DaoClan implements Serializable{
 
 
 	
+//	@Persistent
+//	private DaoDataClan daoDataClan;
+//	
+//    public DaoDataClan getData() {
+//		return daoDataClan;
+//	}
+//
+//	public void setData(DaoDataClan data) {
+//		this.daoDataClan = data;
+//	}
+
 	@Persistent
-	private DaoDataClan daoDataClan;
+	List<DaoItemsDataClan> data; //données du clan 
+
+	public List<DaoItemsDataClan> getItems() {
+		return data;
+	}
+
+	public void setItems(List<DaoItemsDataClan> items) {
+		this.data = items;
+	}
 	
-    public DaoDataClan getData() {
-		return daoDataClan;
-	}
-
-	public void setData(DaoDataClan data) {
-		this.daoDataClan = data;
-	}
-
 	public String getStatus() {
 		return status;
 	}

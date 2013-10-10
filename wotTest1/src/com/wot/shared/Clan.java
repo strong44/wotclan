@@ -1,6 +1,7 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class Clan implements Serializable{
@@ -22,16 +23,30 @@ public class Clan implements Serializable{
 		this.wiki = wiki;
 	}
 
-	private DataClan data;
+//	private DataClan data;
+//	
+//    public DataClan getData() {
+//		return data;
+//	}
+//
+//	public void setData(DataClan data) {
+//		this.data = data;
+//	}
+
+	/**
+	 * 
+	 */
 	
-    public DataClan getData() {
+	List<ItemsDataClan> data; //données du clan 
+
+	public List<ItemsDataClan> getItems() {
 		return data;
 	}
 
-	public void setData(DataClan data) {
-		this.data = data;
+	public void setItems(List<ItemsDataClan> items) {
+		this.data = items;
 	}
-
+	
 	public String getStatus() {
 		return status;
 	}
