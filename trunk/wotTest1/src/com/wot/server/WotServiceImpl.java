@@ -53,6 +53,7 @@ import com.wot.shared.XmlWiki;
 
 /**
  * The server side implementation of the RPC service.
+ * https://github.com/thunder-spb/wot-api-description/blob/master/README.md
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
@@ -165,19 +166,19 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			
 				//on persiste si le clan n'existe pas en base   
 				
-		        try {
-		        	//must transform before persist the objet clan
-		        	pm.close();
-		        	pm = PMF.get().getPersistenceManager();
-		        	pm.currentTransaction().begin();
-		        	DaoClan daoClan = TransformDtoObject.TransformClanToDaoClan(desClan);
-		            pm.makePersistentAll(daoClan.getData().getItems());
-		        	pm.currentTransaction().commit();
-		        	System.out.println("key daclan " + daoClan.getKey());
-		            
-		        } finally {
-		            pm.close();
-		        }
+//		        try {
+//		        	//must transform before persist the objet clan
+//		        	pm.close();
+//		        	pm = PMF.get().getPersistenceManager();
+//		        	pm.currentTransaction().begin();
+//		        	DaoClan daoClan = TransformDtoObject.TransformClanToDaoClan(desClan);
+//		            pm.makePersistentAll(daoClan.getData().getItems());
+//		        	pm.currentTransaction().commit();
+//		        	System.out.println("key daclan " + daoClan.getKey());
+//		            
+//		        } finally {
+//		            pm.close();
+//		        }
 			}
 	
 		} catch (MalformedURLException e) {
@@ -237,7 +238,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 			else {
 				//500006074
-				urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+				//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
+				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 			}
 	
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
@@ -283,9 +286,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 				DataCommunityClan myDataCommunityClan = communityClan.getData();
 	
-				List<DataCommunityClanMembers> listMembers = myDataCommunityClan.getMembers();
+				Map<String, DataCommunityClanMembers> listMembers = myDataCommunityClan.getMembers();
 	
-				for (DataCommunityClanMembers dataMember : listMembers) {
+				for (DataCommunityClanMembers dataMember : listMembers.values()) {
 	
 					//
 					// String nameUser ="";
@@ -557,10 +560,12 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
+				urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
 			}
 			else {
-				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  input + "&offset="+ offset+ "&limit=" + limit);		
+				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=
+				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
 			}
 			
 			//lecture de la r�ponse recherche du clan
@@ -618,7 +623,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 
 			int nbTrad = 0;
-			for (ItemsDataClan myItemsDataClan : clan.getData().getItems()) {
+			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
 				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
 				String motto = myItemsDataClan.getMotto();
 				//detect lang motto
@@ -824,11 +829,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				// recup des membres du clan NVS
 				urlClan = null ;
 				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");				
+					urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
 				}
 				else {
 					//500006074
-					urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+					//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
+					//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+					urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
 				}
 		
 				BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
@@ -842,11 +849,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 				Gson gson = new Gson();
 				
-				int indexDes = AllLines.indexOf("\"description_html") ;
-				if (indexDes > 0) {
-				AllLines = AllLines.substring(0,indexDes); 
-				AllLines = AllLines + " \"description_html\":\"aa\"}}";
-				}
+//				int indexDes = AllLines.indexOf("\"description_html") ;
+//				if (indexDes > 0) {
+//				AllLines = AllLines.substring(0,indexDes); 
+//				AllLines = AllLines + " \"description_html\":\"aa\"}}";
+//				}
 				
 				communityClan = gson.fromJson(AllLines, CommunityClan.class);
 				communityClan.setIdClan(idClan);
@@ -962,9 +969,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 				DataCommunityClan myDataCommunityClan = communityClan.getData();
 	
-				List<DataCommunityClanMembers> listMembers = myDataCommunityClan.getMembers();
+				Map<String, DataCommunityClanMembers> listMembers = myDataCommunityClan.getMembers();
 	
-				for (DataCommunityClanMembers dataMember : listMembers) {
+				for (DataCommunityClanMembers dataMember : listMembers.values()) {
 	
 					//
 					// String nameUser ="";

@@ -38,15 +38,15 @@ public class ItemsDataClan implements Serializable, Comparable<ItemsDataClan>{
 	
     String created_at;
 	
-	 String member_count;
+	 String members_count;
 	
-  String owner;
+  String owner_name;
 	
   String motto;
 	
    String clan_emblem_url;
 	
-   String id;
+   String clan_id;
 	
    String clan_color;
     
@@ -70,16 +70,16 @@ public class ItemsDataClan implements Serializable, Comparable<ItemsDataClan>{
 		this.created_at = created_at;
 	}
 	public String getMember_count() {
-		return member_count;
+		return members_count;
 	}
 	public void setMember_count(String member_count) {
-		this.member_count = member_count;
+		this.members_count = member_count;
 	}
 	public String getOwner() {
-		return owner;
+		return owner_name;
 	}
 	public void setOwner(String owner) {
-		this.owner = owner;
+		this.owner_name = owner;
 	}
 	public String getMotto() {
 		return motto;
@@ -94,10 +94,10 @@ public class ItemsDataClan implements Serializable, Comparable<ItemsDataClan>{
 		this.clan_emblem_url = clan_emblem_url;
 	}
 	public String getId() {
-		return id;
+		return clan_id;
 	}
 	public void setId(String id) {
-		this.id = id;
+		this.clan_id = id;
 	}
 	public String getClan_color() {
 		return clan_color;

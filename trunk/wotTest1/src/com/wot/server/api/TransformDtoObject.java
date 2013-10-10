@@ -1,8 +1,13 @@
 package com.wot.server.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.wot.server.DaoClan;
 import com.wot.server.DaoCommunityAccount;
 import com.wot.server.DaoCommunityClan;
@@ -32,7 +37,7 @@ public class TransformDtoObject {
 		daoClan.setStatus( clan.getStatus());
 		daoClan.setStatus_code(clan.getStatus_code());
 		
-		daoClan.setData(TransformDataClanToDaoDataClan(clan.getData()));
+		daoClan.setItems(TransformItemsDataClanToDaoItemsDataClan(clan.getItems()));
 		return daoClan;
 	}
 
@@ -104,14 +109,15 @@ public class TransformDtoObject {
 		return myDaoDataCommunityClan;
 	}
 
-	private static List<DaoDataCommunityClanMembers> TransformListDataCommunityClanMembersToListDaoDataCommunityClanMembers(List<DataCommunityClanMembers> members) {
-		List<DaoDataCommunityClanMembers> listDaoDataCommunityClanMembers = new ArrayList<DaoDataCommunityClanMembers>();
+	private static Map<String, DaoDataCommunityClanMembers> TransformListDataCommunityClanMembersToListDaoDataCommunityClanMembers(Map<String, DataCommunityClanMembers> map) {
+		Map<String, DaoDataCommunityClanMembers> mapDaoDataCommunityClanMembers = new HashMap<String ,DaoDataCommunityClanMembers>();
 		
 		//transform each ItemsDataClan to DAOItemsDataClan
-		for (DataCommunityClanMembers member : members) {
-			listDaoDataCommunityClanMembers.add(TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(member));
+		Set<Entry<String, DataCommunityClanMembers>> set =  map.entrySet();
+		for (Entry<String, DataCommunityClanMembers> entry :set) {
+			mapDaoDataCommunityClanMembers.put(entry.getKey(), TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(entry.getValue()));
 		}
-		return listDaoDataCommunityClanMembers;
+		return mapDaoDataCommunityClanMembers;
 	}
 
 	private static DaoDataCommunityClanMembers TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(DataCommunityClanMembers member) {

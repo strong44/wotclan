@@ -2,6 +2,7 @@ package com.wot.server;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -28,13 +29,13 @@ public class DaoDataCommunityClan implements Serializable {
 	}
 
 	@Persistent
-	List<DaoDataCommunityClanMembers> members; //données du joueur
+	Map<String, DaoDataCommunityClanMembers> members; //données du joueur
 
-	public List<DaoDataCommunityClanMembers> getMembers() {
+	public Map<String, DaoDataCommunityClanMembers> getMembers() {
 		return members;
 	}
 
-	public void setMembers(List<DaoDataCommunityClanMembers> members) {
+	public void setMembers(Map<String, DaoDataCommunityClanMembers> members) {
 		this.members = members;
 	}
 
