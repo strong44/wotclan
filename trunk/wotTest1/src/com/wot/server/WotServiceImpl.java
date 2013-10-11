@@ -805,6 +805,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	@Override
 		public CommunityClan getAllMembersClan(String idClan) {
 			CommunityClan communityClan = null;
+			
+			DaoCommunityClan daoCommunityClan = null;
 			Clan desClan =null;
 			// Verify that the input is valid.
 			if (!FieldVerifier.isValidName(idClan)) {
@@ -855,9 +857,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //				AllLines = AllLines + " \"description_html\":\"aa\"}}";
 //				}
 				
-				communityClan = gson.fromJson(AllLines, CommunityClan.class);
-				communityClan.setIdClan(idClan);
-				communityClan.setDateCommunityClan(new java.util.Date());
+				daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+				daoCommunityClan.setIdClan(idClan);
+				daoCommunityClan.setDateCommunityClan(new java.util.Date());
 				//persist clan ?
 				
 				PersistenceManager pm =null;
@@ -866,7 +868,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			        try {
 			        	//must transform before persist the objet clan
 			        	pm.currentTransaction().begin();
-			        	DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
+			        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
 			            pm.makePersistent(daoCommunityClan);
 			        	pm.currentTransaction().commit();
 			            
@@ -882,6 +884,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				e.printStackTrace();
 			}
 			 ///
+			communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
 			return communityClan;
 		}
 

@@ -88,45 +88,61 @@ public class TransformDtoObject {
 		
 	}
 	
-	//== Tranform datas CLAN and members 
-	public static DaoCommunityClan TransformCommunityClanToDaoCommunityClan(CommunityClan communityClan ) {
+//	//== Tranform datas CLAN and members 
+//	public static DaoCommunityClan TransformCommunityClanToDaoCommunityClan(CommunityClan communityClan ) {
+//		
+//		DaoCommunityClan daoCommunityClan = new DaoCommunityClan();
+//		daoCommunityClan.setStatus( communityClan.getStatus());
+//		daoCommunityClan.setStatus_code(communityClan.getStatus_code());
+//		
+//		daoCommunityClan.setIdClan(communityClan.getIdClan());
+//		daoCommunityClan.setDateCommunityClan(communityClan.getDateCommunityClan());
+//		
+//		daoCommunityClan.setData(TransformDataCommunityClanToDaoDataCommunityClan(communityClan.getData()));
+//		return daoCommunityClan;
+//	}
+
+	//== new  
+	public static CommunityClan TransformCommunityDaoCommunityClanToCommunityClan(DaoCommunityClan daoCommunityClan ) {
 		
-		DaoCommunityClan daoCommunityClan = new DaoCommunityClan();
-		daoCommunityClan.setStatus( communityClan.getStatus());
-		daoCommunityClan.setStatus_code(communityClan.getStatus_code());
+		CommunityClan communityClan = new CommunityClan();
+		communityClan.setStatus( daoCommunityClan.getStatus());
+		communityClan.setStatus_code(daoCommunityClan.getStatus_code());
 		
-		daoCommunityClan.setIdClan(communityClan.getIdClan());
-		daoCommunityClan.setDateCommunityClan(communityClan.getDateCommunityClan());
+		communityClan.setIdClan(daoCommunityClan.getIdClan());
+		communityClan.setDateCommunityClan(daoCommunityClan.getDateCommunityClan());
 		
-		daoCommunityClan.setData(TransformDataCommunityClanToDaoDataCommunityClan(communityClan.getData()));
-		return daoCommunityClan;
+		communityClan.setData(TransformDaoDataCommunityClanToDataCommunityClan(daoCommunityClan.getData()));
+		return communityClan;
 	}
 
-	private static DaoDataCommunityClan TransformDataCommunityClanToDaoDataCommunityClan(DataCommunityClan data) {
-		DaoDataCommunityClan myDaoDataCommunityClan = new DaoDataCommunityClan();
-		myDaoDataCommunityClan.setMembers(TransformListDataCommunityClanMembersToListDaoDataCommunityClanMembers(data.getMembers()));
+	
+	private static DataCommunityClan TransformDaoDataCommunityClanToDataCommunityClan( Map<String, DaoDataCommunityClanMembers> data) {
+		DataCommunityClan myDataCommunityClan = new DataCommunityClan();
+		//data
+		myDataCommunityClan.setMembers(TransformListDaoDataCommunityClanMembersToListDataCommunityClanMembers(data));
 		
-		return myDaoDataCommunityClan;
+		return myDataCommunityClan;
 	}
 
-	private static Map<String, DaoDataCommunityClanMembers> TransformListDataCommunityClanMembersToListDaoDataCommunityClanMembers(Map<String, DataCommunityClanMembers> map) {
-		Map<String, DaoDataCommunityClanMembers> mapDaoDataCommunityClanMembers = new HashMap<String ,DaoDataCommunityClanMembers>();
+	private static List<DataCommunityClanMembers> TransformListDaoDataCommunityClanMembersToListDataCommunityClanMembers(Map<String, DaoDataCommunityClanMembers> map) {
+		List<DataCommunityClanMembers> listDataCommunityClanMembers = new ArrayList<DataCommunityClanMembers>();
 		
 		//transform each ItemsDataClan to DAOItemsDataClan
-		Set<Entry<String, DataCommunityClanMembers>> set =  map.entrySet();
-		for (Entry<String, DataCommunityClanMembers> entry :set) {
-			mapDaoDataCommunityClanMembers.put(entry.getKey(), TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(entry.getValue()));
+		Set<Entry<String, DaoDataCommunityClanMembers>> set =  map.entrySet();
+		for (Entry<String, DaoDataCommunityClanMembers> entry :set) {
+			listDataCommunityClanMembers.add(TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(entry.getValue()));
 		}
-		return mapDaoDataCommunityClanMembers;
+		return listDataCommunityClanMembers;
 	}
 
-	private static DaoDataCommunityClanMembers TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(DataCommunityClanMembers member) {
-		DaoDataCommunityClanMembers myDaoDataCommunityClanMembers = new DaoDataCommunityClanMembers();
+	private static DataCommunityClanMembers TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(DaoDataCommunityClanMembers member) {
+		DataCommunityClanMembers myDataCommunityClanMembers = new DataCommunityClanMembers();
 		
-		myDaoDataCommunityClanMembers.setAccount_id(member.getAccount_id());
-		myDaoDataCommunityClanMembers.setAccount_name(member.getAccount_name());
+		myDataCommunityClanMembers.setAccount_id(member.getAccount_id());
+		myDataCommunityClanMembers.setAccount_name(member.getAccount_name());
 		
-		return myDaoDataCommunityClanMembers;
+		return myDataCommunityClanMembers;
 	}
 
 	public static DaoCommunityAccount TransformCommunityAccountToDaoCommunityAccount(CommunityAccount account) {
