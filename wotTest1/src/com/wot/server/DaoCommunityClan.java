@@ -2,6 +2,7 @@ package com.wot.server;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -10,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 import com.wot.shared.DataCommunityClan;
+import com.wot.shared.DataCommunityClanMembers;
 
 @PersistenceCapable
 public class DaoCommunityClan implements Serializable{
@@ -58,16 +60,27 @@ public class DaoCommunityClan implements Serializable{
 		this.dateCommunityClan = dateCommunityClan;
 	}
 
+	///ajout test
+	Map<String, DaoDataCommunityClanMembers> data;
+	
 
-	@Persistent
-	private DaoDataCommunityClan data;
-	
-	
-    public DaoDataCommunityClan getData() {
+//	@Persistent
+//	private DaoDataCommunityClan data2;
+//	
+//	
+//    public DaoDataCommunityClan getData() {
+//		return data2;
+//	}
+//
+//	public void setData(DaoDataCommunityClan data) {
+//		this.data2 = data;
+//	}
+
+	public Map<String, DaoDataCommunityClanMembers> getData() {
 		return data;
 	}
 
-	public void setData(DaoDataCommunityClan data) {
+	public void setData(Map<String, DaoDataCommunityClanMembers> data) {
 		this.data = data;
 	}
 

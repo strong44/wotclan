@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -8,6 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.wot.shared.DataCommunityMembers;
 
 @PersistenceCapable
 public class DaoDataCommunityClanMembers implements Serializable {
@@ -52,7 +54,10 @@ public class DaoDataCommunityClanMembers implements Serializable {
 	@Persistent
     String account_name;
 	
+	///ajout test
+	Map<String, DaoDataCommunityMembers> members;
 	
+
 	public String getAccount_id() {
 		return account_id;
 	}

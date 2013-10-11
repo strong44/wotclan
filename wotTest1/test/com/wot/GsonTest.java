@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.wot.server.DaoCommunityClan;
 import com.wot.shared.CommunityClan;
 
 public class GsonTest {
@@ -37,8 +38,8 @@ public class GsonTest {
         										   "}" +
         							"}" +
         				  "}";
-        CommunityClan comClan = null;
-        comClan = gson.fromJson(wotData, CommunityClan.class);
+        DaoCommunityClan comClan = null;
+        comClan = gson.fromJson(wotData, DaoCommunityClan.class);
         System.out.println(comClan);
         
         	
