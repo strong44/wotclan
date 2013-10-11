@@ -2,6 +2,7 @@ package com.wot.shared;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 
 public class CommunityClan implements Serializable{
@@ -34,16 +35,17 @@ public class CommunityClan implements Serializable{
 		this.dateCommunityClan = dateCommunityClan;
 	}
 
+	///ajout test
+	Map<String, DataCommunityClanMembers> data;
 	
-	
-	private DataCommunityClan data;
+	private DataCommunityClan data2;
 	
     public DataCommunityClan getData() {
-		return data;
+		return data2;
 	}
 
 	public void setData(DataCommunityClan data) {
-		this.data = data;
+		this.data2 = data;
 	}
 
 	public String getStatus() {
