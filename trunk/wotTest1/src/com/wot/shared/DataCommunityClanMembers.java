@@ -1,6 +1,7 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,9 +26,15 @@ public class DataCommunityClanMembers implements Serializable{
 	String description; 
     
 	///ajout test
-	Map<String, DataCommunityMembers> members;
+	List<DataCommunityMembers> members;
 	
 	
+	public List< DataCommunityMembers> getMembers() {
+		return members;
+	}
+	public void setMembers(List<DataCommunityMembers> members) {
+		this.members = members;
+	}
 	public String getAccount_name() {
 		return account_name;
 	}

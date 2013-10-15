@@ -17,6 +17,7 @@ import com.wot.server.DaoDataCommunityAccountAchievements;
 import com.wot.server.DaoDataCommunityAccountStats;
 import com.wot.server.DaoDataCommunityClan;
 import com.wot.server.DaoDataCommunityClanMembers;
+import com.wot.server.DaoDataCommunityMembers;
 import com.wot.server.DaoItemsDataClan;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
@@ -27,6 +28,7 @@ import com.wot.shared.DataCommunityAccountAchievements;
 import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
+import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.ItemsDataClan;
 
 public class TransformDtoObject {
@@ -131,18 +133,40 @@ public class TransformDtoObject {
 		//transform each ItemsDataClan to DAOItemsDataClan
 		Set<Entry<String, DaoDataCommunityClanMembers>> set =  map.entrySet();
 		for (Entry<String, DaoDataCommunityClanMembers> entry :set) {
-			listDataCommunityClanMembers.add(TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(entry.getValue()));
+			listDataCommunityClanMembers.add(TransformDaoDataCommunityClanMembersToDataCommunityClanMembers(entry.getValue()));
 		}
 		return listDataCommunityClanMembers;
 	}
 
-	private static DataCommunityClanMembers TransformDataCommunityClanMembersToDaoDataCommunityClanMembers(DaoDataCommunityClanMembers member) {
+	private static DataCommunityClanMembers TransformDaoDataCommunityClanMembersToDataCommunityClanMembers(DaoDataCommunityClanMembers clanMembers) {
 		DataCommunityClanMembers myDataCommunityClanMembers = new DataCommunityClanMembers();
+		List<DataCommunityMembers> listDataCommunityMembers = new ArrayList<DataCommunityMembers>();
 		
-		myDataCommunityClanMembers.setAccount_id(member.getAccount_id());
-		myDataCommunityClanMembers.setAccount_name(member.getAccount_name());
+		myDataCommunityClanMembers.setAccount_id(clanMembers.getAccount_id());
+		myDataCommunityClanMembers.setAccount_name(clanMembers.getAccount_name());
 		
+		//Transform 
+		Set<Entry<String, DaoDataCommunityMembers>> set =  clanMembers.getMembers().entrySet();
+		for (Entry<String, DaoDataCommunityMembers> entry :set) {
+			listDataCommunityMembers.add(TransformDaoDataCommunityMembersToDataCommunityMembers(entry.getValue()));
+		}
+		
+		//add list !! 
+		myDataCommunityClanMembers.setMembers(listDataCommunityMembers);
 		return myDataCommunityClanMembers;
+	}
+
+	private static DataCommunityMembers TransformDaoDataCommunityMembersToDataCommunityMembers(DaoDataCommunityMembers myDaoDataCommunityMembers) {
+		// TODO Auto-generated method stub
+		DataCommunityMembers myDataCommunityMembers = new DataCommunityMembers();
+		//
+		myDataCommunityMembers.setAccount_id(myDaoDataCommunityMembers.getAccount_id());
+		myDataCommunityMembers.setAccount_name(myDaoDataCommunityMembers.getAccount_name());
+		myDataCommunityMembers.setCreated_at(myDaoDataCommunityMembers.getCreated_at());
+		myDataCommunityMembers.setRole(myDaoDataCommunityMembers.getRole());
+		myDataCommunityMembers.setUpdated_at(myDaoDataCommunityMembers.getUpdated_at());
+		
+		return myDataCommunityMembers;
 	}
 
 	public static DaoCommunityAccount TransformCommunityAccountToDaoCommunityAccount(CommunityAccount account) {

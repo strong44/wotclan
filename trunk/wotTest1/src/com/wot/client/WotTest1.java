@@ -96,6 +96,7 @@ import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
+import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.XmlListAchievement;
@@ -4772,10 +4773,12 @@ public class WotTest1 implements EntryPoint {
 									List<String> listAccName = new ArrayList<String>();
 									HashMap<String, String>  hmAccName =new HashMap<String, String >();
 									
-									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers().values()) {
-										listAccName.add(dataCom.getAccount_name());
-										hmAccName.put(dataCom.getAccount_name(), dataCom.getAccount_id());
-										//dropBoxClanUsers.addItem(dataCom.getAccount_name());
+									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers()) {
+										for (DataCommunityMembers dataComMembers : dataCom.getMembers()) {
+											listAccName.add(dataComMembers.getAccount_name());
+											hmAccName.put(dataComMembers.getAccount_name(), dataComMembers.getAccount_id());
+											//dropBoxClanUsers.addItem(dataCom.getAccount_name());
+										}
 									}
 									//sort the list 
 									Collections.sort(listAccName);

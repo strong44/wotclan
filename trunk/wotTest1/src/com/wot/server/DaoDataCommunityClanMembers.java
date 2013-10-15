@@ -58,6 +58,14 @@ public class DaoDataCommunityClanMembers implements Serializable {
 	Map<String, DaoDataCommunityMembers> members;
 	
 
+	public Map<String, DaoDataCommunityMembers> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Map<String, DaoDataCommunityMembers> members) {
+		this.members = members;
+	}
+
 	public String getAccount_id() {
 		return account_id;
 	}
