@@ -36,16 +36,16 @@ public class CommunityClan implements Serializable{
 	}
 
 	///ajout test
-	Map<String, DataCommunityClanMembers> data;
+	//Map<String, DataCommunityClanMembers> data;
 	
-	private DataCommunityClan data2;
+	private DataCommunityClan data;
 	
     public DataCommunityClan getData() {
-		return data2;
+		return data;
 	}
 
 	public void setData(DataCommunityClan data) {
-		this.data2 = data;
+		this.data = data;
 	}
 
 	public String getStatus() {
