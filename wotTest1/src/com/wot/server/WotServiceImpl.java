@@ -58,8 +58,8 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
-	boolean saveData = false;
+	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
 
@@ -520,17 +520,17 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			
 			PersistenceManager pm =null;
 			if (saveData){
-				pm = PMF.get().getPersistenceManager();
-		        try {
-		        	//must transform before persist the objet clan
-		        	pm.currentTransaction().begin();
-		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
-		            pm.makePersistent(daoCommunityClan);
-		        	pm.currentTransaction().commit();
-		            
-		        } finally {
-		            pm.close();
-		        }
+//				pm = PMF.get().getPersistenceManager();
+//		        try {
+//		        	//must transform before persist the objet clan
+//		        	pm.currentTransaction().begin();
+//		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
+//		            pm.makePersistent(daoCommunityClan);
+//		        	pm.currentTransaction().commit();
+//		            
+//		        } finally {
+//		            pm.close();
+//		        }
 			}
 		} catch (MalformedURLException e) {
 			// ...
@@ -547,6 +547,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	@Override
 	public AllCommunityAccount getAllMembersClanAndStats(String idClan,  List<String> listIdUser) {
 	
+		
 		// Verify that the input is valid. //[502248407, 506128381]  
 		if (!FieldVerifier.isValidName(idClan)) {
 			// If the input is not valid, throw an IllegalArgumentException back to
@@ -563,10 +564,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
 		AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
 		myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+		PersistenceManager pm =null;
 		
 		try {
-	
-		
+			pm = PMF.get().getPersistenceManager();
+			
 			URL urlClan = null ;
 			// recup des membres du clan NVS
 			urlClan = null ;
@@ -597,19 +599,21 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			daoCommunityClan.setDateCommunityClan(new java.util.Date());
 			//persist clan ?
 			
-			PersistenceManager pm =null;
+			
 			if (saveData){
-				pm = PMF.get().getPersistenceManager();
+				//pm = PMF.get().getPersistenceManager();
 		        try {
 		        	//must transform before persist the objet clan
 		        	pm.currentTransaction().begin();
+		        	
 		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
+		        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
 		            pm.makePersistent(daoCommunityClan);
 		        	pm.currentTransaction().commit();
-		        	System.out.println("key Dao CommunityClan " + daoCommunityClan.getKey());
+		        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
 		            
 		        } finally {
-		            pm.close();
+		            //pm.close();
 		        }
 			}
 			CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
@@ -750,19 +754,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
 
 							if (saveDataPlayer){
-								pm = PMF.get().getPersistenceManager();
+								
 						        try {
 						        	//must transform before persist the objet clan
-						        	pm.currentTransaction().begin();
+						        	//pm.currentTransaction().begin();
 						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
 						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
-						        	pm.currentTransaction().commit();
-						        	System.out.println("key daoCommunityAccount " + daoCommunityAccount.getKey());
-						            
-						        	
-						        	////
-						        	com.google.appengine.api.datastore.Query q = null;
-						        	///
+						        	//pm.currentTransaction().commit();
+						        	log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
 						        	///
 									Query query = pm.newQuery(DaoCommunityAccount.class);
 								    query.setFilter("name == nameParam");
@@ -776,14 +775,12 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
 								    	}
 								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
-								    	
-								    	
 
 								    }
 								    //query.deletePersistentAll(input);
 								    query.closeAll();
 						        } finally {
-						            pm.close();
+						            //pm.close();
 						        }
 							}
 						}//if treat 
@@ -800,6 +797,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		} catch (IOException e) {
 			// ...
 			e.printStackTrace();
+		}
+		finally {
+			pm.close();
 		}
 	
 		return myAllCommunityAccount;
