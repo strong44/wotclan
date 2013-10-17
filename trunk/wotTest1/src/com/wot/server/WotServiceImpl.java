@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 import javax.jdo.PersistenceManager;
@@ -62,6 +63,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
 
+	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
+	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
 		
@@ -744,7 +747,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							listCommunityAccount.add(account);
 							
 							//persist communityAccount ?
-							
+					    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+
 							if (saveDataPlayer){
 								pm = PMF.get().getPersistenceManager();
 						        try {
@@ -767,11 +771,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								    List<DaoCommunityAccount> results = (List<DaoCommunityAccount>) query.execute(account.getName());
 								    
 								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
-								    	System.out.println("" + myDaoCommunityAccount.getData().getStats().getBattles());
-								    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+								    	String date = "";
+								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
+								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
+								    	}
+								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
 								    	
-								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null)
-								    		System.out.println("" + sdf.format(myDaoCommunityAccount.getDateCommunityAccount()));
+								    	
+
 								    }
 								    //query.deletePersistentAll(input);
 								    query.closeAll();
