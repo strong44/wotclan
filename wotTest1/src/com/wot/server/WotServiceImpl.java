@@ -20,6 +20,8 @@ import javax.xml.bind.JAXBException;
 
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.lang.time.DateUtils;
+
 
 
 import com.google.gson.Gson;
@@ -749,7 +751,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						        	//must transform before persist the objet clan
 						        	pm.currentTransaction().begin();
 						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
-						            pm.makePersistent(daoCommunityAccount);
+						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
 						        	pm.currentTransaction().commit();
 						        	System.out.println("key daoCommunityAccount " + daoCommunityAccount.getKey());
 						            
@@ -766,6 +768,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								    
 								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
 								    	System.out.println("" + myDaoCommunityAccount.getData().getStats().getBattles());
+								    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+								    	
+								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null)
+								    		System.out.println("" + sdf.format(myDaoCommunityAccount.getDateCommunityAccount()));
 								    }
 								    //query.deletePersistentAll(input);
 								    query.closeAll();
