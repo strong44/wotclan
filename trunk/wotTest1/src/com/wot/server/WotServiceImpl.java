@@ -6,23 +6,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
+
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.bcel.generic.DALOAD;
+
 
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -35,8 +33,7 @@ import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
-import com.wot.shared.DataCommunityAccount;
-import com.wot.shared.DataCommunityAccountAchievements;
+
 import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
@@ -44,7 +41,7 @@ import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.ObjectFactory;
-import com.wot.shared.XmlAchievements;
+
 import com.wot.shared.XmlDescription;
 import com.wot.shared.XmlListAchievement;
 import com.wot.shared.XmlListCategoryAchievement;
@@ -589,13 +586,6 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			reader.close();
 	
 			Gson gson = new Gson();
-			//System.out.println("before " + AllLines);
-			
-//			int indexDes = AllLines.indexOf("\"description_html") ;
-//			if (indexDes > 0) {
-//			AllLines = AllLines.substring(0,indexDes); 
-//			AllLines = AllLines + " \"description_html\":\"aa\"}}";
-//			}
 			
 			DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
 			daoCommunityClan.setIdClan(idClan);
@@ -646,7 +636,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						}
 						
 						if (treatUser) {
-							// recup des datas du USER
+							// recup des datas du USER 506486576 (strong44)
 							// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
 							// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 							URL url = null ;
@@ -763,6 +753,22 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						        	pm.currentTransaction().commit();
 						        	System.out.println("key daoCommunityAccount " + daoCommunityAccount.getKey());
 						            
+						        	
+						        	////
+						        	com.google.appengine.api.datastore.Query q = null;
+						        	///
+						        	///
+									Query query = pm.newQuery(DaoCommunityAccount.class);
+								    query.setFilter("name == nameParam");
+								    //query.setOrdering("hireDate desc");
+								    query.declareParameters("String nameParam");
+								    List<DaoCommunityAccount> results = (List<DaoCommunityAccount>) query.execute(account.getName());
+								    
+								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
+								    	System.out.println("" + myDaoCommunityAccount.getData().getStats().getBattles());
+								    }
+								    //query.deletePersistentAll(input);
+								    query.closeAll();
 						        } finally {
 						            pm.close();
 						        }
