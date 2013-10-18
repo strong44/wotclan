@@ -8,8 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -25,6 +27,14 @@ import org.apache.commons.lang.time.DateUtils;
 
 
 
+import com.google.appengine.api.datastore.DatastoreFailureException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.taskqueue.TaskOptions.Method;
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.memetix.mst.detect.Detect;
@@ -58,7 +68,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -67,133 +77,30 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
-		
 		//
-
+		log.warning("========lancement getClan ==============");
 		
-		Clan desClan =null;
-		// Verify that the input is valid.
-		if (!FieldVerifier.isValidName(input)) {
-			// If the input is not valid, throw an IllegalArgumentException back to
-			// the client.
-			throw new IllegalArgumentException("Name must be at least 4 characters long");
-		}
-
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-
-		// Escape data from the client to avoid cross-site script vulnerabilities.
-		input = escapeHtml(input);
-		userAgent = escapeHtml(userAgent);
-		String resultAchievement = "";
-		
+		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+		Queue queue = QueueFactory.getDefaultQueue();
 		try {
-			long maxAchievement = 0;
-			String maxAchievementuserName = "";
+		    Transaction txn = ds.beginTransaction();
+		    
+		    // http://wotachievement.appspot.com/wottest1/greet
+		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
+		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet");
+		    to.method(Method.POST);
+		    to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
+		    queue.add(to);
 
-			//recup id clan avec son son nom 
-			// http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=NOVA%20SNAIL&offset=0&limit=1
-			/**
-			 * {
-				  "status": "ok", 
-				  "status_code": "NO_ERROR", 
-				  "data": {
-				    "items": [
-				      {
-				        "abbreviation": "NVS", 
-				        "created_at": 1328978449.00, 
-				        "name": "NOVA SNAIL", 
-				        "member_count": 57, 
-				        "owner": "hentz44", 
-				        "motto": "Un escargot qui avale un obus a confiance en sa coquille.", 
-				        "clan_emblem_url": "http://cw.worldoftanks.eu/media/clans/emblems/clans_5/500006074/emblem_64x64.png", 
-				        "id": 500006074, 
-				        "clan_color": "#4a426c"
-				      }
-				    ], 
-				    "offset": 0, 
-				    "filtered_count": 2
-				  }
-				}
-			 */
-			URL urlClan = null ;
-			String inputTransform = input.replace(" ", "%20");
-			//input = input.replace(" ", "%20");
-			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://tractro.appspot.com//api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  inputTransform + "&offset=0&limit=1");				
-			}
-			else {
-				urlClan = new URL("http://api.worldoftanks.eu/community/clans/api/1.1/?source_token=WG-WoT_Assistant-1.3.2&search=" +  inputTransform + "&offset=0&limit=1");		
-			}
-			
-			//lecture de la r�ponse recherche du clan
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
-			String line = "";
-			String AllLines = "";
-
-			while ((line = reader.readLine()) != null) {
-				AllLines = AllLines + line;
-			}
-			reader.close();
-
-			Gson gson = new Gson();
-			//System.out.println("before " + AllLines);
-			
-			//parsing gson
-			desClan = gson.fromJson(AllLines, Clan.class);
-			//ItemsDataClan  myItemsDataClan = null ;
-			
-			//requete dans notre base
-			PersistenceManager pm = PMF.get().getPersistenceManager();
-			//DaoItemsDataClan
-
-			//si retour ok on met à jour les données du clan dans la base de wotachievement
-			if(desClan.getStatus().equalsIgnoreCase("ok")) {
-				//pm.newQuery(arg0, arg1);
-				Query query = pm.newQuery(DaoItemsDataClan.class);
-			    query.setFilter("name == nameParam");
-			    //query.setOrdering("hireDate desc");
-			    query.declareParameters("String nameParam");
-			    List<DaoItemsDataClan> results = (List<DaoItemsDataClan>) query.execute(input);
-			    
-			    for (DaoItemsDataClan myDaoItemsDataClan : results ) {
-			    	System.out.println("" + myDaoItemsDataClan.abbreviation);
-			    	System.out.println("" + myDaoItemsDataClan.clan_emblem_url);
-			    	System.out.println("" + myDaoItemsDataClan.member_count);
-			    	System.out.println("" + myDaoItemsDataClan.name);
-			    }
-			    query.deletePersistentAll(input);
-			    query.closeAll();
-			
-			//
-			
-				//on persiste si le clan n'existe pas en base   
-				
-//		        try {
-//		        	//must transform before persist the objet clan
-//		        	pm.close();
-//		        	pm = PMF.get().getPersistenceManager();
-//		        	pm.currentTransaction().begin();
-//		        	DaoClan daoClan = TransformDtoObject.TransformClanToDaoClan(desClan);
-//		            pm.makePersistentAll(daoClan.getData().getItems());
-//		        	pm.currentTransaction().commit();
-//		        	System.out.println("key daclan " + daoClan.getKey());
-//		            
-//		        } finally {
-//		            pm.close();
-//		        }
-			}
-	
-		} catch (MalformedURLException e) {
-			// ...
-			e.printStackTrace();
-		} catch (IOException e) {
-			// ...
-			e.printStackTrace();
+		    // ...
+		    txn.commit();
+		} catch (DatastoreFailureException e) {
+			log.severe(e.getMessage());
 		}
+		
 
 		//return resultAchievement;
-		return desClan;
+		return null;
 	}
 
 	/**
@@ -212,11 +119,17 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 	@Override
 	public Clan getClans(String input, int offset) throws IllegalArgumentException {
+		//////////
+		log.warning("========lancement getClans ==============");
+		
+		getClan("");
+		
+		////////////////
 		URL urlAchievement = null;
 		String AllLinesWot = "";
 		try {
 			if(lieu.equalsIgnoreCase("boulot")) //on passe par 1 proxy
-				urlAchievement = new URL ("https://tractro.appspot.com/wiki.worldoftanks.com/achievements");
+				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
 			else
 				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
 			
@@ -333,7 +246,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://tractro.appspot.com/api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
+				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
 			}
 			else {
 				//NVS : 500006074
@@ -608,11 +521,18 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		        	
 		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
 		        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
+		        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
+		        	
+					Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
+		
 		            pm.makePersistent(daoCommunityClan);
 		        	pm.currentTransaction().commit();
 		        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
-		            
-		        } finally {
+		        }
+		        catch(Exception e){
+		        	pm.currentTransaction().rollback();
+		        }
+		       finally {
 		            //pm.close();
 		        }
 			}
@@ -650,7 +570,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 							URL url = null ;
 							if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-								url = new URL("https://tractro.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 							}
 							else {
 								url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
@@ -754,15 +674,18 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
 
 							if (saveDataPlayer){
-								
+								//pm = PMF.get().getPersistenceManager();
 						        try {
 						        	//must transform before persist the objet clan
-						        	//pm.currentTransaction().begin();
+						        	pm.currentTransaction().begin();
 						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
 						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
-						        	//pm.currentTransaction().commit();
+						        	//
+						        	pm.makePersistent(daoCommunityAccount);
+						        	pm.currentTransaction().commit();
 						        	log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
-						        	///
+						        	
+						        	/// query
 									Query query = pm.newQuery(DaoCommunityAccount.class);
 								    query.setFilter("name == nameParam");
 								    //query.setOrdering("hireDate desc");
@@ -779,7 +702,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								    }
 								    //query.deletePersistentAll(input);
 								    query.closeAll();
-						        } finally {
+						        }
+							    catch(Exception e){
+						        	pm.currentTransaction().rollback();
+						        }
+						        finally {
 						            //pm.close();
 						        }
 							}
