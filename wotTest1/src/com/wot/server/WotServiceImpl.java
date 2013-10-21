@@ -87,7 +87,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		    
 		    // http://wotachievement.appspot.com/wottest1/greet
 		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
-		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet");
+		    //Content-Type	text/x-gwt-rpc; charset=utf-8
+		    HashMap hm= new HashMap<String, String>();
+		    //hm.put("Content-Type", "text/x-gwt-rpc");
+		    
+		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
 		    to.method(Method.POST);
 		    to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
 		    queue.add(to);
