@@ -68,12 +68,17 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
 
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
+	
+	@Override
+	protected void checkPermutationStrongName() throws SecurityException {
+		return;
+	}
 	
 	@Override
 	public Clan getClan(String input) throws IllegalArgumentException {
@@ -89,11 +94,19 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
 		    //Content-Type	text/x-gwt-rpc; charset=utf-8
 		    HashMap hm= new HashMap<String, String>();
-		    //hm.put("Content-Type", "text/x-gwt-rpc");
+		    hm.put("Content-Type", "text/x-gwt-rpc");
 		    
 		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
 		    to.method(Method.POST);
-		    to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
+		    //to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
+		    //http://wotachievement.appspot.com
+		    if (lieu.equalsIgnoreCase("boulot")) {
+		    	//local
+		    	to.payload("7|0|6|http://127.0.0.1:8888/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");	
+		    }else {
+		    	to.payload("7|0|6|http://http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");
+		    }
+		    
 		    queue.add(to);
 
 		    // ...

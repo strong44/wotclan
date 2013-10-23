@@ -2,7 +2,7 @@
 <queue-entries>
   <queue>
     <name>default</name>
-    <rate>1/s</rate>
+    <rate>1/h</rate>
   </queue>
   <queue>
     <name>mail-queue</name>
@@ -11,6 +11,6 @@
   </queue>
   <queue>
     <name>background-processing</name>
-    <rate>5/s</rate>
+    <rate>30/s</rate>
   </queue>
 </queue-entries>

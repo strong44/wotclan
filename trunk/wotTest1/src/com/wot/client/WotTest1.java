@@ -4321,7 +4321,7 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setEnabled(false);
 					textToServerLabel.setText(textToServer);
 					serverResponseLabel.setText("");
-					wotService.getClans(textToServer ,offsetClan,
+					wotService.getClans(textToServer , offsetClan,
 							new AsyncCallback<Clan>() {
 								public void onFailure(Throwable caught) {
 									hPanelLoading.setVisible(false);
