@@ -2,7 +2,7 @@
 <queue-entries>
   <queue>
     <name>default</name>
-    <rate>30/m</rate>
+    <rate>1/h</rate>
   </queue>
   <queue>
     <name>mail-queue</name>

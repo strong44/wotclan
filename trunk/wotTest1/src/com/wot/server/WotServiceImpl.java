@@ -77,6 +77,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static int indexEndUser = 10;
 	static int pas = 10;
 	static int indexMaxUser = 100;
+	static List<String> listUsersPersisted = new ArrayList<String>();
 	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	
@@ -86,9 +87,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 	
 	@Override
-	public Clan getClan(String input) throws IllegalArgumentException {
+	public List<String> persistStats(String input, int indexBegin, int indexEnd) throws IllegalArgumentException {
 		//
-		log.warning("========lancement getClan ==============");
+		log.warning("========lancement persistStats ============== " + input);
 		
 		//recup des stats des user du clan NVS -- pour l'instant le seul clan
 		// a terme il faut récupérer les clan présents en base, et requeter les stats de leur joueurs 
@@ -104,39 +105,42 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //			indexEndUser = indexEndUser +  pas;
 //		}
 		
-		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		Queue queue = QueueFactory.getDefaultQueue();
-		try {
-		    Transaction txn = ds.beginTransaction();
-		    
-		    // http://wotachievement.appspot.com/wottest1/greet
-		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
-		    //Content-Type	text/x-gwt-rpc; charset=utf-8
-		    HashMap hm= new HashMap<String, String>();
-		    hm.put("Content-Type", "text/x-gwt-rpc");
-		    
-		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
-		    to.method(Method.POST);
-		    //to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
-		    //http://wotachievement.appspot.com
-		    if (lieu.equalsIgnoreCase("boulot")) {
-		    	//local
-		    	to.payload("7|0|6|http://127.0.0.1:8888/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");	
-		    }else {
-		    	to.payload("7|0|6|http://http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");
-		    }
-		    
-		    queue.add(to);
-
-		    // ...
-		    txn.commit();
-		} catch (DatastoreFailureException e) {
-			log.severe(e.getMessage());
-		}
+//		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+//		Queue queue = QueueFactory.getDefaultQueue();
+//		try {
+//		    Transaction txn = ds.beginTransaction();
+//		    
+//		    // http://wotachievement.appspot.com/wottest1/greet
+//		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
+//		    //Content-Type	text/x-gwt-rpc; charset=utf-8
+//		    HashMap hm= new HashMap<String, String>();
+//		    hm.put("Content-Type", "text/x-gwt-rpc");
+//		    
+//		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
+//		    to.method(Method.POST);
+//		    //to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
+//		    //http://wotachievement.appspot.com
+//		    if (lieu.equalsIgnoreCase("boulot")) {
+//		    	//local
+//		    	to.payload("7|0|6|http://127.0.0.1:8888/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");	
+//		    }else {
+//		    	to.payload("7|0|6|http://http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");
+//		    }
+//		    
+//		    queue.add(to);
+//
+//		    // ...
+//		    txn.commit();
+//		} catch (DatastoreFailureException e) {
+//			log.severe(e.getMessage());
+//		}
 		
-
+		
+		
+		
+		persistAllStats(input, indexBegin, indexEnd);
 		//return resultAchievement;
-		return null;
+		return listUsersPersisted;
 	}
 
 	/**
@@ -456,31 +460,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 			Gson gson = new Gson();
 			
-//				int indexDes = AllLines.indexOf("\"description_html") ;
-//				if (indexDes > 0) {
-//				AllLines = AllLines.substring(0,indexDes); 
-//				AllLines = AllLines + " \"description_html\":\"aa\"}}";
-//				}
-			
 			daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
 			daoCommunityClan.setIdClan(idClan);
 			daoCommunityClan.setDateCommunityClan(new java.util.Date());
 			//persist clan ?
 			
-			PersistenceManager pm =null;
-			if (saveData){
-//				pm = PMF.get().getPersistenceManager();
-//		        try {
-//		        	//must transform before persist the objet clan
-//		        	pm.currentTransaction().begin();
-//		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
-//		            pm.makePersistent(daoCommunityClan);
-//		        	pm.currentTransaction().commit();
-//		            
-//		        } finally {
-//		            pm.close();
-//		        }
-			}
 		} catch (MalformedURLException e) {
 			// ...
 			e.printStackTrace();
@@ -549,29 +533,29 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			//persist clan ?
 			
 			
-			if (saveData){
-				//pm = PMF.get().getPersistenceManager();
-		        try {
-		        	//must transform before persist the objet clan
-		        	pm.currentTransaction().begin();
-		        	
-		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
-		        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
-		        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
-		        	
-					Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
-		
-		            pm.makePersistent(daoCommunityClan);
-		        	pm.currentTransaction().commit();
-		        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
-		        }
-		        catch(Exception e){
-		        	pm.currentTransaction().rollback();
-		        }
-		       finally {
-		            //pm.close();
-		        }
-			}
+//			if (saveData){
+//				//pm = PMF.get().getPersistenceManager();
+//		        try {
+//		        	//must transform before persist the objet clan
+//		        	pm.currentTransaction().begin();
+//		        	
+//		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
+//		        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
+//		        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
+//		        	
+//					Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
+//		
+//		            pm.makePersistent(daoCommunityClan);
+//		        	pm.currentTransaction().commit();
+//		        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
+//		        }
+//		        catch(Exception e){
+//		        	pm.currentTransaction().rollback();
+//		        }
+//		       finally {
+//		            //pm.close();
+//		        }
+//			}
 			CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
 			if (communityClan != null) {
 	
@@ -707,318 +691,45 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							listCommunityAccount.add(account);
 							
 							//persist communityAccount ?
-					    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+//					    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
 
-							if (saveDataPlayer){
-								//pm = PMF.get().getPersistenceManager();
-						        try {
-						        	//must transform before persist the objet clan
-						        	pm.currentTransaction().begin();
-						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
-						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
-						        	//
-						        	pm.makePersistent(daoCommunityAccount);
-						        	pm.currentTransaction().commit();
-						        	log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
-						        	
-						        	/// query
-//									Query query = pm.newQuery(DaoCommunityAccount.class);
-//								    query.setFilter("name == nameParam");
-//								    //query.setOrdering("hireDate desc");
-//								    query.declareParameters("String nameParam");
-//								    List<DaoCommunityAccount> results = (List<DaoCommunityAccount>) query.execute(account.getName());
-//								    
-//								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
-//								    	String date = "";
-//								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
-//								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
-//								    	}
-//								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
-//
-//								    }
-//								    //query.deletePersistentAll(input);
-//								    query.closeAll();
-						        }
-							    catch(Exception e){
-						        	pm.currentTransaction().rollback();
-						        }
-						        finally {
-						            //pm.close();
-						        }
-							}
-						}//if treat 
-					}
-
-				}//for (DataCommunityClanMembers
-			} else {
-	
-				System.out.println("Erreur de parse");
-			}
-		} catch (MalformedURLException e) {
-			// ...
-			e.printStackTrace();
-		} catch (IOException e) {
-			// ...
-			e.printStackTrace();
-		}
-		finally {
-			pm.close();
-		}
-	
-		return myAllCommunityAccount;
-	
-	}
-
-	
-	public AllCommunityAccount getAllStats(String idClan,  int indexBegin, int indexEnd ) {
-	
-		log.warning("getAllStats index debut " + indexBegin + " indeex fin " + indexEnd);
-		
-		// Verify that the input is valid. //[502248407, 506128381]  
-		if (!FieldVerifier.isValidName(idClan)) {
-			// If the input is not valid, throw an IllegalArgumentException back to
-			// the client.
-			throw new IllegalArgumentException("Name must be at least 4 characters long");
-		}
-	
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-	
-		// Escape data from the client to avoid cross-site script vulnerabilities.
-		idClan = escapeHtml(idClan);
-		userAgent = escapeHtml(userAgent);
-		
-		List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
-		AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
-		myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
-		PersistenceManager pm =null;
-		
-		try {
-			pm = PMF.get().getPersistenceManager();
-			
-			URL urlClan = null ;
-			// recup des membres du clan NVS
-			urlClan = null ;
-			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				//        new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
-				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
-			}
-			else {
-				//500006074
-				//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
-				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
-			}
-	
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
-			String line = "";
-			String AllLines = "";
-	
-			while ((line = reader.readLine()) != null) {
-				AllLines = AllLines + line;
-			}
-			reader.close();
-	
-			Gson gson = new Gson();
-			
-			DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
-			daoCommunityClan.setIdClan(idClan);
-			daoCommunityClan.setDateCommunityClan(new java.util.Date());
-			//persist clan ?
-			
-			
-			if (saveData){
-				//pm = PMF.get().getPersistenceManager();
-		        try {
-		        	//must transform before persist the objet clan
-		        	pm.currentTransaction().begin();
-		        	
-		        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
-		        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
-		        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
-		        	
-					Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
-		
-		            pm.makePersistent(daoCommunityClan);
-		        	pm.currentTransaction().commit();
-		        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
-		        }
-		        catch(Exception e){
-		        	pm.currentTransaction().rollback();
-		        }
-		       finally {
-		            //pm.close();
-		        }
-			}
-			CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
-			if (communityClan != null) {
-	
-				DataCommunityClan myDataCommunityClan = communityClan.getData();
-	
-				List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
-	
-				for (DataCommunityClanMembers dataClanMember : listClanMembers) {
-					int nbMember = 0;
-					for (DataCommunityMembers member : dataClanMember.getMembers()) { 
-						nbMember++;
-						//
-						// String nameUser ="";
-						String idUser = member.getAccount_id();
-
-						//si idUSer in listIdUser alaors on requ�te sinon rien
-						boolean treatUser = false;
-						if (nbMember>= indexBegin && nbMember <=indexEnd ) {
-							treatUser = true;
-						}else {
-							treatUser = false;
-						}
-						
-						if (treatUser) {
-							// recup des datas du USER 506486576 (strong44)
-							// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
-							// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
-							URL url = null ;
-							if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-								url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
-							}
-							else {
-								url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
-							}
-							BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
-							String lineUser = "";
-							;
-							String AllLinesUser = "";
-			
-							while ((lineUser = readerUser.readLine()) != null) {
-								AllLinesUser = AllLinesUser + lineUser;
-							}
-							//System.out.println(AllLinesUser);
-							
-							readerUser.close();
-			
-							Gson gsonUser = new Gson();
-							CommunityAccount account = gsonUser.fromJson(AllLinesUser, CommunityAccount.class);
-							account.setIdUser(idUser);
-							account.setName(account.getData().getName());
-							//account.setDateCommunityAccount(new java.util.Date());
-							
-							//make some calculation of stats 
-							DataCommunityAccountRatings myDataCommunityAccountStats = account.getData().getStats();
-//							
-							//== WR calculated
-							int battles = myDataCommunityAccountStats.getBattles();
-//							int battlesWin = myDataCommunityAccountStats.getBattle_wins();
-//							Double wrCal = (double) ((double)battlesWin/(double)battles);
-							System.out.println(account.getName() + " " + battles);
-							
-//							//on ne conserve que 2 digits après la virgule 
-//							wrCal = wrCal * 100; //ex : 51,844444
-//							int intWrCal = (int) (wrCal * 100); //ex : 5184
-//							
-//							wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//							myDataCommunityAccountStats.setBattle_avg_performanceCalc(wrCal);
-//							
-//							//== Ratio capture points calculated
-//							int ctfPoints = myDataCommunityAccountStats.getCtf_points();
-//							Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
-//							
-//							//on ne conserve que 2 digits après la virgule 
-//							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-//							int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
-//							
-//							ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex : 1,28
-//							myDataCommunityAccountStats.setRatioCtfPoints(ctfPointsCal);
-//							
-//							//==Damage Ration calculated
-//							int damagePoints = myDataCommunityAccountStats.getDamage_dealt();
-//							Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
-//							
-//							//on ne conserve que 2 digits après la virgule 
-//							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-//							int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
-//							
-//							ratioDamagePoints = (double)intRatioDamagePoints / 100 ; //ex : 1,28
-//							myDataCommunityAccountStats.setRatioDamagePoints(ratioDamagePoints);
-//							
-//							
-//							//==Ratio Defense calculated
-//							int droppedCtfPoints = myDataCommunityAccountStats.getDropped_ctf_points();
-//							Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
-//							
-//							//on ne conserve que 2 digits après la virgule 
-//							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-//							int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
-//							
-//							ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
-//							myDataCommunityAccountStats.setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
-//							
-//							
-//							//==Ratio Destroyed calculated
-//							int destroyedPoints = myDataCommunityAccountStats.getFrags();
-//							Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
-//							
-//							//on ne conserve que 2 digits après la virgule 
-//							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-//							int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
-//							
-//							ratiodestroyedPoints = (double)intRatiodestroyedPoints / 100 ; //ex : 1,28
-//							myDataCommunityAccountStats.setRatioDestroyedPoints(ratiodestroyedPoints);
-//							
-//							//==Ratio Detected calculated
-//							int detectedPoints = myDataCommunityAccountStats.getSpotted();
-//							Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
-//							
-//							//on ne conserve que 2 digits après la virgule 
-//							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-//							int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
-//							
-//							ratioDetectedPoints = (double)intRatioDetectedPoints / 100 ; //ex : 1,28
-//							myDataCommunityAccountStats.setRatioDetectedPoints(ratioDetectedPoints);
-//							
-//							
-//							
-//							//add account
-//							listCommunityAccount.add(account);
-							
-							//persist communityAccount ?
-					    	//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
-
-							if (saveDataPlayer){
-								//pm = PMF.get().getPersistenceManager();
-						        try {
-						        	//must transform before persist the objet clan
-						        	pm.currentTransaction().begin();
-						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
-						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
-						        	//
-						        	pm.makePersistent(daoCommunityAccount);
-						        	pm.currentTransaction().commit();
-						        	log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
-						        	
+//							if (saveDataPlayer){
+//								//pm = PMF.get().getPersistenceManager();
+//						        try {
+//						        	//must transform before persist the objet clan
+//						        	pm.currentTransaction().begin();
+//						        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
+//						        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
+//						        	//
+//						        	pm.makePersistent(daoCommunityAccount);
+//						        	pm.currentTransaction().commit();
+//						        	log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
+//						        	
 //						        	/// query
-//									Query query = pm.newQuery(DaoCommunityAccount.class);
-//								    query.setFilter("name == nameParam");
-//								    //query.setOrdering("hireDate desc");
-//								    query.declareParameters("String nameParam");
-//								    List<DaoCommunityAccount> results = (List<DaoCommunityAccount>) query.execute(account.getName());
-//								    
-//								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
-//								    	String date = "";
-//								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
-//								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
-//								    	}
-//								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
-//
-//								    }
-								    //query.deletePersistentAll(input);
-								    //query.closeAll();
-						        }
-							    catch(Exception e){
-						        	pm.currentTransaction().rollback();
-						        }
-						        finally {
-						            //pm.close();
-						        }
-							}
+////									Query query = pm.newQuery(DaoCommunityAccount.class);
+////								    query.setFilter("name == nameParam");
+////								    //query.setOrdering("hireDate desc");
+////								    query.declareParameters("String nameParam");
+////								    List<DaoCommunityAccount> results = (List<DaoCommunityAccount>) query.execute(account.getName());
+////								    
+////								    for (DaoCommunityAccount myDaoCommunityAccount : results ) {
+////								    	String date = "";
+////								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
+////								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
+////								    	}
+////								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
+////
+////								    }
+////								    //query.deletePersistentAll(input);
+////								    query.closeAll();
+//						        }
+//							    catch(Exception e){
+//						        	pm.currentTransaction().rollback();
+//						        }
+//						        finally {
+//						            //pm.close();
+//						        }
+//							}
 						}//if treat 
 					}
 
@@ -1041,8 +752,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		return myAllCommunityAccount;
 	
 	}
-	
-	
+
 	@Override
 	public AllCommunityAccount getAllMembersClanAndStatsHistorised(String idClan, List<String> listIdUser) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -1188,6 +898,371 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		return hashMapAchievement;
 		
 	}
+
+	/**
+	 * get all stats all clan's user
+	 * @param idClan
+	 * @param indexBegin
+	 * @param indexEnd
+	 * @return
+	 */
+	public List<DaoCommunityAccount> getAllStats(String idClan,  int indexBegin, int indexEnd ) {
+		
+			log.warning("getAllStats index debut " + indexBegin + " indeex fin " + indexEnd);
+			List<DaoCommunityAccount> resultsFinal = new ArrayList<DaoCommunityAccount>();
+			
+			// Verify that the input is valid. //[502248407, 506128381]  
+			if (!FieldVerifier.isValidName(idClan)) {
+				// If the input is not valid, throw an IllegalArgumentException back to
+				// the client.
+				throw new IllegalArgumentException("Name must be at least 4 characters long");
+			}
+		
+			String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		
+			// Escape data from the client to avoid cross-site script vulnerabilities.
+			idClan = escapeHtml(idClan);
+			userAgent = escapeHtml(userAgent);
+			
+			List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
+			AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
+			myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+			PersistenceManager pm =null;
+			
+			try {
+				pm = PMF.get().getPersistenceManager();
+				
+				URL urlClan = null ;
+				// recup des membres du clan NVS
+				urlClan = null ;
+				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+					urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+				}
+				else {
+					//500006074
+					urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+				}
+		
+				BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+				String line = "";
+				String AllLines = "";
+		
+				while ((line = reader.readLine()) != null) {
+					AllLines = AllLines + line;
+				}
+				reader.close();
+		
+				Gson gson = new Gson();
+				
+				DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+				daoCommunityClan.setIdClan(idClan);
+				daoCommunityClan.setDateCommunityClan(new java.util.Date());
+
+				CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
+				if (communityClan != null) {
+		
+					DataCommunityClan myDataCommunityClan = communityClan.getData();
+		
+					List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
+		
+					for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+						int nbMember = 0;
+						for (DataCommunityMembers member : dataClanMember.getMembers()) { 
+							nbMember++;
+							//
+							// String nameUser ="";
+							String idUser = member.getAccount_id();
+	
+							//si idUSer in listIdUser alaors on requ�te sinon rien
+							boolean treatUser = false;
+							if (nbMember>= indexBegin && nbMember <=indexEnd ) {
+								treatUser = true;
+							}else {
+								treatUser = false;
+							}
+							
+							if (treatUser) {
+								// recup des datas du USER 506486576 (strong44)
+								URL url = null ;
+								if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+									url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								}
+								else {
+									url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								}
+								BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+								String lineUser = "";
+								
+								String AllLinesUser = "";
+								while ((lineUser = readerUser.readLine()) != null) {
+									AllLinesUser = AllLinesUser + lineUser;
+								}
+								readerUser.close();
+				
+								Gson gsonUser = new Gson();
+								CommunityAccount account = gsonUser.fromJson(AllLinesUser, CommunityAccount.class);
+								account.setIdUser(idUser);
+								account.setName(account.getData().getName());
+								//account.setDateCommunityAccount(new java.util.Date());
+								
+								//make some calculation of stats 
+								DataCommunityAccountRatings myDataCommunityAccountStats = account.getData().getStats();
+								//== WR calculated
+								int battles = myDataCommunityAccountStats.getBattles();
+								log.info(account.getName() + " " + battles);
+								
+						    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+	
+							
+						        try {
+						        	/// query
+									Query query = pm.newQuery(DaoCommunityAccount.class);
+								    query.setFilter("name == nameParam");
+								    query.setOrdering("dateCommunityAccount desc");
+								    //query.setOrdering("hireDate desc");
+								    query.declareParameters("String nameParam");
+								    List<DaoCommunityAccount> resultsTmp = (List<DaoCommunityAccount>) query.execute(account.getName());
+								    
+								    for (DaoCommunityAccount myDaoCommunityAccount : resultsTmp ) {
+								    	String date = "";
+								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
+								    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
+								    	}
+								    	log.warning(date + ":" + account.getName() + ":" + myDaoCommunityAccount.getData().getStats().getBattles() );
+
+								    }
+								    resultsFinal.addAll(resultsTmp);
+								    //query.deletePersistentAll(input);
+								    query.closeAll();
+						        }
+							    catch(Exception e){
+						        	pm.currentTransaction().rollback();
+						        }
+						        finally {
+						            //pm.close();
+						        }
+						
+							}//if treat 
+						}
+	
+					}//for (DataCommunityClanMembers
+				} else {
+		
+					System.out.println("Erreur de parse");
+				}
+			} catch (MalformedURLException e) {
+				// ...
+				e.printStackTrace();
+			} catch (IOException e) {
+				// ...
+				e.printStackTrace();
+			}
+			finally {
+				pm.close();
+			}
+		
+			return resultsFinal;
+		
+		}
+
+	/**
+		 * persist wot server's datas  in datastore appengine
+		 * @param idClan
+		 * @param indexBegin
+		 * @param indexEnd
+		 */
+		public List<String> persistAllStats(String idClan,  int indexBegin, int nbUsersToTreat ) {
+		
+			//on raz la liste de joueurs persistés
+			if (indexBegin == 0 ) {
+				listUsersPersisted.clear();
+			}
+			
+			//List<String> listUserPersisted = new ArrayList<String>() ;
+			
+			log.warning("persistAllStats index debut " + indexBegin + " nb Users To Treat " + nbUsersToTreat);
+			
+			// Verify that the input is valid. //[502248407, 506128381]  
+			if (!FieldVerifier.isValidName(idClan)) {
+				// If the input is not valid, throw an IllegalArgumentException back to
+				// the client.
+				throw new IllegalArgumentException("Name must be at least 4 characters long");
+			}
+		
+			String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		
+			// Escape data from the client to avoid cross-site script vulnerabilities.
+			idClan = escapeHtml(idClan);
+			userAgent = escapeHtml(userAgent);
+			
+			List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
+			AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
+			myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+			PersistenceManager pm =null;
+			
+			try {
+				pm = PMF.get().getPersistenceManager();
+				
+				URL urlClan = null ;
+				// recup des membres du clan NVS
+				urlClan = null ;
+				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+					urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+				}
+				else {
+					//500006074
+					urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+				}
+		
+				BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+				String line = "";
+				String AllLines = "";
+		
+				while ((line = reader.readLine()) != null) {
+					AllLines = AllLines + line;
+				}
+				reader.close();
+		
+				Gson gson = new Gson();
+				
+				DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+				daoCommunityClan.setIdClan(idClan);
+				daoCommunityClan.setDateCommunityClan(new java.util.Date());
+				//persist clan ?
+				
+				
+				if (saveData && indexBegin == 0){ //on ne fait qu'une fois économie d'écriture)
+					//pm = PMF.get().getPersistenceManager();
+			        try {
+			        	//must transform before persist the objet clan
+			        	pm.currentTransaction().begin();
+			        	
+			        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
+			        	daoCommunityClan.setDateCommunityClan(new java.util.Date());
+			        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
+			        	
+						Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
+			
+			            pm.makePersistent(daoCommunityClan);
+			        	pm.currentTransaction().commit();
+			        	log.warning("key Dao CommunityClan " + daoCommunityClan.getKey());
+			        }
+			        catch(Exception e){
+			        	pm.currentTransaction().rollback();
+			        }
+			       finally {
+			            //pm.close();
+			        }
+				}
+				CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
+				if (communityClan != null) {
+		
+					DataCommunityClan myDataCommunityClan = communityClan.getData();
+		
+					List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
+		
+					for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+						int nbMember = 0;
+						for (DataCommunityMembers member : dataClanMember.getMembers()) {
+							boolean treatUser = false;
+							if(!listUsersPersisted.contains(member.getAccount_name())) {
+								nbMember++;	
+								if (nbMember < nbUsersToTreat ) {
+									
+									treatUser = true;
+								}else {
+									treatUser = false;
+								}
+							}
+							
+							String idUser = member.getAccount_id();
+	
+							//si idUSer in listIdUser alaors on requ�te sinon rien
+							
+							
+							
+							if (treatUser) {
+								// recup des datas du USER 506486576 (strong44)
+								// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
+								// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								URL url = null ;
+								if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+									url = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								}
+								else {
+									url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
+								}
+								BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+								String lineUser = "";
+								;
+								String AllLinesUser = "";
+				
+								while ((lineUser = readerUser.readLine()) != null) {
+									AllLinesUser = AllLinesUser + lineUser;
+								}
+								//System.out.println(AllLinesUser);
+								
+								readerUser.close();
+				
+								Gson gsonUser = new Gson();
+								CommunityAccount account = gsonUser.fromJson(AllLinesUser, CommunityAccount.class);
+								account.setIdUser(idUser);
+								account.setName(account.getData().getName());
+								//account.setDateCommunityAccount(new java.util.Date());
+								
+								//make some calculation of stats 
+								DataCommunityAccountRatings myDataCommunityAccountStats = account.getData().getStats();
+	//							
+								int battles = myDataCommunityAccountStats.getBattles();
+								log.warning(account.getName() + " " + battles);
+								
+								
+								//persist communityAccount ?
+						    	//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+	
+								if (saveDataPlayer){
+									//pm = PMF.get().getPersistenceManager();
+							        try {
+							        	//must transform before persist the objet clan
+							        	pm.currentTransaction().begin();
+							        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
+							        	daoCommunityAccount.setDateCommunityAccount(new java.util.Date());
+							        	//
+							        	pm.makePersistent(daoCommunityAccount);
+							        	pm.currentTransaction().commit();
+							        	//log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
+							        	listUsersPersisted.add(account.getName());
+							        	
+							        }
+								    catch(Exception e){
+							        	pm.currentTransaction().rollback();
+							        }
+							        finally {
+							            //pm.close();
+							        }
+								}
+							}//if treat 
+						}
+	
+					}//for (DataCommunityClanMembers
+				} else {
+		
+					System.out.println("Erreur de parse");
+				}
+			} catch (MalformedURLException e) {
+				// ...
+				e.printStackTrace();
+			} catch (IOException e) {
+				// ...
+				e.printStackTrace();
+			}
+			finally {
+				pm.close();
+			}
+		
+			return listUsersPersisted;
+		
+		}
 
 	static void main (String arg[]) {
 		WotServiceImpl wot  = new WotServiceImpl();
