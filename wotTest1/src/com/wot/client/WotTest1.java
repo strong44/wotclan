@@ -30,6 +30,7 @@ import org.datanucleus.plugin.Bundle;
 
 
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.ButtonCell;
@@ -112,11 +113,15 @@ import com.wot.shared.XmlWiki;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class WotTest1 implements EntryPoint {
+	static boolean adminLogin = false ;
 	static String noData = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8KRYghA2Xyp8gWTkK4ZNtBQL2nixsiYdAFDeFBCaj_ylXcfhK";
 	XmlWiki xmlWiki = null;
 	String idClan ="" ;
 	int offsetClan = 0;
 	int limitClan = 100;
+	
+	int passSaving = 0;
+	int nbUsersToTreat = 30;
 	
 	  RootPanel rootPanel ;
 	  DockPanel dockPanel;
@@ -4122,8 +4127,9 @@ public class WotTest1 implements EntryPoint {
 		 * This is the entry point method.
 		 */
 	public void onModuleLoad() {
-			
 		
+		
+	
 			final Label errorLabel = new Label();
 			
 			 /**
@@ -4147,12 +4153,12 @@ public class WotTest1 implements EntryPoint {
 			//button search Clans
 			int posLeft = 10;
 			int posTop = 10;
-			Button searchClansButton = new Button("Find Clans");
+			Button searchClansButton = new Button("Clans");
 			rootPanel.add(searchClansButton, 10, posTop);
 			searchClansButton.setSize("80px", "28px");
 
 			//bouton plus de clans
-			final Button searchClansButtonMore = new Button("Find 100 Clans +");
+			final Button searchClansButtonMore = new Button("100 Clans +");
 			rootPanel.add(searchClansButtonMore, 95, posTop);
 			searchClansButtonMore.setSize("120px", "28px");
 			searchClansButtonMore.setEnabled(false);
@@ -4165,7 +4171,7 @@ public class WotTest1 implements EntryPoint {
 			lblNewLabel.setSize("50px", "24px");
 			
 			
-			//noom du clan � rechercher
+			//nom du clan a rechercher
 			final TextBox nameClan = new TextBox();
 			rootPanel.add(nameClan, 350, posTop);
 			nameClan.setText("NOVA SNAIL");
@@ -4182,9 +4188,52 @@ public class WotTest1 implements EntryPoint {
 			// Focus the name clan 
 			nameClan.setFocus(true);
 			
+			//bouton login for admin functions
+			final Button loginAdminButton = new Button("Admin login");
+			rootPanel.add(loginAdminButton, 700, posTop);
+			loginAdminButton.setSize("125px", "28px");
+			loginAdminButton.setEnabled(true);
+			
+			//nom du login 
+			final TextBox nameLogin = new TextBox();
+			rootPanel.add(nameLogin, 850, posTop);
+			nameLogin.setText("t..");
+			nameLogin.setSize("125px", "18px");
+			
+			nameLogin.addFocusHandler(new FocusHandler() {
+				
+				@Override
+				public void onFocus(FocusEvent event) {
+					// TODO Auto-generated method stub
+					passSaving = 0;
+					nbUsersToTreat = 30;
+				}
+			});
+			
+			final Button persistStatsButton = new Button("Save stats");
+			rootPanel.add(persistStatsButton, 1000, posTop);
+			persistStatsButton.setSize("125px", "28px");
+			persistStatsButton.setEnabled(false);
+			
+			// Add a handler to set admin login true
+			loginAdminButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					if (nameLogin.getText().equalsIgnoreCase("thleconn")){
+						persistStatsButton.setEnabled(true);
+						adminLogin = true;
+					}else {
+						persistStatsButton.setEnabled(false);
+						adminLogin = false;
+					}
+				}
+			});
+			//
+
+			
+			
 			//next row button search Clan's users
 			posTop = posTop + 35;
-			Button searchUsersClanButton = new Button("Find Clan's users");
+			Button searchUsersClanButton = new Button("Clan's Users");
 			rootPanel.add(searchUsersClanButton, 10, posTop);
 			searchUsersClanButton.setSize("210px", "28px");
 
@@ -4200,7 +4249,7 @@ public class WotTest1 implements EntryPoint {
 			//next row -- button search stats member's clan
 			posTop = posTop + 35 ;
 			final Button findMembersClanButton = new Button("Send");
-			findMembersClanButton.setText("Find stats Clan's members");
+			findMembersClanButton.setText("Stats");
 			rootPanel.add(findMembersClanButton, 10, posTop);
 			findMembersClanButton.setSize("210px", "28px");
 			findMembersClanButton.setEnabled(false);
@@ -4210,7 +4259,7 @@ public class WotTest1 implements EntryPoint {
 			//next row - button achievement's member
 		    posTop = posTop + 135 ;
 			final Button findAchievementsMemberButton = new Button("Send");
-			findAchievementsMemberButton.setText("Find Achivement's member");
+			findAchievementsMemberButton.setText("Achievements");
 			rootPanel.add(findAchievementsMemberButton, 10, posTop);
 			findAchievementsMemberButton.setSize("210px", "28px");
 			findAchievementsMemberButton.setEnabled(false);
@@ -4470,7 +4519,88 @@ public class WotTest1 implements EntryPoint {
 				
 				
 			}
+			/////////////////////////
+			//creare a handler for persist data in datastore
+			// Create a handler for the Button search all clans
+			class HandlerPersistStats implements ClickHandler, KeyUpHandler {
+				/**
+				 * Fired when the user clicks on the sendButton.
+				 */
+				public void onClick(ClickEvent event) {
+					//persist stats
+					persisStats(passSaving, nbUsersToTreat);
+					passSaving = 1 ;
+					nbUsersToTreat = 30;
+				}
 	
+				/**
+				 * Fired when the user types in the nameField.
+				 */
+				public void onKeyUp(KeyUpEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						persisStats(passSaving, nbUsersToTreat);
+						passSaving = 1 ;
+						nbUsersToTreat = 30;
+					}
+				}
+	
+				
+				/**
+				 * Send the name from the nameField to the server and wait for a response.
+				 */
+				private void persisStats(int indexBeginSaveStatsUser, int indexEndSaveStatsUser) {
+					hPanelLoading.setVisible(true);
+					// First, we validate the input.
+					errorLabel.setText("");
+					String textToServer = idClan;
+					if (!FieldVerifier.isValidName(textToServer)) {
+						errorLabel.setText("Please enter at least four characters");
+						return;
+					}
+	
+					// Then, we send the input to the server.
+					//searchClanButton.setEnabled(false);
+					textToServerLabel.setText(textToServer);
+					serverResponseLabel.setText("");
+					wotService.persistStats(textToServer , indexBeginSaveStatsUser, indexEndSaveStatsUser,//offsetClan,
+							new AsyncCallback<List<String>>() {
+								public void onFailure(Throwable caught) {
+									hPanelLoading.setVisible(false);
+									// Show the RPC error message to the user
+									dialogBox
+											.setText("Remote Procedure Call - Failure");
+									serverResponseLabel
+											.addStyleName("serverResponseLabelError");
+									serverResponseLabel.setHTML(SERVER_ERROR);
+									dialogBox.center();
+									closeButton.setFocus(true);
+								}
+	
+								
+								public void onSuccess(List<String> listClan) {
+									hPanelLoading.setVisible(false);
+									if (listClan.size()== 0) {
+
+										dialogBox
+										.setText(idClan);
+										serverResponseLabel
+												.addStyleName("serverResponseLabelError");
+										serverResponseLabel.setHTML(idClan + " An error arrived , please Retry again ! " );
+										dialogBox.center();
+										closeButton.setFocus(true);
+									}
+									
+								}
+						});
+					//searchClanButton.setEnabled(true);
+					//searchClanButton.setFocus(true);
+				}
+				
+				
+				
+			}
+			
+			
 			////
 			///////////
 			// Create a handler for search achivement's member
@@ -4809,6 +4939,13 @@ public class WotTest1 implements EntryPoint {
 			searchClansButtonMore.addClickHandler(handlerGetClans);
 			nameClan.addKeyUpHandler(handlerGetClans);
 	
+			//HandlerPersistStats
+			// Add a handler to persist stats
+			HandlerPersistStats handlerPersistStats = new HandlerPersistStats();
+			persistStatsButton.addClickHandler(handlerPersistStats);
+			//nameClan.addKeyUpHandler(handlerGetClans);
+			
+			
 			//Add a handler to find clan's users button : searchUsersClanButton
 			HandlerGetAllMembersClan handlerFindMembersClan = new HandlerGetAllMembersClan();
 			searchUsersClanButton.addClickHandler(handlerFindMembersClan);
