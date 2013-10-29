@@ -5130,7 +5130,7 @@ public class WotTest1 implements EntryPoint {
 		    
 		    //
 		    int sizeDate = 0;
-		    List<String> listDates = new ArrayList<String>(); 
+		    final List<String> listDates = new ArrayList<String>(); 
 		    for (CommunityAccount commAcc :  listCommAcc) {
 		    	int size = commAcc.listDates.size();
 		    	if (size > sizeDate) { 
@@ -5289,7 +5289,7 @@ public class WotTest1 implements EntryPoint {
 			 // We know that the data is sorted alphabetically by default.
 		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour3);
 	
-		    // JOUR SUIVANT ///////////////////////
+		    // === JOUR SUIVANT === ///////////////////////
 		    // Add a text column to show the second day of battlle.
 		    TextColumn<CommunityAccount> jour4 = new TextColumn<CommunityAccount>() {
 		      @Override
@@ -5302,8 +5302,11 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
+		    if (listDates.size() >= 4 )
+		    	strDate =  listDates.get(3);
+		    else
+		    	strDate = "";
 		    
-		    strDate =  listDates.get(3);
 		    tableHistorizedStatsCommAcc.addColumn(jour4, strDate);
 	
 		    jour4.setSortable(true);
@@ -5317,7 +5320,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null &&  o1.listbattles.size() >= 5   &&  o2.listbattles.size() >= 5) {
 		            	Integer val1 = o1.listbattles.get(3) - o1.listbattles.get(4);
 		            	Integer val2 = o2.listbattles.get(3)- o2.listbattles.get(4);
 		              return (o2 != null) ? val1.compareTo(val2) : 1;
@@ -5327,8 +5330,112 @@ public class WotTest1 implements EntryPoint {
 		        });
 	    	//
 			 // We know that the data is sorted alphabetically by default.
-		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour3);
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour4);
+		    /////////////////////////////////////////////////////////////////
+		    
+//		    // === JOUR SUIVANT === ///////////////////////
+//		    // Add a text column to show the second day of battlle.
+//		    TextColumn<CommunityAccount> jour5 = new TextColumn<CommunityAccount>() {
+//		      @Override
+//		      public String getValue(CommunityAccount object) {
+//		    	  if (object.listbattles.size() >= 6  ) {
+//		    		  int diff = object.listbattles.get(4) - object.listbattles.get(5);
+//		    		  return String.valueOf(diff);
+//		    	  }
+//		    	  else
+//		    		  return "";
+//		      }
+//		    };
+//		    
+//		    strDate =  listDates.get(4);
+//		    tableHistorizedStatsCommAcc.addColumn(jour5, strDate);
+//	
+//		    jour5.setSortable(true);
+//		    
+//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(jour5,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//	
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	Integer val1 = o1.listbattles.get(4) - o1.listbattles.get(5);
+//		            	Integer val2 = o2.listbattles.get(4)- o2.listbattles.get(5);
+//		              return (o2 != null) ? val1.compareTo(val2) : 1;
+//		            }else 
+//		            	return -1;
+//		          }
+//		        });
+//	    	//
+//			 // We know that the data is sorted alphabetically by default.
+//		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour5);
+//		    /////////////////////////////////////////////////////////////////
+//		    
+		    
+		    // === TOTAL DES JOURS  === ///////////////////////
+		    TextColumn<CommunityAccount> totalJour = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  int total = 0;
+		    	  int max  = object.listbattles.size() ; 
+		    	  if (max > 5 ) 
+		    		  max = 5 ;
+		    	  for (int i =0; i < (max - 1) ; i++) {
+		    		  total = total + object.listbattles.get(i) - object.listbattles.get(i+1);
+		    	  }
+		    	  return String.valueOf(total);
+		      }
+		    };
+		    
+		    strDate =  "Total";
+		    tableHistorizedStatsCommAcc.addColumn(totalJour, strDate);
 	
+		    totalJour.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(totalJour,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int total1 = 0 ;
+		            	int total2 = 0 ;
+		            	int maxO1  = o1.listbattles.size() ; 
+				    	if (maxO1 > 5 ) 
+				    		  maxO1 = 5 ;
+				    	for (int i =0; i < (maxO1 - 1) ; i++) {
+				    		  total1 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
+				    		  //total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
+				    	}
+		            	int maxO2  = o2.listbattles.size() ; 
+				    	  if (maxO2 > 5 ) 
+				    		  maxO2 = 5 ;
+				    	  for (int i =0; i < (maxO2 - 1) ; i++) {
+				    		  //total2 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
+				    		  total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
+				    	  }
+		            	
+		            	
+		            	Integer val1 = total1;
+		            	Integer val2 = total2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else 
+		            	return -1;
+		          }
+		        });
+	    	//
+			 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(totalJour);
+		    /////////////////////////////////////////////////////////////////
+		    
+		    
 		    //////////////////////////////////////////////////////////////////
 		    // Add a selection model to handle user selection.
 		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
