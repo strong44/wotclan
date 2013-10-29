@@ -1,6 +1,9 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.view.client.ProvidesKey;
 import com.wot.client.ContactDatabase.ContactInfo;
@@ -29,7 +32,19 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 	private String idUser = "000000";
 	//private Date dateCommunityAccount;
 	
+//	public Date getDateCommunityAccount() {
+//		return dateCommunityAccount;
+//	}
+//
+//	public void setDateCommunityAccount(Date dateCommunityAccount) {
+//		this.dateCommunityAccount = dateCommunityAccount;
+//	}
+
 	String nameAccount ;
+	
+	public List<String> listDates = new ArrayList<String>()  ;
+	public List<Integer> listbattles = new ArrayList<Integer>()  ;
+	
 	public String getName() {
 		return nameAccount;
 	}

@@ -19,4 +19,5 @@ public interface WotService extends RemoteService {
 	AllCommunityAccount getAllMembersClanAndStats(String idClan, List<String> listIdUser) throws IllegalArgumentException;
 	AllCommunityAccount getAllMembersClanAndStatsHistorised(String idClan, List<String> listIdUser) throws IllegalArgumentException;
 	CommunityClan getAllMembersClan(String idClan) throws IllegalArgumentException;
+	List<CommunityAccount> getStats(List<String> listIdUser);
 }
