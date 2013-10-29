@@ -1,20 +1,20 @@
 package com.wot.client;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+
+
+
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+
 import java.util.HashMap;
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Set;
 
-import org.datanucleus.plugin.Bundle;
 
 
 
@@ -30,23 +30,19 @@ import org.datanucleus.plugin.Bundle;
 
 
 
-import com.google.appengine.api.utils.SystemProperty;
-import com.google.gwt.cell.client.AbstractEditableCell;
-import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.cell.client.ButtonCell;
+
+
+
+
+
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.Cell.Context;
-import com.google.gwt.cell.client.ClickableTextCell;
+
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
-import com.google.gwt.cell.client.ImageResourceCell;
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.cell.client.ValueUpdater;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
+
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,42 +52,41 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeHtml;
+
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.Header;
+
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.TextHeader;
-import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Anchor;
+
+
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
+
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.util.tools.shared.StringUtils;
+
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.wot.client.ContactDatabase.DatabaseConstants;
+
+
+
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
@@ -128,11 +123,16 @@ public class WotTest1 implements EntryPoint {
 	  
 	  //m�canisme de pagination
 	  SimplePager pagerStatsCommunityAccount;
+	  SimplePager pagerHistorizedStatsCommunityAccount;
+	  
 	  SimplePager pagerClan;
 	  SimplePager pagerAchievementsCommunityAccount;
 	  
 	  //tableau des stats joueurs
 	  CellTable<CommunityAccount> tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+	  
+	  //tableau des stats historisés des joueurs
+	  CellTable<CommunityAccount> tableHistorizedStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 	  
 	  //tableau des stats joueurs
 	  CellTable<CommunityAccount> tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
@@ -142,7 +142,10 @@ public class WotTest1 implements EntryPoint {
 	  
 	  // Create a data provider for tab players.
 	  ListDataProvider<CommunityAccount> dataStatsProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
-	  
+
+	  // Create a data provider for tab players historized .
+	  ListDataProvider<CommunityAccount> dataHistorizedStatsProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
+
 	  // Create a data provider for achievement players.
 	  ListDataProvider<CommunityAccount> dataAchievementsProvider = new ListDataProvider<CommunityAccount>(CommunityAccount.KEY_PROVIDER);
 	  
@@ -4254,10 +4257,17 @@ public class WotTest1 implements EntryPoint {
 			findMembersClanButton.setSize("210px", "28px");
 			findMembersClanButton.setEnabled(false);
 
+			//findHistorizedStatsButton
+			posTop = posTop + 35 ;
+			final Button findHistorizedStatsButton = new Button("Send");
+			findHistorizedStatsButton.setText("Histo Battles");
+			rootPanel.add(findHistorizedStatsButton, 10, posTop);
+			findHistorizedStatsButton.setSize("210px", "28px");
+			findHistorizedStatsButton.setEnabled(false);
 
 			
 			//next row - button achievement's member
-		    posTop = posTop + 135 ;
+		    posTop = posTop + 100 ;
 			final Button findAchievementsMemberButton = new Button("Send");
 			findAchievementsMemberButton.setText("Achievements");
 			rootPanel.add(findAchievementsMemberButton, 10, posTop);
@@ -4492,6 +4502,7 @@ public class WotTest1 implements EntryPoint {
 										tableClan.setVisible(true);
 
 										findMembersClanButton.setEnabled(true);
+										findHistorizedStatsButton.setEnabled(true);
 										findAchievementsMemberButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 �lments dans TAB
@@ -4832,6 +4843,139 @@ public class WotTest1 implements EntryPoint {
 				
 			}
 		////
+			
+			///////////
+		////
+			///////////
+			// Create a handler for search clan's members
+			class HandlerGetStats implements ClickHandler, KeyUpHandler {
+				/**
+				 * Fired when the user clicks on the sendButton.
+				 */
+				public void onClick(ClickEvent event) {
+					getStats();
+					offsetClan = 0;
+					limitClan = 100;
+				}
+	
+				/**
+				 * Fired when the user types in the nameField.
+				 */
+				public void onKeyUp(KeyUpEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						getStats();
+						offsetClan = 0;
+						limitClan = 100;
+					}
+				}
+	
+				/**
+				 * Send the name from the nameField to the server and wait for a response.
+				 */
+				private void getStats() {
+					// First, we validate the input.
+					hPanelLoading.setVisible(true);
+					
+				    // recup des users selected in dropBoxClanUsers
+					List<String> listIdUser = new ArrayList<String>();
+					int itemCount = dropBoxClanUsers.getItemCount();
+					for(int i = 0 ;  i< itemCount ; i++) {
+						if (dropBoxClanUsers.isItemSelected(i)) {
+							listIdUser.add(dropBoxClanUsers.getValue(i));
+						}
+					}
+					
+					
+					errorLabel.setText("");
+					String textToServer = idClan;
+					if (!FieldVerifier.isValidName(textToServer)) {
+						errorLabel.setText("Please enter at least four characters");
+						
+						/////
+						dialogBox
+						.setText("Select a Clan before!!");
+						serverResponseLabel
+								.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML("Click on a clan before find members !"  );
+						dialogBox.center();
+						closeButton.setFocus(true);
+						return;
+					}
+	
+					// Then, we send the input to the server.
+					//searchClanButton.setEnabled(false);
+					textToServerLabel.setText(textToServer);
+					serverResponseLabel.setText("");
+					wotService.getStats( listIdUser,
+							new AsyncCallback<List<CommunityAccount>>() {
+								public void onFailure(Throwable caught) {
+									hPanelLoading.setVisible(false);
+									// Show the RPC error message to the user
+									dialogBox
+											.setText("Remote Procedure Call - Failure");
+									serverResponseLabel
+											.addStyleName("serverResponseLabelError");
+									serverResponseLabel.setHTML(SERVER_ERROR);
+									dialogBox.center();
+									closeButton.setFocus(true);
+									
+								}
+	
+								public void onSuccess(List<CommunityAccount> listAccount) {
+									hPanelLoading.setVisible(false);
+									dockPanel.remove(tableHistorizedStatsCommAcc);
+									dockPanel.remove(tableClan);
+									
+									if (pagerHistorizedStatsCommunityAccount != null) 
+										dockPanel.remove(pagerHistorizedStatsCommunityAccount);
+									if (pagerClan != null) 
+										dockPanel.remove(pagerClan);
+									
+									if (dataHistorizedStatsProvider.getDataDisplays()!= null && !dataHistorizedStatsProvider.getDataDisplays().isEmpty()) 
+										dataHistorizedStatsProvider.removeDataDisplay(tableHistorizedStatsCommAcc);
+									
+									//on re-construit 1 nouveau tableau
+									tableHistorizedStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+									
+									//construct column in celltable tableCommAcc , set data set sort handler etc ..
+									buildACellTableForHistorizedStatsCommunityAccount(listAccount);
+									  
+									//Create a Pager to control the table.
+								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+								    pagerHistorizedStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+								    pagerHistorizedStatsCommunityAccount.setDisplay(tableHistorizedStatsCommAcc);
+									
+							    
+								    //add to dock panel ======
+								    dockPanel.add(pagerHistorizedStatsCommunityAccount, DockPanel.SOUTH);
+								    pagerHistorizedStatsCommunityAccount.setPage(10);
+								    pagerHistorizedStatsCommunityAccount.setVisible(true);
+									
+									dockPanel.add(tableHistorizedStatsCommAcc, DockPanel.SOUTH);
+									tableHistorizedStatsCommAcc.setVisible(true);
+								    
+									dockPanel.add(pagerClan, DockPanel.SOUTH);
+									dockPanel.add(tableClan, DockPanel.SOUTH);
+									tableClan.setVisible(true);
+									pagerClan.setVisible(true);
+									
+									//dialogBox.center();
+									//closeButton.setFocus(true);
+								}
+							});
+					//searchClanButton.setEnabled(true);
+					//searchClanButton.setFocus(true);
+				}
+				
+				
+				
+			}
+		////
+
+			
+			
+			
+		////
 			class HandlerGetAllMembersClan implements ClickHandler, KeyUpHandler {
 				/**
 				 * Fired when the user clicks on the sendButton.
@@ -4930,7 +5074,11 @@ public class WotTest1 implements EntryPoint {
 			// Add a handler to send the name to the server
 			HandlerGetAllMembersClanAndStats handlerFindMembers = new HandlerGetAllMembersClanAndStats();
 			findMembersClanButton.addClickHandler(handlerFindMembers);
-					
+				
+			// Add a handler to find historized stats 
+			HandlerGetStats handlerGetStats = new HandlerGetStats();
+			findHistorizedStatsButton.addClickHandler(handlerGetStats);
+
 			// Add a handler to find clans
 			HandlerGetClans handlerGetClans = new HandlerGetClans();
 			searchClansButton.addClickHandler(handlerGetClans);
@@ -4962,6 +5110,251 @@ public class WotTest1 implements EntryPoint {
 
 
 	
+			/*
+		 * call this when we have data to put in table
+		 */
+		public  void buildACellTableForHistorizedStatsCommunityAccount(List<CommunityAccount> listCommAcc) {
+	
+			tableHistorizedStatsCommAcc.setPageSize(30);
+			
+		    //update dataprovider with some known list 
+		    dataHistorizedStatsProvider.setList(listCommAcc);
+			
+			// Create a CellTable.
+		    tableHistorizedStatsCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		    
+		    
+		    ListHandler<CommunityAccount> columnSortHandler =
+			        new ListHandler<CommunityAccount>(dataHistorizedStatsProvider.getList());
+		    tableHistorizedStatsCommAcc.addColumnSortHandler(columnSortHandler);
+		    
+		    //
+		    int sizeDate = 0;
+		    List<String> listDates = new ArrayList<String>(); 
+		    for (CommunityAccount commAcc :  listCommAcc) {
+		    	int size = commAcc.listDates.size();
+		    	if (size > sizeDate) { 
+		    		sizeDate = size ;
+		    		for(String date : commAcc.listDates) {
+		    			listDates.add(date);
+		    		}
+		    	}
+		    }
+		    // Add a text column to show the name.
+		    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		        return object.getName();
+		      }
+		    };
+		    tableHistorizedStatsCommAcc.addColumn(nameColumn, "Name");
+
+		    nameColumn.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(nameColumn,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+
+		            // Compare the name columns.
+		            if (o1 != null) {
+		              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+		    
+		 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(nameColumn);
+
+	    	///
+		    // JOUR SUIVANT ///////////////////////
+		    TextColumn<CommunityAccount> jour1 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 2  ) {
+		    		  int diff = object.listbattles.get(0) - object.listbattles.get(1);
+		    		  return String.valueOf(diff);
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    String strDate =  listDates.get(0);
+		    tableHistorizedStatsCommAcc.addColumn(jour1, strDate);
+	
+		    jour1.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	Integer val1 = o1.listbattles.get(0) - o1.listbattles.get(1);
+		            	Integer val2 = o2.listbattles.get(0)- o2.listbattles.get(1);
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+			 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour1);
+	
+		    // JOUR SUIVANT ///////////////////////
+		    // Add a text column to show the second day of battlle.
+		    TextColumn<CommunityAccount> jour2 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 3  ) {
+		    		  int diff = object.listbattles.get(1) - object.listbattles.get(2);
+		    		  return String.valueOf(diff);
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsCommAcc.addColumn(jour2, strDate);
+	
+		    jour2.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	Integer val1 = o1.listbattles.get(1) - o1.listbattles.get(2);
+		            	Integer val2 = o2.listbattles.get(1)- o2.listbattles.get(2);
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+			 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour2);
+	
+		    // JOUR SUIVANT ///////////////////////
+		    // Add a text column to show the second day of battlle.
+		    TextColumn<CommunityAccount> jour3 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 4  ) {
+		    		  int diff = object.listbattles.get(2) - object.listbattles.get(3);
+		    		  return String.valueOf(diff);
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    
+		    strDate =  listDates.get(2);
+		    tableHistorizedStatsCommAcc.addColumn(jour3, strDate);
+	
+		    jour3.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour3,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	Integer val1 = o1.listbattles.get(2) - o1.listbattles.get(3);
+		            	Integer val2 = o2.listbattles.get(2)- o2.listbattles.get(3);
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+			 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour3);
+	
+		    // JOUR SUIVANT ///////////////////////
+		    // Add a text column to show the second day of battlle.
+		    TextColumn<CommunityAccount> jour4 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 5  ) {
+		    		  int diff = object.listbattles.get(3) - object.listbattles.get(4);
+		    		  return String.valueOf(diff);
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    
+		    strDate =  listDates.get(3);
+		    tableHistorizedStatsCommAcc.addColumn(jour4, strDate);
+	
+		    jour4.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour4,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	Integer val1 = o1.listbattles.get(3) - o1.listbattles.get(4);
+		            	Integer val2 = o2.listbattles.get(3)- o2.listbattles.get(4);
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else 
+		            	return -1;
+		          }
+		        });
+	    	//
+			 // We know that the data is sorted alphabetically by default.
+		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour3);
+	
+		    //////////////////////////////////////////////////////////////////
+		    // Add a selection model to handle user selection.
+		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
+		    tableHistorizedStatsCommAcc.setSelectionModel(selectionModel);
+		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		      public void onSelectionChange(SelectionChangeEvent event) {
+		    	  CommunityAccount selected = selectionModel.getSelectedObject();
+		        if (selected != null) {
+		          //Window.alert("You selected: " + selected.getName());
+		        }
+		      }
+		    });
+	
+		    // Set the total row count. This isn't strictly necessary, but it affects
+		    // paging calculations, so its good habit to keep the row count up to date.
+		    tableHistorizedStatsCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
+	
+		    // Push the data into the widget.
+		    tableHistorizedStatsCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
+		    
+		 // Connect the table to the data provider.
+		    dataHistorizedStatsProvider.addDataDisplay(tableHistorizedStatsCommAcc);
+		    dataHistorizedStatsProvider.refresh();
+	   }
+
+
 			/**
 			 * build a hashMap of achievement from wiki
 			 * @param xmlWiki
