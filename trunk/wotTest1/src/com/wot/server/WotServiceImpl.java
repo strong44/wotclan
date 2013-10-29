@@ -1136,26 +1136,19 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				    query.declareParameters("String nameParam");
 				    List<DaoCommunityAccount> resultsTmp = (List<DaoCommunityAccount>) query.execute(user);
 				    
-				    //List<CommunityAccount> resultsCommunityAccountTmp = new ArrayList<CommunityAccount>();
-				    
 				    if(resultsTmp.size() != 0 )
 				    {
 					    DaoCommunityAccount daoComAcc = resultsTmp.get(0);
 					    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
-					    
+					    String previousDate = "";
 					    for (DaoCommunityAccount myDaoCommunityAccount : resultsTmp ) {
-					    	//CommunityAccount communityAccount = TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(myDaoCommunityAccount);
-					    	comAcc.listDates.add(sdf.format(myDaoCommunityAccount.getDateCommunityAccount()));
-					    	comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
-					    	
-					    	//resultsCommunityAccountTmp.add(communityAccount);
-					    	
-//					    	String date = "";
-//					    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) {
-//					    		date =  sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
-//					    	}
-//					    	log.warning(date + " : " + user + " : " + myDaoCommunityAccount.getName() +  " : " + myDaoCommunityAccount.getData().getStats().getBattles() );
-		
+					    	//si 2 dates identiques se suivent on ne prend la deuxième
+					    	String dateCurrent = sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
+					    	if (!dateCurrent.equalsIgnoreCase(previousDate)) {
+					    		comAcc.listDates.add(dateCurrent);
+					    		comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
+					    	}
+					    	previousDate = dateCurrent;
 					    }
 					    resultsFinal.add(comAcc);
 				    }
