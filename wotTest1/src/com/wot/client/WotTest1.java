@@ -5177,14 +5177,22 @@ public class WotTest1 implements EntryPoint {
 		      public String getValue(CommunityAccount object) {
 		    	  if (object.listbattles.size() >= 2  ) {
 		    		  int diff = object.listbattles.get(0) - object.listbattles.get(1);
-		    		  return String.valueOf(diff);
+//		    		  int diffWins = object.listBattlesWins.get(0) - object.listBattlesWins.get(1);
+//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+//		    		  //on ne conserve que 2 digits après la virgule 
+//		    		  wrCal = wrCal * 100; //ex : 51,844444
+//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+//		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return String.valueOf(diff) ;
 		    	  }
 		    	  else
 		    		  return "";
 		      }
 		    };
 		    String strDate =  listDates.get(0);
-		    tableHistorizedStatsCommAcc.addColumn(jour1, strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour1, "Battles-" + strDate);
 	
 		    jour1.setSortable(true);
 		    
@@ -5208,7 +5216,72 @@ public class WotTest1 implements EntryPoint {
 	    	//
 			 // We know that the data is sorted alphabetically by default.
 		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour1);
+		    ////////////////////////////////////////////////////////
+		    
+		    // WR JOUR SUIVANT ///////////////////////
+		    TextColumn<CommunityAccount> jour1Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 2  ) {
+		    		  int diff = object.listbattles.get(0) - object.listbattles.get(1);
+		    		  int diffWins = object.listBattlesWins.get(0) - object.listBattlesWins.get(1);
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsCommAcc.addColumn(jour1Wr, "WR-" + strDate);
 	
+		    jour1Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int diff1 = o1.listbattles.get(0) - o1.listbattles.get(1);
+			    		int diffWins1 = o1.listBattlesWins.get(0) - o1.listBattlesWins.get(1);
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.listbattles.get(0) - o2.listbattles.get(1);
+			    		int diffWins2 = o2.listBattlesWins.get(0) - o2.listBattlesWins.get(1);
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
 		    // JOUR SUIVANT ///////////////////////
 		    // Add a text column to show the second day of battlle.
 		    TextColumn<CommunityAccount> jour2 = new TextColumn<CommunityAccount>() {
@@ -5224,7 +5297,7 @@ public class WotTest1 implements EntryPoint {
 		    };
 		    
 		    strDate =  listDates.get(1);
-		    tableHistorizedStatsCommAcc.addColumn(jour2, strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour2, "Battles-" + strDate);
 	
 		    jour2.setSortable(true);
 		    
@@ -5246,9 +5319,75 @@ public class WotTest1 implements EntryPoint {
 		          }
 		        });
 	    	//
-			 // We know that the data is sorted alphabetically by default.
-		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour2);
 	
+		    // WR JOUR SUIVANT ///////////////////////
+		    TextColumn<CommunityAccount> jour2Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 2  ) {
+		    		  int a = 1;
+		    		  int b = 2;
+		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
+		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsCommAcc.addColumn(jour2Wr, "WR-" + strDate);
+	
+		    jour2Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int a = 1;
+			    		int b = 2;
+		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
+			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
+			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
 		    // JOUR SUIVANT ///////////////////////
 		    // Add a text column to show the second day of battlle.
 		    TextColumn<CommunityAccount> jour3 = new TextColumn<CommunityAccount>() {
@@ -5264,7 +5403,7 @@ public class WotTest1 implements EntryPoint {
 		    };
 		    
 		    strDate =  listDates.get(2);
-		    tableHistorizedStatsCommAcc.addColumn(jour3, strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour3, "Battles-" + strDate);
 	
 		    jour3.setSortable(true);
 		    
@@ -5286,9 +5425,75 @@ public class WotTest1 implements EntryPoint {
 		          }
 		        });
 	    	//
-			 // We know that the data is sorted alphabetically by default.
-		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour3);
 	
+		    // WR JOUR SUIVANT ///////////////////////
+		    TextColumn<CommunityAccount> jour3Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 2  ) {
+		    		  int a = 2;
+		    		  int b = 3;
+		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
+		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(2);
+		    tableHistorizedStatsCommAcc.addColumn(jour3Wr, "WR-" + strDate);
+	
+		    jour2Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour3Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int a = 2;
+			    		int b = 3;
+		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
+			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
+			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
 		    // === JOUR SUIVANT === ///////////////////////
 		    // Add a text column to show the second day of battlle.
 		    TextColumn<CommunityAccount> jour4 = new TextColumn<CommunityAccount>() {
@@ -5307,7 +5512,7 @@ public class WotTest1 implements EntryPoint {
 		    else
 		    	strDate = "";
 		    
-		    tableHistorizedStatsCommAcc.addColumn(jour4, strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour4, "Battles-" + strDate);
 	
 		    jour4.setSortable(true);
 		    
@@ -5329,51 +5534,73 @@ public class WotTest1 implements EntryPoint {
 		          }
 		        });
 	    	//
-			 // We know that the data is sorted alphabetically by default.
-		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour4);
-		    /////////////////////////////////////////////////////////////////
+	   /////////////////////////////////////////////////////////////////
 		    
-//		    // === JOUR SUIVANT === ///////////////////////
-//		    // Add a text column to show the second day of battlle.
-//		    TextColumn<CommunityAccount> jour5 = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 6  ) {
-//		    		  int diff = object.listbattles.get(4) - object.listbattles.get(5);
-//		    		  return String.valueOf(diff);
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    
-//		    strDate =  listDates.get(4);
-//		    tableHistorizedStatsCommAcc.addColumn(jour5, strDate);
-//	
-//		    jour5.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour5,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	Integer val1 = o1.listbattles.get(4) - o1.listbattles.get(5);
-//		            	Integer val2 = o2.listbattles.get(4)- o2.listbattles.get(5);
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else 
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//			 // We know that the data is sorted alphabetically by default.
-//		    tableHistorizedStatsCommAcc.getColumnSortList().push(jour5);
-//		    /////////////////////////////////////////////////////////////////
-//		    
+		    // WR JOUR SUIVANT ///////////////////////
+		    TextColumn<CommunityAccount> jour4Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listbattles.size() >= 2  ) {
+		    		  int a = 3;
+		    		  int b = 4;
+		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
+		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(3);
+		    tableHistorizedStatsCommAcc.addColumn(jour4Wr, "WR-" + strDate);
+	
+		    jour2Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour4Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	int a = 3;
+			    		int b = 4;
+		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
+			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
+			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
 		    
 		    // === TOTAL DES JOURS  === ///////////////////////
 		    TextColumn<CommunityAccount> totalJour = new TextColumn<CommunityAccount>() {
@@ -5431,10 +5658,102 @@ public class WotTest1 implements EntryPoint {
 		          }
 		        });
 	    	//
-			 // We know that the data is sorted alphabetically by default.
-		    tableHistorizedStatsCommAcc.getColumnSortList().push(totalJour);
-		    /////////////////////////////////////////////////////////////////
+	    /////////////////////////////////////////////////////////////////
+		    // === WR TOTAL DES JOURS  === ///////////////////////
+		    TextColumn<CommunityAccount> WrTotalJour = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  /**
+		    	   * int a = 3;
+		    		  int b = 4;
+		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
+		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    	   */
+		    	  int totalBattles = 0;
+		    	  int max  = object.listbattles.size() ; 
+		    	  if (max > 5 ) 
+		    		  max = 5 ;
+		    	  for (int i =0; i < (max - 1) ; i++) {
+		    		  totalBattles = totalBattles + object.listbattles.get(i) - object.listbattles.get(i+1);
+		    	  }
+
+		    	  int totalBattlesWins = 0;
+		    	  int maxWins  = object.listBattlesWins.size() ; 
+		    	  if (maxWins > 5 ) 
+		    		  maxWins = 5 ;
+		    	  for (int i =0; i < (maxWins - 1) ; i++) {
+		    		  totalBattlesWins = totalBattlesWins + object.listBattlesWins.get(i) - object.listBattlesWins.get(i+1);
+		    	  }
+
+		    	  Double wrCal = (double) ((double)totalBattlesWins/(double)totalBattles);
+	    		  //on ne conserve que 2 digits après la virgule 
+	    		  wrCal = wrCal * 100; //ex : 51,844444
+	    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+	    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+	    		  String wr = String.valueOf(wrCal);
+	    		  
+		    	  return wr;
+		      }
+		    };
 		    
+		    strDate =  "WR Total";
+		    tableHistorizedStatsCommAcc.addColumn(WrTotalJour, strDate);
+	
+		    WrTotalJour.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(WrTotalJour,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null) {
+		            	Double totalBattle1 = 0.0 ;
+		            	Double totalBattle2 = 0.0 ;
+		            	Double totalBattleWins1 = 0.0 ;
+		            	Double totalBattleWins2 = 0.0 ;
+		            	
+		            	int maxBattleO1  = o1.listbattles.size() ; 
+				    	if (maxBattleO1 > 5 ) 
+				    		  maxBattleO1 = 5 ;
+				    	for (int i =0; i < (maxBattleO1 - 1) ; i++) {
+				    		  totalBattle1 = totalBattle1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
+				    		  totalBattleWins1 = totalBattleWins1 + o1.listBattlesWins.get(i) - o1.listBattlesWins.get(i+1);
+				    		  //total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
+				    	}
+		            	int maxBattleO2  = o2.listbattles.size() ; 
+				    	  if (maxBattleO2 > 5 ) 
+				    		  maxBattleO2 = 5 ;
+				    	  for (int i =0; i < (maxBattleO2 - 1) ; i++) {
+				    		  //total2 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
+				    		  totalBattle2 = totalBattle2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
+				    		  totalBattleWins2 = totalBattleWins2 + o2.listBattlesWins.get(i) - o2.listBattlesWins.get(i+1);
+				    	  }
+		            	
+				    	Double val1 =0.0;
+				    	Double val2 =0.0;
+		            	if (totalBattle1 != 0.0   ) { 
+		            		val1 = totalBattleWins1/totalBattle1; val1 = val1 *100;
+		            	}
+		            	if ( totalBattle2 != 0.0 ) {
+		            		val2 = totalBattleWins2/totalBattle2;val2 = val2 * 100 ;
+		            	}
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else 
+		            	return -1;
+		          }
+		        });
+	    	//
+	    /////////////////////////////////////////////////////////////////
 		    
 		    //////////////////////////////////////////////////////////////////
 		    // Add a selection model to handle user selection.
