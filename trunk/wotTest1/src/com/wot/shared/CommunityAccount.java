@@ -44,7 +44,8 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 	
 	public List<String> listDates = new ArrayList<String>()  ;
 	public List<Integer> listbattles = new ArrayList<Integer>()  ;
-	
+	public List<Integer> listBattlesWins = new ArrayList<Integer>();  
+			
 	public String getName() {
 		return nameAccount;
 	}

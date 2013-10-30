@@ -1122,7 +1122,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 		try {
 			pm = PMF.get().getPersistenceManager();
-	    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
+	    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd hh:mm");
 
 				
 	        try {
@@ -1147,6 +1147,19 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					    	if (!dateCurrent.equalsIgnoreCase(previousDate)) {
 					    		comAcc.listDates.add(dateCurrent);
 					    		comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
+					    		
+					    		//== WR calculated
+//								int battles = myDaoCommunityAccount.getData().getStats().getBattles();
+//								int battlesWin = myDaoCommunityAccount.getData().getStats().getBattle_wins();
+//								Double wrCal = (double) ((double)battlesWin/(double)battles);
+//								
+//								//on ne conserve que 2 digits après la virgule 
+//								wrCal = wrCal * 100; //ex : 51,844444
+//								int intWrCal = (int) (wrCal * 100); //ex : 5184
+//								
+//								wrCal = (double)intWrCal / 100 ; //ex : 51,84
+//								String wr = String.valueOf(wrCal);
+					    		comAcc.listBattlesWins.add(myDaoCommunityAccount.getData().getStats().getBattle_wins());
 					    	}
 					    	previousDate = dateCurrent;
 					    }
