@@ -4937,9 +4937,10 @@ public class WotTest1 implements EntryPoint {
 									//on re-construit 1 nouveau tableau
 									tableHistorizedStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 									
+									
 									//construct column in celltable tableCommAcc , set data set sort handler etc ..
 									buildACellTableForHistorizedStatsCommunityAccount(listAccount);
-									  
+									
 									//Create a Pager to control the table.
 								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
 								    pagerHistorizedStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
@@ -5115,6 +5116,7 @@ public class WotTest1 implements EntryPoint {
 		 */
 		public  void buildACellTableForHistorizedStatsCommunityAccount(List<CommunityAccount> listCommAcc) {
 	
+			tableHistorizedStatsCommAcc.setTitle("Historical Battles");
 			tableHistorizedStatsCommAcc.setPageSize(30);
 			
 		    //update dataprovider with some known list 
@@ -5451,7 +5453,7 @@ public class WotTest1 implements EntryPoint {
 		    strDate =  listDates.get(2);
 		    tableHistorizedStatsCommAcc.addColumn(jour3Wr, "WR-" + strDate);
 	
-		    jour2Wr.setSortable(true);
+		    jour3Wr.setSortable(true);
 		    
 		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
 		    columnSortHandler.setComparator(jour3Wr,
@@ -5561,7 +5563,7 @@ public class WotTest1 implements EntryPoint {
 		    strDate =  listDates.get(3);
 		    tableHistorizedStatsCommAcc.addColumn(jour4Wr, "WR-" + strDate);
 	
-		    jour2Wr.setSortable(true);
+		    jour4Wr.setSortable(true);
 		    
 		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
 		    columnSortHandler.setComparator(jour4Wr,
