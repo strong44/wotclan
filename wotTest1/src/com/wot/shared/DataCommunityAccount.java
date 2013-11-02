@@ -1,6 +1,7 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DataCommunityAccount implements Serializable {
 	
@@ -40,6 +41,50 @@ public class DataCommunityAccount implements Serializable {
 
 	DataCommunityAccountRatings ratings;
 	
+	/**
+	 * "vehicles": [
+      {
+        "spotted": 0, 
+        "localized_name": "KV-1S", 
+        "name": "KV-1s", 
+        "level": 6, 
+        "damageDealt": 0, 
+        "survivedBattles": 0, 
+        "battle_count": 1400, 
+        "nation": "ussr", 
+        "image_url": "/static/2.7.0/encyclopedia/tankopedia/vehicle/small/ussr-kv-1s.png", 
+        "frags": 0, 
+        "win_count": 773, 
+        "class": "heavyTank"
+      }, 
+      {
+        "spotted": 0, 
+        "localized_name": "KV-1", 
+        "name": "KV1", 
+        "level": 5, 
+        "damageDealt": 0, 
+        "survivedBattles": 0, 
+        "battle_count": 915, 
+        "nation": "ussr", 
+        "image_url": "/static/2.7.0/encyclopedia/tankopedia/vehicle/small/ussr-kv1.png", 
+        "frags": 0, 
+        "win_count": 464, 
+        "class": "heavyTank"
+      }, 
+	 * @return
+	 */
+	
+	List<DataCommunityAccountVehicules> vehicles;
+	
+	
+	public List<DataCommunityAccountVehicules> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicules(List<DataCommunityAccountVehicules> vehicles) {
+		this.vehicles = vehicles;
+	}
+
 	public DataCommunityAccountRatings getStats() {
 		return ratings;
 	}
