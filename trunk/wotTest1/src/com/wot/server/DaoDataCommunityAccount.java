@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -52,6 +53,18 @@ public class DaoDataCommunityAccount implements Serializable {
 	@Persistent
 	DaoDataCommunityAccountStats stats;
 	
+	@Persistent
+	List<DaoDataCommunityAccountStatsVehicules> statsVehicules;
+	
+	public List<DaoDataCommunityAccountStatsVehicules> getStatsVehicules() {
+		return statsVehicules;
+	}
+
+	public void setStatsVehicules(
+			List<DaoDataCommunityAccountStatsVehicules> statsVehicules) {
+		this.statsVehicules = statsVehicules;
+	}
+
 	public DaoDataCommunityAccountStats getStats() {
 		return stats;
 	}
