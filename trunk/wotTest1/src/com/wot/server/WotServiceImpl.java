@@ -93,7 +93,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		log.warning("========lancement persistStats ============== " + input);
 		
 		//recup des stats des user du clan NVS -- pour l'instant le seul clan
-		// a terme il faut récupérer les clan présents en base, et requeter les stats de leur joueurs 
+		// a terme il faut rÃ©cupÃ©rer les clan prÃ©sents en base, et requeter les stats de leur joueurs 
 
 		
 		//getAllStats("500006074", indexBeginUser, indexEndUser); // 0 10 , 10 20 ,30 40 , 60 70, .. 90 100 
@@ -192,13 +192,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		try {
 			JAXBContext context = JAXBContext.newInstance(XmlWiki.class);
 			
-//			//création WIKI
+//			//crÃ©ation WIKI
 			if (wiki== null) {
 				objFactory = new ObjectFactory();
 			
 				wiki = objFactory.createXmlWiki();
 
-				//A partir du XML instancié les classes !!
+				//A partir du XML instanciÃ© les classes !!
 				Unmarshaller unmarshaller = context.createUnmarshaller();
 				wiki = (XmlWiki) unmarshaller.unmarshal(new File("wotWiki.xml"));
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>unmarshaller wotWiki.xml");
@@ -266,7 +266,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				  "data": [
 				    {
 				      "members_count": 48, 
-				      "name": "\"Белая гвардия\"", 
+				      "name": "\"Ð‘ÐµÐ»Ð°Ñ� Ð³Ð²Ð°Ñ€Ð´Ð¸Ñ�\"", 
 				      "created_at": 1335298122, 
 				      "abbreviation": "WG1", 
 				      "clan_id": 24810, 
@@ -296,7 +296,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
 			}
 			
-			//lecture de la réponse recherche du clan
+			//lecture de la rÃ©ponse recherche du clan
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
 			String line = "";
 			String AllLines = "";
@@ -343,7 +343,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 						detectedLanguage = Detect.execute(motto);
 						
-						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français") && nbTrad < 6  ) {
+						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("FranÃ§ais") && nbTrad < 6  ) {
 							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
 							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
 							nbTrad++;
@@ -369,7 +369,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 	
 	/**
-	 * getAllMembersClan : REcupére tous les menbres du clan
+	 * getAllMembersClan : REcupÃ©re tous les menbres du clan
 	 */
 	@Override
 	public CommunityClan getAllMembersClan(String idClan) {
@@ -400,8 +400,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		  "data": {
 		    "1": {
 		      "members_count": 100, 
-		      "description": "Закрытый клан, в состав которого входят лишь разработчики игры &quot;World of Tanks&quot;.\n\nЗаявки, посланные командиру клана через форум, НЕ РАССМАТРИВАЮТСЯ .", 
-		      "description_html": "<p>Закрытый клан, в состав которого входят <i>лишь</i> разработчики игры &quot;World of Tanks&quot;.\n</p><p>\n<br/>Заявки, посланные командиру клана через форум, <i>НЕ РАССМАТРИВАЮТСЯ</i> .\n</p>", 
+		      "description": "Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ ÐºÐ»Ð°Ð½, Ð² Ñ�Ð¾Ñ�Ñ‚Ð°Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð²Ñ…Ð¾Ð´Ñ�Ñ‚ Ð»Ð¸ÑˆÑŒ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¸ Ð¸Ð³Ñ€Ñ‹ &quot;World of Tanks&quot;.\n\nÐ—Ð°Ñ�Ð²ÐºÐ¸, Ð¿Ð¾Ñ�Ð»Ð°Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð¸Ñ€Ñƒ ÐºÐ»Ð°Ð½Ð° Ñ‡ÐµÑ€ÐµÐ· Ñ„Ð¾Ñ€ÑƒÐ¼, Ð�Ð• Ð Ð�Ð¡Ð¡ÐœÐ�Ð¢Ð Ð˜Ð’Ð�Ð®Ð¢Ð¡Ð¯ .", 
+		      "description_html": "<p>Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ ÐºÐ»Ð°Ð½, Ð² Ñ�Ð¾Ñ�Ñ‚Ð°Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð²Ñ…Ð¾Ð´Ñ�Ñ‚ <i>Ð»Ð¸ÑˆÑŒ</i> Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¸ Ð¸Ð³Ñ€Ñ‹ &quot;World of Tanks&quot;.\n</p><p>\n<br/>Ð—Ð°Ñ�Ð²ÐºÐ¸, Ð¿Ð¾Ñ�Ð»Ð°Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð¸Ñ€Ñƒ ÐºÐ»Ð°Ð½Ð° Ñ‡ÐµÑ€ÐµÐ· Ñ„Ð¾Ñ€ÑƒÐ¼, <i>Ð�Ð• Ð Ð�Ð¡Ð¡ÐœÐ�Ð¢Ð Ð˜Ð’Ð�Ð®Ð¢Ð¡Ð¯</i> .\n</p>", 
 		      "created_at": 1293024672, 
 		      "updated_at": 1375930001, 
 		      "name": "Wargaming.net", 
@@ -428,7 +428,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		          "account_id": 18458, 
 		          "account_name": "alienraven"
 		        }, 
-			      "motto": "Орлы! Орлицы!", 
+			      "motto": "ÐžÑ€Ð»Ñ‹! ÐžÑ€Ð»Ð¸Ñ†Ñ‹!", 
 			      "clan_color": "#e18000", 
 			      "owner_id": 1277137
 			    }
@@ -572,7 +572,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						// String nameUser ="";
 						String idUser = member.getAccount_id();
 
-						//si idUSer in listIdUser alaors on requ�te sinon rien
+						//si idUSer in listIdUser alaors on requï¿½te sinon rien
 						boolean treatUser = false;
 						if (listIdUser != null && listIdUser.size() != 0) {
 							
@@ -623,7 +623,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int battlesWin = myDataCommunityAccountStats.getBattle_wins();
 							Double wrCal = (double) ((double)battlesWin/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							wrCal = wrCal * 100; //ex : 51,844444
 							int intWrCal = (int) (wrCal * 100); //ex : 5184
 							
@@ -634,7 +634,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int ctfPoints = myDataCommunityAccountStats.getCtf_points();
 							Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 							int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
 							
@@ -645,7 +645,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int damagePoints = myDataCommunityAccountStats.getDamage_dealt();
 							Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 							int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
 							
@@ -657,7 +657,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int droppedCtfPoints = myDataCommunityAccountStats.getDropped_ctf_points();
 							Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 							int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
 							
@@ -669,7 +669,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int destroyedPoints = myDataCommunityAccountStats.getFrags();
 							Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 							int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
 							
@@ -680,7 +680,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							int detectedPoints = myDataCommunityAccountStats.getSpotted();
 							Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
 							
-							//on ne conserve que 2 digits après la virgule 
+							//on ne conserve que 2 digits aprÃ¨s la virgule 
 							//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 							int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
 							
@@ -767,7 +767,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 
 	/**
-	 * parse le HTML du wiki achieveemnt pour en extraire les noms de m�dailles , les src d'ic�nes et les descriptions
+	 * parse le HTML du wiki achieveemnt pour en extraire les noms de mï¿½dailles , les src d'icï¿½nes et les descriptions
 	 * @param AllLinesWot
 	 * @param cat1Medal
 	 * @param cat2Medal
@@ -776,16 +776,16 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 */
 	void parseHtmlAchievement (String AllLinesWot, String cat1Medal, String cat2Medal, ObjectFactory objFactory, XmlWiki wiki) {
 	
-		//création category achievement
+		//crÃ©ation category achievement
 		XmlListCategoryAchievement myXmlListCategoryAchievement = objFactory.createXmlListCategoryAchievement();
 		myXmlListCategoryAchievement.setNAME(cat1Medal);
 		
-		//création xlmDescrition category achievement
+		//crÃ©ation xlmDescrition category achievement
 		XmlDescription myXmlDescription= objFactory.createXmlDescription();
-		myXmlDescription.setVALUE("Desccription de la ctégorie de médailles");
+		myXmlDescription.setVALUE("Desccription de la ctÃ©gorie de mÃ©dailles");
 		myXmlListCategoryAchievement.setDESCRIPTION(myXmlDescription);
 		
-		//Ajouter la catégorie achievement au wiki
+		//Ajouter la catÃ©gorie achievement au wiki
 		wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().add(myXmlListCategoryAchievement);
 		
 		//parse WIKI HTML
@@ -797,8 +797,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			pos2 = AllLinesWot.indexOf(cat2Medal+"</span></div>" );
 		
 		
-		//selon les cat�gories de m�dailles, on doit aller rechercher la 2�me pour la 1�re ocurence du nom de la cat�gorie de m�dailles
-		//donc on prend toujours la derni�re 
+		//selon les catï¿½gories de mï¿½dailles, on doit aller rechercher la 2ï¿½me pour la 1ï¿½re ocurence du nom de la catï¿½gorie de mï¿½dailles
+		//donc on prend toujours la derniï¿½re 
 		
 		if (pos1 == -1)
 			pos1 = AllLinesWot.indexOf(cat1Medal+ " <i>" );
@@ -836,43 +836,43 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					String titleMedal= AllLinesWot.substring(posDebutB+"<b>".length(), posFinB);
 					for (String src : listSrcImgMedal) { 
-						System.out.println(src + "\t" + titleMedal + "\t"); //titre de la m�daille
+						System.out.println(src + "\t" + titleMedal + "\t"); //titre de la mï¿½daille
 					}
 					pos1= posFinB;
 					
-					//la description de la m�daille se trouve entre </b> et le prochain "<"
+					//la description de la mï¿½daille se trouve entre </b> et le prochain "<"
 					int posInf = AllLinesWot.indexOf("<", posFinB + "</b>".length());
 					String descMedalWithB= AllLinesWot.substring(posDebutB-1 + "<".length(), posInf);
 					System.out.println("\t" + descMedalWithB);
 					
 					
-					//création d'un achievement
+					//crÃ©ation d'un achievement
 					XmlListAchievement myXmlListAchievement = objFactory.createXmlListAchievement();
 					
-					//set du nom de la médaille
+					//set du nom de la mÃ©daille
 					myXmlListAchievement.setNAME(titleMedal);
 					
-					//set description de la médaille
-					//création xlmDescrition achievement
+					//set description de la mÃ©daille
+					//crÃ©ation xlmDescrition achievement
 					myXmlDescription= objFactory.createXmlDescription();
 					myXmlDescription.setVALUE(descMedalWithB);
 					myXmlListAchievement.setDESCRIPTION(myXmlDescription);
 					
-					//set des src des icônes des médailles
+					//set des src des icÃ´nes des mÃ©dailles
 					XmlListSrcImg myXmlListSrcImg = objFactory.createXmlListSrcImg();
 					
 					for (String src : listSrcImgMedal) {
-						//création des src
+						//crÃ©ation des src
 						XmlSrc myXmlSrc = objFactory.createXmlSrc();
 						myXmlSrc.setVALUE(src);
 						
-						//ajout à la liste des src de la médaille
+						//ajout Ã  la liste des src de la mÃ©daille
 						myXmlListSrcImg.getSRC().add(myXmlSrc);
 					}
 					
 					myXmlListAchievement.setSRCIMG(myXmlListSrcImg);
 					
-					//ajouter listAchievement à Catégory achievement
+					//ajouter listAchievement Ã  CatÃ©gory achievement
 					myXmlListCategoryAchievement.getACHIEVEMENT().add(myXmlListAchievement);
 				}
 				
@@ -889,7 +889,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		HashMap<String, XmlListAchievement> hashMapAchievement = new HashMap<String, XmlListAchievement>();
 		
 		
-		//parcours de toutes les cat�gories de m�dailles
+		//parcours de toutes les catï¿½gories de mï¿½dailles
 		for(XmlListCategoryAchievement listCatAch	:	xmlWiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT() ) {
 			for (XmlListAchievement ach : listCatAch.getACHIEVEMENT()) {
 				for (XmlSrc src : ach.getSRCIMG().getSRC()) {
@@ -914,7 +914,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		 */
 		public List<String> persistAllStats(String idClan,  int indexBegin, int nbUsersToTreat , Date date) {
 		
-			//on raz la liste de joueurs persistés
+//			if (idClan == null || "".equalsIgnoreCase(idClan))
+//				return null;
+			//on raz la liste de joueurs persistÃ©s
 			if (indexBegin == 0 ) {
 				listUsersPersisted.clear();
 			}
@@ -940,9 +942,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
 			myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
 			PersistenceManager pm =null;
-			
+			pm = PMF.get().getPersistenceManager();
 			try {
-				pm = PMF.get().getPersistenceManager();
+				
 				
 				URL urlClan = null ;
 				// recup des membres du clan NVS
@@ -972,7 +974,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//persist clan ?
 				
 				
-				if (saveData && indexBegin == 0){ //on ne fait qu'une fois économie d'écriture)
+				if (saveData && indexBegin == 0){ //on ne fait qu'une fois Ã©conomie d'Ã©criture)
+					
 					//pm = PMF.get().getPersistenceManager();
 			        try {
 			        	//must transform before persist the objet clan
@@ -980,9 +983,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			        	
 			        	//DaoCommunityClan daoCommunityClan = TransformDtoObject.TransformCommunityClanToDaoCommunityClan(communityClan);
 			        	daoCommunityClan.setDateCommunityClan(date);
-			        	Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
+			        	//Map<String, DaoDataCommunityClanMembers> hashMap = daoCommunityClan.getData();
 			        	
-						Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
+						//Collection<DaoDataCommunityClanMembers> listClanMembers = hashMap.values();
 			
 			            pm.makePersistent(daoCommunityClan);
 			        	pm.currentTransaction().commit();
@@ -1018,7 +1021,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							
 							String idUser = member.getAccount_id();
 	
-							//si idUSer in listIdUser alaors on requ�te sinon rien
+							//si idUSer in listIdUser alaors on requï¿½te sinon rien
 							
 							
 							
@@ -1065,13 +1068,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 									//pm = PMF.get().getPersistenceManager();
 							        try {
 							        	//must transform before persist the objet clan
-							        	pm.currentTransaction().begin();
+							        	
 							        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
 							        	daoCommunityAccount.setDateCommunityAccount(date);
 							        	//
+							        	pm.currentTransaction().begin();
 							        	pm.makePersistent(daoCommunityAccount);
 							        	pm.currentTransaction().commit();
-							        	//log.warning("key daoCommunityAccount " + daoCommunityAccount.getKey());
+							        	log.warning("vehicules daoCommunityAccount " + daoCommunityAccount.getData().statsVehicules.get(0).getName() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getWin_count());
 							        	listUsersPersisted.add(account.getName());
 							        	
 							        }
@@ -1096,9 +1100,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			} catch (IOException e) {
 				// ...
 				e.printStackTrace();
+			} catch (Exception e) {
+					// ...
+					e.printStackTrace();
 			}
 			finally {
-				pm.close();
+				if (pm != null)
+					pm.close();
 			}
 		
 			return listUsersPersisted;
@@ -1142,7 +1150,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
 					    String previousDate = "";
 					    for (DaoCommunityAccount myDaoCommunityAccount : resultsTmp ) {
-					    	//si 2 dates identiques se suivent on ne prend la deuxième
+					    	//si 2 dates identiques se suivent on ne prend la deuxiÃ¨me
 					    	String dateCurrent = sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
 					    	if (!dateCurrent.equalsIgnoreCase(previousDate)) {
 					    		comAcc.listDates.add(dateCurrent);
@@ -1153,7 +1161,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //								int battlesWin = myDaoCommunityAccount.getData().getStats().getBattle_wins();
 //								Double wrCal = (double) ((double)battlesWin/(double)battles);
 //								
-//								//on ne conserve que 2 digits après la virgule 
+//								//on ne conserve que 2 digits aprÃ¨s la virgule 
 //								wrCal = wrCal * 100; //ex : 51,844444
 //								int intWrCal = (int) (wrCal * 100); //ex : 5184
 //								
@@ -1290,7 +1298,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //					// String nameUser ="";
 //					String idUser = dataMember.getAccount_id();
 //	
-//					//si idUSer in listIdUser alaors on requ�te sinon rien
+//					//si idUSer in listIdUser alaors on requï¿½te sinon rien
 //					boolean treatUser = false;
 //					if (listIdUser.size() != 0) {
 //						
@@ -1341,7 +1349,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int battlesWin = myDataCommunityAccountStats.getBattle_wins();
 //						Double wrCal = (double) ((double)battlesWin/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						wrCal = wrCal * 100; //ex : 51,844444
 //						int intWrCal = (int) (wrCal * 100); //ex : 5184
 //						
@@ -1352,7 +1360,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int ctfPoints = myDataCommunityAccountStats.getCtf_points();
 //						Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 //						int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
 //						
@@ -1363,7 +1371,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int damagePoints = myDataCommunityAccountStats.getDamage_dealt();
 //						Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 //						int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
 //						
@@ -1375,7 +1383,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int droppedCtfPoints = myDataCommunityAccountStats.getDropped_ctf_points();
 //						Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 //						int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
 //						
@@ -1387,7 +1395,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int destroyedPoints = myDataCommunityAccountStats.getFrags();
 //						Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 //						int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
 //						
@@ -1398,7 +1406,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 //						int detectedPoints = myDataCommunityAccountStats.getSpotted();
 //						Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
 //						
-//						//on ne conserve que 2 digits après la virgule 
+//						//on ne conserve que 2 digits aprÃ¨s la virgule 
 //						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
 //						int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
 //						
