@@ -4500,6 +4500,7 @@ public class WotTest1 implements EntryPoint {
 										
 										dockPanel.add(tableClan, DockPanel.SOUTH);
 										tableClan.setVisible(true);
+										tableClan.setFocus(true);
 
 										findMembersClanButton.setEnabled(true);
 										findHistorizedStatsButton.setEnabled(true);
@@ -4615,7 +4616,7 @@ public class WotTest1 implements EntryPoint {
 			////
 			///////////
 			// Create a handler for search achivement's member
-			class HandlerGetAchivementsMember implements ClickHandler, KeyUpHandler {
+			class HandlerGetAchievementsMember implements ClickHandler, KeyUpHandler {
 				/**
 				 * Fired when the user clicks on the sendButton.
 				 */
@@ -4699,7 +4700,7 @@ public class WotTest1 implements EntryPoint {
 					
 					dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
 					tableAchivementCommAcc.setVisible(true);
-				    
+					tableAchivementCommAcc.setFocus(true);
 				    //add tab stats 
 				    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
 					pagerStatsCommunityAccount.setPage(10);
@@ -4831,6 +4832,7 @@ public class WotTest1 implements EntryPoint {
 									tableClan.setVisible(true);
 									pagerClan.setVisible(true);
 									
+									tableStatsCommAcc.setFocus(true);
 									//dialogBox.center();
 									//closeButton.setFocus(true);
 								}
@@ -4842,18 +4844,14 @@ public class WotTest1 implements EntryPoint {
 				
 				
 			}
-		////
-			
-			///////////
-		////
 			///////////
 			// Create a handler for search clan's members
-			class HandlerGetStats implements ClickHandler, KeyUpHandler {
+			class HandlerGetHistorizedStats implements ClickHandler, KeyUpHandler {
 				/**
 				 * Fired when the user clicks on the sendButton.
 				 */
 				public void onClick(ClickEvent event) {
-					getStats();
+					getHistorizedStats();
 					offsetClan = 0;
 					limitClan = 100;
 				}
@@ -4863,7 +4861,7 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						getStats();
+						getHistorizedStats();
 						offsetClan = 0;
 						limitClan = 100;
 					}
@@ -4872,7 +4870,7 @@ public class WotTest1 implements EntryPoint {
 				/**
 				 * Send the name from the nameField to the server and wait for a response.
 				 */
-				private void getStats() {
+				private void getHistorizedStats() {
 					// First, we validate the input.
 					hPanelLoading.setVisible(true);
 					
@@ -4906,7 +4904,7 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setEnabled(false);
 					textToServerLabel.setText(textToServer);
 					serverResponseLabel.setText("");
-					wotService.getStats( listIdUser,
+					wotService.getHistorizedStats( listIdUser,
 							new AsyncCallback<List<CommunityAccount>>() {
 								public void onFailure(Throwable caught) {
 									hPanelLoading.setVisible(false);
@@ -4960,6 +4958,7 @@ public class WotTest1 implements EntryPoint {
 									tableClan.setVisible(true);
 									pagerClan.setVisible(true);
 									
+									tableHistorizedStatsCommAcc.setFocus(true);
 									//dialogBox.center();
 									//closeButton.setFocus(true);
 								}
@@ -5063,6 +5062,7 @@ public class WotTest1 implements EntryPoint {
 										//list box contain  name of user and id of user
 										dropBoxClanUsers.addItem(accName, hmAccName.get(accName));
 									}
+									dropBoxClanUsers.setFocus(true);
 								}
 							});
 				}
@@ -5077,7 +5077,7 @@ public class WotTest1 implements EntryPoint {
 			findMembersClanButton.addClickHandler(handlerFindMembers);
 				
 			// Add a handler to find historized stats 
-			HandlerGetStats handlerGetStats = new HandlerGetStats();
+			HandlerGetHistorizedStats handlerGetStats = new HandlerGetHistorizedStats();
 			findHistorizedStatsButton.addClickHandler(handlerGetStats);
 
 			// Add a handler to find clans
@@ -5101,7 +5101,7 @@ public class WotTest1 implements EntryPoint {
 			
 			
 			// button HandlerGetAchivementsMember
-			HandlerGetAchivementsMember myHandlerGetAchivementsMember = new HandlerGetAchivementsMember();
+			HandlerGetAchievementsMember myHandlerGetAchivementsMember = new HandlerGetAchievementsMember();
 			findAchievementsMemberButton.addClickHandler(myHandlerGetAchivementsMember);
 
 			
@@ -5542,7 +5542,7 @@ public class WotTest1 implements EntryPoint {
 		    TextColumn<CommunityAccount> jour4Wr = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
-		    	  if (object.listbattles.size() >= 2  ) {
+		    	  if (object.listbattles.size() >= 5  ) {
 		    		  int a = 3;
 		    		  int b = 4;
 		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);

@@ -2,11 +2,11 @@ package com.wot.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.view.client.ProvidesKey;
-import com.wot.client.ContactDatabase.ContactInfo;
+
+
 
 public class CommunityAccount implements Serializable, Comparable<CommunityAccount>{
 
@@ -45,7 +45,10 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 	public List<String> listDates = new ArrayList<String>()  ;
 	public List<Integer> listbattles = new ArrayList<Integer>()  ;
 	public List<Integer> listBattlesWins = new ArrayList<Integer>();  
-			
+	
+	public List<DataCommunityAccount> listBattlesTanks = new ArrayList<DataCommunityAccount>()  ;
+	//public List<Integer> listBattlesTanksWins = new ArrayList<Integer>();  
+	
 	public String getName() {
 		return nameAccount;
 	}
