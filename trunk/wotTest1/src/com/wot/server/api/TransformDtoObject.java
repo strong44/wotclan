@@ -216,8 +216,10 @@ public class TransformDtoObject {
 		List<DaoDataCommunityAccountStatsVehicules> listDaoDataCommunityAccountStatsVehicules = new ArrayList<DaoDataCommunityAccountStatsVehicules>();
 		
 		for (DataCommunityAccountVehicules myDataCommunityAccountVehicules : vehicules) {
-			
-			listDaoDataCommunityAccountStatsVehicules.add(TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(myDataCommunityAccountVehicules));
+			//on ne prend que les chars qui ont + de 100 batailles sinon trop de chars
+			if (myDataCommunityAccountVehicules.getBattle_count()>=100) {
+				listDaoDataCommunityAccountStatsVehicules.add(TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(myDataCommunityAccountVehicules));
+			}
 		}
 		return listDaoDataCommunityAccountStatsVehicules;
 	}
