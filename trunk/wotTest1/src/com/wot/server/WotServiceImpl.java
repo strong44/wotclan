@@ -167,7 +167,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(AllLinesWot);
+		log.info(AllLinesWot);
 		
 		ObjectFactory objFactory = null;
 		try {
@@ -182,8 +182,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//A partir du XML instancié les classes !!
 				Unmarshaller unmarshaller = context.createUnmarshaller();
 				wiki = (XmlWiki) unmarshaller.unmarshal(new File("wotWiki.xml"));
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>unmarshaller wotWiki.xml");
-				System.out.println(wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().get(0).getNAME());
+				log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>unmarshaller wotWiki.xml");
+				log.info(wiki.getACHIEVEMENTS().getCATEGORYACHIEVEMENT().get(0).getNAME());
 			}
 			
 		} catch (JAXBException e2) {
@@ -200,6 +200,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		if (!FieldVerifier.isValidName(input)) {
 			// If the input is not valid, throw an IllegalArgumentException back to
 			// the client.
+			log.info("arg not good : " + input);
 			throw new IllegalArgumentException("Name must be at least 1 characters long");
 		}
 	
@@ -285,6 +286,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			while ((line = reader.readLine()) != null) {
 				AllLines = AllLines + line;
 			}
+			log.info(AllLines);
 			reader.close();
 	
 			Gson gson = new Gson();
@@ -987,7 +989,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							        	//
 							        	pm.makePersistent(daoCommunityAccount);
 							        	pm.currentTransaction().commit();
-							        	log.warning("vehicules daoCommunityAccount " + daoCommunityAccount.getData().statsVehicules.get(0).getName() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getWin_count());
+							        	log.warning("vehicules daoCommunityAccount " + daoCommunityAccount.getData().statsVehicules.get(0).getName() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getBattle_count() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getWin_count());
 							        	listUsersPersisted.add(account.getName());
 							        	
 							        }

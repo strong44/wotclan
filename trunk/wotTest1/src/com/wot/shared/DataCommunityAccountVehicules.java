@@ -2,7 +2,7 @@ package com.wot.shared;
 
 import java.io.Serializable;
 
-public class DataCommunityAccountVehicules implements Serializable {
+public class DataCommunityAccountVehicules implements Comparable<DataCommunityAccountVehicules>, Serializable {
 
 	/**
 	 * 
@@ -41,6 +41,20 @@ public class DataCommunityAccountVehicules implements Serializable {
 	  //private String frags ;
 	  private Integer win_count;
 	  //private String class;
+	  
+	  private Integer countBattleSincePreviousDay;
+
+	private int winCountBattleSincePreviousDay;
+	  
+	public int getWinCountBattleSincePreviousDay() {
+		return winCountBattleSincePreviousDay;
+	}
+	public Integer getCountBattleSincePreviousDay() {
+		return countBattleSincePreviousDay;
+	}
+	public void setCountBattleSincePreviousDay(Integer countBattleSincePreviousDay) {
+		this.countBattleSincePreviousDay = countBattleSincePreviousDay;
+	}
 	public String getLocalized_name() {
 		return localized_name;
 	}
@@ -82,6 +96,21 @@ public class DataCommunityAccountVehicules implements Serializable {
 	}
 	public void setWin_count(Integer win_count) {
 		this.win_count = win_count;
+	}
+	@Override
+	public int compareTo(DataCommunityAccountVehicules veh2) {
+		// TODO Auto-generated method stub
+		if (veh2 != null && veh2.getCountBattleSincePreviousDay() != null && this.getCountBattleSincePreviousDay()!= null) {
+			if (this.getCountBattleSincePreviousDay() < veh2.getCountBattleSincePreviousDay())
+				return 1;
+			else
+				return 0;
+		}else
+			return 0;
+	}
+	public void setWinCountBattleSincePreviousDay(int i) {
+		this.winCountBattleSincePreviousDay = i;
+		
 	}
 	
 	

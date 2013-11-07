@@ -81,7 +81,7 @@ public class DataCommunityAccount implements Serializable {
 		return vehicles;
 	}
 
-	public void setVehicules(List<DataCommunityAccountVehicules> vehicles) {
+	public void setVehicles(List<DataCommunityAccountVehicules> vehicles) {
 		this.vehicles = vehicles;
 	}
 
