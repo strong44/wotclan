@@ -260,10 +260,27 @@ public class TransformDtoObject {
 		
 		myDataCommunityAccount.setAchievements(TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(data.getAchievements()));
 		myDataCommunityAccount.setStats(TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(data.getStats()));
+		myDataCommunityAccount.setVehicles(TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(data.getStatsVehicules()));
 		return myDataCommunityAccount;
 	}
 	
 	
+	private static List<DataCommunityAccountVehicules> TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(List<DaoDataCommunityAccountStatsVehicules> statsVehicules) {
+		// TODO Auto-generated method stub
+		List<DataCommunityAccountVehicules> listDataCommAccVeh = new ArrayList<DataCommunityAccountVehicules>();
+		for(DaoDataCommunityAccountStatsVehicules myDaoDataCommunityAccountStatsVehicules : statsVehicules ) {
+			DataCommunityAccountVehicules  myDataCommunityAccountVehicules = new DataCommunityAccountVehicules();
+			myDataCommunityAccountVehicules.setBattle_count(myDaoDataCommunityAccountStatsVehicules.getBattle_count());
+			myDataCommunityAccountVehicules.setName(myDaoDataCommunityAccountStatsVehicules.getName());
+			myDataCommunityAccountVehicules.setWin_count(myDaoDataCommunityAccountStatsVehicules.getWin_count());
+			myDataCommunityAccountVehicules.setImage_url(myDaoDataCommunityAccountStatsVehicules.getImage_url());
+			myDataCommunityAccountVehicules.setLevel(myDaoDataCommunityAccountStatsVehicules.getLevel());
+			myDataCommunityAccountVehicules.setNation(myDaoDataCommunityAccountStatsVehicules.getNation());
+			listDataCommAccVeh.add(myDataCommunityAccountVehicules);
+		}
+		return listDataCommAccVeh;
+	}
+
 	private static DataCommunityAccountRatings TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(DaoDataCommunityAccountStats stats) {
 		DataCommunityAccountRatings myDataCommunityAccountStats =  new DataCommunityAccountRatings();
 		
