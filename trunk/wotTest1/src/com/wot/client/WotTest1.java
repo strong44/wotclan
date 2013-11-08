@@ -5327,14 +5327,6 @@ public class WotTest1 implements EntryPoint {
 		      public String getValue(CommunityAccount object) {
 		    	  if (object.listbattles.size() >= 2  ) {
 		    		  int diff = object.listbattles.get(0) - object.listbattles.get(1);
-//		    		  int diffWins = object.listBattlesWins.get(0) - object.listBattlesWins.get(1);
-//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
-//		    		  //on ne conserve que 2 digits après la virgule 
-//		    		  wrCal = wrCal * 100; //ex : 51,844444
-//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//		    		  String wr = String.valueOf(wrCal);
-		    		  
 		    		  return String.valueOf(diff) ;
 		    	  }
 		    	  else
@@ -5993,8 +5985,8 @@ public class WotTest1 implements EntryPoint {
 		    tableHistorizedStatsTanksCommAcc.getColumnSortList().push(nameColumn);
 
 	    	///
-		    // JOUR SUIVANT ///////////////////////
-		    TextColumn<CommunityAccount> jour1 = new TextColumn<CommunityAccount>() {
+		    // TANK 1 JOUR 1  ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank1 = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
 		    	  if (object.listBattlesTanks.size() >= 2  ) {
@@ -6004,7 +5996,7 @@ public class WotTest1 implements EntryPoint {
 		    		  DataCommunityAccount dataCommAccOfDay1 = object.listBattlesTanks.get(1);
 		    		  //bcl sur les stats vehicules du joueur pour le jour en question (1) 
 		    		  for (DataCommunityAccountVehicules dataCommAccVeh0 : dataCommAccOfDay0.getVehicles()) {
-		    			  //pour chaque vehicule du jour 1, il faut trouver le véhicule correspondant dans  ceux du jour 2 pour éventuellement détecté qu'il a été joué ( + battle)
+		    			  //pour chaque vehicule du jour 0, il faut trouver le véhicule correspondant dans  ceux du jour 1 pour éventuellement détecté qu'il a été joué ( + battle)
 		    			  //et le mémoriser dans une liste de tanks joués
 		    			  //A la fin on ne prendra que ceux qui ont été le + joués) 
 		    			  //
@@ -6020,10 +6012,13 @@ public class WotTest1 implements EntryPoint {
 			    				  break;
 			    			  }
 			    		  }
+		    			  
 		    		  }
 		    		  
 		    		  //Trier listVehPlayed selon getBattle_count 
 		    		  Collections.sort(listVehPlayed);
+		    		  object.setListVehPlayedSincePreviousDay0(listVehPlayed);
+		    		  
 		    		  if(listVehPlayed.size() > 0)
 		    			  return String.valueOf(listVehPlayed.get(0).getName() ) ;
 		    		  else
@@ -6034,12 +6029,12 @@ public class WotTest1 implements EntryPoint {
 		      }
 		    };
 		    String strDate =  listDates.get(0);
-		    tableHistorizedStatsTanksCommAcc.addColumn(jour1, "Tank1-" + strDate);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank1, "1er Tank Most played-" + strDate);
 	
-		    jour1.setSortable(true);
+		    jour1Tank1.setSortable(true);
 		    
 		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(jour1,
+		    columnSortHandler.setComparator(jour1Tank1,
 		        new Comparator<CommunityAccount>() {
 		          public int compare(CommunityAccount o1, CommunityAccount o2) {
 		            if (o1 == o2) {
@@ -6047,70 +6042,20 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
-		            	
-			    		  List<DataCommunityAccountVehicules> listVehPlayedO1 = new ArrayList<DataCommunityAccountVehicules>();
-			    		  
-			    		  DataCommunityAccount dataCommAccOfDay0 = o1.listBattlesTanks.get(0);
-			    		  DataCommunityAccount dataCommAccOfDay1 = o1.listBattlesTanks.get(1);
-			    		  //bcl sur les stats vehicules du joueur pour le jour en question (1) 
-			    		  for (DataCommunityAccountVehicules dataCommAccVeh0 : dataCommAccOfDay0.getVehicles()) {
-			    			  //pour chaque vehicule du jour 1, il faut trouver le véhicule correspondant dans  ceux du jour 2 pour éventuellement détecté qu'il a été joué ( + battle)
-			    			  //et le mémoriser dans une liste de tanks joués
-			    			  //A la fin on ne prendra que ceux qui ont été le + joués) 
-			    			  //
-			    			  for (DataCommunityAccountVehicules dataCommAccVeh1 : dataCommAccOfDay1.getVehicles()) {
-				    			  //char trouvé dans liste
-				    			  if(dataCommAccVeh0.getName().equalsIgnoreCase(dataCommAccVeh1.getName())) {
-				    				  if (dataCommAccVeh0.getBattle_count() >  dataCommAccVeh1.getBattle_count()) {
-				    					  //le char a été joué il faut l'ajouter  à la liste
-				    					  listVehPlayedO1.add(dataCommAccVeh0);
-				    				  }
-				    				  break;
-				    			  }
-				    		  }
-			    		  }
-			    		  
-			    		  //Trier listVehPlayed selon getBattle_count 
-			    		Collections.sort(listVehPlayedO1);
+	            if (o1 != null) {
 			    		String val1 = "";
-			    		if (listVehPlayedO1.size() > 0)
-			    			 val1 =  listVehPlayedO1.get(0).getName();
+			    		if (o1.getListVehPlayedDay0().size() > 0)
+			    			 val1 =  o1.getListVehPlayedDay0().get(0).getName();
 			    		else
 			    			val1="";
-		            	
-			    		List<DataCommunityAccountVehicules> listVehPlayedO2 = new ArrayList<DataCommunityAccountVehicules>();
-			    		  
-			    		   dataCommAccOfDay0 = o2.listBattlesTanks.get(0);
-			    		   dataCommAccOfDay1 = o2.listBattlesTanks.get(1);
-			    		  //bcl sur les stats vehicules du joueur pour le jour en question (1) 
-			    		  for (DataCommunityAccountVehicules dataCommAccVeh0 : dataCommAccOfDay0.getVehicles()) {
-			    			  //pour chaque vehicule du jour 1, il faut trouver le véhicule correspondant dans  ceux du jour 2 pour éventuellement détecté qu'il a été joué ( + battle)
-			    			  //et le mémoriser dans une liste de tanks joués
-			    			  //A la fin on ne prendra que ceux qui ont été le + joués) 
-			    			  //
-			    			  for (DataCommunityAccountVehicules dataCommAccVeh1 : dataCommAccOfDay1.getVehicles()) {
-				    			  //char trouvé dans liste
-				    			  if(dataCommAccVeh0.getName().equalsIgnoreCase(dataCommAccVeh1.getName())) {
-				    				  if (dataCommAccVeh0.getBattle_count() >  dataCommAccVeh1.getBattle_count()) {
-				    					  //le char a été joué il faut l'ajouter  à la liste
-				    					  listVehPlayedO2.add(dataCommAccVeh0);
-				    				  }
-				    				  break;
-				    			  }
-				    		  }
-			    		  }
-			    		  
-			    		  //Trier listVehPlayed selon getBattle_count 
-			    		  Collections.sort(listVehPlayedO2);
-			    		  
-			    		 
-			    		 String val2 = "";
-				    		if (listVehPlayedO2.size() > 0)
-				    			val2 =  listVehPlayedO2.get(0).getName();
-				    		else
-				    			val2 = "";
-		              return (o2 != null) ? val1.compareTo(val2) : 1;
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay0().size() > 0)
+			    			 val2 =  o2.getListVehPlayedDay0().get(0).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
 		            }else
 		            	return -1;
 		          }
@@ -6118,44 +6063,67 @@ public class WotTest1 implements EntryPoint {
 	    	//
 		    ////////////////////////////////////////////////////////
 		    
-		    // WR JOUR SUIVANT ///////////////////////
-		    TextColumn<CommunityAccount> jour1Wr = new TextColumn<CommunityAccount>() {
+	    	///
+		    // TANK 1 BATTLE JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank1Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 2  ) {
+		    		  if(object.getListVehPlayedDay0().size() > 0)
+		    			  return String.valueOf(object.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank1Battle, "Nb Battles tank" );
+	
+		    jour1Tank1Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank1Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay0().size() > 0)
+			    			 val1 =  o1.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay0().size() > 0)
+			    			 val2 =  o2.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 1 JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank1Wr = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
 		    	  //////
-		    	  List<DataCommunityAccountVehicules> listVehPlayed = new ArrayList<DataCommunityAccountVehicules>();
-	    		  
-	    		  DataCommunityAccount dataCommAccOfDay0 = object.listBattlesTanks.get(0);
-	    		  DataCommunityAccount dataCommAccOfDay1 = object.listBattlesTanks.get(1);
-	    		  //bcl sur les stats vehicules du joueur pour le jour en question (1) 
-	    		  for (DataCommunityAccountVehicules dataCommAccVeh0 : dataCommAccOfDay0.getVehicles()) {
-	    			  //pour chaque vehicule du jour 1, il faut trouver le véhicule correspondant dans  ceux du jour 2 pour éventuellement détecté qu'il a été joué ( + battle)
-	    			  //et le mémoriser dans une liste de tanks joués
-	    			  //A la fin on ne prendra que ceux qui ont été le + joués) 
-	    			  //
-	    			  for (DataCommunityAccountVehicules dataCommAccVeh1 : dataCommAccOfDay1.getVehicles()) {
-		    			  //char trouvé dans liste
-		    			  if(dataCommAccVeh0.getName().equalsIgnoreCase(dataCommAccVeh1.getName())) {
-		    				  if (dataCommAccVeh0.getBattle_count() >  dataCommAccVeh1.getBattle_count()) {
-		    					  //le char a été joué il faut l'ajouter  à la liste
-		    					  dataCommAccVeh0.setCountBattleSincePreviousDay(dataCommAccVeh0.getBattle_count() - dataCommAccVeh1.getBattle_count());
-		    					  listVehPlayed.add(dataCommAccVeh0);
-		    				  }
-		    				  break;
-		    			  }
-		    		  }
-	    		  }
-	    		  
-	    		  //Trier listVehPlayed selon getBattle_count 
-	    		  Collections.sort(listVehPlayed);
-		    	  
-		    	  
-		    	  
-		    	  /////
-		    	  if (listVehPlayed.size() > 0 && listVehPlayed.get(0) != null  ) {
-		    		  int diff = listVehPlayed.get(0).getCountBattleSincePreviousDay();
+		    	  if ( object.getListVehPlayedDay0().size() > 0 &&  object.getListVehPlayedDay0().get(0) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
 		    		  
-		    		  int diffWins = listVehPlayed.get(0).getWinCountBattleSincePreviousDay();
+		    		  int diffWins =  object.getListVehPlayedDay0().get(0).getWinCountBattleSincePreviousDay();
 		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
 		    		  //on ne conserve que 2 digits après la virgule 
 		    		  wrCal = wrCal * 100; //ex : 51,844444
@@ -6170,522 +6138,932 @@ public class WotTest1 implements EntryPoint {
 		      }
 		    };
 		    strDate =  listDates.get(0);
-		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Wr, "WR-" + strDate);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank1Wr, "Wr Tank" );
 	
-		    jour1Wr.setSortable(false);
+		    jour1Tank1Wr.setSortable(true);
 		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour1Wr,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	int diff1 = o1.listbattles.get(0) - o1.listbattles.get(1);
-//			    		int diffWins1 = o1.listBattlesWins.get(0) - o1.listBattlesWins.get(1);
-//			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
-//			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
-//			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
-//			    		//String wr1 = String.valueOf(wrCal1);
-//		            	
-//			    		int diff2 = o2.listbattles.get(0) - o2.listbattles.get(1);
-//			    		int diffWins2 = o2.listBattlesWins.get(0) - o2.listBattlesWins.get(1);
-//			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
-//			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
-//			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
-//			    		//String wr2 = String.valueOf(wrCal2);
-//		            	//
-//		            	Integer val1 = intWrCal1;
-//		            	Integer val2 = intWrCal2;
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank1Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay0().size()> 0 && o2.getListVehPlayedDay0().size()> 0) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay0().get(0).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay0().get(0).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
 	    	//
 //		    ////////////////////////////////////////////////////////
-//		    
-//		    
-//		    // JOUR SUIVANT ///////////////////////
-//		    // Add a text column to show the second day of battlle.
-//		    TextColumn<CommunityAccount> jour2 = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 3  ) {
-//		    		  int diff = object.listbattles.get(1) - object.listbattles.get(2);
-//		    		  return String.valueOf(diff);
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    
-//		    strDate =  listDates.get(1);
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour2, "Battles-" + strDate);
-//	
-//		    jour2.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour2,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	Integer val1 = o1.listbattles.get(1) - o1.listbattles.get(2);
-//		            	Integer val2 = o2.listbattles.get(1)- o2.listbattles.get(2);
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//	
-//		    // WR JOUR SUIVANT ///////////////////////
-//		    TextColumn<CommunityAccount> jour2Wr = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 2  ) {
-//		    		  int a = 1;
-//		    		  int b = 2;
-//		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
-//		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
-//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
-//		    		  //on ne conserve que 2 digits après la virgule 
-//		    		  wrCal = wrCal * 100; //ex : 51,844444
-//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//		    		  String wr = String.valueOf(wrCal);
-//		    		  
-//		    		  return   wr ;
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    strDate =  listDates.get(1);
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Wr, "WR-" + strDate);
-//	
-//		    jour2Wr.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour2Wr,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	int a = 1;
-//			    		int b = 2;
-//		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
-//			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
-//			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
-//			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
-//			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
-//			    		//String wr1 = String.valueOf(wrCal1);
-//		            	
-//			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
-//			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
-//			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
-//			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
-//			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
-//			    		//String wr2 = String.valueOf(wrCal2);
-//		            	//
-//		            	Integer val1 = intWrCal1;
-//		            	Integer val2 = intWrCal2;
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//		    ////////////////////////////////////////////////////////
-//		    
-//		    
-//		    // JOUR SUIVANT ///////////////////////
-//		    // Add a text column to show the second day of battlle.
-//		    TextColumn<CommunityAccount> jour3 = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 4  ) {
-//		    		  int diff = object.listbattles.get(2) - object.listbattles.get(3);
-//		    		  return String.valueOf(diff);
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    
-//		    strDate =  listDates.get(2);
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour3, "Battles-" + strDate);
-//	
-//		    jour3.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour3,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	Integer val1 = o1.listbattles.get(2) - o1.listbattles.get(3);
-//		            	Integer val2 = o2.listbattles.get(2)- o2.listbattles.get(3);
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//	
-//		    // WR JOUR SUIVANT ///////////////////////
-//		    TextColumn<CommunityAccount> jour3Wr = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 2  ) {
-//		    		  int a = 2;
-//		    		  int b = 3;
-//		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
-//		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
-//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
-//		    		  //on ne conserve que 2 digits après la virgule 
-//		    		  wrCal = wrCal * 100; //ex : 51,844444
-//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//		    		  String wr = String.valueOf(wrCal);
-//		    		  
-//		    		  return   wr ;
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    strDate =  listDates.get(2);
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour3Wr, "WR-" + strDate);
-//	
-//		    jour3Wr.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour3Wr,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	int a = 2;
-//			    		int b = 3;
-//		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
-//			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
-//			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
-//			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
-//			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
-//			    		//String wr1 = String.valueOf(wrCal1);
-//		            	
-//			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
-//			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
-//			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
-//			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
-//			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
-//			    		//String wr2 = String.valueOf(wrCal2);
-//		            	//
-//		            	Integer val1 = intWrCal1;
-//		            	Integer val2 = intWrCal2;
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//		    ////////////////////////////////////////////////////////
-//		    
-//		    
-//		    // === JOUR SUIVANT === ///////////////////////
-//		    // Add a text column to show the second day of battlle.
-//		    TextColumn<CommunityAccount> jour4 = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 5  ) {
-//		    		  int diff = object.listbattles.get(3) - object.listbattles.get(4);
-//		    		  return String.valueOf(diff);
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    if (listDates.size() >= 4 )
-//		    	strDate =  listDates.get(3);
-//		    else
-//		    	strDate = "";
-//		    
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour4, "Battles-" + strDate);
-//	
-//		    jour4.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour4,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null &&  o1.listbattles.size() >= 5   &&  o2.listbattles.size() >= 5) {
-//		            	Integer val1 = o1.listbattles.get(3) - o1.listbattles.get(4);
-//		            	Integer val2 = o2.listbattles.get(3)- o2.listbattles.get(4);
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else 
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//	   /////////////////////////////////////////////////////////////////
-//		    
-//		    // WR JOUR SUIVANT ///////////////////////
-//		    TextColumn<CommunityAccount> jour4Wr = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  if (object.listbattles.size() >= 5  ) {
-//		    		  int a = 3;
-//		    		  int b = 4;
-//		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
-//		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
-//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
-//		    		  //on ne conserve que 2 digits après la virgule 
-//		    		  wrCal = wrCal * 100; //ex : 51,844444
-//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//		    		  String wr = String.valueOf(wrCal);
-//		    		  
-//		    		  return   wr ;
-//		    	  }
-//		    	  else
-//		    		  return "";
-//		      }
-//		    };
-//		    strDate =  listDates.get(3);
-//		    tableHistorizedStatsTanksCommAcc.addColumn(jour4Wr, "WR-" + strDate);
-//	
-//		    jour4Wr.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(jour4Wr,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	int a = 3;
-//			    		int b = 4;
-//		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
-//			    		int diffWins1 = o1.listBattlesWins.get(a) - o1.listBattlesWins.get(b);
-//			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
-//			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
-//			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
-//			    		//String wr1 = String.valueOf(wrCal1);
-//		            	
-//			    		int diff2 = o2.listbattles.get(a) - o2.listbattles.get(b);
-//			    		int diffWins2 = o2.listBattlesWins.get(a) - o2.listBattlesWins.get(b);
-//			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
-//			    		//on ne conserve que 2 digits après la virgule 
-//			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
-//			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
-//			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
-//			    		//String wr2 = String.valueOf(wrCal2);
-//		            	//
-//		            	Integer val1 = intWrCal1;
-//		            	Integer val2 = intWrCal2;
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//		    
-//		    // === TOTAL DES JOURS  === ///////////////////////
-//		    TextColumn<CommunityAccount> totalJour = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  int total = 0;
-//		    	  int max  = object.listbattles.size() ; 
-//		    	  if (max > 5 ) 
-//		    		  max = 5 ;
-//		    	  for (int i =0; i < (max - 1) ; i++) {
-//		    		  total = total + object.listbattles.get(i) - object.listbattles.get(i+1);
-//		    	  }
-//		    	  return String.valueOf(total);
-//		      }
-//		    };
-//		    
-//		    strDate =  "Total";
-//		    tableHistorizedStatsTanksCommAcc.addColumn(totalJour, strDate);
-//	
-//		    totalJour.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(totalJour,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	int total1 = 0 ;
-//		            	int total2 = 0 ;
-//		            	int maxO1  = o1.listbattles.size() ; 
-//				    	if (maxO1 > 5 ) 
-//				    		  maxO1 = 5 ;
-//				    	for (int i =0; i < (maxO1 - 1) ; i++) {
-//				    		  total1 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
-//				    		  //total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
-//				    	}
-//		            	int maxO2  = o2.listbattles.size() ; 
-//				    	  if (maxO2 > 5 ) 
-//				    		  maxO2 = 5 ;
-//				    	  for (int i =0; i < (maxO2 - 1) ; i++) {
-//				    		  //total2 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
-//				    		  total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
-//				    	  }
-//		            	
-//		            	
-//		            	Integer val1 = total1;
-//		            	Integer val2 = total2;
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else 
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-//	    /////////////////////////////////////////////////////////////////
-//		    // === WR TOTAL DES JOURS  === ///////////////////////
-//		    TextColumn<CommunityAccount> WrTotalJour = new TextColumn<CommunityAccount>() {
-//		      @Override
-//		      public String getValue(CommunityAccount object) {
-//		    	  /**
-//		    	   * int a = 3;
-//		    		  int b = 4;
-//		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
-//		    		  int diffWins = object.listBattlesWins.get(a) - object.listBattlesWins.get(b);
-//		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
-//		    		  //on ne conserve que 2 digits après la virgule 
-//		    		  wrCal = wrCal * 100; //ex : 51,844444
-//		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//		    		  String wr = String.valueOf(wrCal);
-//		    	   */
-//		    	  int totalBattles = 0;
-//		    	  int max  = object.listbattles.size() ; 
-//		    	  if (max > 5 ) 
-//		    		  max = 5 ;
-//		    	  for (int i =0; i < (max - 1) ; i++) {
-//		    		  totalBattles = totalBattles + object.listbattles.get(i) - object.listbattles.get(i+1);
-//		    	  }
-//
-//		    	  int totalBattlesWins = 0;
-//		    	  int maxWins  = object.listBattlesWins.size() ; 
-//		    	  if (maxWins > 5 ) 
-//		    		  maxWins = 5 ;
-//		    	  for (int i =0; i < (maxWins - 1) ; i++) {
-//		    		  totalBattlesWins = totalBattlesWins + object.listBattlesWins.get(i) - object.listBattlesWins.get(i+1);
-//		    	  }
-//
-//		    	  Double wrCal = (double) ((double)totalBattlesWins/(double)totalBattles);
-//	    		  //on ne conserve que 2 digits après la virgule 
-//	    		  wrCal = wrCal * 100; //ex : 51,844444
-//	    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
-//	    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
-//	    		  String wr = String.valueOf(wrCal);
-//	    		  
-//		    	  return wr;
-//		      }
-//		    };
-//		    
-//		    strDate =  "WR Total";
-//		    tableHistorizedStatsTanksCommAcc.addColumn(WrTotalJour, strDate);
-//	
-//		    WrTotalJour.setSortable(true);
-//		    
-//		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//		    columnSortHandler.setComparator(WrTotalJour,
-//		        new Comparator<CommunityAccount>() {
-//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//		            if (o1 == o2) {
-//		              return 0;
-//		            }
-//	
-//		            // Compare the name columns.
-//		            if (o1 != null) {
-//		            	Double totalBattle1 = 0.0 ;
-//		            	Double totalBattle2 = 0.0 ;
-//		            	Double totalBattleWins1 = 0.0 ;
-//		            	Double totalBattleWins2 = 0.0 ;
-//		            	
-//		            	int maxBattleO1  = o1.listbattles.size() ; 
-//				    	if (maxBattleO1 > 5 ) 
-//				    		  maxBattleO1 = 5 ;
-//				    	for (int i =0; i < (maxBattleO1 - 1) ; i++) {
-//				    		  totalBattle1 = totalBattle1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
-//				    		  totalBattleWins1 = totalBattleWins1 + o1.listBattlesWins.get(i) - o1.listBattlesWins.get(i+1);
-//				    		  //total2 = total2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
-//				    	}
-//		            	int maxBattleO2  = o2.listbattles.size() ; 
-//				    	  if (maxBattleO2 > 5 ) 
-//				    		  maxBattleO2 = 5 ;
-//				    	  for (int i =0; i < (maxBattleO2 - 1) ; i++) {
-//				    		  //total2 = total1 + o1.listbattles.get(i) - o1.listbattles.get(i+1);
-//				    		  totalBattle2 = totalBattle2 + o2.listbattles.get(i) - o2.listbattles.get(i+1);
-//				    		  totalBattleWins2 = totalBattleWins2 + o2.listBattlesWins.get(i) - o2.listBattlesWins.get(i+1);
-//				    	  }
-//		            	
-//				    	Double val1 =0.0;
-//				    	Double val2 =0.0;
-//		            	if (totalBattle1 != 0.0   ) { 
-//		            		val1 = totalBattleWins1/totalBattle1; val1 = val1 *100;
-//		            	}
-//		            	if ( totalBattle2 != 0.0 ) {
-//		            		val2 = totalBattleWins2/totalBattle2;val2 = val2 * 100 ;
-//		            	}
-//		              return (o2 != null) ? val1.compareTo(val2) : 1;
-//		            }else 
-//		            	return -1;
-//		          }
-//		        });
-//	    	//
-	    /////////////////////////////////////////////////////////////////
 		    
+		    
+		    
+	    	///
+		    // TANK 2 JOUR 1  ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank2 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 3  ) {
+		    		  
+		    		  if(object.getListVehPlayedDay0().size() > 1)
+		    			  return String.valueOf(object.getListVehPlayedDay0().get(1).getName() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank2, "2nd Tank Most played-" + strDate);
+	
+		    jour1Tank2.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank2,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		String val1 = "";
+			    		if (o1.getListVehPlayedDay0().size() > 1)
+			    			 val1 =  o1.getListVehPlayedDay0().get(1).getName();
+			    		else
+			    			val1="";
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay0().size() > 1)
+			    			 val2 =  o2.getListVehPlayedDay0().get(1).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+	    	///
+		    // BATTLE TANK 2 JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank2Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 3  ) {
+
+		    		  
+		    		  if(object.getListVehPlayedDay0().size() > 1)
+		    			  return String.valueOf(object.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank2Battle, "Nb Battles tank" );
+	
+		    jour1Tank2Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank2Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay0().size() > 1)
+			    			 val1 =  o1.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay0().size() > 1)
+			    			 val2 =  o2.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 2 JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank2Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  //////
+		    	  if ( object.getListVehPlayedDay0().size() > 1 &&  object.getListVehPlayedDay0().get(1) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay();
+		    		  
+		    		  int diffWins =  object.getListVehPlayedDay0().get(1).getWinCountBattleSincePreviousDay();
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank2Wr, "Wr Tank" );
+	
+		    jour1Tank2Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank2Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay0().size()> 1 && o2.getListVehPlayedDay0().size()> 1) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay0().get(1).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay0().get(1).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay0().get(1).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+//		    ////////////////////////////////////////////////////////
+		    
+		    
+		    // TANK 3 JOUR 1  ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank3 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 4  ) {
+		    		  
+		    		  if(object.getListVehPlayedDay0().size() > 2)
+		    			  return String.valueOf(object.getListVehPlayedDay0().get(2).getName() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank3, "Third Tank Most played-" + strDate);
+	
+		    jour1Tank3.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank3,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		String val1 = "";
+			    		if (o1.getListVehPlayedDay0().size() > 2)
+			    			 val1 =  o1.getListVehPlayedDay0().get(2).getName();
+			    		else
+			    			val1="";
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay0().size() > 2)
+			    			 val2 =  o2.getListVehPlayedDay0().get(2).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+	    	///
+		    // BATTLE TANK 3 JOUR 1  ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank3Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 4  ) {
+
+		    		  
+		    		  if(object.getListVehPlayedDay0().size() > 2)
+		    			  return String.valueOf(object.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank3Battle, "Nb Battles tank" );
+	
+		    jour1Tank2Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank3Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay0().size() > 2)
+			    			 val1 =  o1.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay0().size() > 2)
+			    			 val2 =  o2.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 3 JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour1Tank3Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  //////
+		    	  if ( object.getListVehPlayedDay0().size() > 2 &&  object.getListVehPlayedDay0().get(2) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay();
+		    		  
+		    		  int diffWins =  object.getListVehPlayedDay0().get(2).getWinCountBattleSincePreviousDay();
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(0);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour1Tank3Wr, "Wr Tank" );
+	
+		    jour1Tank3Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour1Tank3Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay0().size()> 2 && o2.getListVehPlayedDay0().size()> 2) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay0().get(2).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay0().get(2).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay0().get(2).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+
+	    /////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
+	    	///
+		    // TANK 1 JOUR 2  ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank1 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 2  ) {
+		    		  List<DataCommunityAccountVehicules> listVehPlayed = new ArrayList<DataCommunityAccountVehicules>();
+		    		  
+		    		  DataCommunityAccount dataCommAccOfDay0 = object.listBattlesTanks.get(1);
+		    		  DataCommunityAccount dataCommAccOfDay1 = object.listBattlesTanks.get(2);
+		    		  //bcl sur les stats vehicules du joueur pour le jour en question (1) 
+		    		  for (DataCommunityAccountVehicules dataCommAccVeh0 : dataCommAccOfDay0.getVehicles()) {
+		    			  //pour chaque vehicule du jour 0, il faut trouver le véhicule correspondant dans  ceux du jour 1 pour éventuellement détecté qu'il a été joué ( + battle)
+		    			  //et le mémoriser dans une liste de tanks joués
+		    			  //A la fin on ne prendra que ceux qui ont été le + joués) 
+		    			  //
+		    			  for (DataCommunityAccountVehicules dataCommAccVeh1 : dataCommAccOfDay1.getVehicles()) {
+			    			  //char trouvé dans liste
+			    			  if(dataCommAccVeh0.getName().equalsIgnoreCase(dataCommAccVeh1.getName())) {
+			    				  if (dataCommAccVeh0.getBattle_count() >  dataCommAccVeh1.getBattle_count()) {
+			    					  //le char a été joué il faut l'ajouter  à la liste
+			    					  dataCommAccVeh0.setCountBattleSincePreviousDay(dataCommAccVeh0.getBattle_count() - dataCommAccVeh1.getBattle_count());
+			    					  dataCommAccVeh0.setWinCountBattleSincePreviousDay(dataCommAccVeh0.getWin_count() - dataCommAccVeh1.getWin_count());
+			    					  listVehPlayed.add(dataCommAccVeh0);
+			    				  }
+			    				  break;
+			    			  }
+			    		  }
+		    			  
+		    		  }
+		    		  
+		    		  //Trier listVehPlayed selon getBattle_count 
+		    		  Collections.sort(listVehPlayed);
+		    		  object.setListVehPlayedSincePreviousDay1(listVehPlayed);
+		    		  
+		    		  if(listVehPlayed.size() > 0)
+		    			  return String.valueOf(listVehPlayed.get(0).getName() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank1, "1er Tank Most played-" + strDate);
+	
+		    jour2Tank1.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank1,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		String val1 = "";
+			    		if (o1.getListVehPlayedDay1().size() > 0)
+			    			 val1 =  o1.getListVehPlayedDay1().get(0).getName();
+			    		else
+			    			val1="";
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay1().size() > 0)
+			    			 val2 =  o2.getListVehPlayedDay1().get(0).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+	    	///
+		    // TANK 1 BATTLE JOUR 1 ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank1Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 2  ) {
+		    		  if(object.getListVehPlayedDay1().size() > 0)
+		    			  return String.valueOf(object.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank1Battle, "Nb Battles tank" );
+	
+		    jour2Tank1Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank1Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay1().size() > 0)
+			    			 val1 =  o1.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay1().size() > 0)
+			    			 val2 =  o2.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 1 JOUR 2 ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank1Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  //////
+		    	  if ( object.getListVehPlayedDay1().size() > 0 &&  object.getListVehPlayedDay1().get(0) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay();
+		    		  
+		    		  int diffWins =  object.getListVehPlayedDay1().get(0).getWinCountBattleSincePreviousDay();
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank1Wr, "Wr Tank" );
+	
+		    jour2Tank1Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank1Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay1().size()> 0 && o2.getListVehPlayedDay1().size()> 0) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay1().get(0).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay1().get(0).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay1().get(0).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+//		    ////////////////////////////////////////////////////////
+	    	///
+		    // TANK 2 JOUR 2  ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank2 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 3  ) {
+		    		  
+		    		  if(object.getListVehPlayedDay1().size() > 1)
+		    			  return String.valueOf(object.getListVehPlayedDay1().get(1).getName() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank2, "2nd Tank Most played-" + strDate);
+	
+		    jour2Tank2.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank2,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		String val1 = "";
+			    		if (o1.getListVehPlayedDay1().size() > 1)
+			    			 val1 =  o1.getListVehPlayedDay1().get(1).getName();
+			    		else
+			    			val1="";
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay1().size() > 1)
+			    			 val2 =  o2.getListVehPlayedDay1().get(1).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+	    	///
+		    // BATTLE TANK 2 JOUR 2 ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank2Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 3  ) {
+
+		    		  
+		    		  if(object.getListVehPlayedDay1().size() > 1)
+		    			  return String.valueOf(object.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank2Battle, "Nb Battles tank" );
+	
+		    jour2Tank2Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank2Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay1().size() > 1)
+			    			 val1 =  o1.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay1().size() > 1)
+			    			 val2 =  o2.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 2 JOUR 2 ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank2Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  //////
+		    	  if ( object.getListVehPlayedDay1().size() > 1 &&  object.getListVehPlayedDay1().get(1) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay();
+		    		  
+		    		  int diffWins =  object.getListVehPlayedDay1().get(1).getWinCountBattleSincePreviousDay();
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank2Wr, "Wr Tank" );
+	
+		    jour2Tank2Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank2Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay1().size()> 1 && o2.getListVehPlayedDay1().size()> 1) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay1().get(1).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay1().get(1).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay1().get(1).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+//		    ////////////////////////////////////////////////////////
+		    
+		    
+		    // TANK 3 JOUR 2  ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank3 = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 4  ) {
+		    		  
+		    		  if(object.getListVehPlayedDay1().size() > 2)
+		    			  return String.valueOf(object.getListVehPlayedDay1().get(2).getName() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank3, "Third Tank Most played-" + strDate);
+	
+		    jour2Tank3.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank3,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		String val1 = "";
+			    		if (o1.getListVehPlayedDay1().size() > 2)
+			    			 val1 =  o1.getListVehPlayedDay1().get(2).getName();
+			    		else
+			    			val1="";
+			    		
+			    		String val2 = "";
+			    		if (o2.getListVehPlayedDay1().size() > 2)
+			    			 val2 =  o2.getListVehPlayedDay1().get(2).getName();
+			    		else
+			    			val2="";
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+	    	///
+		    // BATTLE TANK 3 JOUR 2  ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank3Battle = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  if (object.listBattlesTanks.size() >= 4  ) {
+
+		    		  
+		    		  if(object.getListVehPlayedDay1().size() > 2)
+		    			  return String.valueOf(object.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay() ) ;
+		    		  else
+		    			  return "";
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank3Battle, "Nb Battles tank" );
+	
+		    jour2Tank3Battle.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank3Battle,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+	            if (o1 != null) {
+			    		Integer val1 = 0;
+			    		if (o1.getListVehPlayedDay1().size() > 2)
+			    			 val1 =  o1.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay();
+			    		else
+			    			val1=0;
+			    		
+			    		Integer val2 = 0;
+			    		if (o2.getListVehPlayedDay1().size() > 2)
+			    			 val2 =  o2.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay();
+			    		else
+			    			val2=0;
+			    		
+			    		return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+		    ////////////////////////////////////////////////////////
+		    
+		    
+		    /////////////////////////////////////////////////////////////
+		    // WR TANK 3 JOUR 2 ///////////////////////
+		    TextColumn<CommunityAccount> jour2Tank3Wr = new TextColumn<CommunityAccount>() {
+		      @Override
+		      public String getValue(CommunityAccount object) {
+		    	  //////
+		    	  if ( object.getListVehPlayedDay1().size() > 2 &&  object.getListVehPlayedDay1().get(2) != null  ) {
+		    		  int diff =  object.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay();
+		    		  
+		    		  int diffWins =  object.getListVehPlayedDay1().get(2).getWinCountBattleSincePreviousDay();
+		    		  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits après la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+		    		  
+		    		  return   wr ;
+		    	  }
+		    	  else
+		    		  return "";
+		      }
+		    };
+		    strDate =  listDates.get(1);
+		    tableHistorizedStatsTanksCommAcc.addColumn(jour2Tank3Wr, "Wr Tank" );
+	
+		    jour2Tank3Wr.setSortable(true);
+		    
+		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+		    columnSortHandler.setComparator(jour2Tank3Wr,
+		        new Comparator<CommunityAccount>() {
+		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+		            if (o1 == o2) {
+		              return 0;
+		            }
+	
+		            // Compare the name columns.
+		            if (o1 != null && o1.getListVehPlayedDay1().size()> 2 && o2.getListVehPlayedDay1().size()> 2) {
+		            	/////////////
+		            	int diff1 = o1.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay();
+			    		int diffWins1 = o1.getListVehPlayedDay1().get(2).getWinCountBattleSincePreviousDay();
+			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal1 = wrCal1 * 100; //ex : 51,844444
+			    		int intWrCal1 = (int) (wrCal1 * 100); //ex : 5184
+			    		//wrCal1 = (double)intWrCal1 / 100 ; //ex : 51,84
+			    		//String wr1 = String.valueOf(wrCal1);
+		            	
+			    		int diff2 = o2.getListVehPlayedDay1().get(2).getCountBattleSincePreviousDay();
+			    		int diffWins2 = o2.getListVehPlayedDay1().get(2).getWinCountBattleSincePreviousDay();
+			    		Double wrCal2 = (double) ((double)diffWins2/(double)diff2);
+			    		//on ne conserve que 2 digits après la virgule 
+			    		wrCal2 = wrCal2 * 100; //ex : 51,844444
+			    		int intWrCal2 = (int) (wrCal2 * 100); //ex : 5184
+			    		//wrCal2 = (double)intWrCal2 / 100 ; //ex : 51,84
+			    		//String wr2 = String.valueOf(wrCal2);
+		            	//
+		            	Integer val1 = intWrCal1;
+		            	Integer val2 = intWrCal2;
+		              return (o2 != null) ? val1.compareTo(val2) : 1;
+		            }else
+		            	return -1;
+		          }
+		        });
+	    	//
+
+	    
 		    //////////////////////////////////////////////////////////////////
 		    // Add a selection model to handle user selection.
 		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
