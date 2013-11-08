@@ -75,8 +75,27 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 //	}
 
 	private DataCommunityAccount data;
+	private List<DataCommunityAccountVehicules> listVehPlayedDay0;
 	
-    public DataCommunityAccount getData() {
+    public List<DataCommunityAccountVehicules> getListVehPlayedDay0() {
+		return listVehPlayedDay0;
+	}
+
+	public void setListVehPlayedDay0(List<DataCommunityAccountVehicules> listVehPlayed) {
+		this.listVehPlayedDay0 = listVehPlayed;
+	}
+
+	private List<DataCommunityAccountVehicules> listVehPlayedDay1;
+	
+    public List<DataCommunityAccountVehicules> getListVehPlayedDay1() {
+		return listVehPlayedDay1;
+	}
+
+	public void setListVehPlayedDay1(List<DataCommunityAccountVehicules> listVehPlayed) {
+		this.listVehPlayedDay1 = listVehPlayed;
+	}
+	
+	public DataCommunityAccount getData() {
 		return data;
 	}
 
@@ -113,8 +132,16 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
       }
       return false;
     }
+
+	public void setListVehPlayedSincePreviousDay0(List<DataCommunityAccountVehicules> listVehPlayed) {
+		// TODO Auto-generated method stub
+		this.listVehPlayedDay0 = listVehPlayed;
+	}
 	
-	
+	public void setListVehPlayedSincePreviousDay1(List<DataCommunityAccountVehicules> listVehPlayed) {
+		// TODO Auto-generated method stub
+		this.listVehPlayedDay1 = listVehPlayed;
+	}
 	
 }
 
