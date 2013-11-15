@@ -5700,7 +5700,10 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
-		    strDate =  listDates.get(3);
+		    if (listDates.size() >= 4)
+		    	strDate =  listDates.get(3);
+		    else 
+		    	strDate = "";
 		    tableHistorizedStatsCommAcc.addColumn(jour4Wr, "WR-" + strDate);
 	
 		    jour4Wr.setSortable(true);
@@ -6044,13 +6047,13 @@ public class WotTest1 implements EntryPoint {
 		            // Compare the name columns.
 	            if (o1 != null) {
 			    		String val1 = "";
-			    		if (o1.getListVehPlayedDay0().size() > 0)
+			    		if (o1.getListVehPlayedDay0() != null && o1.getListVehPlayedDay0().size() > 0)
 			    			 val1 =  o1.getListVehPlayedDay0().get(0).getName();
 			    		else
 			    			val1="";
 			    		
 			    		String val2 = "";
-			    		if (o2.getListVehPlayedDay0().size() > 0)
+			    		if (o2.getListVehPlayedDay0() != null && o2.getListVehPlayedDay0().size() > 0)
 			    			 val2 =  o2.getListVehPlayedDay0().get(0).getName();
 			    		else
 			    			val2="";
@@ -6094,13 +6097,13 @@ public class WotTest1 implements EntryPoint {
 		            // Compare the name columns.
 	            if (o1 != null) {
 			    		Integer val1 = 0;
-			    		if (o1.getListVehPlayedDay0().size() > 0)
+			    		if (o1.getListVehPlayedDay0() != null && o1.getListVehPlayedDay0().size() > 0)
 			    			 val1 =  o1.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
 			    		else
 			    			val1=0;
 			    		
 			    		Integer val2 = 0;
-			    		if (o2.getListVehPlayedDay0().size() > 0)
+			    		if (o2.getListVehPlayedDay0() != null && o2.getListVehPlayedDay0().size() > 0)
 			    			 val2 =  o2.getListVehPlayedDay0().get(0).getCountBattleSincePreviousDay();
 			    		else
 			    			val2=0;

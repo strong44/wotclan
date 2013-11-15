@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -50,7 +51,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -154,7 +155,6 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
 			else
 				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
-			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
 			String line = "";
 			
@@ -948,7 +948,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								else {
 									url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 								}
-								BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+								HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+								conn.setReadTimeout(60000);
+								conn.setConnectTimeout(60000);
+								conn.getInputStream();
+								BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 								String lineUser = "";
 								;
 								String AllLinesUser = "";
