@@ -4580,6 +4580,15 @@ public class WotTest1 implements EntryPoint {
 				 */
 				private void persisStats(int indexBeginSaveStatsUser, int indexEndSaveStatsUser) {
 					hPanelLoading.setVisible(true);
+				    // recup des users selected in dropBoxClanUsers
+					List<String> listIdUser = new ArrayList<String>();
+					int itemCount = dropBoxClanUsers.getItemCount();
+					for(int i = 0 ;  i< itemCount ; i++) {
+						if (dropBoxClanUsers.isItemSelected(i)) {
+							listIdUser.add(dropBoxClanUsers.getValue(i));
+						}
+					}
+					
 					// First, we validate the input.
 					errorLabel.setText("");
 					String textToServer = idClan;
@@ -4592,7 +4601,7 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setEnabled(false);
 					textToServerLabel.setText(textToServer);
 					serverResponseLabel.setText("");
-					wotService.persistStats(textToServer , indexBeginSaveStatsUser, indexEndSaveStatsUser,//offsetClan,
+					wotService.persistStats(textToServer , indexBeginSaveStatsUser, indexEndSaveStatsUser, listIdUser,//offsetClan,
 							new AsyncCallback<List<String>>() {
 								public void onFailure(Throwable caught) {
 									hPanelLoading.setVisible(false);
