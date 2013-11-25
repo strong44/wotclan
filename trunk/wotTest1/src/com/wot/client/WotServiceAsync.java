@@ -12,7 +12,7 @@ import com.wot.shared.CommunityClan;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface WotServiceAsync {
-	void persistStats(String input, int indexBegin, int indexEnd, AsyncCallback<List<String>> callback)
+	void persistStats(String input, int indexBegin, int indexEnd, List<String> listIdUser, AsyncCallback<List<String>> callback)
 			throws IllegalArgumentException;
 
 	void getClans(String input, int offsetClan, AsyncCallback<Clan> callback)

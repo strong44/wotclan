@@ -51,7 +51,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -70,7 +70,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 	
 	@Override
-	public List<String> persistStats(String input, int indexBegin, int indexEnd) throws IllegalArgumentException {
+	public List<String> persistStats(String input, int indexBegin, int indexEnd, List<String> listIdUser) throws IllegalArgumentException {
 		//
 		log.warning("========lancement persistStats ============== " + input);
 		
@@ -121,7 +121,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 		
 		
-		persistAllStats(input, indexBegin, indexEnd, new Date());
+		persistAllStats(input, indexBegin, indexEnd, new Date(), listIdUser);
 		//return resultAchievement;
 		return listUsersPersisted;
 	}
@@ -155,7 +155,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
 			else
 				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
+			
+			HttpURLConnection conn = (HttpURLConnection)urlAchievement.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			conn.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
 			String line = "";
 			
 
@@ -279,7 +286,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 			
 			//lecture de la réponse recherche du clan
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
+			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			//conn.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
 			String line = "";
 			String AllLines = "";
 	
@@ -433,7 +446,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
 			}
 	
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			conn.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
 			String line = "";
 			String AllLines = "";
 	
@@ -501,7 +520,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 			}
 	
-			BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			conn.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
 			String line = "";
 			String AllLines = "";
 	
@@ -555,7 +580,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							else {
 								url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 							}
-							BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+							
+							HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
+							conn2.setReadTimeout(60000);
+							conn2.setConnectTimeout(60000);
+							conn2.getInputStream();
+							BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+
+							//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
 							String lineUser = "";
 							;
 							String AllLinesUser = "";
@@ -568,6 +600,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							readerUser.close();
 			
 							Gson gsonUser = new Gson();
+							log.info(AllLinesUser.substring(0, 200));
 							CommunityAccount account = gsonUser.fromJson(AllLinesUser, CommunityAccount.class);
 							account.setIdUser(idUser);
 							account.setName(account.getData().getName());
@@ -825,9 +858,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		 * persist wot server's datas  in datastore appengine
 		 * @param idClan
 		 * @param indexBegin
+	 * @param listIdUser 
 		 * @param indexEnd
 		 */
-		public List<String> persistAllStats(String idClan,  int indexBegin, int nbUsersToTreat , Date date) {
+		public List<String> persistAllStats(String idClan,  int indexBegin, int nbUsersToTreat , Date date, List<String> listIdUser) {
 		
 			//on raz la liste de joueurs persistés
 			if (indexBegin == 0 ) {
@@ -837,7 +871,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			//List<String> listUserPersisted = new ArrayList<String>() ;
 			
 			log.warning("persistAllStats index debut " + indexBegin + " nb Users To Treat " + nbUsersToTreat);
-			
+			for(String user : listIdUser) {
+				log.warning("user to persist : " + user);
+				
+			}
 			// Verify that the input is valid. //[502248407, 506128381]  
 			if (!FieldVerifier.isValidName(idClan)) {
 				// If the input is not valid, throw an IllegalArgumentException back to
@@ -869,8 +906,14 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					//500006074
 					urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 				}
-		
-				BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+				
+				HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+				conn.setReadTimeout(60000);
+				conn.setConnectTimeout(60000);
+				conn.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				
+				//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
 				String line = "";
 				String AllLines = "";
 		
@@ -913,15 +956,18 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
 				if (communityClan != null) {
 		
+					log.warning("communityClan " + communityClan.getIdClan());
 					DataCommunityClan myDataCommunityClan = communityClan.getData();
 		
 					List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
 		
 					for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+						log.warning("dataClanMember " + dataClanMember.getMembers_count());
 						int nbMember = 0;
 						for (DataCommunityMembers member : dataClanMember.getMembers()) {
+							log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
 							boolean treatUser = false;
-							if(!listUsersPersisted.contains(member.getAccount_name())) {
+							if(listIdUser.contains(member.getAccount_id())) {
 								nbMember++;	
 								if (nbMember < nbUsersToTreat ) {
 									
@@ -938,6 +984,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							
 							
 							if (treatUser) {
+								log.warning("treatUser " + treatUser);
 								// recup des datas du USER 506486576 (strong44)
 								// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
 								// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
@@ -948,11 +995,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 								else {
 									url = new URL("http://api.worldoftanks.eu/community/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 								}
-								HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-								conn.setReadTimeout(60000);
-								conn.setConnectTimeout(60000);
-								conn.getInputStream();
-								BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+								HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
+								conn2.setReadTimeout(60000);
+								conn2.setConnectTimeout(60000);
+								conn2.getInputStream();
+								BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
 								String lineUser = "";
 								;
 								String AllLinesUser = "";
@@ -961,7 +1008,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 									AllLinesUser = AllLinesUser + lineUser;
 								}
 								//System.out.println(AllLinesUser);
-								
+								//log.warning("AllLinesUser " + AllLinesUser);
 								readerUser.close();
 				
 								Gson gsonUser = new Gson();
@@ -1014,13 +1061,16 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				}
 			} catch (MalformedURLException e) {
 				// ...
-				e.printStackTrace();
+				log.throwing("Persist stats", "", e);
+				log.severe(e.getLocalizedMessage());
 			} catch (IOException e) {
 				// ...
+				log.throwing("Persist stats", "", e);
 				e.printStackTrace();
 			} catch (Exception e) {
 					// ...
-					e.printStackTrace();
+				log.throwing("Persist stats", "", e);
+				log.severe(e.getLocalizedMessage());
 			}
 			finally {
 				if (pm != null)

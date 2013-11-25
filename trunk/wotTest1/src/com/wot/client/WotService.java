@@ -14,7 +14,7 @@ import com.wot.shared.CommunityClan;
  */
 @RemoteServiceRelativePath("greet")
 public interface WotService extends RemoteService {
-	List<String> persistStats(String clan, int indexBegin, int indexEnd) throws IllegalArgumentException;
+	List<String> persistStats(String clan, int indexBegin, int indexEnd, List<String> listIdUser) throws IllegalArgumentException;
 	Clan getClans(String clan, int offset) throws IllegalArgumentException;
 	AllCommunityAccount getAllMembersClanAndStats(String idClan, List<String> listIdUser) throws IllegalArgumentException;
 	AllCommunityAccount getAllMembersClanAndStatsHistorised(String idClan, List<String> listIdUser) throws IllegalArgumentException;
