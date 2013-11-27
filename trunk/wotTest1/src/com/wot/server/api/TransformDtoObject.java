@@ -32,6 +32,7 @@ import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.ItemsDataClan;
+import com.wot.shared.PlayerRatings;
 
 public class TransformDtoObject {
 
@@ -175,11 +176,12 @@ public class TransformDtoObject {
 		// TODO Auto-generated method stub
 		DaoCommunityAccount myDaoCommunityAccount = new DaoCommunityAccount();
 		myDaoCommunityAccount.setStatus( account.getStatus());
-		myDaoCommunityAccount.setStatus_code(account.getStatus_code());
+		//myDaoCommunityAccount.setStatus_code(account.getStatus_code());
 		myDaoCommunityAccount.setIdUser(account.getIdUser());
 		//myDaoCommunityAccount.setDateCommunityAccount(account.getDateCommunityAccount());
 		myDaoCommunityAccount.setName(account.getName());	
-		myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
+		//! TODO setData
+		//myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
 		
 		return myDaoCommunityAccount;
 	}
@@ -189,24 +191,24 @@ public class TransformDtoObject {
 		// TODO Auto-generated method stub
 		CommunityAccount myCommunityAccount = new CommunityAccount();
 		myCommunityAccount.setStatus( daoAccount.getStatus());
-		myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
+		//myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
 		myCommunityAccount.setIdUser(daoAccount.getIdUser());
 		//myCommunityAccount.setDateCommunityAccount(daoAccount.getDateCommunityAccount());
 		myCommunityAccount.setName(daoAccount.getName());	
-		myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
+		//myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
 		
 		return myCommunityAccount;
 	}
 
 	
-	private static DaoDataCommunityAccount TransformDataCommunityAccountToDaoDataCommunityAccount(DataCommunityAccount data) {
+	private static DaoDataCommunityAccount TransformDataCommunityAccountToDaoDataCommunityAccount(Map<String, DataCommunityAccountRatings> map) {
 		DaoDataCommunityAccount myDaoDataCommunityAccount = new DaoDataCommunityAccount();
-		myDaoDataCommunityAccount.setName(data.getName());
+		//myDaoDataCommunityAccount.setName(map.getName());
 		
-		myDaoDataCommunityAccount.setAchievements(TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(data.getAchievements()));
-		myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(data.getStats()));
+		//myDaoDataCommunityAccount.setAchievements(TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(map.getAchievements()));
+		//myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(map.getStats()));
 		//
-		myDaoDataCommunityAccount.setStatsVehicules(TransformDataCommunityAccountStatsVehiculesToDaoDataCommunityAccountStatsVehicules(data.getVehicles()));
+		//myDaoDataCommunityAccount.setStatsVehicules(TransformDataCommunityAccountStatsVehiculesToDaoDataCommunityAccountStatsVehicules(map.getVehicles()));
 		return myDaoDataCommunityAccount;
 	}
 
@@ -394,6 +396,21 @@ public class TransformDtoObject {
 		myDaoDataCommunityAccountAchievements.setWarrior(achievements.getWarrior());
 		
 		return myDaoDataCommunityAccountAchievements;
+	}
+
+	public static CommunityAccount TransformPlayerRatingsToCommunityAccount(PlayerRatings playerRatings) {
+		// TODO Auto-generated method stub
+		CommunityAccount myCommunityAccount = new CommunityAccount();
+		myCommunityAccount.setStatus( playerRatings.getStatus());
+		//myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
+		myCommunityAccount.setIdUser(playerRatings.getIdUser());
+		//myCommunityAccount.setDateCommunityAccount(daoAccount.getDateCommunityAccount());
+		myCommunityAccount.setName(playerRatings.getName());
+		
+		//myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
+		
+		myCommunityAccount.setData(playerRatings.getData().get(playerRatings.getIdUser()));
+		return myCommunityAccount;
 	}
 
 	

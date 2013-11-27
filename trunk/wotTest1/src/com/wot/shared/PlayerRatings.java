@@ -3,10 +3,11 @@ package com.wot.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.view.client.ProvidesKey;
 
-public class CommunityAccount implements Serializable, Comparable<CommunityAccount>{
+public class PlayerRatings implements Serializable, Comparable<PlayerRatings>{
 
 	
 //	public CommunityAccount(String idUser, String nameAccount) {
@@ -15,9 +16,9 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 //		this.nameAccount = nameAccount;
 //	}
 
-    public static final ProvidesKey<CommunityAccount> KEY_PROVIDER = new ProvidesKey<CommunityAccount>() {
+    public static final ProvidesKey<PlayerRatings> KEY_PROVIDER = new ProvidesKey<PlayerRatings>() {
         @Override
-        public Object getKey(CommunityAccount item) {
+        public Object getKey(PlayerRatings item) {
           return item == null ? null : item.getIdUser();
         }
       };
@@ -33,8 +34,8 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 
 	String nameAccount ;
 
-	//Map<String, DataCommunityAccountRatings> data;
-	DataCommunityAccountRatings data;
+	Map<String, DataCommunityAccountRatings> data;
+
 
 	public List<String> listDates = new ArrayList<String>()  ;
 	public List<Integer> listbattles = new ArrayList<Integer>()  ;
@@ -90,11 +91,11 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 		this.listVehPlayedDay1 = listVehPlayed;
 	}
 	
-	public DataCommunityAccountRatings getData() {
+	public Map<String, DataCommunityAccountRatings> getData() {
 		return data;
 	}
 
-	public void setData(DataCommunityAccountRatings data) {
+	public void setData(Map<String, DataCommunityAccountRatings> data) {
 		this.data = data;
 	}
 
@@ -107,15 +108,15 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 	}
 
 	@Override
-	public int compareTo(CommunityAccount o) {
+	public int compareTo(PlayerRatings o) {
 		// TODO Auto-generated method stub
 		return (o == null || o.getName() == null) ? -1 : o.getName().compareTo(getName());
 	}
 
 	@Override
     public boolean equals(Object o) {
-      if (o instanceof CommunityAccount) {
-        return getIdUser().equalsIgnoreCase(((CommunityAccount) o).getIdUser());
+      if (o instanceof PlayerRatings) {
+        return getIdUser().equalsIgnoreCase(((PlayerRatings) o).getIdUser());
       }
       return false;
     }
