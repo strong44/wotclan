@@ -60,22 +60,9 @@ public class DaoCommunityClan implements Serializable{
 		this.dateCommunityClan = dateCommunityClan;
 	}
 
-	///ajout test
+	///
 	Map<String, DaoDataCommunityClanMembers> data;
 	
-
-//	@Persistent
-//	private DaoDataCommunityClan data2;
-//	
-//	
-//    public DaoDataCommunityClan getData() {
-//		return data2;
-//	}
-//
-//	public void setData(DaoDataCommunityClan data) {
-//		this.data2 = data;
-//	}
-
 	public Map<String, DaoDataCommunityClanMembers> getData() {
 		return data;
 	}

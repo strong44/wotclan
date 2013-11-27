@@ -69,6 +69,8 @@ public class DaoCommunityAccount implements Serializable{
 	@Persistent
 	private DaoDataCommunityAccount data;
 	
+	
+	
     public DaoDataCommunityAccount getData() {
 		return data;
 	}
