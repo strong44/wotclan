@@ -161,7 +161,9 @@ public class WotTest1 implements EntryPoint {
 	  //create data provider for tab clans
 	  ListDataProvider<ItemsDataClan> dataClanProvider = new ListDataProvider<ItemsDataClan>(ItemsDataClan.KEY_PROVIDER);
 	     
- 
+	  HashMap<String, String>  hmAccNameAccId =new HashMap<String, String >();
+	  HashMap<String, String>  hmAccIdAccName =new HashMap<String, String >();
+
 
 	//
 	/**
@@ -203,7 +205,9 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return object.getName();
+	    	  //map accountId/ accountName
+	    	  //hmAccIdAccName.get(object.getIdUser());
+	        return hmAccIdAccName.get(object.getIdUser());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(nameColumn, "Name");
@@ -260,7 +264,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> wrColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getBattle_avg_performance());
+//	        return String.valueOf(object.getData().getBattle_avg_performance());
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(wrColumn, "Win rate");
@@ -277,8 +281,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getBattle_avg_performance();
-//	            	int val2 = o2.getData().getStats().getBattle_avg_performance();
+//	            	int val1 = o1.getData().getBattle_avg_performance();
+//	            	int val2 = o2.getData().getBattle_avg_performance();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -291,7 +295,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> wrCalcColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattle_avg_performanceCalc());
+	        return String.valueOf(object.getData().getBattle_avg_performanceCalc());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(wrCalcColumn, "Win rate");
@@ -308,8 +312,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getBattle_avg_performanceCalc();
-	            	Double val2 = o2.getData().getStats().getBattle_avg_performanceCalc();
+	            	Double val1 = o1.getData().getBattle_avg_performanceCalc();
+	            	Double val2 = o2.getData().getBattle_avg_performanceCalc();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -325,7 +329,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> battleWinsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattle_wins() );
+	        return String.valueOf(object.getData().getBattle_wins() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(battleWinsColumn, "Victories");
@@ -342,8 +346,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getBattle_wins();
-	            	int val2 = o2.getData().getStats().getBattle_wins();
+	            	int val1 = o1.getData().getBattle_wins();
+	            	int val2 = o2.getData().getBattle_wins();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -354,7 +358,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> battlesColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattles() );
+	        return String.valueOf(object.getData().getBattles() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(battlesColumn, "Battles");
@@ -372,8 +376,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getBattles();
-	            	int val2 = o2.getData().getStats().getBattles();
+	            	int val1 = o1.getData().getBattles();
+	            	int val2 = o2.getData().getBattles();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -385,7 +389,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> ctfColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getCtf_points() );
+//	        return String.valueOf(object.getData().getCtf_points() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(ctfColumn, "Capture Points");
@@ -402,8 +406,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getCtf_points();
-//	            	int val2 = o2.getData().getStats().getCtf_points();
+//	            	int val1 = o1.getData().getCtf_points();
+//	            	int val2 = o2.getData().getCtf_points();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -414,7 +418,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getRatioCtfPoints());
+	        return String.valueOf(object.getData().getRatioCtfPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioCtfColumn, "Avg capture points");
@@ -431,8 +435,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getRatioCtfPoints();
-	            	Double val2 = o2.getData().getStats().getRatioCtfPoints();
+	            	Double val1 = o1.getData().getRatioCtfPoints();
+	            	Double val2 = o2.getData().getRatioCtfPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -446,7 +450,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> dmgColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getDamage_dealt() );
+//	        return String.valueOf(object.getData().getDamage_dealt() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(dmgColumn, "Damage");
@@ -462,8 +466,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getDamage_dealt();
-//	            	int val2 = o2.getData().getStats().getDamage_dealt();
+//	            	int val1 = o1.getData().getDamage_dealt();
+//	            	int val2 = o2.getData().getDamage_dealt();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -474,7 +478,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDamageColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getRatioDamagePoints());
+	        return String.valueOf(object.getData().getRatioDamagePoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDamageColumn, "Avg damage points");
@@ -491,8 +495,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getRatioDamagePoints();
-	            	Double val2 = o2.getData().getStats().getRatioDamagePoints();
+	            	Double val1 = o1.getData().getRatioDamagePoints();
+	            	Double val2 = o2.getData().getRatioDamagePoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -504,7 +508,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> dropCtfColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getDropped_ctf_points() );
+//	        return String.valueOf(object.getData().getDropped_ctf_points() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(dropCtfColumn, "Defense Points");
@@ -520,8 +524,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getDropped_ctf_points();
-//	            	int val2 = o2.getData().getStats().getDropped_ctf_points();
+//	            	int val1 = o1.getData().getDropped_ctf_points();
+//	            	int val2 = o2.getData().getDropped_ctf_points();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -533,7 +537,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDroppedCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getRatioDroppedCtfPoints());
+	        return String.valueOf(object.getData().getRatioDroppedCtfPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDroppedCtfColumn, "Avg Defense points");
@@ -550,8 +554,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getRatioDroppedCtfPoints();
-	            	Double val2 = o2.getData().getStats().getRatioDroppedCtfPoints();
+	            	Double val1 = o1.getData().getRatioDroppedCtfPoints();
+	            	Double val2 = o2.getData().getRatioDroppedCtfPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -563,7 +567,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> fragsColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getFrags() );
+//	        return String.valueOf(object.getData().getFrags() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(fragsColumn, "Destroyed");
@@ -579,8 +583,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getFrags();
-//	            	int val2 = o2.getData().getStats().getFrags();
+//	            	int val1 = o1.getData().getFrags();
+//	            	int val2 = o2.getData().getFrags();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -591,7 +595,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioFragsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getRatioDestroyedPoints());
+	        return String.valueOf(object.getData().getRatioDestroyedPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioFragsColumn, "Avg destroyed");
@@ -608,8 +612,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getRatioDestroyedPoints();
-	            	Double val2 = o2.getData().getStats().getRatioDestroyedPoints();
+	            	Double val1 = o1.getData().getRatioDestroyedPoints();
+	            	Double val2 = o2.getData().getRatioDestroyedPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -623,7 +627,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> irColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getIntegrated_rating() );
+//	        return String.valueOf(object.getData().getIntegrated_rating() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(irColumn, "Integrated Rating");
@@ -640,8 +644,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getIntegrated_rating();
-//	            	int val2 = o2.getData().getStats().getIntegrated_rating();
+//	            	int val1 = o1.getData().getIntegrated_rating();
+//	            	int val2 = o2.getData().getIntegrated_rating();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -654,7 +658,7 @@ public class WotTest1 implements EntryPoint {
 //	    TextColumn<CommunityAccount> spottedColumn = new TextColumn<CommunityAccount>() {
 //	      @Override
 //	      public String getValue(CommunityAccount object) {
-//	        return String.valueOf(object.getData().getStats().getSpotted() );
+//	        return String.valueOf(object.getData().getSpotted() );
 //	      }
 //	    };
 //	    tableCommAcc.addColumn(spottedColumn, "Detected");
@@ -672,8 +676,8 @@ public class WotTest1 implements EntryPoint {
 //
 //	            // Compare the columns.
 //	            if (o1 != null) {
-//	            	int val1 = o1.getData().getStats().getSpotted();
-//	            	int val2 = o2.getData().getStats().getSpotted();
+//	            	int val1 = o1.getData().getSpotted();
+//	            	int val2 = o2.getData().getSpotted();
 //	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 //	            }
 //	            return -1;
@@ -684,7 +688,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDetectedColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getRatioDetectedPoints());
+	        return String.valueOf(object.getData().getRatioDetectedPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDetectedColumn, "Avg detected");
@@ -701,8 +705,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getStats().getRatioDetectedPoints();
-	            	Double val2 = o2.getData().getStats().getRatioDetectedPoints();
+	            	Double val1 = o1.getData().getRatioDetectedPoints();
+	            	Double val2 = o2.getData().getRatioDetectedPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -714,7 +718,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> xpColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getXp() );
+	        return String.valueOf(object.getData().getXp() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(xpColumn, "Experience");
@@ -732,8 +736,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getXp();
-	            	int val2 = o2.getData().getStats().getXp();
+	            	int val1 = o1.getData().getXp();
+	            	int val2 = o2.getData().getXp();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -744,7 +748,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> avgXpColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getStats().getBattle_avg_xp() );
+	        return String.valueOf(object.getData().getBattle_avg_xp() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(avgXpColumn, "Avg Xp");
@@ -761,8 +765,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getStats().getBattle_avg_xp();
-	            	int val2 = o2.getData().getStats().getBattle_avg_xp();
+	            	int val1 = o1.getData().getBattle_avg_xp();
+	            	int val2 = o2.getData().getBattle_avg_xp();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -798,3050 +802,3050 @@ public class WotTest1 implements EntryPoint {
 	/*
 		 * call this when we have data to put in table
 		 */
-		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc, XmlWiki xmlWiki, String categoryAchievement) {
-		    
-			final HashMap<String, XmlListAchievement> hashMapAch = buidHashMapAchievement(xmlWiki, categoryAchievement);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
-			
-			tableAchivementCommAcc.setPageSize(30);
-			
-		    //update dataprovider with some known list 
-			dataAchievementsProvider.setList(listCommAcc);
-			
-			// Create a CellTable.
-		    tableAchivementCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		    
-		    
-		    ListHandler<CommunityAccount> columnSortHandler =
-			        new ListHandler<CommunityAccount>(dataAchievementsProvider.getList());
-		    tableAchivementCommAcc.addColumnSortHandler(columnSortHandler);
-		    
-		    
-		    // Add a text column to show the name.
-		    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
-		      @Override
-		      public String getValue(CommunityAccount object) {
-		        return object.getName();
-		      }
-		    };
-		    tableAchivementCommAcc.addColumn(nameColumn, "Name");
-	
-		    nameColumn.setSortable(true);
-		    
-		    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(nameColumn,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-	
-		            // Compare the name columns.
-		            if (o1 != null) {
-		              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    
-		    // We know that the data is sorted alphabetically by default.
-		    tableAchivementCommAcc.getColumnSortList().push(nameColumn);
-	    
-		    
-		    // Add a text column to show the battles.
-		    TextColumn<CommunityAccount> battlesColumn = new TextColumn<CommunityAccount>() {
-		      @Override
-		      public String getValue(CommunityAccount object) {
-		        return String.valueOf(object.getData().getStats().getBattles());
-		      }
-		    };
-		    tableAchivementCommAcc.addColumn(battlesColumn, "Battles");
-	
-		    battlesColumn.setSortable(true);
-		    
-		    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(battlesColumn,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-	
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getStats().getBattles();
-		            	int val2 = o2.getData().getStats().getBattles();
-		              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    
-		    // We know that the data is sorted alphabetically by default.
-		    tableAchivementCommAcc.getColumnSortList().push(battlesColumn);
-	    
-		    
-		    
-		    //============= colonne Top gun  ==========================
-		    MyButtonCell buttonCell = new MyButtonCell() ;
-		    String nameAch = getNameAch(hashMapAch, "Warrior");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Warrior";
-		    	  int val =contact.getData().getAchievements().getWarrior();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Warrior";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getWarrior();
-		            	int val2 = o2.getData().getAchievements().getWarrior();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne Defender ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Defender");
-
-		    //Column<CommunityAccount, String> column = new Column<CommunityAccount, String>();
-		    
-		    if(nameAch != null) {
-		    //buttonCell.
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Defender";
-		    	  int val =contact.getData().getAchievements().getDefender();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Defender";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getDefender();
-		            	int val2 = o2.getData().getAchievements().getDefender();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne Hunter ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Beasthunter");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Beasthunter";
-		    	  int val =contact.getData().getAchievements().getBeasthunter();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Beasthunter";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getBeasthunter();
-		            	int val2 = o2.getData().getAchievements().getBeasthunter();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-		    //============= colonne Diehard ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Diehard");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Diehard";
-		    	  int val =contact.getData().getAchievements().getDiehard();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Diehard";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getDiehard();
-		            	int val2 = o2.getData().getAchievements().getDiehard();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-		    
-		    //============= colonne Invader ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Invader");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Invader";
-		    	  int val =contact.getData().getAchievements().getInvader();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Invader";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getInvader();
-		            	int val2 = o2.getData().getAchievements().getInvader();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    //============= colonne MedalAbrams (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalAbrams1");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalAbrams();
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalAbrams";
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalAbrams1";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalAbrams();
-		            	int val2 = o2.getData().getAchievements().getMedalAbrams();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		
-		    
-		    //============= colonne MedalBillotte ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalBillotte");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalBillotte";
-		    	  int val =contact.getData().getAchievements().getMedalBillotte();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalBillotte";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalBillotte();
-		            	int val2 = o2.getData().getAchievements().getMedalBillotte();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne Steelwall ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Steelwall");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Steelwall";
-		    	  int val =contact.getData().getAchievements().getSteelwall();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Steelwall";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getSteelwall();
-		            	int val2 = o2.getData().getAchievements().getSteelwall();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	  
-
-		    
-		    
-		    //============= colonne MedalBurda ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalBurda");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalBurda";
-		    	  int val =contact.getData().getAchievements().getMedalBurda();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalBurda";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalBurda();
-		            	int val2 = o2.getData().getAchievements().getMedalBurda();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MedalCarius1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalCarius1");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalCarius();
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalCarius";
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalCarius1";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalCarius();
-		            	int val2 = o2.getData().getAchievements().getMedalCarius();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MedalEkins1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalEkins1");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalEkins();
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalEkins";
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalEkins1";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalEkins();
-		            	int val2 = o2.getData().getAchievements().getMedalEkins();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    //============= colonne MedalFadin ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalFadin");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalFadin";
-		    	  int val =contact.getData().getAchievements().getMedalFadin();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalFadin";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalFadin();
-		            	int val2 = o2.getData().getAchievements().getMedalFadin();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MedalHalonen ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalHalonen");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalHalonen";
-		    	  int val =contact.getData().getAchievements().getMedalHalonen();
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalHalonen";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalHalonen();
-		            	int val2 = o2.getData().getAchievements().getMedalHalonen();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-
-		    //============= colonne MedalKay1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalKay1");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalKay();
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalKay";
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalKay1";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalKay();
-		            	int val2 = o2.getData().getAchievements().getMedalKay();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    
-		    //============= colonne MedalKnispel1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalKnispel1");
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalKnispel();
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalKnispel";
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalKnispel1";
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalKnispel();
-		            	int val2 = o2.getData().getAchievements().getMedalKnispel();
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    
-		    //============= colonne MedalKolobanov ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalKolobanov();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalKolobanov";				// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-
-	
-		    //============= colonne MedalLavrinenko1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalLavrinenko1");// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalLavrinenko";// TO CHANGE !!
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalLavrinenko1";// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    
-
-		    //============= colonne MedalLeClerc1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalLeClerc1");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalLeClerc();	// TO CHANGE !!
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalLeClerc";							// TO CHANGE !!
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalLeClerc1";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalLeClerc();			// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalLeClerc();			// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    //============= colonne MedalKolobanov ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalKolobanov();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalKolobanov";				// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne MedalOrlik ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalOrlik");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalOrlik";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalOrlik";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-
-
-		    //============= colonne MedalOskin ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalOskin");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalOskin";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalOskin";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-
-		    //============= colonne MedalPoppel1 (class)==========================
-		    buttonCell = new MyButtonCell() ;
-		    //recherche du titre de la médaille
-		    nameAch = getNameAch(hashMapAch, "MedalPoppel1");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  
-		    	  int val = contact.getData().getAchievements().getMedalPoppel();	// TO CHANGE !!
-					String urlImgSrc = noData;
-					String baseNameAch = "MedalPoppel";							// TO CHANGE !!
-					
-					String nameAch = baseNameAch+ val;
-					String pathImg = "";
-					if (val == 0) {
-		    		  nameAch = noData;
-		    		  pathImg = nameAch;
-		    		}else {
-		    			nameAch = baseNameAch+ val;
-		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-		    		}
-					
-					String valStr = String.valueOf(val);
-					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalPoppel1";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-		    //tri sur colonne
-		    column.setSortable(true);
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalPoppel();			// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalPoppel();			// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    //============= colonne Mousebane ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Mousebane");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Mousebane";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMousebane();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Mousebane";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMousebane();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMousebane();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-
-		    //============= colonne Raider ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Raider");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Raider";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getRaider();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Raider";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getRaider();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getRaider();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    
-		    
-
-
-
-		    //============= colonne Sniper ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Sniper");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Sniper";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getSniper();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Sniper";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getSniper();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getSniper();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    //============= colonne Scout ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Scout");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Scout";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getScout();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Scout";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getScout();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getScout();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-
-		    //============= colonne MedalPascucci ==========================
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalPascucci");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalPascucci";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalPascucci";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MechanicEngineer or MechanicEngineergray
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch =nameAch + "gray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne  MedalBrunoPietro 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalBrunoPietro");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalBrunoPietro";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalBrunoPietro";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne  HeroesOfRassenay 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "HeroesOfRassenay");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "HeroesOfRassenay";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "HeroesOfRassenay";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne Evileye
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Evileye");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Evileye";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getEvileye();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Evileye";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getEvileye();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getEvileye();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-		    //============= colonne Expert: U.S.A. TankExpert2
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert2");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert2";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertUSAgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert2";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne  Expert: Germany 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert1");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert1";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertGermanygray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert1";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne Expert: France 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert4");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert4";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertFrancegray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert4";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-		    //============= colonne Expert: U.S.S.R. 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert0");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert0";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertUSSRgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert0";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne Expert: United Kingdom 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert5");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert5";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertBritgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert5";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne Expert: China
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert3");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert3";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="TankExpertChinagray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert3";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MedalTamadaYoshio
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalTamadaYoshio");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalTamadaYoshio";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalTamadaYoshio";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-	
-			    
-		    //============= colonne Bombardier
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Bombardier");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Bombardier";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getBombardier();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Bombardier";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getBombardier();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getBombardier();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne MedalBrothersInArms
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalBrothersInArms");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalBrothersInArms";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalBrothersInArms";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne maxDiehardSeries --> pas trouvé
-		    
-		    //============= colonne maxKillingSeries --> pas trouvé
-		    
-		    //============= colonne HandOfDeath
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "HandOfDeath");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "HandOfDeath";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "HandOfDeath";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne MedalTarczay
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalTarczay");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalTarczay";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalTarczay";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne Sinai
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Sinai");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Sinai";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getSinai();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Sinai";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getSinai();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getSinai();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne maxInvincibleSeries --> Invincible ?
-		    
-		    //============= colonne MedalCrucialContribution
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalCrucialContribution");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalCrucialContribution";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalCrucialContribution";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne TitleSniper
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TitleSniper");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TitleSniper";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TitleSniper";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne MedalDeLanglade
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalDeLanglade");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalDeLanglade";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalDeLanglade";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============= colonne medalWittmann --> pas trouvé dans wiki
-		    
-		    //============= colonne maxPiercingSeries --> pas trouvé dans wiki
-		    
-		    //============= colonne Kamikaze
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "Kamikaze");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "Kamikaze";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getKamikaze();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "Kamikaze";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getKamikaze();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getKamikaze();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-			    
-		    //============= colonne MedalRadleyWalters
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalRadleyWalters");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalRadleyWalters";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalRadleyWalters";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    
-		    
-		    //============= colonne MedalNikolas
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalNikolas");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalNikolas";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalNikolas";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne medalBoelter -> pas trouvé
-		    
-		    //============= colonne TankExpert (gray) 
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "TankExpert");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "TankExpert";								// TO CHANGE !!
-		    	  int val = contact.getData().getAchievements().getTankExpert();	// TO CHANGE !!
-		    	  if(val ==0 ) {
-		    		  nameAch ="TankExpertgray2";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "TankExpert";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int  val1 = o1.getData().getAchievements().getTankExpert();	// TO CHANGE !!
-		            	int  val2 = o2.getData().getAchievements().getTankExpert();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne MedalLafayettePool
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalLafayettePool");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalLafayettePool";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalLafayettePool";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne Technical Engineer, U.S.A.  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer2");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer2";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerUSAgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer2";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    
-		    
-		    //============== colonne Technical Engineer, Germany  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer1");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer1";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerGermanygray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer1";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    
-		    
-		    //============== colonne Technical Engineer, France  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer4");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer4";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerFrancegray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer4";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============== colonne Technical Engineer, U.S.S.R.  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer0");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer0";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerUSSRgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer0";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============== colonne Technical Engineer, United Kingdom  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer5");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer5";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerBritgray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer5";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    //============== colonne Technical Engineer, China  
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MechanicEngineer3");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MechanicEngineer3";								// TO CHANGE !!
-		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		    	  if(val.equalsIgnoreCase("false")) {
-		    		  nameAch ="MechanicEngineerChinagray";
-		    	  }
-				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
-				String valStr = String.valueOf(val);
-				valStr= "    ";
-				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MechanicEngineer3";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
-		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-		    
-		    
-		    
-		    
-		    
-		    //============= colonne MedalLehvaslaiho
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalLehvaslaiho");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalLehvaslaiho";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalLehvaslaiho";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne MedalDumitru
-		    buttonCell = new MyButtonCell() ;
-		    nameAch = getNameAch(hashMapAch, "MedalDumitru");						// TO CHANGE !!
-		    if(nameAch != null) {
-		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
-		      @Override
-		      public String getValue(CommunityAccount contact) {
-		    	  String nameAch = "MedalDumitru";								// TO CHANGE !!
-		    	  int val =contact.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
-					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
-					String valStr = String.valueOf(val);
-					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
-		      }
-
-		      
-		    }, new FieldUpdater<CommunityAccount, String>() {
-		        @Override
-		        public void update(int index, CommunityAccount object, String value) {
-			    	String nameAch = "MedalDumitru";								// TO CHANGE !!
-			    	buildPopup(nameAch, hashMapAch);
-		        }
-		      });
-
-		    //tri sur colonne
-		    column.setSortable(true);
-		    
-			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-		    columnSortHandler.setComparator(column,
-		        new Comparator<CommunityAccount>() {
-		          public int compare(CommunityAccount o1, CommunityAccount o2) {
-		            if (o1 == o2) {
-		              return 0;
-		            }
-
-		            // Compare the name columns.
-		            if (o1 != null) {
-		            	int val1 = o1.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
-		            	int val2 = o2.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
-		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
-		            }
-		            return -1;
-		          }
-		        });
-		    }
-		    //========= fin création colonne =============
-
-		    //============= colonne maxSniperSeries -> pas trouvé dans wiki
-		    
-	
-		    
-
-	    /////////////////////////////////////////////////
-		    // Add a selection model to handle user selection.
-		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
-		    tableAchivementCommAcc.setSelectionModel(selectionModel);
-		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-		      public void onSelectionChange(SelectionChangeEvent event) {
-		    	  CommunityAccount selected = selectionModel.getSelectedObject();
-		        if (selected != null) {
-		          //Window.alert("You selected: " + selected.getName());
-		        }
-		      }
-		    });
-	
-		    // Set the total row count. This isn't strictly necessary, but it affects
-		    // paging calculations, so its good habit to keep the row count up to date.
-		    
-		    tableAchivementCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
-	
-		    // Push the data into the widget.
-		    tableAchivementCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
-		    
-		 // Connect the table to the data provider.
-		    dataAchievementsProvider.addDataDisplay(tableAchivementCommAcc);
-		    dataAchievementsProvider.refresh();
-	   }
-
+//		public  void buildACellTableForAchivementsCommunityAccount(List<CommunityAccount> listCommAcc, XmlWiki xmlWiki, String categoryAchievement) {
+//		    
+//			final HashMap<String, XmlListAchievement> hashMapAch = buidHashMapAchievement(xmlWiki, categoryAchievement);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
+//			
+//			tableAchivementCommAcc.setPageSize(30);
+//			
+//		    //update dataprovider with some known list 
+//			dataAchievementsProvider.setList(listCommAcc);
+//			
+//			// Create a CellTable.
+//		    tableAchivementCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+//		    
+//		    
+//		    ListHandler<CommunityAccount> columnSortHandler =
+//			        new ListHandler<CommunityAccount>(dataAchievementsProvider.getList());
+//		    tableAchivementCommAcc.addColumnSortHandler(columnSortHandler);
+//		    
+//		    
+//		    // Add a text column to show the name.
+//		    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
+//		      @Override
+//		      public String getValue(CommunityAccount object) {
+//		        return object.getName();
+//		      }
+//		    };
+//		    tableAchivementCommAcc.addColumn(nameColumn, "Name");
+//	
+//		    nameColumn.setSortable(true);
+//		    
+//		    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(nameColumn,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//	
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    
+//		    // We know that the data is sorted alphabetically by default.
+//		    tableAchivementCommAcc.getColumnSortList().push(nameColumn);
+//	    
+//		    
+//		    // Add a text column to show the battles.
+//		    TextColumn<CommunityAccount> battlesColumn = new TextColumn<CommunityAccount>() {
+//		      @Override
+//		      public String getValue(CommunityAccount object) {
+//		        return String.valueOf(object.getData().getBattles());
+//		      }
+//		    };
+//		    tableAchivementCommAcc.addColumn(battlesColumn, "Battles");
+//	
+//		    battlesColumn.setSortable(true);
+//		    
+//		    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(battlesColumn,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//	
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getBattles();
+//		            	int val2 = o2.getData().getBattles();
+//		              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    
+//		    // We know that the data is sorted alphabetically by default.
+//		    tableAchivementCommAcc.getColumnSortList().push(battlesColumn);
+//	    
+//		    
+//		    
+//		    //============= colonne Top gun  ==========================
+//		    MyButtonCell buttonCell = new MyButtonCell() ;
+//		    String nameAch = getNameAch(hashMapAch, "Warrior");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Warrior";
+//		    	  int val =contact.getData().getAchievements().getWarrior();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Warrior";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getWarrior();
+//		            	int val2 = o2.getData().getAchievements().getWarrior();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne Defender ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Defender");
+//
+//		    //Column<CommunityAccount, String> column = new Column<CommunityAccount, String>();
+//		    
+//		    if(nameAch != null) {
+//		    //buttonCell.
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Defender";
+//		    	  int val =contact.getData().getAchievements().getDefender();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Defender";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getDefender();
+//		            	int val2 = o2.getData().getAchievements().getDefender();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne Hunter ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Beasthunter");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Beasthunter";
+//		    	  int val =contact.getData().getAchievements().getBeasthunter();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Beasthunter";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getBeasthunter();
+//		            	int val2 = o2.getData().getAchievements().getBeasthunter();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//		    //============= colonne Diehard ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Diehard");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Diehard";
+//		    	  int val =contact.getData().getAchievements().getDiehard();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Diehard";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getDiehard();
+//		            	int val2 = o2.getData().getAchievements().getDiehard();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//		    
+//		    //============= colonne Invader ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Invader");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Invader";
+//		    	  int val =contact.getData().getAchievements().getInvader();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Invader";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getInvader();
+//		            	int val2 = o2.getData().getAchievements().getInvader();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    //============= colonne MedalAbrams (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalAbrams1");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalAbrams();
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalAbrams";
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalAbrams1";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalAbrams();
+//		            	int val2 = o2.getData().getAchievements().getMedalAbrams();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		
+//		    
+//		    //============= colonne MedalBillotte ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalBillotte");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalBillotte";
+//		    	  int val =contact.getData().getAchievements().getMedalBillotte();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalBillotte";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalBillotte();
+//		            	int val2 = o2.getData().getAchievements().getMedalBillotte();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne Steelwall ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Steelwall");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Steelwall";
+//		    	  int val =contact.getData().getAchievements().getSteelwall();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Steelwall";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getSteelwall();
+//		            	int val2 = o2.getData().getAchievements().getSteelwall();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	  
+//
+//		    
+//		    
+//		    //============= colonne MedalBurda ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalBurda");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalBurda";
+//		    	  int val =contact.getData().getAchievements().getMedalBurda();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalBurda";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalBurda();
+//		            	int val2 = o2.getData().getAchievements().getMedalBurda();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MedalCarius1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalCarius1");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalCarius();
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalCarius";
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalCarius1";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalCarius();
+//		            	int val2 = o2.getData().getAchievements().getMedalCarius();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MedalEkins1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalEkins1");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalEkins();
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalEkins";
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalEkins1";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalEkins();
+//		            	int val2 = o2.getData().getAchievements().getMedalEkins();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    //============= colonne MedalFadin ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalFadin");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalFadin";
+//		    	  int val =contact.getData().getAchievements().getMedalFadin();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalFadin";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalFadin();
+//		            	int val2 = o2.getData().getAchievements().getMedalFadin();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MedalHalonen ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalHalonen");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalHalonen";
+//		    	  int val =contact.getData().getAchievements().getMedalHalonen();
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalHalonen";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalHalonen();
+//		            	int val2 = o2.getData().getAchievements().getMedalHalonen();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//
+//		    //============= colonne MedalKay1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalKay1");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalKay();
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalKay";
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalKay1";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalKay();
+//		            	int val2 = o2.getData().getAchievements().getMedalKay();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    
+//		    //============= colonne MedalKnispel1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalKnispel1");
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalKnispel();
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalKnispel";
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalKnispel1";
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalKnispel();
+//		            	int val2 = o2.getData().getAchievements().getMedalKnispel();
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    
+//		    //============= colonne MedalKolobanov ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalKolobanov();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalKolobanov";				// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//
+//	
+//		    //============= colonne MedalLavrinenko1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalLavrinenko1");// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalLavrinenko";// TO CHANGE !!
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalLavrinenko1";// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalLavrinenko();// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    
+//
+//		    //============= colonne MedalLeClerc1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalLeClerc1");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalLeClerc();	// TO CHANGE !!
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalLeClerc";							// TO CHANGE !!
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalLeClerc1";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalLeClerc();			// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalLeClerc();			// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    //============= colonne MedalKolobanov ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalKolobanov");		// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalKolobanov";				// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalKolobanov();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalKolobanov";				// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalKolobanov();// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne MedalOrlik ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalOrlik");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalOrlik";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalOrlik";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalOrlik();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//
+//
+//		    //============= colonne MedalOskin ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalOskin");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalOskin";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalOskin";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalOskin();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//
+//		    //============= colonne MedalPoppel1 (class)==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    //recherche du titre de la médaille
+//		    nameAch = getNameAch(hashMapAch, "MedalPoppel1");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  
+//		    	  int val = contact.getData().getAchievements().getMedalPoppel();	// TO CHANGE !!
+//					String urlImgSrc = noData;
+//					String baseNameAch = "MedalPoppel";							// TO CHANGE !!
+//					
+//					String nameAch = baseNameAch+ val;
+//					String pathImg = "";
+//					if (val == 0) {
+//		    		  nameAch = noData;
+//		    		  pathImg = nameAch;
+//		    		}else {
+//		    			nameAch = baseNameAch+ val;
+//		    			pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//		    		}
+//					
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#Cl:" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalPoppel1";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalPoppel();			// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalPoppel();			// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    //============= colonne Mousebane ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Mousebane");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Mousebane";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMousebane();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Mousebane";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMousebane();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMousebane();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//
+//		    //============= colonne Raider ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Raider");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Raider";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getRaider();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Raider";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getRaider();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getRaider();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    
+//		    
+//
+//
+//
+//		    //============= colonne Sniper ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Sniper");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Sniper";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getSniper();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Sniper";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getSniper();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getSniper();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    //============= colonne Scout ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Scout");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Scout";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getScout();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Scout";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getScout();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getScout();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//
+//		    //============= colonne MedalPascucci ==========================
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalPascucci");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalPascucci";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalPascucci";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalPascucci();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MechanicEngineer or MechanicEngineergray
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch =nameAch + "gray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineer();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne  MedalBrunoPietro 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalBrunoPietro");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalBrunoPietro";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalBrunoPietro";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalBrunoPietro();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne  HeroesOfRassenay 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "HeroesOfRassenay");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "HeroesOfRassenay";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "HeroesOfRassenay";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getHeroesOfRassenay();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne Evileye
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Evileye");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Evileye";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getEvileye();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Evileye";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getEvileye();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getEvileye();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//		    //============= colonne Expert: U.S.A. TankExpert2
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert2");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert2";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertUSAgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert2";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUsa();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne  Expert: Germany 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert1");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert1";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertGermanygray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert1";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getGermany();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne Expert: France 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert4");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert4";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertFrancegray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert4";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getFrance();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//		    //============= colonne Expert: U.S.S.R. 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert0");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert0";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertUSSRgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert0";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUssr();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne Expert: United Kingdom 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert5");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert5";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertBritgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert5";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getUk();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne Expert: China
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert3");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert3";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="TankExpertChinagray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert3";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getTankExperts().getChina();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MedalTamadaYoshio
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalTamadaYoshio");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalTamadaYoshio";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalTamadaYoshio";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalTamadaYoshio();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//	
+//			    
+//		    //============= colonne Bombardier
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Bombardier");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Bombardier";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getBombardier();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Bombardier";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getBombardier();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getBombardier();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne MedalBrothersInArms
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalBrothersInArms");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalBrothersInArms";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalBrothersInArms";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalBrothersInArms();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne maxDiehardSeries --> pas trouvé
+//		    
+//		    //============= colonne maxKillingSeries --> pas trouvé
+//		    
+//		    //============= colonne HandOfDeath
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "HandOfDeath");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "HandOfDeath";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "HandOfDeath";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getHandOfDeath();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne MedalTarczay
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalTarczay");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalTarczay";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalTarczay";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalTarczay();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne Sinai
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Sinai");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Sinai";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getSinai();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Sinai";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getSinai();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getSinai();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne maxInvincibleSeries --> Invincible ?
+//		    
+//		    //============= colonne MedalCrucialContribution
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalCrucialContribution");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalCrucialContribution";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalCrucialContribution";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalCrucialContribution();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne TitleSniper
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TitleSniper");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TitleSniper";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TitleSniper";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getTitleSniper();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne MedalDeLanglade
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalDeLanglade");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalDeLanglade";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalDeLanglade";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalDeLanglade();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============= colonne medalWittmann --> pas trouvé dans wiki
+//		    
+//		    //============= colonne maxPiercingSeries --> pas trouvé dans wiki
+//		    
+//		    //============= colonne Kamikaze
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "Kamikaze");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "Kamikaze";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getKamikaze();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "Kamikaze";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getKamikaze();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getKamikaze();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//			    
+//		    //============= colonne MedalRadleyWalters
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalRadleyWalters");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalRadleyWalters";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalRadleyWalters";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalRadleyWalters();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    
+//		    
+//		    //============= colonne MedalNikolas
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalNikolas");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalNikolas";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalNikolas";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalNikolas();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne medalBoelter -> pas trouvé
+//		    
+//		    //============= colonne TankExpert (gray) 
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "TankExpert");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "TankExpert";								// TO CHANGE !!
+//		    	  int val = contact.getData().getAchievements().getTankExpert();	// TO CHANGE !!
+//		    	  if(val ==0 ) {
+//		    		  nameAch ="TankExpertgray2";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "TankExpert";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int  val1 = o1.getData().getAchievements().getTankExpert();	// TO CHANGE !!
+//		            	int  val2 = o2.getData().getAchievements().getTankExpert();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne MedalLafayettePool
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalLafayettePool");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalLafayettePool";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalLafayettePool";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalLafayettePool();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne Technical Engineer, U.S.A.  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer2");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer2";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerUSAgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer2";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUsa();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    
+//		    
+//		    //============== colonne Technical Engineer, Germany  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer1");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer1";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerGermanygray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer1";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    
+//		    
+//		    //============== colonne Technical Engineer, France  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer4");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer4";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerFrancegray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer4";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getFrance();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============== colonne Technical Engineer, U.S.S.R.  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer0");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer0";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerUSSRgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer0";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUssr();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============== colonne Technical Engineer, United Kingdom  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer5");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer5";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerBritgray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer5";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getUk();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    //============== colonne Technical Engineer, China  
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MechanicEngineer3");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MechanicEngineer3";								// TO CHANGE !!
+//		    	  String val = contact.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		    	  if(val.equalsIgnoreCase("false")) {
+//		    		  nameAch ="MechanicEngineerChinagray";
+//		    	  }
+//				String pathImg = buildImgAch(hashMapAch, nameAch, contact, 0);
+//				String valStr = String.valueOf(val);
+//				valStr= "    ";
+//				return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MechanicEngineer3";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	String  val1 = o1.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		            	String  val2 = o2.getData().getAchievements().getMechanicEngineers().getGermany();	// TO CHANGE !!
+//		            	return (o2 != null) ?  val1.compareTo(val2) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//		    
+//		    
+//		    
+//		    
+//		    
+//		    //============= colonne MedalLehvaslaiho
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalLehvaslaiho");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalLehvaslaiho";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalLehvaslaiho";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalLehvaslaiho();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne MedalDumitru
+//		    buttonCell = new MyButtonCell() ;
+//		    nameAch = getNameAch(hashMapAch, "MedalDumitru");						// TO CHANGE !!
+//		    if(nameAch != null) {
+//		    Column<CommunityAccount, String> column = addColumn(buttonCell, nameAch, new GetValue<String>() {
+//		      @Override
+//		      public String getValue(CommunityAccount contact) {
+//		    	  String nameAch = "MedalDumitru";								// TO CHANGE !!
+//		    	  int val =contact.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
+//					String pathImg = buildImgAch(hashMapAch, nameAch, contact, val);
+//					String valStr = String.valueOf(val);
+//					return pathImg + "#" + valStr;//on retourne l'url de l'icône de la médaille + le nb de fois qu'elle a été acquise ou sa classe 
+//		      }
+//
+//		      
+//		    }, new FieldUpdater<CommunityAccount, String>() {
+//		        @Override
+//		        public void update(int index, CommunityAccount object, String value) {
+//			    	String nameAch = "MedalDumitru";								// TO CHANGE !!
+//			    	buildPopup(nameAch, hashMapAch);
+//		        }
+//		      });
+//
+//		    //tri sur colonne
+//		    column.setSortable(true);
+//		    
+//			 // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//		    columnSortHandler.setComparator(column,
+//		        new Comparator<CommunityAccount>() {
+//		          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//		            if (o1 == o2) {
+//		              return 0;
+//		            }
+//
+//		            // Compare the name columns.
+//		            if (o1 != null) {
+//		            	int val1 = o1.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
+//		            	int val2 = o2.getData().getAchievements().getMedalDumitru();	// TO CHANGE !!
+//		            	return (o2 != null) ?  Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
+//		            }
+//		            return -1;
+//		          }
+//		        });
+//		    }
+//		    //========= fin création colonne =============
+//
+//		    //============= colonne maxSniperSeries -> pas trouvé dans wiki
+//		    
+//	
+//		    
+//
+//	    /////////////////////////////////////////////////
+//		    // Add a selection model to handle user selection.
+//		    final SingleSelectionModel<CommunityAccount> selectionModel = new SingleSelectionModel<CommunityAccount>();
+//		    tableAchivementCommAcc.setSelectionModel(selectionModel);
+//		    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+//		      public void onSelectionChange(SelectionChangeEvent event) {
+//		    	  CommunityAccount selected = selectionModel.getSelectedObject();
+//		        if (selected != null) {
+//		          //Window.alert("You selected: " + selected.getName());
+//		        }
+//		      }
+//		    });
+//	
+//		    // Set the total row count. This isn't strictly necessary, but it affects
+//		    // paging calculations, so its good habit to keep the row count up to date.
+//		    
+//		    tableAchivementCommAcc.setRowCount(listCommAcc.size(), true); //no need to do here because we have add list to data provider
+//	
+//		    // Push the data into the widget.
+//		    tableAchivementCommAcc.setRowData(0, listCommAcc);            //idem no nedd dataprovider
+//		    
+//		 // Connect the table to the data provider.
+//		    dataAchievementsProvider.addDataDisplay(tableAchivementCommAcc);
+//		    dataAchievementsProvider.refresh();
+//	   }
+//
 
 	/*
 	 * call this when we have data to put in table
@@ -4141,7 +4145,7 @@ public class WotTest1 implements EntryPoint {
 	public void onModuleLoad() {
 		
 		
-	
+			
 			final Label errorLabel = new Label();
 			
 			 /**
@@ -4703,31 +4707,31 @@ public class WotTest1 implements EntryPoint {
 					if (pagerClan != null) 
 						dockPanel.remove(pagerClan);
 					
-					
-					if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
-						dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
-					
+//					
+//					if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
+//						dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
+//					
 					//on re-construit 1 nouveau tableau
-					tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+					//tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
 					
 					//construct column in celltable tableCommAcc , set data set sort handler etc ..
-					buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, valueSelected);
+					//buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, valueSelected);
 					  
 					//Create a Pager to control the table.
-				    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-				    pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-				    pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
+				    //SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+				    //pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+				    //pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
 					
 			    
 				    //add to dock panel ======
 				    //add tab achievement a the end 
-				    dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
-				    pagerAchievementsCommunityAccount.setPage(10);
-				    pagerAchievementsCommunityAccount.setVisible(true);
+				    //dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
+				    //pagerAchievementsCommunityAccount.setPage(10);
+				    //pagerAchievementsCommunityAccount.setVisible(true);
 					
-					dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
-					tableAchivementCommAcc.setVisible(true);
-					tableAchivementCommAcc.setFocus(true);
+					//dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
+					//tableAchivementCommAcc.setVisible(true);
+					//tableAchivementCommAcc.setFocus(true);
 				    //add tab stats 
 				    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
 					pagerStatsCommunityAccount.setPage(10);
@@ -4806,7 +4810,7 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setEnabled(false);
 					textToServerLabel.setText(textToServer);
 					serverResponseLabel.setText("");
-					wotService.getAllMembersClanAndStats(textToServer, listIdUser,
+					wotService.getAllMembersClanAndStats(listIdUser,
 							new AsyncCallback<AllCommunityAccount>() {
 								public void onFailure(Throwable caught) {
 									hPanelLoading.setVisible(false);
@@ -5198,12 +5202,14 @@ public class WotTest1 implements EntryPoint {
 									//dropBoxClanUsers
 									dropBoxClanUsers.clear();
 									List<String> listAccName = new ArrayList<String>();
-									HashMap<String, String>  hmAccName =new HashMap<String, String >();
+									hmAccNameAccId =new HashMap<String, String >();
+									hmAccIdAccName =new HashMap<String, String >();
 									
 									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers()) {
 										for (DataCommunityMembers dataComMembers : dataCom.getMembers()) {
 											listAccName.add(dataComMembers.getAccount_name());
-											hmAccName.put(dataComMembers.getAccount_name(), dataComMembers.getAccount_id());
+											hmAccNameAccId.put(dataComMembers.getAccount_name(), dataComMembers.getAccount_id());
+											hmAccIdAccName.put(dataComMembers.getAccount_id(), dataComMembers.getAccount_name());
 											//dropBoxClanUsers.addItem(dataCom.getAccount_name());
 										}
 									}
@@ -5213,7 +5219,7 @@ public class WotTest1 implements EntryPoint {
 									//add to the list 
 									for (String accName : listAccName) {
 										//list box contain  name of user and id of user
-										dropBoxClanUsers.addItem(accName, hmAccName.get(accName));
+										dropBoxClanUsers.addItem(accName, hmAccNameAccId.get(accName));
 									}
 									dropBoxClanUsers.setFocus(true);
 								}
@@ -7201,19 +7207,19 @@ public class WotTest1 implements EntryPoint {
 			
 			///////
 			
-			static public SafeHtmlBuilder buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
-				//String nameAch = "Beasthunter";
-				XmlListAchievement ach = hashMapAch.get(nameAch+".png");
-				String urlImgSrc2 =  ach.getSRCIMG().getSRC().get(0).getVALUE();
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				
-				String nb= String.valueOf(object.getData().getAchievements().getBeasthunter());
-				sb.appendEscaped(
-						"<div id=\"achievement\" >" + " <div class=\"floatleft\"> " +
-						" <img alt=\"" + nameAch+ ".png\" src=\"" + urlImgSrc2 + "\" width=\"67\" height=\"71\" />" + nb + "</div>");
-				
-				return sb;
-			}
+//			static public SafeHtmlBuilder buildHtml(HashMap<String, XmlListAchievement> hashMapAch, String nameAch, CommunityAccount object) {
+//				//String nameAch = "Beasthunter";
+//				XmlListAchievement ach = hashMapAch.get(nameAch+".png");
+//				String urlImgSrc2 =  ach.getSRCIMG().getSRC().get(0).getVALUE();
+//				SafeHtmlBuilder sb = new SafeHtmlBuilder();
+//				
+//				String nb= String.valueOf(object.getData().getAchievements().getBeasthunter());
+//				sb.appendEscaped(
+//						"<div id=\"achievement\" >" + " <div class=\"floatleft\"> " +
+//						" <img alt=\"" + nameAch+ ".png\" src=\"" + urlImgSrc2 + "\" width=\"67\" height=\"71\" />" + nb + "</div>");
+//				
+//				return sb;
+//			}
 			
 			static public String buildHtmlHeader(HashMap<String, XmlListAchievement> hashMapAch, String nameAch) {
 				//String nameAch = "Beasthunter";

@@ -18,8 +18,7 @@ public interface WotServiceAsync {
 	void getClans(String input, int offsetClan, AsyncCallback<Clan> callback)
 			throws IllegalArgumentException;
 	
-	void getAllMembersClanAndStats(String textToServer,
-			List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
+	void getAllMembersClanAndStats(List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
 	
 	void getAllMembersClanAndStatsHistorised(String textToServer,
 			List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
