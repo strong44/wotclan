@@ -52,7 +52,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -125,7 +125,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 		
 		
-		persistAllStats(input, indexBegin, indexEnd, new Date(), listIdUser);
+		persistAllStats2( new Date(), listIdUser);
 		//return resultAchievement;
 		return listUsersPersisted;
 	}
@@ -1330,7 +1330,12 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 */
 	public List<CommunityAccount> getHistorizedStatsUsers(List<String> listIdUsers ) {
 		
-		log.warning("getHistorizedStatsUsers for " + listIdUsers.size() + " users");
+		log.warning("getHistorizedStatsUsers for :" + listIdUsers.size() + " users");
+		
+		for (String user :  listIdUsers ) {
+			log.warning("getHistorizedStatsUsers for user : " + user);
+		}
+		
 		List<CommunityAccount> resultsFinal = new ArrayList<CommunityAccount>();
 		
 
