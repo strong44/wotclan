@@ -181,7 +181,7 @@ public class TransformDtoObject {
 		//myDaoCommunityAccount.setDateCommunityAccount(account.getDateCommunityAccount());
 		myDaoCommunityAccount.setName(account.getName());	
 		//! TODO setData
-		//myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
+		myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
 		
 		return myDaoCommunityAccount;
 	}
@@ -201,9 +201,9 @@ public class TransformDtoObject {
 	}
 
 	
-	private static DaoDataCommunityAccount TransformDataCommunityAccountToDaoDataCommunityAccount(Map<String, DataCommunityAccountRatings> map) {
+	private static DaoDataCommunityAccount TransformDataCommunityAccountToDaoDataCommunityAccount(DataCommunityAccountRatings dataCommunityAccountRatings) {
 		DaoDataCommunityAccount myDaoDataCommunityAccount = new DaoDataCommunityAccount();
-		//myDaoDataCommunityAccount.setName(map.getName());
+		myDaoDataCommunityAccount.setStats(dataCommunityAccountRatings);
 		
 		//myDaoDataCommunityAccount.setAchievements(TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(map.getAchievements()));
 		//myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(map.getStats()));
@@ -256,15 +256,15 @@ public class TransformDtoObject {
 		return myDaoDataCommunityAccountStatsVehicules;
 	}
 
-	private static DataCommunityAccount TransformDaoDataCommunityAccountToDataCommunityAccount(DaoDataCommunityAccount data) {
-		DataCommunityAccount myDataCommunityAccount = new DataCommunityAccount();
-		myDataCommunityAccount.setName(data.getName());
-		
-		myDataCommunityAccount.setAchievements(TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(data.getAchievements()));
-		myDataCommunityAccount.setStats(TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(data.getStats()));
-		myDataCommunityAccount.setVehicles(TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(data.getStatsVehicules()));
-		return myDataCommunityAccount;
-	}
+//	private static DataCommunityAccount TransformDaoDataCommunityAccountToDataCommunityAccount(DaoDataCommunityAccount data) {
+//		DataCommunityAccount myDataCommunityAccount = new DataCommunityAccount();
+//		myDataCommunityAccount.setName(data.getName());
+//		
+//		myDataCommunityAccount.setAchievements(TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(data.getAchievements()));
+//		myDataCommunityAccount.setStats(TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(data.getStats()));
+//		myDataCommunityAccount.setVehicles(TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(data.getStatsVehicules()));
+//		return myDataCommunityAccount;
+//	}
 	
 	
 	private static List<DataCommunityAccountVehicules> TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(List<DaoDataCommunityAccountStatsVehicules> statsVehicules) {

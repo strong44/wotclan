@@ -9,6 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.wot.shared.DataCommunityAccountRatings;
 
 @PersistenceCapable
 public class DaoDataCommunityAccount implements Serializable {
@@ -51,7 +52,7 @@ public class DaoDataCommunityAccount implements Serializable {
 	 * @return
 	 */
 	@Persistent
-	DaoDataCommunityAccountStats stats;
+	DataCommunityAccountRatings stats;
 	
 	@Persistent
 	List<DaoDataCommunityAccountStatsVehicules> statsVehicules;
@@ -65,12 +66,12 @@ public class DaoDataCommunityAccount implements Serializable {
 		this.statsVehicules = statsVehicules;
 	}
 
-	public DaoDataCommunityAccountStats getStats() {
+	public DataCommunityAccountRatings getStats() {
 		return stats;
 	}
 
-	public void setStats(DaoDataCommunityAccountStats stats) {
-		this.stats = stats;
+	public void setStats(DataCommunityAccountRatings dataCommunityAccountRatings) {
+		this.stats = dataCommunityAccountRatings;
 	}
 
 	public DaoDataCommunityAccountAchievements getAchievements() {
