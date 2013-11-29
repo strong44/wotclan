@@ -9,19 +9,28 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
-import com.wot.shared.DataCommunityAccountRatings;
 
 @PersistenceCapable
-public class DaoDataCommunityAccount implements Serializable {
+public class DaoDataCommunityAccount2 implements Serializable {
 	
+	private static final long serialVersionUID = -2305944422816143878L;
+
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
 
-	private static final long serialVersionUID = -2305944422816143878L;
 	
 	@Persistent
 	String name ;
+	
+	@Persistent
+	DaoDataCommunityAccountRatings2 stats;
+
+	//@Persistent
+	DaoDataCommunityAccountAchievements achievements; //m�dailles du joueur
+	
+	//@Persistent
+	List<DaoDataCommunityAccountStatsVehicules> statsVehicules;
 	
 	public String getName() {
 		return name;
@@ -30,32 +39,6 @@ public class DaoDataCommunityAccount implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	@Persistent
-	DaoDataCommunityAccountAchievements achievements; //m�dailles du joueur
-	
-	/**
-	 * "stats": {
-      "spotted": 6205, 
-      "dropped_ctf_points": 3852, 
-      "battle_avg_xp": 470, 
-      "battles": 5334, 
-      "damage_dealt": 2986570, 
-      "battle_avg_performance": 52, 
-      "integrated_rating": 13, 
-      "frags": 4338, 
-      "xp": 2505988, 
-      "ctf_points": 6895, 
-      "battle_wins": 2753
-    }, 
-
-	 * @return
-	 */
-	@Persistent
-	DataCommunityAccountRatings stats;
-	
-	@Persistent
-	List<DaoDataCommunityAccountStatsVehicules> statsVehicules;
 	
 	public List<DaoDataCommunityAccountStatsVehicules> getStatsVehicules() {
 		return statsVehicules;
@@ -66,12 +49,12 @@ public class DaoDataCommunityAccount implements Serializable {
 		this.statsVehicules = statsVehicules;
 	}
 
-	public DataCommunityAccountRatings getStats() {
+	public DaoDataCommunityAccountRatings2 getStats() {
 		return stats;
 	}
 
-	public void setStats(DataCommunityAccountRatings dataCommunityAccountRatings) {
-		this.stats = dataCommunityAccountRatings;
+	public void setStats(DaoDataCommunityAccountRatings2 daoDataCommunityAccountRatings) {
+		this.stats = daoDataCommunityAccountRatings;
 	}
 
 	public DaoDataCommunityAccountAchievements getAchievements() {

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -375,7 +376,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	public CommunityClan getAllMembersClan(String idClan) {
 		CommunityClan communityClan = null;
 		
-		DaoCommunityClan daoCommunityClan = null;
+		DaoCommunityClan2 daoCommunityClan = null;
 		Clan desClan =null;
 		// Verify that the input is valid.
 		if (!FieldVerifier.isValidName(idClan)) {
@@ -467,7 +468,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 			Gson gson = new Gson();
 			
-			daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+			daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
 			daoCommunityClan.setIdClan(idClan);
 			daoCommunityClan.setDateCommunityClan(new java.util.Date());
 			//persist clan ?
@@ -541,7 +542,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 			Gson gson = new Gson();
 			
-			DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+			DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
 			daoCommunityClan.setIdClan(idClan);
 			daoCommunityClan.setDateCommunityClan(new java.util.Date());
 
@@ -720,8 +721,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 	}
 
-	@Override
-	public AllCommunityAccount getAllMembersClanAndStats( List<String> listIdUser) {
+	//@Override
+	public AllCommunityAccount getAllMembersClanAndStats2( List<String> listIdUser) {
 	
 
 	
@@ -738,73 +739,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		try {
 			pm = PMF.get().getPersistenceManager();
 			
-//			URL urlClan = null ;
-//			// recup des membres du clan NVS
-//			urlClan = null ;
-//			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-//				//        new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
-//				urlClan = new URL("https://pedro-proxy.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
-//			}
-//			else {
-//				//500006074
-//				//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
-//				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-//				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
-//			}
-//	
-//			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
-//			conn.setReadTimeout(60000);
-//			conn.setConnectTimeout(60000);
-//			conn.getInputStream();
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//	
-//			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
-//			String line = "";
-//			String AllLines = "";
-//	
-//			while ((line = reader.readLine()) != null) {
-//				AllLines = AllLines + line;
-//			}
-//			reader.close();
-//	
-//			Gson gson = new Gson();
-//			
-//			DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
-//			daoCommunityClan.setIdClan(idClan);
-//			daoCommunityClan.setDateCommunityClan(new java.util.Date());
-	
-//			CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
-//			if (communityClan != null) {
-	
-//				DataCommunityClan myDataCommunityClan = communityClan.getData();
-//	
-//				List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
-	
 			for(String idUser :listIdUser) {
 	
-//					for (DataCommunityMembers member : dataClanMember.getMembers()) { 
-						//
-						// String nameUser ="";
-//						String idUser = member.getAccount_id();
-	
-						//si idUSer in listIdUser alaors on requ�te sinon rien
-//						boolean treatUser = false;
-//						if (listIdUser != null && listIdUser.size() != 0) {
-//							
-//							for(String idList :listIdUser) {
-//								if (idList.equalsIgnoreCase(idUser)) {
-//									treatUser = true;
-//									break;
-//								}
-//							}
-//						}else {
-//							treatUser = true;
-//						}
 						
-//						if (treatUser) {
-							// recup des datas du USER 506486576 (strong44)
-							// http://api.worldoftanks.eu/community/accounts/506486576/api/1.0/?source_token=WG-WoT_Assistant-1.3.2
-							// URL url = new URL("http://api.worldoftanks.eu/uc/accounts/" + idUser + "/api/1.8/?source_token=WG-WoT_Assistant-1.3.2");
 							URL url = null ;
 							
 							String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
@@ -1164,7 +1101,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 				Gson gson = new Gson();
 				
-				DaoCommunityClan daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan.class);
+				DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
 				daoCommunityClan.setIdClan(idClan);
 				daoCommunityClan.setDateCommunityClan(date);
 				//persist clan ?
@@ -1272,7 +1209,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 							        try {
 							        	//must transform before persist the objet clan
 							        	pm.currentTransaction().begin();
-							        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
+							        	DaoCommunityAccount2 daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(account);
 							        	
 							        	//pour eviter trop de données en base 60 write OP 
 							        	//daoCommunityAccount.getData().setAchievements(null);
@@ -1349,21 +1286,21 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	        try {
 	        	for (String user  : listIdUsers) {
 	        	/// query
-					Query query = pm.newQuery(DaoCommunityAccount.class);
+					Query query = pm.newQuery(DaoCommunityAccount2.class);
 				    query.setFilter("idUser == nameParam");
 				    query.setOrdering("name desc");
 				    query.setOrdering("dateCommunityAccount desc");
 				    query.setRange(0, 6); //only 6 results 
 				    //query.setOrdering("hireDate desc");
 				    query.declareParameters("String nameParam");
-				    List<DaoCommunityAccount> resultsTmp = (List<DaoCommunityAccount>) query.execute(user);
+				    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
 				    
 				    if(resultsTmp.size() != 0 )
 				    {
-					    DaoCommunityAccount daoComAcc = resultsTmp.get(0);
+					    DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
 					    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
 					    String previousDate = "";
-					    for (DaoCommunityAccount myDaoCommunityAccount : resultsTmp ) {
+					    for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
 					    	//si 2 dates identiques se suivent on ne prend la deuxième
 					    	String dateCurrent = "";
 					    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) { 
@@ -1425,21 +1362,21 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	        try {
 	        	for (String user  : listIdUsers) {
 	        	/// query
-					Query query = pm.newQuery(DaoCommunityAccount.class);
+					Query query = pm.newQuery(DaoCommunityAccount2.class);
 				    query.setFilter("idUser == nameParam");
 				    query.setOrdering("name desc");
 				    query.setOrdering("dateCommunityAccount desc");
 				    query.setRange(0, 6); //only 6 results 
 				    //query.setOrdering("hireDate desc");
 				    query.declareParameters("String nameParam");
-				    List<DaoCommunityAccount> resultsTmp = (List<DaoCommunityAccount>) query.execute(user);
+				    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
 				    
 				    if(resultsTmp.size() != 0 )
 				    {
-					    DaoCommunityAccount daoComAcc = resultsTmp.get(0);
+					    DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
 					    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
 					    String previousDate = "";
-					    for (DaoCommunityAccount myDaoCommunityAccount : resultsTmp ) {
+					    for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
 					    	//si 2 dates identiques se suivent on ne prend la deuxième
 					    	String dateCurrent = "";
 					    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) { 
@@ -1576,7 +1513,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					        try {
 					        	//must transform before persist the objet clan
 					        	pm.currentTransaction().begin();
-					        	DaoCommunityAccount daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(communityAccount);
+					        	DaoCommunityAccount2 daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(communityAccount);
 					        	
 					        	//pour eviter trop de données en base 60 write OP 
 					        	//daoCommunityAccount.getData().setAchievements(null);
@@ -1589,7 +1526,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					        	
 					        }
 						    catch(Exception e){
-						    	log.severe(e.getLocalizedMessage());
+						    	log.log(Level.SEVERE, "Exception while saving daoCommunityAccount", e);
 					        	pm.currentTransaction().rollback();
 					        }
 					        finally {
@@ -1618,6 +1555,164 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			}
 		
 			return listUsersPersisted;
+		
+		}
+
+	@Override
+		public AllCommunityAccount getAllMembersClanAndStats( List<String> listIdUser) {
+		
+	
+		
+			String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		
+			// Escape data from the client to avoid cross-site script vulnerabilities.
+			userAgent = escapeHtml(userAgent);
+			
+			List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
+			AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
+			myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+			PersistenceManager pm =null;
+			
+			try {
+				pm = PMF.get().getPersistenceManager();
+				
+				String AllIdUser ="";
+				
+				for(String idUser :listIdUser) {
+					AllIdUser = AllIdUser + "," + idUser;
+				}
+				
+		
+							
+				URL url = null ;
+				
+				String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
+				//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
+				
+				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+					url = new URL("https://pedro-proxy.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+				}
+				else {
+					url = new URL(urlServer + AllIdUser);
+				}
+				
+				HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
+				conn2.setReadTimeout(20000);
+				conn2.setConnectTimeout(20000);
+				conn2.getInputStream();
+				BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+
+				//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+				String lineUser = "";
+				;
+				String AllLinesUser = "";
+
+				while ((lineUser = readerUser.readLine()) != null) {
+					AllLinesUser = AllLinesUser + lineUser;
+				}
+				//System.out.println(AllLinesUser);
+				
+				readerUser.close();
+
+				Gson gsonUser = new Gson();
+				//log.info(AllLinesUser.substring(0, 200));
+				PlayerRatings playerRatings = gsonUser.fromJson(AllLinesUser, PlayerRatings.class);
+				//playerRatings.setIdUser(idUser);
+				
+				//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sérialisation (pas de MAP !!))
+				List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
+				
+				
+				//make some calculation of stats 
+				for(CommunityAccount communityAccount : listCommunityAccount1) {
+					DataCommunityAccountRatings myDataCommunityAccountRatings = communityAccount.getData();
+					
+					//== WR calculated
+					int battles = myDataCommunityAccountRatings.getBattles();
+					int battlesWin = myDataCommunityAccountRatings.getBattle_wins();
+					Double wrCal = (double) ((double)battlesWin/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					wrCal = wrCal * 100; //ex : 51,844444
+					int intWrCal = (int) (wrCal * 100); //ex : 5184
+					
+					wrCal = (double)intWrCal / 100 ; //ex : 51,84
+					myDataCommunityAccountRatings.setBattle_avg_performanceCalc(wrCal);
+					
+					//== Ratio capture points calculated
+					int ctfPoints = myDataCommunityAccountRatings.getCtf_points();
+					Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
+					
+					ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex : 1,28
+					myDataCommunityAccountRatings.setRatioCtfPoints(ctfPointsCal);
+					
+					//==Damage Ration calculated
+					int damagePoints = myDataCommunityAccountRatings.getDamage_dealt();
+					Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
+					
+					ratioDamagePoints = (double)intRatioDamagePoints / 100 ; //ex : 1,28
+					myDataCommunityAccountRatings.setRatioDamagePoints(ratioDamagePoints);
+					
+					
+					//==Ratio Defense calculated
+					int droppedCtfPoints = myDataCommunityAccountRatings.getDropped_ctf_points();
+					Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
+					
+					ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountRatings.setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
+					
+					
+					//==Ratio Destroyed calculated
+					int destroyedPoints = myDataCommunityAccountRatings.getFrags();
+					Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
+					
+					ratiodestroyedPoints = (double)intRatiodestroyedPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountRatings.setRatioDestroyedPoints(ratiodestroyedPoints);
+					
+					//==Ratio Detected calculated
+					int detectedPoints = myDataCommunityAccountRatings.getSpotted();
+					Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
+					
+					//on ne conserve que 2 digits après la virgule 
+					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+					int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
+					
+					ratioDetectedPoints = (double)intRatioDetectedPoints / 100 ; //ex : 1,28
+					myDataCommunityAccountRatings.setRatioDetectedPoints(ratioDetectedPoints);
+				
+				}
+				//add account
+				listCommunityAccount.addAll(listCommunityAccount1);
+	
+
+			} catch (MalformedURLException e) {
+				// ...
+				e.printStackTrace();
+			} catch (IOException e) {
+				// ...
+				e.printStackTrace();
+			}
+			finally {
+				pm.close();
+			}
+		
+			return myAllCommunityAccount;
 		
 		}
 
