@@ -5309,7 +5309,7 @@ public class WotTest1 implements EntryPoint {
 		    TextColumn<CommunityAccount> nameColumn = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
-		        return object.getName();
+		        return hmAccIdAccName.get(object.getIdUser());
 		      }
 		    };
 		    tableHistorizedStatsCommAcc.addColumn(nameColumn, "Name");
