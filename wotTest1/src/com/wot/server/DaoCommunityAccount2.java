@@ -11,31 +11,18 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class DaoCommunityAccount implements Serializable{
+public class DaoCommunityAccount2 implements Serializable{
+
+	private static final long serialVersionUID = -5612196058981975635L;
 
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
 	
-	public Key getKey() {
-		return key;
-	}
 
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-	private static final long serialVersionUID = -5612196058981975635L;
 	
 	@Persistent
 	String name ;
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	
 	@Persistent
@@ -47,6 +34,31 @@ public class DaoCommunityAccount implements Serializable{
 	@Persistent
 	private String idUser;
 	
+	@Persistent
+	private Date dateCommunityAccount;
+	
+	@Persistent
+	private DaoDataCommunityAccount2 data;
+	
+	
+	
+	///////////////////////////////
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getIdUser() {
 		return idUser;
 	}
@@ -63,19 +75,11 @@ public class DaoCommunityAccount implements Serializable{
 		this.dateCommunityAccount = dateCommunityAccount;
 	}
 
-	@Persistent
-	private Date dateCommunityAccount;
-	
-	@Persistent
-	private DaoDataCommunityAccount data;
-	
-	
-	
-    public DaoDataCommunityAccount getData() {
+    public DaoDataCommunityAccount2 getData() {
 		return data;
 	}
 
-	public void setData(DaoDataCommunityAccount data) {
+	public void setData(DaoDataCommunityAccount2 data) {
 		this.data = data;
 	}
 

@@ -1,49 +1,74 @@
-package com.wot.shared;
+package com.wot.server;
 
 import java.io.Serializable;
 
-public class DataCommunityAccountRatings implements Serializable {
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
 
-	/**
-	 * 
-	 */
+@PersistenceCapable
+public class DaoDataCommunityAccountRatings2 implements Serializable {
+
 	private static final long serialVersionUID = -2580719093758162023L;
+
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 spotted = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement spotted = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 dropped_ctf_points = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement dropped_ctf_points = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 battle_avg_xp = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement battle_avg_xp = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 xp = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement xp = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 battles = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement battles = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 damage_dealt = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement damage_dealt = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ctf_points = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement ctf_points = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 integrated_rating = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement integrated_rating = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 battle_avg_performance = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement battle_avg_performance = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 battle_avg_performanceCalc = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement battle_avg_performanceCalc = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 frags = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement frags = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 battle_wins = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement battle_wins = new DataCommunityAccountRatingsElement();
 	  //info calculée
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ratioCtfPoints = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement ratioCtfPoints = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ratioDamagePoints = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement ratioDamagePoints = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ratioDroppedCtfPoints = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement ratioDroppedCtfPoints = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ratioDestroyedPoints = new DaoDataCommunityAccountRatingsElement2();
 	
-	  private DataCommunityAccountRatingsElement ratioDestroyedPoints = new DataCommunityAccountRatingsElement();
-	
-	  private DataCommunityAccountRatingsElement ratioDetectedPoints = new DataCommunityAccountRatingsElement();
+	@Persistent
+	  private DaoDataCommunityAccountRatingsElement2 ratioDetectedPoints = new DaoDataCommunityAccountRatingsElement2();
 	
 	
 
