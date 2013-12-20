@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/simpleservletapp</url>
+    <description>Persist all stats of NVS users</description>
+    <schedule>every 15 minutes</schedule>
+     <timezone>Europe/Paris</timezone>
+  </cron>
+</cronentries>
