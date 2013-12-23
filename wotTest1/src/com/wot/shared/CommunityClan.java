@@ -2,7 +2,6 @@ package com.wot.shared;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 
 public class CommunityClan implements Serializable{

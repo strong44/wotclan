@@ -1,13 +1,11 @@
 package com.wot.server.api;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.gwt.dev.util.collect.HashMap;
 import com.wot.server.DaoClan;
 import com.wot.server.DaoCommunityAccount2;
 import com.wot.server.DaoCommunityClan2;
@@ -17,7 +15,6 @@ import com.wot.server.DaoDataCommunityAccountAchievements;
 import com.wot.server.DaoDataCommunityAccountRatings2;
 import com.wot.server.DaoDataCommunityAccountStats;
 import com.wot.server.DaoDataCommunityAccountStatsVehicules;
-import com.wot.server.DaoDataCommunityClan;
 import com.wot.server.DaoDataCommunityClanMembers;
 import com.wot.server.DaoDataCommunityMembers;
 import com.wot.server.DaoItemsDataClan;
@@ -25,7 +22,6 @@ import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataClan;
-import com.wot.shared.DataCommunityAccount;
 import com.wot.shared.DataCommunityAccountAchievements;
 import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityAccountVehicules;

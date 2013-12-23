@@ -1,11 +1,8 @@
 package com.wot.shared;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.google.gwt.view.client.ProvidesKey;
 
 public class PlayerVehicles implements Serializable, Comparable<PlayerVehicles>{
 

@@ -2,7 +2,6 @@ package com.wot.shared;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 public class DataCommunityClan implements Serializable {
 	
