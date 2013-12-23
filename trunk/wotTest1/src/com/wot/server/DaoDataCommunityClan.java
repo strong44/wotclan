@@ -1,7 +1,6 @@
 package com.wot.server;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -10,7 +9,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
-import com.wot.shared.DataCommunityClanMembers;
 
 @PersistenceCapable
 public class DaoDataCommunityClan implements Serializable {
