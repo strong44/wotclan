@@ -3,7 +3,7 @@
   <cron>
     <url>/simpleservletapp</url>
     <description>Persist all stats of NVS users</description>
-    <schedule>every 15 minutes</schedule>
+    <schedule>every day 03:00</schedule>
      <timezone>Europe/Paris</timezone>
   </cron>
 </cronentries>
