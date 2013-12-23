@@ -13,19 +13,18 @@
   
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
-    <url-pattern>
-</url-pattern>
+    <url-pattern>/wottest1/greet</url-pattern>
   </servlet-mapping>
   
-  <servlet>
+   <servlet>
         <servlet-name>simpleservletapp</servlet-name>
         <servlet-class>com.wot.server.SimpleServletAppServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
+   </servlet>
+   <servlet-mapping>
         <servlet-name>simpleservletapp</servlet-name>
         <url-pattern>/simpleservletapp</url-pattern>
-    </servlet-mapping>
-    
+   </servlet-mapping>
+      
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WotTest1.html</welcome-file>
