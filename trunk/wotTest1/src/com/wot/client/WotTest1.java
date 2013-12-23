@@ -163,8 +163,8 @@ public class WotTest1 implements EntryPoint {
 	     
 	  HashMap<String, String>  hmAccNameAccId =new HashMap<String, String >();
 	  HashMap<String, String>  hmAccIdAccName =new HashMap<String, String >();
-
-
+	  HashMap<String, String>  hmAccUpperNameAccName =new HashMap<String, String >();
+	  
 	//
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -191,7 +191,7 @@ public class WotTest1 implements EntryPoint {
 		
 	    //update dataprovider with some known list 
 	    dataStatsProvider.setList(listCommAcc);
-		
+	    tableStatsCommAcc.setStyleName("gwt-CellTable");
 		// Create a CellTable.
 		tableStatsCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	    
@@ -3858,7 +3858,7 @@ public class WotTest1 implements EntryPoint {
 		// Create a CellTable.
 	    //CellTable<CommunityAccount> table = new CellTable<CommunityAccount>();
 		tableClan.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-	    
+		tableClan.setStyleName("gwt-CellTable");
 	    
 	    ListHandler<ItemsDataClan> columnSortHandler =
 		        new ListHandler<ItemsDataClan>(dataClanProvider.getList());
@@ -4161,9 +4161,13 @@ public class WotTest1 implements EntryPoint {
 			rootPanel = RootPanel.get();
 			//RootPanel.get("errorLabelContainer").add(errorLabel);
 			
+			rootPanel.setStyleName("mybody");
+			
 			dockPanel = new DockPanel();
 			rootPanel.add(dockPanel, 29, 265);
 			dockPanel.setSize("1193px", "550px");
+			//dockPanel.setStyleName("mybody");
+			
 			
 
 			//button search Clans
@@ -4525,8 +4529,8 @@ public class WotTest1 implements EntryPoint {
 
 										findMembersClanButton.setEnabled(true);
 										findHistorizedStatsButton.setEnabled(true);
-										findHistorizedStatsTanksButton.setEnabled(true);
-										findAchievementsMemberButton.setEnabled(true);
+										//findHistorizedStatsTanksButton.setEnabled(true);
+										//findAchievementsMemberButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 �lments dans TAB
 										if(listClan.getItems().size()== 100)
@@ -5204,10 +5208,14 @@ public class WotTest1 implements EntryPoint {
 									List<String> listAccName = new ArrayList<String>();
 									hmAccNameAccId =new HashMap<String, String >();
 									hmAccIdAccName =new HashMap<String, String >();
+									hmAccUpperNameAccName =new HashMap<String, String >();
 									
 									for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers()) {
 										for (DataCommunityMembers dataComMembers : dataCom.getMembers()) {
-											listAccName.add(dataComMembers.getAccount_name());
+											listAccName.add(dataComMembers.getAccount_name().toUpperCase());
+											//hashmap nom en majuscule / nom origine
+											hmAccUpperNameAccName.put(dataComMembers.getAccount_name().toUpperCase(), dataComMembers.getAccount_name());
+											
 											hmAccNameAccId.put(dataComMembers.getAccount_name(), dataComMembers.getAccount_id());
 											hmAccIdAccName.put(dataComMembers.getAccount_id(), dataComMembers.getAccount_name());
 											//dropBoxClanUsers.addItem(dataCom.getAccount_name());
@@ -5219,7 +5227,8 @@ public class WotTest1 implements EntryPoint {
 									//add to the list 
 									for (String accName : listAccName) {
 										//list box contain  name of user and id of user
-										dropBoxClanUsers.addItem(accName, hmAccNameAccId.get(accName));
+										String originalName = hmAccUpperNameAccName.get(accName);
+										dropBoxClanUsers.addItem(originalName, hmAccNameAccId.get(originalName));
 									}
 									dropBoxClanUsers.setFocus(true);
 								}
@@ -5281,7 +5290,7 @@ public class WotTest1 implements EntryPoint {
 	
 			tableHistorizedStatsCommAcc.setTitle("Historical Battles");
 			tableHistorizedStatsCommAcc.setPageSize(30);
-			
+			tableHistorizedStatsCommAcc.setStyleName("gwt-CellTable");
 		    //update dataprovider with some known list 
 		    dataHistorizedStatsProvider.setList(listCommAcc);
 			
@@ -5348,7 +5357,12 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
-		    String strDate =  listDates.get(0);
+		    String strDate =  "";
+		    if ( listDates.size() >= 1)
+		    	strDate =  listDates.get(0);
+		    else
+		    	strDate = "";
+		    
 		    tableHistorizedStatsCommAcc.addColumn(jour1, "Battles-" + strDate);
 	
 		    jour1.setSortable(true);
@@ -5362,7 +5376,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 2  && o2.listbattles.size() >= 2) {
 		            	Integer val1 = o1.listbattles.get(0) - o1.listbattles.get(1);
 		            	Integer val2 = o2.listbattles.get(0)- o2.listbattles.get(1);
 		              return (o2 != null) ? val1.compareTo(val2) : 1;
@@ -5395,8 +5409,8 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
-		    strDate =  listDates.get(0);
-		    tableHistorizedStatsCommAcc.addColumn(jour1Wr, "WR-" + strDate);
+		   
+		    tableHistorizedStatsCommAcc.addColumn(jour1Wr, "WR" );
 	
 		    jour1Wr.setSortable(true);
 		    
@@ -5409,7 +5423,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 2  && o2.listbattles.size() >= 2) {
 		            	int diff1 = o1.listbattles.get(0) - o1.listbattles.get(1);
 			    		int diffWins1 = o1.listBattlesWins.get(0) - o1.listBattlesWins.get(1);
 			    		Double wrCal1 = (double) ((double)diffWins1/(double)diff1);
@@ -5452,8 +5466,11 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
+		    if ( listDates.size() >= 2)
+		    	strDate =  listDates.get(1);
+		    else
+		    	strDate = "";
 		    
-		    strDate =  listDates.get(1);
 		    tableHistorizedStatsCommAcc.addColumn(jour2, "Battles-" + strDate);
 	
 		    jour2.setSortable(true);
@@ -5467,7 +5484,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 3  && o2.listbattles.size() >= 3) {
 		            	Integer val1 = o1.listbattles.get(1) - o1.listbattles.get(2);
 		            	Integer val2 = o2.listbattles.get(1)- o2.listbattles.get(2);
 		              return (o2 != null) ? val1.compareTo(val2) : 1;
@@ -5481,7 +5498,7 @@ public class WotTest1 implements EntryPoint {
 		    TextColumn<CommunityAccount> jour2Wr = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
-		    	  if (object.listbattles.size() >= 2  ) {
+		    	  if (object.listbattles.size() >= 3  ) {
 		    		  int a = 1;
 		    		  int b = 2;
 		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
@@ -5499,8 +5516,7 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
-		    strDate =  listDates.get(1);
-		    tableHistorizedStatsCommAcc.addColumn(jour2Wr, "WR-" + strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour2Wr, "WR" );
 	
 		    jour2Wr.setSortable(true);
 		    
@@ -5513,7 +5529,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 3  && o2.listbattles.size() >= 3) {
 		            	int a = 1;
 			    		int b = 2;
 		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
@@ -5558,8 +5574,11 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
+		    if ( listDates.size() >= 3)
+		    	strDate =  listDates.get(2);
+		    else
+		    	strDate = "";
 		    
-		    strDate =  listDates.get(2);
 		    tableHistorizedStatsCommAcc.addColumn(jour3, "Battles-" + strDate);
 	
 		    jour3.setSortable(true);
@@ -5573,7 +5592,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 4  && o2.listbattles.size() >= 4) {
 		            	Integer val1 = o1.listbattles.get(2) - o1.listbattles.get(3);
 		            	Integer val2 = o2.listbattles.get(2)- o2.listbattles.get(3);
 		              return (o2 != null) ? val1.compareTo(val2) : 1;
@@ -5587,7 +5606,7 @@ public class WotTest1 implements EntryPoint {
 		    TextColumn<CommunityAccount> jour3Wr = new TextColumn<CommunityAccount>() {
 		      @Override
 		      public String getValue(CommunityAccount object) {
-		    	  if (object.listbattles.size() >= 2  ) {
+		    	  if (object.listbattles.size() >= 4  ) {
 		    		  int a = 2;
 		    		  int b = 3;
 		    		  int diff = object.listbattles.get(a) - object.listbattles.get(b);
@@ -5605,8 +5624,7 @@ public class WotTest1 implements EntryPoint {
 		    		  return "";
 		      }
 		    };
-		    strDate =  listDates.get(2);
-		    tableHistorizedStatsCommAcc.addColumn(jour3Wr, "WR-" + strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour3Wr, "WR");
 	
 		    jour3Wr.setSortable(true);
 		    
@@ -5619,7 +5637,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 4  && o2.listbattles.size() >= 4) {
 		            	int a = 2;
 			    		int b = 3;
 		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
@@ -5719,7 +5737,12 @@ public class WotTest1 implements EntryPoint {
 		    	strDate =  listDates.get(3);
 		    else 
 		    	strDate = "";
-		    tableHistorizedStatsCommAcc.addColumn(jour4Wr, "WR-" + strDate);
+		    tableHistorizedStatsCommAcc.addColumn(jour4Wr, "WR"
+		    		
+		    		
+		    		
+		    		
+		    		);
 	
 		    jour4Wr.setSortable(true);
 		    
@@ -5732,7 +5755,7 @@ public class WotTest1 implements EntryPoint {
 		            }
 	
 		            // Compare the name columns.
-		            if (o1 != null) {
+		            if (o1 != null && o2 != null && o1.listbattles.size() >= 5  && o2.listbattles.size() >= 5) {
 		            	int a = 3;
 			    		int b = 4;
 		            	int diff1 = o1.listbattles.get(a) - o1.listbattles.get(b);
