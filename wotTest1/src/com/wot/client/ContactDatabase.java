@@ -1,6 +1,5 @@
 package com.wot.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.view.client.HasData;

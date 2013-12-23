@@ -4121,22 +4121,22 @@ public class WotTest1 implements EntryPoint {
 	   * @param headerText the header string
 	   * @param getter the value getter for the cell
 	   */
-	  private <C> Column<CommunityAccount, C> addColumn(Cell<C> cell, String headerText,
-	      final GetValue<C> getter, FieldUpdater<CommunityAccount, C> fieldUpdater) {
-	    Column<CommunityAccount, C> column = new Column<CommunityAccount, C>(cell) {
-	      @Override
-	      public C getValue(CommunityAccount object) {
-	        return getter.getValue(object);
-	      }
-	      
-	    };
-	    column.setFieldUpdater(fieldUpdater);
-//	    if (cell instanceof AbstractEditableCell<?, ?>) {
-//	      editableCells.add((AbstractEditableCell<?, ?>) cell);
-//	    }
-	    tableAchivementCommAcc.addColumn(column, headerText);
-	    return column;
-	  }
+//	  private <C> Column<CommunityAccount, C> addColumn(Cell<C> cell, String headerText,
+//	      final GetValue<C> getter, FieldUpdater<CommunityAccount, C> fieldUpdater) {
+//	    Column<CommunityAccount, C> column = new Column<CommunityAccount, C>(cell) {
+//	      @Override
+//	      public C getValue(CommunityAccount object) {
+//	        return getter.getValue(object);
+//	      }
+//	      
+//	    };
+//	    column.setFieldUpdater(fieldUpdater);
+////	    if (cell instanceof AbstractEditableCell<?, ?>) {
+////	      editableCells.add((AbstractEditableCell<?, ?>) cell);
+////	    }
+//	    tableAchivementCommAcc.addColumn(column, headerText);
+//	    return column;
+//	  }
 	
 	
 	/**
