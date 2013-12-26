@@ -395,26 +395,26 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	        Detect.setClientSecret(secretClient);
 	        
 			int nbTrad = 0;
-			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
-				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
-				String motto = myItemsDataClan.getMotto();
-				//detect lang motto
-				try {
-					Language detectedLanguage = null;
-					
-						detectedLanguage = Detect.execute(motto);
-						
-						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français") && nbTrad < 6  ) {
-							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
-							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
-							nbTrad++;
-						}
-					
-				} catch (Exception e) {
-				// TODO Auto-generated catch block
-				System.out.println(e.getMessage());
-				}
-			}
+//			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
+//				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
+//				String motto = myItemsDataClan.getMotto();
+//				//detect lang motto
+//				try {
+//					Language detectedLanguage = null;
+//					
+//						detectedLanguage = Detect.execute(motto);
+//						
+//						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("Français") && nbTrad < 6  ) {
+//							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
+//							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
+//							nbTrad++;
+//						}
+//					
+//				} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				System.out.println(e.getMessage());
+//				}
+//			}
 	
 		} catch (MalformedURLException e) {
 			// ...

@@ -1,14 +1,48 @@
 /** Add css rules here for your application. */
-.mybody {
-	background-image: url('nvs.jpg');
-background-color: #2F2C2B;
-scrollbar-face-color: #1b1c24;
-scrollbar-highlight-color: #000000;
-scrollbar-shadow-color: #1b1c24;
-scrollbar-3dlight-color: #16161d;
-scrollbar-arrow-color: #FFFF00;
-scrollbar-track-color: #111117;
-scrollbar-darkshadow-color: #2C2D38;
+.mybody0 {
+	background-image: url('nvs0.jpg');
+
+}
+.mybody1 {
+	background-image: url('nvs1.jpg');
+
+}
+
+.mybody2 {
+	background-image: url('nvs2.jpg');
+
+}
+.mybody3 {
+	background-image: url('nvs3.jpg');
+
+}
+.mybody4 {
+	background-image: url('nvs4.jpg');
+
+}
+.mybody5 {
+	background-image: url('nvs5.jpg');
+
+}
+.mybody6 {
+	background-image: url('nvs6.jpg');
+
+}
+.mybody7 {
+	background-image: url('nvs7.jpg');
+
+}
+.mybody8 {
+	background-image: url('nvs8.jpg');
+
+}
+.mybody9 {
+	background-image: url('nvs9.jpg');
+
+}
+.mybody10 {
+	background-image: url('nvs10.jpg');
+
 }
 
 /** Example rules used by the template application (remove for your app) */
@@ -43,7 +77,7 @@ h1 {
   margin: 15px 6px 6px;
 }
 .gwt-Button {
-	opacity:0.4;
+	opacity:0.6;
 }
 
 .gwt-Label {
@@ -51,12 +85,31 @@ h1 {
 }
 
 .gwt-TextBox{
-		opacity:0.4;
+		opacity:0.6;
 }
 .gwt-ListBox{
-		opacity:0.4;
+		opacity:0.6;
 }
 .gwt-CellTable{
-		opacity:0.5;
+		opacity:0.6;
+		font-weight: bold;
+}
+
+
+/*le premier header*/
+.myCellTableStyle th:first-child {
+    border-left: 1px solid #d3d3d3;
+    opacity:0.6;
+    font-weight: bold;
+     color: red;
+     background-color: #2F2C2B;
+}
+/*les autres header*/
+.myCellTableStyle th {
+    border-right: 1px solid #d3d3d3;
+    opacity:0.6;
+    font-weight: bold;
+     color: red;
+      background-color: #2F2C2B;
 }
 
