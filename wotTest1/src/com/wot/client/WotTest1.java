@@ -6,45 +6,16 @@ package com.wot.client;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.Date;
 import java.util.HashMap;
-
 import java.util.List;
-import java.util.Set;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import com.google.gwt.cell.client.Cell;
-
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -52,41 +23,31 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-
 import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
-
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-
-
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-
-
-
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
@@ -112,7 +73,7 @@ import com.wot.shared.XmlWiki;
 public class WotTest1 implements EntryPoint {
 	static boolean adminLogin = false ;
 	static String noData = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8KRYghA2Xyp8gWTkK4ZNtBQL2nixsiYdAFDeFBCaj_ylXcfhK";
-	XmlWiki xmlWiki = null;
+	//XmlWiki xmlWiki = null;
 	String idClan ="" ;
 	int offsetClan = 0;
 	int limitClan = 100;
@@ -122,14 +83,15 @@ public class WotTest1 implements EntryPoint {
 	
 	  RootPanel rootPanel ;
 	  DockPanel dockPanel;
+	  TabPanel tp = new TabPanel();
 	  
 	  //m�canisme de pagination
-	  SimplePager pagerStatsCommunityAccount;
-	  SimplePager pagerHistorizedStatsCommunityAccount;
-	  SimplePager pagerHistorizedStatsTanksCommunityAccount;
+	  //SimplePager pagerStatsCommunityAccount;
+	  //SimplePager pagerHistorizedStatsCommunityAccount;
+	  //SimplePager pagerHistorizedStatsTanksCommunityAccount;
 	  
-	  SimplePager pagerClan;
-	  SimplePager pagerAchievementsCommunityAccount;
+	  //SimplePager pagerClan;
+	  //SimplePager pagerAchievementsCommunityAccount;
 	  
 	  //tableau des stats joueurs
 	  CellTable<CommunityAccount> tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
@@ -187,11 +149,13 @@ public class WotTest1 implements EntryPoint {
 	 */
 	public  void buildACellTableForStatsCommunityAccount(List<CommunityAccount> listCommAcc) {
 	    
-		tableStatsCommAcc.setPageSize(30);
+		tableStatsCommAcc.setPageSize(100);
 		
 	    //update dataprovider with some known list 
 	    dataStatsProvider.setList(listCommAcc);
-	    tableStatsCommAcc.setStyleName("gwt-CellTable");
+	    tableStatsCommAcc.addStyleName("gwt-CellTable");
+	    tableStatsCommAcc.addStyleName("myCellTableStyle");
+
 		// Create a CellTable.
 		tableStatsCommAcc.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 	    
@@ -224,7 +188,7 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the name columns.
 	            if (o1 != null) {
-	              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
+	              return (o2 != null) ? hmAccIdAccName.get(o1.getIdUser()).toUpperCase().compareTo( hmAccIdAccName.get(o2.getIdUser()).toUpperCase()) : 1;
 	            }
 	            return -1;
 	          }
@@ -3854,11 +3818,13 @@ public class WotTest1 implements EntryPoint {
 			    
 	    //update dataprovider with some known list 
 	    dataClanProvider.setList(listClan.getItems());
-		
+	    tableClan.addStyleName("gwt-CellTable");
+	    tableClan.addStyleName("myCellTableStyle");
+
 		// Create a CellTable.
 	    //CellTable<CommunityAccount> table = new CellTable<CommunityAccount>();
 		tableClan.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		tableClan.setStyleName("gwt-CellTable");
+		//tableClan.setStyleName("gwt-CellTable");
 	    
 	    ListHandler<ItemsDataClan> columnSortHandler =
 		        new ListHandler<ItemsDataClan>(dataClanProvider.getList());
@@ -4153,22 +4119,27 @@ public class WotTest1 implements EntryPoint {
 			   */
 			final CwConstants constants = GWT.create(CwConstants.class);
 			
-			//final CwConstants constants = null;
-
-	
-			// Add the nameField and sendButton to the RootPanel
-			// Use RootPanel.get() to get the entire body element
 			rootPanel = RootPanel.get();
-			//RootPanel.get("errorLabelContainer").add(errorLabel);
+			Date today = new Date();
+			String StrDayOfMonth = DateTimeFormat.getFormat("d").format(today);
+			Integer dayOfMonth = Integer.valueOf(StrDayOfMonth);
 			
-			rootPanel.setStyleName("mybody");
+			if (dayOfMonth>30) {
+				dayOfMonth = dayOfMonth - 30 ;
+			}else
+				if (dayOfMonth>20) {
+					dayOfMonth = dayOfMonth - 20;
+				}	
+				else
+					if (dayOfMonth>10) {
+						dayOfMonth = dayOfMonth - 10;
+					}
+			
+			rootPanel.setStyleName("mybody"+ dayOfMonth);
 			
 			dockPanel = new DockPanel();
 			rootPanel.add(dockPanel, 29, 265);
 			dockPanel.setSize("1193px", "550px");
-			//dockPanel.setStyleName("mybody");
-			
-			
 
 			//button search Clans
 			int posLeft = 10;
@@ -4293,24 +4264,24 @@ public class WotTest1 implements EntryPoint {
 			
 			//next row - button achievement's member
 		    posTop = posTop + 70 ;
-			final Button findAchievementsMemberButton = new Button("Send");
-			findAchievementsMemberButton.setText("Achievements");
-			rootPanel.add(findAchievementsMemberButton, 10, posTop);
-			findAchievementsMemberButton.setSize("210px", "28px");
-			findAchievementsMemberButton.setEnabled(false);
+//			final Button findAchievementsMemberButton = new Button("Send");
+//			findAchievementsMemberButton.setText("Achievements");
+//			rootPanel.add(findAchievementsMemberButton, 10, posTop);
+//			findAchievementsMemberButton.setSize("210px", "28px");
+//			findAchievementsMemberButton.setEnabled(false);
 
 		    // Add a drop box with the category of achievement
-		    final ListBox dropBoxCategoryAchievement = new ListBox(false);
-		    dropBoxCategoryAchievement.setSize("300px", "28px");
-		    dropBoxCategoryAchievement.ensureDebugId("cwListBox-dropBox");
-		    rootPanel.add(dropBoxCategoryAchievement, 300, posTop);
-			
+//		    final ListBox dropBoxCategoryAchievement = new ListBox(false);
+//		    dropBoxCategoryAchievement.setSize("300px", "28px");
+//		    dropBoxCategoryAchievement.ensureDebugId("cwListBox-dropBox");
+//		    rootPanel.add(dropBoxCategoryAchievement, 300, posTop);
+//			
 		    
-		    final ListBox dropBoxAchievement = new ListBox(false);
-		    dropBoxAchievement.setSize("300px", "28px");
-		    dropBoxAchievement.ensureDebugId("cwListBox-dropBox");
-		    rootPanel.add(dropBoxAchievement, 650, posTop);
-			
+//		    final ListBox dropBoxAchievement = new ListBox(false);
+//		    dropBoxAchievement.setSize("300px", "28px");
+//		    dropBoxAchievement.ensureDebugId("cwListBox-dropBox");
+//		    rootPanel.add(dropBoxAchievement, 650, posTop);
+//			
 			
 		    
 			//loading .gif
@@ -4436,12 +4407,12 @@ public class WotTest1 implements EntryPoint {
 //									  "status_code": "NO_ERROR", 
 									
 									if (status.equalsIgnoreCase("ok")) {  
-										dockPanel.remove(tableStatsCommAcc);
-										dockPanel.remove(tableClan);
-										if (pagerStatsCommunityAccount != null) 
-											dockPanel.remove(pagerStatsCommunityAccount);
-										if (pagerClan != null) 
-											dockPanel.remove(pagerClan);
+//										dockPanel.remove(tableStatsCommAcc);
+//										dockPanel.remove(tableClan);
+//										if (pagerStatsCommunityAccount != null) 
+//											dockPanel.remove(pagerStatsCommunityAccount);
+//										if (pagerClan != null) 
+//											dockPanel.remove(pagerClan);
 										
 										if (dataClanProvider.getDataDisplays()!= null && !dataClanProvider.getDataDisplays().isEmpty()) 
 											dataClanProvider.removeDataDisplay(tableClan);
@@ -4452,81 +4423,113 @@ public class WotTest1 implements EntryPoint {
 										buildACellTableForCommunityClan(listClan);
 										
 										//get wiki wot (pour les m�dailles)
-										xmlWiki = listClan.getWiki();
-										
-										//add items to listbox of category achievement
-										final HashMap<String, List<XmlListAchievement>> hashMapAch = buidHashMapCategoryAchievement(xmlWiki);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
-										Set<String> setKeysCat = hashMapAch.keySet();
-										Object[] listCat = (Object[])setKeysCat.toArray();
-
-										dropBoxCategoryAchievement.addItem("All Achievements");
-									    for (int i = 0; i < listCat.length; i++) {
-										      dropBoxCategoryAchievement.addItem((String)listCat[i]);
-										}
+//										xmlWiki = listClan.getWiki();
+//										
+//										//add items to listbox of category achievement
+//										final HashMap<String, List<XmlListAchievement>> hashMapAch = buidHashMapCategoryAchievement(xmlWiki);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
+//										Set<String> setKeysCat = hashMapAch.keySet();
+//										Object[] listCat = (Object[])setKeysCat.toArray();
+//
+//										dropBoxCategoryAchievement.addItem("All Achievements");
+//									    for (int i = 0; i < listCat.length; i++) {
+//										      dropBoxCategoryAchievement.addItem((String)listCat[i]);
+//										}
 									    
-									    // Add a handler to handle dropBoxCategoryAchievement
-									    dropBoxCategoryAchievement.addChangeHandler(new ChangeHandler() {
-									      public void onChange(ChangeEvent event) {
-									        //showCategory(dropBoxAchievement, dropBoxCategoryAchievement.getSelectedIndex());
-									    	  
-									        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
-									        
-									        //on efface la liste box des m�dailles
-									        dropBoxAchievement.clear();
-									        int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
-									        
-									        if(indexSelected >= 0 ) {
-									        	List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
-									        	String valueSelected = dropBoxCategoryAchievement.getValue(indexSelected);
-									        	if("All Achievements".equalsIgnoreCase(valueSelected)) {
-									        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
-									        		for (List<XmlListAchievement> list : col ) {
-									        			for (XmlListAchievement ach : list ) {
-									        				
-									        				listAchievement.add(ach);
-									        			}
-									        		}
-									        	}else {
-									        		listAchievement = hashMapAch.get(valueSelected);
-									        	}
-										        
-										        for ( XmlListAchievement ach : listAchievement)	{
-										        	String nameAch = ach.getNAME();
-										        	dropBoxAchievement.addItem(nameAch);
-										        }
-									        }
-									        
-									      }
-									    });
-									    //set all achievement of listbox
-									    List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
-						        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
-						        		for (List<XmlListAchievement> list : col ) {
-						        			for (XmlListAchievement ach : list ) {
-						        				listAchievement.add(ach);
-						        			}
-						        		}
-						        
-							        	for ( XmlListAchievement ach : listAchievement)	{
-								        	String nameAch = ach.getNAME();
-								        	dropBoxAchievement.addItem(nameAch);
-								        }
+//									    // Add a handler to handle dropBoxCategoryAchievement
+//									    dropBoxCategoryAchievement.addChangeHandler(new ChangeHandler() {
+//									      public void onChange(ChangeEvent event) {
+//									        //showCategory(dropBoxAchievement, dropBoxCategoryAchievement.getSelectedIndex());
+//									    	  
+//									        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
+//									        
+//									        //on efface la liste box des m�dailles
+//									        dropBoxAchievement.clear();
+//									        int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
+//									        
+//									        if(indexSelected >= 0 ) {
+//									        	List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
+//									        	String valueSelected = dropBoxCategoryAchievement.getValue(indexSelected);
+//									        	if("All Achievements".equalsIgnoreCase(valueSelected)) {
+//									        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
+//									        		for (List<XmlListAchievement> list : col ) {
+//									        			for (XmlListAchievement ach : list ) {
+//									        				
+//									        				listAchievement.add(ach);
+//									        			}
+//									        		}
+//									        	}else {
+//									        		listAchievement = hashMapAch.get(valueSelected);
+//									        	}
+//										        
+//										        for ( XmlListAchievement ach : listAchievement)	{
+//										        	String nameAch = ach.getNAME();
+//										        	dropBoxAchievement.addItem(nameAch);
+//										        }
+//									        }
+//									        
+//									      }
+//									    });
+//									    //set all achievement of listbox
+//									    List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
+//						        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
+//						        		for (List<XmlListAchievement> list : col ) {
+//						        			for (XmlListAchievement ach : list ) {
+//						        				listAchievement.add(ach);
+//						        			}
+//						        		}
+//						        
+//							        	for ( XmlListAchievement ach : listAchievement)	{
+//								        	String nameAch = ach.getNAME();
+//								        	dropBoxAchievement.addItem(nameAch);
+//								        }
 									    
-										//Create a Pager to control the table.
-									    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-									    pagerClan = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-									    pagerClan.setDisplay(tableClan);
+//										//Create a Pager to control the table.
+//									    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+//									    pagerClan = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//									    pagerClan.setDisplay(tableClan);
 										
 								    
 									    //add to dock panel ======
-									    dockPanel.add(pagerClan, DockPanel.SOUTH);
-									    pagerClan.setPage(10);
-									    pagerClan.setVisible(true);
+//									    dockPanel.add(pagerClan, DockPanel.SOUTH);
+//									    pagerClan.setPage(10);
+//									    pagerClan.setVisible(true);
+//										
+//										dockPanel.add(tableClan, DockPanel.SOUTH);
+//										tableClan.setVisible(true);
+//										tableClan.setFocus(true);
+									    ScrollPanel sPanel = new ScrollPanel();
+									    //
+									    sPanel.setStyleName("myCellTableStyle");
+									    sPanel.setAlwaysShowScrollBars(true);
+									    sPanel.setHeight("500px");
+									    //sPanel.add(pagerClan);
+									    sPanel.add(tableClan);
+									    tp.add(sPanel, "Clans");
+										dockPanel.add(tp, DockPanel.SOUTH);
+										tp.selectTab(0);
 										
-										dockPanel.add(tableClan, DockPanel.SOUTH);
+									    //tp.add(pagerClan, "Clans");
+									    //pagerClan.setPage(10);
+									    //pagerClan.setVisible(true);
+									    
 										tableClan.setVisible(true);
 										tableClan.setFocus(true);
 
+										/*
+										 * ScrollPanel sPanel = new ScrollPanel();
+								    //
+								    sPanel.setStyleName("myCellTableStyle");
+								    sPanel.setAlwaysShowScrollBars(true);
+								    sPanel.setHeight("500px");
+								    //sPanel.add(pagerClan);
+								    sPanel.add(tableHistorizedStatsCommAcc);
+								    tp.add(sPanel, "History batttles");
+								    int count = tp.getWidgetCount();
+									dockPanel.add(tp, DockPanel.SOUTH);
+									tp.selectTab(count-1);
+										 */
+										//RootPanel.get().add(tp);
+										
 										findMembersClanButton.setEnabled(true);
 										findHistorizedStatsButton.setEnabled(true);
 										//findHistorizedStatsTanksButton.setEnabled(true);
@@ -4651,108 +4654,108 @@ public class WotTest1 implements EntryPoint {
 			////
 			///////////
 			// Create a handler for search achivement's member
-			class HandlerGetAchievementsMember implements ClickHandler, KeyUpHandler {
-				/**
-				 * Fired when the user clicks on the sendButton.
-				 */
-				public void onClick(ClickEvent event) {
-					int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
-					if (indexSelected >= 0 )
-					{
-						String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
-						getAchievementMember2(valueSelected);
-					}
-//					offsetClan = 0;
-//					limitClan = 100;
-				}
-	
-				/**
-				 * Fired when the user types in the nameField.
-				 */
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
-						if (indexSelected >= 0 )
-						{
-							String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
-							getAchievementMember2(valueSelected);
-						}
-//						offsetClan = 0;
-//						limitClan = 100;
-					}
-				}
-				private void getAchievementMember2(String valueSelected) {
-					hPanelLoading.setVisible(true);
-					// First, we validate the input.
-					errorLabel.setText("");
-					String textToServer = idClan;
-					if (!FieldVerifier.isValidName(textToServer)) {
-						errorLabel.setText("Please enter at least four characters");
-						
-						/////
-						dialogBox
-						.setText("Select a Clan before!!");
-						serverResponseLabel
-								.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML("Click on a clan before find members !"  );
-						dialogBox.center();
-						closeButton.setFocus(true);
-						hPanelLoading.setVisible(false);
-						return;
-					}
-					dockPanel.remove(tableAchivementCommAcc);
-					dockPanel.remove(tableStatsCommAcc);
-					dockPanel. remove(tableClan);
-					
-					if (pagerAchievementsCommunityAccount != null) 
-						dockPanel.remove(pagerAchievementsCommunityAccount);
-					if (pagerStatsCommunityAccount != null) 
-						dockPanel.remove(pagerStatsCommunityAccount);
-					if (pagerClan != null) 
-						dockPanel.remove(pagerClan);
-					
+//			class HandlerGetAchievementsMember implements ClickHandler, KeyUpHandler {
+//				/**
+//				 * Fired when the user clicks on the sendButton.
+//				 */
+//				public void onClick(ClickEvent event) {
+//					int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
+//					if (indexSelected >= 0 )
+//					{
+//						String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
+//						getAchievementMember2(valueSelected);
+//					}
+////					offsetClan = 0;
+////					limitClan = 100;
+//				}
+//	
+//				/**
+//				 * Fired when the user types in the nameField.
+//				 */
+//				public void onKeyUp(KeyUpEvent event) {
+//					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+//						int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
+//						if (indexSelected >= 0 )
+//						{
+//							String valueSelected  = dropBoxCategoryAchievement.getValue(indexSelected);
+//							getAchievementMember2(valueSelected);
+//						}
+////						offsetClan = 0;
+////						limitClan = 100;
+//					}
+//				}
+//				private void getAchievementMember2(String valueSelected) {
+//					hPanelLoading.setVisible(true);
+//					// First, we validate the input.
+//					errorLabel.setText("");
+//					String textToServer = idClan;
+//					if (!FieldVerifier.isValidName(textToServer)) {
+//						errorLabel.setText("Please enter at least four characters");
+//						
+//						/////
+//						dialogBox
+//						.setText("Select a Clan before!!");
+//						serverResponseLabel
+//								.addStyleName("serverResponseLabelError");
+//						serverResponseLabel.setHTML("Click on a clan before find members !"  );
+//						dialogBox.center();
+//						closeButton.setFocus(true);
+//						hPanelLoading.setVisible(false);
+//						return;
+//					}
+//					dockPanel.remove(tableAchivementCommAcc);
+//					dockPanel.remove(tableStatsCommAcc);
+//					dockPanel. remove(tableClan);
 //					
-//					if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
-//						dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
+////					if (pagerAchievementsCommunityAccount != null) 
+////						dockPanel.remove(pagerAchievementsCommunityAccount);
+////					if (pagerStatsCommunityAccount != null) 
+////						dockPanel.remove(pagerStatsCommunityAccount);
+////					if (pagerClan != null) 
+////						dockPanel.remove(pagerClan);
 //					
-					//on re-construit 1 nouveau tableau
-					//tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
-					
-					//construct column in celltable tableCommAcc , set data set sort handler etc ..
-					//buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, valueSelected);
-					  
-					//Create a Pager to control the table.
-				    //SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-				    //pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-				    //pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
-					
-			    
-				    //add to dock panel ======
-				    //add tab achievement a the end 
-				    //dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
-				    //pagerAchievementsCommunityAccount.setPage(10);
-				    //pagerAchievementsCommunityAccount.setVisible(true);
-					
-					//dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
-					//tableAchivementCommAcc.setVisible(true);
-					//tableAchivementCommAcc.setFocus(true);
-				    //add tab stats 
-				    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
-					pagerStatsCommunityAccount.setPage(10);
-					pagerStatsCommunityAccount.setVisible(true);
-					
-					dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
-					tableStatsCommAcc.setVisible(false);
-				    
-					//add tab clan at the begin
-					dockPanel.add(pagerClan, DockPanel.SOUTH);
-					dockPanel.add(tableClan, DockPanel.SOUTH);
-					tableClan.setVisible(true);
-					pagerClan.setVisible(true);
-					hPanelLoading.setVisible(false);
-				}
-			}
-			
+////					
+////					if (dataAchievementsProvider.getDataDisplays()!= null && !dataAchievementsProvider.getDataDisplays().isEmpty()) 
+////						dataAchievementsProvider.removeDataDisplay(tableAchivementCommAcc);
+////					
+//					//on re-construit 1 nouveau tableau
+//					//tableAchivementCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+//					
+//					//construct column in celltable tableCommAcc , set data set sort handler etc ..
+//					//buildACellTableForAchivementsCommunityAccount(dataStatsProvider.getList(), xmlWiki, valueSelected);
+//					  
+//					//Create a Pager to control the table.
+//				    //SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+//				    //pagerAchievementsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//				    //pagerAchievementsCommunityAccount.setDisplay(tableAchivementCommAcc);
+//					
+//			    
+//				    //add to dock panel ======
+//				    //add tab achievement a the end 
+//				    //dockPanel.add(pagerAchievementsCommunityAccount, DockPanel.SOUTH);
+//				    //pagerAchievementsCommunityAccount.setPage(10);
+//				    //pagerAchievementsCommunityAccount.setVisible(true);
+//					
+//					//dockPanel.add(tableAchivementCommAcc, DockPanel.SOUTH);
+//					//tableAchivementCommAcc.setVisible(true);
+//					//tableAchivementCommAcc.setFocus(true);
+//				    //add tab stats 
+////				    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
+////					pagerStatsCommunityAccount.setPage(10);
+////					pagerStatsCommunityAccount.setVisible(true);
+//					
+//					dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
+//					tableStatsCommAcc.setVisible(false);
+//				    
+//					//add tab clan at the begin
+//					//dockPanel.add(pagerClan, DockPanel.SOUTH);
+//					//dockPanel.add(tableClan, DockPanel.SOUTH);
+//					tableClan.setVisible(true);
+//					//pagerClan.setVisible(true);
+//					hPanelLoading.setVisible(false);
+//				}
+//			}
+//			
 			
 			///////////
 			// Create a handler for search clan's members
@@ -4834,10 +4837,10 @@ public class WotTest1 implements EntryPoint {
 									dockPanel.remove(tableStatsCommAcc);
 									dockPanel. remove(tableClan);
 									
-									if (pagerStatsCommunityAccount != null) 
-										dockPanel.remove(pagerStatsCommunityAccount);
-									if (pagerClan != null) 
-										dockPanel.remove(pagerClan);
+//									if (pagerStatsCommunityAccount != null) 
+//										dockPanel.remove(pagerStatsCommunityAccount);
+//									if (pagerClan != null) 
+//										dockPanel.remove(pagerClan);
 									
 									if (dataStatsProvider.getDataDisplays()!= null && !dataStatsProvider.getDataDisplays().isEmpty()) 
 										dataStatsProvider.removeDataDisplay(tableStatsCommAcc);
@@ -4849,23 +4852,39 @@ public class WotTest1 implements EntryPoint {
 									buildACellTableForStatsCommunityAccount(listAccount.getListCommunityAccount());
 									  
 									//Create a Pager to control the table.
-								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-								    pagerStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-								    pagerStatsCommunityAccount.setDisplay(tableStatsCommAcc);
+//								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+//								    pagerStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//								    pagerStatsCommunityAccount.setDisplay(tableStatsCommAcc);
 									
+								    
+								    /////////
+								    ScrollPanel sPanel = new ScrollPanel();
+								    //
+								    sPanel.setStyleName("myCellTableStyle");
+								    sPanel.setAlwaysShowScrollBars(true);
+								    sPanel.setHeight("500px");
+								    //sPanel.add(pagerClan);
+								    sPanel.add(tableStatsCommAcc);
+								    tp.add(sPanel, "Stats");
+								    int count = tp.getWidgetCount();
+									dockPanel.add(tp, DockPanel.SOUTH);
+									tp.selectTab(count-1);
+								    
+								    ////////
 							    
 								    //add to dock panel ======
-								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
-									pagerStatsCommunityAccount.setPage(10);
-									pagerStatsCommunityAccount.setVisible(true);
+//								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
+//									pagerStatsCommunityAccount.setPage(10);
+//									pagerStatsCommunityAccount.setVisible(true);
+//									
+//									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
+//									tableStatsCommAcc.setVisible(true);
+//								    
+//									dockPanel.add(pagerClan, DockPanel.SOUTH);
+//									dockPanel.add(tableClan, DockPanel.SOUTH);
 									
-									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
-									tableStatsCommAcc.setVisible(true);
-								    
-									dockPanel.add(pagerClan, DockPanel.SOUTH);
-									dockPanel.add(tableClan, DockPanel.SOUTH);
 									tableClan.setVisible(true);
-									pagerClan.setVisible(true);
+									//pagerClan.setVisible(true);
 									
 									tableStatsCommAcc.setFocus(true);
 									//dialogBox.center();
@@ -4959,10 +4978,10 @@ public class WotTest1 implements EntryPoint {
 									dockPanel.remove(tableHistorizedStatsCommAcc);
 									dockPanel.remove(tableClan);
 									
-									if (pagerHistorizedStatsCommunityAccount != null) 
-										dockPanel.remove(pagerHistorizedStatsCommunityAccount);
-									if (pagerClan != null) 
-										dockPanel.remove(pagerClan);
+//									if (pagerHistorizedStatsCommunityAccount != null) 
+//										dockPanel.remove(pagerHistorizedStatsCommunityAccount);
+//									if (pagerClan != null) 
+//										dockPanel.remove(pagerClan);
 									
 									if (dataHistorizedStatsProvider.getDataDisplays()!= null && !dataHistorizedStatsProvider.getDataDisplays().isEmpty()) 
 										dataHistorizedStatsProvider.removeDataDisplay(tableHistorizedStatsCommAcc);
@@ -4976,24 +4995,42 @@ public class WotTest1 implements EntryPoint {
 									
 									//Create a Pager to control the table.
 								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-								    pagerHistorizedStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-								    pagerHistorizedStatsCommunityAccount.setDisplay(tableHistorizedStatsCommAcc);
-									
+//								    pagerHistorizedStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//								    pagerHistorizedStatsCommunityAccount.setDisplay(tableHistorizedStatsCommAcc);
+//									
+								    
+								    ///////////
+								    ScrollPanel sPanel = new ScrollPanel();
+								    //
+								    sPanel.setStyleName("myCellTableStyle");
+								    sPanel.setAlwaysShowScrollBars(true);
+								    sPanel.setHeight("500px");
+								    //sPanel.add(pagerClan);
+								    sPanel.add(tableHistorizedStatsCommAcc);
+								    tp.add(sPanel, "History batttles");
+								    int count = tp.getWidgetCount();
+									dockPanel.add(tp, DockPanel.SOUTH);
+									tp.selectTab(count-1);
+								    
+								    /////////
 							    
 								    //add to dock panel ======
-								    dockPanel.add(pagerHistorizedStatsCommunityAccount, DockPanel.SOUTH);
-								    pagerHistorizedStatsCommunityAccount.setPage(10);
-								    pagerHistorizedStatsCommunityAccount.setVisible(true);
+								    //dockPanel.add(pagerHistorizedStatsCommunityAccount, DockPanel.SOUTH);
+								    //pagerHistorizedStatsCommunityAccount.setPage(10);
+								    //pagerHistorizedStatsCommunityAccount.setVisible(true);
 									
-									dockPanel.add(tableHistorizedStatsCommAcc, DockPanel.SOUTH);
-									tableHistorizedStatsCommAcc.setVisible(true);
+									//dockPanel.add(tableHistorizedStatsCommAcc, DockPanel.SOUTH);
+									
+									
 								    
-									dockPanel.add(pagerClan, DockPanel.SOUTH);
-									dockPanel.add(tableClan, DockPanel.SOUTH);
-									tableClan.setVisible(true);
-									pagerClan.setVisible(true);
+									//dockPanel.add(pagerClan, DockPanel.SOUTH);
+									//dockPanel.add(tableClan, DockPanel.SOUTH);
 									
-									tableHistorizedStatsCommAcc.setFocus(true);
+									tableHistorizedStatsCommAcc.setVisible(true);
+									//tableClan.setVisible(true);
+									//pagerClan.setVisible(true);
+									
+									//tableHistorizedStatsCommAcc.setFocus(true);
 									//dialogBox.center();
 									//closeButton.setFocus(true);
 								}
@@ -5087,10 +5124,10 @@ public class WotTest1 implements EntryPoint {
 									dockPanel.remove(tableHistorizedStatsTanksCommAcc);
 									dockPanel.remove(tableClan);
 									
-									if (pagerHistorizedStatsTanksCommunityAccount != null) 
-										dockPanel.remove(pagerHistorizedStatsTanksCommunityAccount);
-									if (pagerClan != null) 
-										dockPanel.remove(pagerClan);
+//									if (pagerHistorizedStatsTanksCommunityAccount != null) 
+//										dockPanel.remove(pagerHistorizedStatsTanksCommunityAccount);
+//									if (pagerClan != null) 
+//										dockPanel.remove(pagerClan);
 									
 									if (dataHistorizedStatsTanksProvider.getDataDisplays()!= null && !dataHistorizedStatsTanksProvider.getDataDisplays().isEmpty()) 
 										dataHistorizedStatsTanksProvider.removeDataDisplay(tableHistorizedStatsTanksCommAcc);
@@ -5103,23 +5140,23 @@ public class WotTest1 implements EntryPoint {
 									buildACellTableForHistorizedStatsTanksCommunityAccount(listAccount);
 									
 									//Create a Pager to control the table.
-								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-								    pagerHistorizedStatsTanksCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-								    pagerHistorizedStatsTanksCommunityAccount.setDisplay(tableHistorizedStatsTanksCommAcc);
-									
+								    //SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+//								    pagerHistorizedStatsTanksCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//								    pagerHistorizedStatsTanksCommunityAccount.setDisplay(tableHistorizedStatsTanksCommAcc);
+//									
 							    
 								    //add to dock panel ======
-								    dockPanel.add(pagerHistorizedStatsTanksCommunityAccount, DockPanel.SOUTH);
-								    pagerHistorizedStatsTanksCommunityAccount.setPage(10);
-								    pagerHistorizedStatsTanksCommunityAccount.setVisible(true);
+//								    dockPanel.add(pagerHistorizedStatsTanksCommunityAccount, DockPanel.SOUTH);
+//								    pagerHistorizedStatsTanksCommunityAccount.setPage(10);
+//								    pagerHistorizedStatsTanksCommunityAccount.setVisible(true);
 									
 									dockPanel.add(tableHistorizedStatsTanksCommAcc, DockPanel.SOUTH);
 									tableHistorizedStatsTanksCommAcc.setVisible(true);
 								    
-									dockPanel.add(pagerClan, DockPanel.SOUTH);
-									dockPanel.add(tableClan, DockPanel.SOUTH);
-									tableClan.setVisible(true);
-									pagerClan.setVisible(true);
+//									dockPanel.add(pagerClan, DockPanel.SOUTH);
+//									dockPanel.add(tableClan, DockPanel.SOUTH);
+//									tableClan.setVisible(true);
+//									pagerClan.setVisible(true);
 									
 									tableHistorizedStatsTanksCommAcc.setFocus(true);
 									//dialogBox.center();
@@ -5273,8 +5310,8 @@ public class WotTest1 implements EntryPoint {
 			
 			
 			// button HandlerGetAchivementsMember
-			HandlerGetAchievementsMember myHandlerGetAchivementsMember = new HandlerGetAchievementsMember();
-			findAchievementsMemberButton.addClickHandler(myHandlerGetAchivementsMember);
+//			HandlerGetAchievementsMember myHandlerGetAchivementsMember = new HandlerGetAchievementsMember();
+//			findAchievementsMemberButton.addClickHandler(myHandlerGetAchivementsMember);
 
 			
 			
@@ -5290,7 +5327,9 @@ public class WotTest1 implements EntryPoint {
 	
 			tableHistorizedStatsCommAcc.setTitle("Historical Battles");
 			tableHistorizedStatsCommAcc.setPageSize(30);
-			tableHistorizedStatsCommAcc.setStyleName("gwt-CellTable");
+			tableHistorizedStatsCommAcc.addStyleName("gwt-CellTable");
+			tableHistorizedStatsCommAcc.addStyleName("myCellTableStyle");
+
 		    //update dataprovider with some known list 
 		    dataHistorizedStatsProvider.setList(listCommAcc);
 			
@@ -5971,6 +6010,8 @@ public class WotTest1 implements EntryPoint {
 	
 			tableHistorizedStatsTanksCommAcc.setTitle("Historical Battles Tanks");
 			tableHistorizedStatsTanksCommAcc.setPageSize(30);
+			tableHistorizedStatsTanksCommAcc.addStyleName("gwt-CellTable");
+			tableHistorizedStatsTanksCommAcc.addStyleName("myCellTableStyle");
 			
 		    //update dataprovider with some known list 
 		    dataHistorizedStatsTanksProvider.setList(listCommAcc);
