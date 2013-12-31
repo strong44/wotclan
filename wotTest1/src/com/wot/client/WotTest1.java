@@ -6,7 +6,6 @@ package com.wot.client;
 
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -4497,6 +4496,8 @@ public class WotTest1 implements EntryPoint {
 //										dockPanel.add(tableClan, DockPanel.SOUTH);
 //										tableClan.setVisible(true);
 //										tableClan.setFocus(true);
+										
+										
 									    ScrollPanel sPanel = new ScrollPanel();
 									    //
 									    sPanel.setStyleName("myCellTableStyle");
@@ -4508,6 +4509,69 @@ public class WotTest1 implements EntryPoint {
 										dockPanel.add(tp, DockPanel.SOUTH);
 										tp.selectTab(0);
 										
+										/*
+										Label close = new Label();
+								        close.setText("X");
+								        close.setTitle("Clans" );
+								        //
+								        Label text = new Label();
+								        text.setText("headingText");
+								        text.setStyleDependentName("text", true);
+								        //
+								        HorizontalPanel sPanel = new HorizontalPanel();
+									    sPanel.setStyleName("myCellTableStyle");
+									    //sPanel.setAlwaysShowScrollBars(true);
+									    sPanel.setHeight("500px");
+									    sPanel.setTitle("oooo");
+									    //sPanel.add(pagerClan);
+									    sPanel.add(text);
+									    sPanel.add(close);
+									    //
+									    sPanel.add(tableClan);
+									    tp.add(sPanel);
+										dockPanel.add(tp, DockPanel.SOUTH);
+										tp.selectTab(0);
+										
+										 close.addClickHandler(new ClickHandler() {
+												
+									            @Override
+									            public void onClick(ClickEvent event) {
+									                Window.alert("close this tab");
+									                tp.remove(tp.getWidget(0));
+									            }
+									        });
+										 */
+										/*
+										 * HorizontalPanel panel = new HorizontalPanel();
+								        panel.setStyleName("tabHeader");
+								        panel.setTitle(tooltip);
+								        Label text = new Label();
+								        text.setText(headingText);
+								        text.setStyleDependentName("text", true);
+								        Label close = new Label();
+								        close.setText("X");
+								        close.setTitle(closeText_ + headingText);
+								        text.setStyleDependentName("close", true);
+								        close.addClickHandler(new ClickHandler() {
+								
+								            @Override
+								            public void onClick(ClickEvent event) {
+								                Window.alert("close this tab");
+								                ClientGlobal.LOG.info("widget : " + tabPanel_.getWidgetIndex(widget));
+								                tabPanel_.remove(tabPanel_.getWidgetIndex(widget));
+								            }
+								        });
+								        panel.add(text);
+								        panel.add(close);
+								        panel.setCellHorizontalAlignment(text, HasHorizontalAlignment.ALIGN_LEFT);
+								        panel.setCellHorizontalAlignment(close, HasHorizontalAlignment.ALIGN_RIGHT);
+								
+								        tabPanel_.add(widget, panel);
+								        tabPanel_.getTabWidget(widget).setTitle(tooltip);
+								        tabPanel_.selectTab(widget);
+										 */
+										
+										
 									    //tp.add(pagerClan, "Clans");
 									    //pagerClan.setPage(10);
 									    //pagerClan.setVisible(true);
@@ -4515,21 +4579,6 @@ public class WotTest1 implements EntryPoint {
 										tableClan.setVisible(true);
 										tableClan.setFocus(true);
 
-										/*
-										 * ScrollPanel sPanel = new ScrollPanel();
-								    //
-								    sPanel.setStyleName("myCellTableStyle");
-								    sPanel.setAlwaysShowScrollBars(true);
-								    sPanel.setHeight("500px");
-								    //sPanel.add(pagerClan);
-								    sPanel.add(tableHistorizedStatsCommAcc);
-								    tp.add(sPanel, "History batttles");
-								    int count = tp.getWidgetCount();
-									dockPanel.add(tp, DockPanel.SOUTH);
-									tp.selectTab(count-1);
-										 */
-										//RootPanel.get().add(tp);
-										
 										findMembersClanButton.setEnabled(true);
 										findHistorizedStatsButton.setEnabled(true);
 										//findHistorizedStatsTanksButton.setEnabled(true);
@@ -5326,7 +5375,7 @@ public class WotTest1 implements EntryPoint {
 		public  void buildACellTableForHistorizedStatsCommunityAccount(List<CommunityAccount> listCommAcc) {
 	
 			tableHistorizedStatsCommAcc.setTitle("Historical Battles");
-			tableHistorizedStatsCommAcc.setPageSize(30);
+			tableHistorizedStatsCommAcc.setPageSize(100);
 			tableHistorizedStatsCommAcc.addStyleName("gwt-CellTable");
 			tableHistorizedStatsCommAcc.addStyleName("myCellTableStyle");
 
@@ -5374,7 +5423,8 @@ public class WotTest1 implements EntryPoint {
 
 		            // Compare the name columns.
 		            if (o1 != null) {
-		              return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
+		            	return (o2 != null) ? hmAccIdAccName.get(o1.getIdUser()).toUpperCase().compareTo( hmAccIdAccName.get(o2.getIdUser()).toUpperCase()) : 1;
+		              //return (o2 != null) ? o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase()) : 1;
 		            }else
 		            	return -1;
 		          }
