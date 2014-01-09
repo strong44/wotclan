@@ -29,6 +29,9 @@ frags *250 = 0.89 * 250 = 222.5
 
 spot * 150 = 1.24 * 150 = 186
 
+
+
+
 150 * DEF = 150 * 0.86 = 129
 
 (log (CAP + 1,1.732 )) * 150 = (log (1,211 + 1,1.732 )) * 150 = 56.6
@@ -40,3 +43,22 @@ spot * 150 = 1.24 * 150 = 186
 
 DAMAGE * (10 / (TIER + 2)) * (0.21 + 3*TIER / 100) + FRAGS * 250 + SPOT * 150 + (log(CAP + 1,1.732))*150 
 + DEF * 150;
+
+
+
+
+-----------
+
+DAMAGE * (10 / (TIER + 2)) * (0.21 + 3*TIER / 100) + FRAGS * 250 + SPOT * 150 + log(CAP + 1) / log(1.732) * 150 + DEF * 150 
+
+DAMAGE - average damage 				- 619
+FRAGS - average kills 					- 0.89
+SPOT - average spots 					- 1.24
+CAP - average capture points per game 	- 1.19
+DEF - average defense points per game	- 0.9
+TIER - average tier						- 5.37
+
+Source: http://www.modxvm.com/en/faq/
+
+
+------------

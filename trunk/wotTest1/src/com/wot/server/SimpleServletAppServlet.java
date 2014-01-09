@@ -44,6 +44,7 @@ public class SimpleServletAppServlet extends HttpServlet {
         resp.getWriter().println("Hello, persistStatsForCron for NVS");
         
         persistStatsForCron("500006074");//clan NVS
+        persistStatsForCron("500006824");//clan FAFE -Forces ArmÃ©es FrancophonEs
     }
     
     
@@ -53,7 +54,7 @@ public class SimpleServletAppServlet extends HttpServlet {
 		log.warning("========lancement persistStatsForCron  ============== " + idClan);
 		
 		//recup des stats des user du clan NVS -- pour l'instant le seul clan
-		// a terme il faut récupérer les clan présents en base, et requeter les stats de leur joueurs 
+		// a terme il faut rï¿½cupï¿½rer les clan prï¿½sents en base, et requeter les stats de leur joueurs 
 
 		
 		//getAllStats("500006074", indexBeginUser, indexEndUser); // 0 10 , 10 20 ,30 40 , 60 70, .. 90 100 
@@ -204,14 +205,14 @@ public class SimpleServletAppServlet extends HttpServlet {
 			readerUser.close();
 			Gson gsonUser = new Gson();
 			PlayerRatings playerRatings = gsonUser.fromJson(AllLinesUser, PlayerRatings.class);
-			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sérialisation (pas de MAP !!))
+			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sï¿½rialisation (pas de MAP !!))
 			List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
 			
 			
 			/////////////////////
 			for(CommunityAccount communityAccount : listCommunityAccount1) {
 				
-					//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sérialisation (pas de MAP !!))
+					//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sï¿½rialisation (pas de MAP !!))
 					//communityAccount =  TransformDtoObject.TransformPlayerRatingsToCommunityAccount(playerRatings);
 					
 					//make some calculation of stats 
@@ -227,7 +228,7 @@ public class SimpleServletAppServlet extends HttpServlet {
 				        	pm.currentTransaction().begin();
 				        	DaoCommunityAccount2 daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(communityAccount);
 				        	
-				        	//pour eviter trop de données en base 60 write OP 
+				        	//pour eviter trop de donnï¿½es en base 60 write OP 
 				        	//daoCommunityAccount.getData().setAchievements(null);
 				        	daoCommunityAccount.setDateCommunityAccount(date);
 				        	//

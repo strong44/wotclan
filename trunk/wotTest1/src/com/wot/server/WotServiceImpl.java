@@ -213,33 +213,33 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		//getClan("");
 		
 		////////////////
-		URL urlAchievement = null;
-		String AllLinesWot = "";
-		try {
-			if(lieu.equalsIgnoreCase("boulot")) //on passe par 1 proxy
-				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
-			else
-				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
-			
-			HttpURLConnection conn = (HttpURLConnection)urlAchievement.openConnection();
-			conn.setReadTimeout(60000);
-			conn.setConnectTimeout(60000);
-			conn.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
-			String line = "";
-			
-
-			while ((line = reader.readLine()) != null) {
-				AllLinesWot = AllLinesWot + line;
-			}
-			reader.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		log.info(AllLinesWot);
+//		URL urlAchievement = null;
+//		String AllLinesWot = "";
+//		try {
+//			if(lieu.equalsIgnoreCase("boulot")) //on passe par 1 proxy
+//				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
+//			else
+//				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
+//			
+//			HttpURLConnection conn = (HttpURLConnection)urlAchievement.openConnection();
+//			conn.setReadTimeout(60000);
+//			conn.setConnectTimeout(60000);
+//			conn.getInputStream();
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			
+//			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
+//			String line = "";
+//			
+//
+//			while ((line = reader.readLine()) != null) {
+//				AllLinesWot = AllLinesWot + line;
+//			}
+//			reader.close();
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		log.info(AllLinesWot);
 		
 		ObjectFactory objFactory = null;
 		try {
@@ -1686,7 +1686,49 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				
 				
 				//////////////////////////////////
-				// ==API stats des véhicules ==
+				// ==API stats des joueurs ==
+				//
+				
+				//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
+				/*
+				 * {"status":"ok",
+				 * "count":336,
+				 * "data":{ 
+					"3073":{ 
+					"nation_i18n":"U.S.S.R.","name":"#ussr_vehicles:T-46","level":3,"nation":"ussr","is_premium":false,"name_i18n":"T-46","type":"lightTank","tank_id":3073} 
+					,"6417":{ 
+					"nation_i18n":"Germany","name":"#germany_vehicles:PzIII_IV","level":5,"nation":"germany","is_premium":false,"name_i18n":"Pz.Kpfw. III\/IV","type":"mediumTank","tank_id":6417} 
+				*/
+				//=======================
+				urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
+				url = new URL(urlServer);
+				
+				conn2 = (HttpURLConnection)url.openConnection();
+				conn2.setReadTimeout(20000);
+				conn2.setConnectTimeout(20000);
+				conn2.getInputStream();
+				readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+
+				lineUser = "";
+				AllLinesUser = "";
+
+				while ((lineUser = readerUser.readLine()) != null) {
+					AllLinesUser = AllLinesUser + lineUser;
+				}
+				//System.out.println(AllLinesUser);
+				
+				readerUser.close();
+
+				gsonUser = new Gson();
+				//log.info(AllLinesUser.substring(0, 200));
+				PlayerVehicles playerVehicles = gsonUser.fromJson(AllLinesUser, PlayerVehicles.class);
+				
+				
+				
+				
+				
+				
+				//========================
 				//http://api.worldoftanks.eu/2.0/stats/accountbytime/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=500423304&hours_ago=24
 				//Fichier Player vehicules.xml
 
@@ -1723,7 +1765,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 				gsonUser = new Gson();
 				//log.info(AllLinesUser.substring(0, 200));
-				PlayerVehicles playerVehicles = gsonUser.fromJson(AllLinesUser, PlayerVehicles.class);
+				playerVehicles = gsonUser.fromJson(AllLinesUser, PlayerVehicles.class);
 				
 				
 				/////////////////////////////////
