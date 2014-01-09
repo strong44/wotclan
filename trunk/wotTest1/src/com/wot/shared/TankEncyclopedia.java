@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.google.gwt.view.client.ProvidesKey;
 
-public class TankEncyclopedia implements Serializable, Comparable<TankEncyclopedia>{
+public class TankEncyclopedia implements Serializable{
 
 	
 //	public CommunityAccount(String idUser, String nameAccount) {
@@ -39,51 +39,12 @@ public class TankEncyclopedia implements Serializable, Comparable<TankEncycloped
 	 */
 	private static final long serialVersionUID = -5042002415647520582L;
 	
-	public static final ProvidesKey<TankEncyclopedia> KEY_PROVIDER = new ProvidesKey<TankEncyclopedia>() {
-        @Override
-        public Object getKey(TankEncyclopedia item) {
-          return item == null ? null : item.getIdUser();
-        }
-      };
-	/**
-	 * 
-	 */
 	
 	private String status;
 	private Integer count;
 	
+	Map<String, DataTankEncyclopedia> data;
 
-	private String idUser = "000000";
-
-	String nameAccount ;
-
-	Map<String, DataCommunityAccountRatings> data;
-
-
-	public List<String> listDates = new ArrayList<String>()  ;
-	public List<Integer> listbattles = new ArrayList<Integer>()  ;
-	public List<Integer> listBattlesWins = new ArrayList<Integer>();  
-	
-	public List<DataCommunityAccount> listBattlesTanks = new ArrayList<DataCommunityAccount>()  ;
-	//public List<Integer> listBattlesTanksWins = new ArrayList<Integer>();  
-	
-	public String getName() {
-		return nameAccount;
-	}
-
-	public void setName(String name) {
-		this.nameAccount = name;
-	}
-
-	
-	public String getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(String id) {
-		this.idUser = id;
-	}
-	
 	public Integer getCount() {
 		return count;
 	}
@@ -95,11 +56,11 @@ public class TankEncyclopedia implements Serializable, Comparable<TankEncycloped
 	
 	
 
-	public Map<String, DataCommunityAccountRatings> getData() {
+	public Map<String, DataTankEncyclopedia> getData() {
 		return data;
 	}
 
-	public void setData(Map<String, DataCommunityAccountRatings> data) {
+	public void setData(Map<String, DataTankEncyclopedia> data) {
 		this.data = data;
 	}
 
@@ -111,19 +72,7 @@ public class TankEncyclopedia implements Serializable, Comparable<TankEncycloped
 		this.status = status;
 	}
 
-	@Override
-	public int compareTo(TankEncyclopedia o) {
-		// TODO Auto-generated method stub
-		return (o == null || o.getName() == null) ? -1 : o.getName().compareTo(getName());
-	}
-
-	@Override
-    public boolean equals(Object o) {
-      if (o instanceof TankEncyclopedia) {
-        return getIdUser().equalsIgnoreCase(((TankEncyclopedia) o).getIdUser());
-      }
-      return false;
-    }
+	
 
 
 	
