@@ -285,7 +285,74 @@ public class WotTest1 implements EntryPoint {
 
 	    
 	    
+	    // Add a text column to show the Efficient rating.
+	    TextColumn<CommunityAccount> erCalcColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	    	  /*
+	    	   * DAMAGE * (10 / (TIER + 2)) * (0.21 + 3*TIER / 100) + FRAGS * 250 + SPOT * 150 + log(CAP + 1) / log(1.732) * 150 + DEF * 150 
 
+						DAMAGE - average damage 				- 619
+						FRAGS - average kills 					- 0.89
+						SPOT - average spots 					- 1.24
+						CAP - average capture points per game 	- 1.19
+						DEF - average defense points per game	- 0.9
+						TIER - average tier						- 5.37
+						
+						Source: http://www.modxvm.com/en/faq/
+	    	   */
+	    	  Double dmg = object.getData().getRatioDamagePoints();
+	    	  Double frags = object.getData().getRatioDestroyedPoints();
+	    	  Double spot = object.getData().getRatioDetectedPoints();
+	    	  Double cap = object.getData().getRatioCtfPoints();
+	    	  Double def = object.getData().getRatioDroppedCtfPoints();
+	    	  int tier = 5; //TODO : Ajouter ER dans parse JSON
+	    	  double er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+	    	  
+	    	  
+	        return String.valueOf(er);
+	      }
+	    };
+	    tableStatsCommAcc.addColumn(erCalcColumn, "Efficient rating");
+	    
+	    erCalcColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(erCalcColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double dmg = o1.getData().getRatioDamagePoints();
+	            	Double frags = o1.getData().getRatioDestroyedPoints();
+		    	  	Double spot = o1.getData().getRatioDetectedPoints();
+		    	  	Double cap = o1.getData().getRatioCtfPoints();
+		    	  	Double def = o1.getData().getRatioDroppedCtfPoints();
+		    	  	int tier = 5; //TODO : Ajouter ER dans parse JSON
+	  	    	  	double er1= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+	  	    	  
+	            	dmg = o2.getData().getRatioDamagePoints();
+	            	frags = o2.getData().getRatioDestroyedPoints();
+		    	  	spot = o2.getData().getRatioDetectedPoints();
+		    	  	cap = o2.getData().getRatioCtfPoints();
+		    	  	def = o2.getData().getRatioDroppedCtfPoints();
+		    	  	tier = 5; //TODO : Ajouter ER dans parse JSON
+	  	    	  	double er2= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+  	    	  
+	            	Double val1 = er1;
+	            	Double val2 = er2;
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
+	    
+	    
 	    
 	    
 	    // Add a text column battleWinsColumn
