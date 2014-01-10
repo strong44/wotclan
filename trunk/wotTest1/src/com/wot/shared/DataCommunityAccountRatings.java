@@ -44,6 +44,8 @@ public class DataCommunityAccountRatings implements Serializable {
 	  private DataCommunityAccountRatingsElement ratioDestroyedPoints = new DataCommunityAccountRatingsElement();
 	
 	  private DataCommunityAccountRatingsElement ratioDetectedPoints = new DataCommunityAccountRatingsElement();
+
+	private Double averageLevelTankCalc;
 	
 	
 
@@ -156,6 +158,13 @@ public class DataCommunityAccountRatings implements Serializable {
 		this.ratioDetectedPoints.setValue(ratioDetectedPoints);
 		
 	}
-	
+	public void setAverageLevel(Double averageLevelTank) {
+		// TODO Auto-generated method stub
+		this.averageLevelTankCalc = averageLevelTank;
+	}
+	public Double getAverageLevel() {
+		// TODO Auto-generated method stub
+		return this.averageLevelTankCalc;
+	}
 	
 }
