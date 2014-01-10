@@ -306,7 +306,8 @@ public class WotTest1 implements EntryPoint {
 	    	  Double spot = object.getData().getRatioDetectedPoints();
 	    	  Double cap = object.getData().getRatioCtfPoints();
 	    	  Double def = object.getData().getRatioDroppedCtfPoints();
-	    	  int tier = 5; //TODO : Ajouter ER dans parse JSON
+	    	  object.getData().getAverageLevel();
+	    	  double tier = object.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
 	    	  double er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
 	    	  
 	    	  
