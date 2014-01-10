@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
@@ -35,13 +38,16 @@ import com.wot.shared.DataCommunityAccountRatings;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
+import com.wot.shared.DataPlayerTankRatings;
 import com.wot.shared.DataPlayerVehicles;
 import com.wot.shared.DataStatVehicle;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.ObjectFactory;
 import com.wot.shared.PlayerRatings;
+import com.wot.shared.PlayerTankRatings;
 import com.wot.shared.PlayerVehicles;
+import com.wot.shared.TankEncyclopedia;
 
 import com.wot.shared.XmlDescription;
 import com.wot.shared.XmlListAchievement;
@@ -71,6 +77,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static List<String> listUsersPersisted = new ArrayList<String>();
 	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
+	
+	static TankEncyclopedia tankEncyclopedia;
 	
 	@Override
 	protected void checkPermutationStrongName() throws SecurityException {
@@ -1621,8 +1629,6 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	@Override
 		public AllCommunityAccount getAllMembersClanAndStats( List<String> listIdUser) {
 		
-	
-		
 			String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 		
 			// Escape data from the client to avoid cross-site script vulnerabilities.
@@ -1683,11 +1689,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
 				
 				
-				
-				
 				//////////////////////////////////
-				// ==API stats des joueurs ==
-				//
+				// ==API encyclopédie des tanks - Pour obtenir le level des char (on doit calculier le tier moyen joué)
+				// Dans les stats des joueurs nous avons le tank-id mais pas son level
 				
 				//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
 				/*
@@ -1700,72 +1704,55 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					"nation_i18n":"Germany","name":"#germany_vehicles:PzIII_IV","level":5,"nation":"germany","is_premium":false,"name_i18n":"Pz.Kpfw. III\/IV","type":"mediumTank","tank_id":6417} 
 				*/
 				//=======================
-				urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
-				url = new URL(urlServer);
-				
-				conn2 = (HttpURLConnection)url.openConnection();
-				conn2.setReadTimeout(20000);
-				conn2.setConnectTimeout(20000);
-				conn2.getInputStream();
-				readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
-
-				lineUser = "";
-				AllLinesUser = "";
-
-				while ((lineUser = readerUser.readLine()) != null) {
-					AllLinesUser = AllLinesUser + lineUser;
+				if (tankEncyclopedia == null) {
+					urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
+					url = new URL(urlServer);
+					
+					conn2 = (HttpURLConnection)url.openConnection();
+					conn2.setReadTimeout(20000);
+					conn2.setConnectTimeout(20000);
+					conn2.getInputStream();
+					readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+	
+					lineUser = "";
+					AllLinesUser = "";
+	
+					while ((lineUser = readerUser.readLine()) != null) {
+						AllLinesUser = AllLinesUser + lineUser;
+					}
+					readerUser.close();
+	
+					gsonUser = new Gson();
+					tankEncyclopedia = gsonUser.fromJson(AllLinesUser, TankEncyclopedia.class);
 				}
-				//System.out.println(AllLinesUser);
 				
-				readerUser.close();
-
-				gsonUser = new Gson();
-				//log.info(AllLinesUser.substring(0, 200));
-				PlayerVehicles playerVehicles = gsonUser.fromJson(AllLinesUser, PlayerVehicles.class);
-				
-				
-				
-				
-				
-				
-				//========================
+				//API stats des joueurs ========================
+				//PB access denied sometimes
 				//http://api.worldoftanks.eu/2.0/stats/accountbytime/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=500423304&hours_ago=24
-				//Fichier Player vehicules.xml
-
-				urlServer = urlServerEU +"/2.0/stats/accountbytime/?application_id=" + applicationIdEU + "&hours_ago=24&account_id=";
 				//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
-				
-				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("https://pedro-proxy.appspot.com/"+urlServer.replaceAll("http://", "") + listIdUser.get(0));
-				}
-				else {
-					url = new URL(urlServer + listIdUser.get(0));
-				}
 				
 				// ==API stats des véhicules ==
 				//http://api.worldoftanks.eu/2.0/account/tanks/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576,502674600
-				//Fichier Player vehicules.xml
-				
+				urlServer = urlServerEU +"/2.0/account/tanks/?application_id=" + applicationIdEU + "&account_id=";
+				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+					url = new URL("https://pedro-proxy.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+				}
+				else {
+					url = new URL(urlServer + AllIdUser);
+				}
 				conn2 = (HttpURLConnection)url.openConnection();
 				conn2.setReadTimeout(20000);
 				conn2.setConnectTimeout(20000);
 				conn2.getInputStream();
 				readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
-
-				//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
 				lineUser = "";
 				AllLinesUser = "";
-
 				while ((lineUser = readerUser.readLine()) != null) {
 					AllLinesUser = AllLinesUser + lineUser;
 				}
-				//System.out.println(AllLinesUser);
-				
 				readerUser.close();
-
 				gsonUser = new Gson();
-				//log.info(AllLinesUser.substring(0, 200));
-				playerVehicles = gsonUser.fromJson(AllLinesUser, PlayerVehicles.class);
+				PlayerTankRatings playerTankRatings = gsonUser.fromJson(AllLinesUser, PlayerTankRatings.class);
 				
 				
 				/////////////////////////////////
@@ -1773,26 +1760,54 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//make some calculation of stats 
 				for(CommunityAccount communityAccount : listCommunityAccount1) {
 					String user_id = communityAccount.getIdUser();
+//					
+//					if(playerVehicles != null) {
+//						if (playerVehicles.getData() != null ) {
+//							for (DataPlayerVehicles myDataPlayerVehicles : playerVehicles.getData()) {
+//								if ( user_id == myDataPlayerVehicles.getStat().getAccount_id() ) {
+//									for (DataStatVehicle myDataStatVehicle : myDataPlayerVehicles.getStat().getVehicles() ) {
+//										log.info(""+ myDataStatVehicle.getTank_id());
+//									}
+//								}
+//							}
+//						}else {
+//							log.severe("playerVehicles.getData() is null ");
+//						}
+//					} else {
+//						log.severe("playerVehicles is null ");
+//					}
 					
-					if(playerVehicles != null) {
-						if (playerVehicles.getData() != null ) {
-							for (DataPlayerVehicles myDataPlayerVehicles : playerVehicles.getData()) {
-								if ( user_id == myDataPlayerVehicles.getStat().getAccount_id() ) {
-									for (DataStatVehicle myDataStatVehicle : myDataPlayerVehicles.getStat().getVehicles() ) {
-										log.info(""+ myDataStatVehicle.getTank_id());
-									}
-								}
-							}
-						}else {
-							log.severe("playerVehicles.getData() is null ");
-						}
-					} else {
-						log.severe("playerVehicles is null ");
+					//Rechercher dans playerTankRatings, les batailles sur tous les char du joueur ( pour caluler son tier moyen) 
+					
+					//
+					Map<String,List<DataPlayerTankRatings>> mapDataPlayerTankRatings = playerTankRatings.getData();
+					//Set<Entry<String, List<DataPlayerTankRatings>>>  setData = mapDataPlayerTankRatings.entrySet();
+					//setData.
+					List<DataPlayerTankRatings> listPlayerTanksRatings = mapDataPlayerTankRatings.get(user_id);
+					
+					//calcul du tier moyen
+					Double nbBattles = 0.0;
+					Double levelByBattles = 0.0 ; 
+					Double averageLevelTank =0.0;
+					
+					for (DataPlayerTankRatings dataPlayerTankRatings : listPlayerTanksRatings) {
+						int tankId= dataPlayerTankRatings.getTank_id() ;
+						int battles = dataPlayerTankRatings.getStatistics().getAll().getBattles();
+						//int wins = dataPlayerTankRatings.getStatistics().getAll().getWins();
+						//
+						int levelTank = tankEncyclopedia.getData().get(tankId).getLevel();
+						//
+						nbBattles = nbBattles + battles;
+						levelByBattles =levelByBattles + levelTank * battles;
 					}
-					
-					
+					averageLevelTank = levelByBattles/nbBattles;
 					
 					DataCommunityAccountRatings myDataCommunityAccountRatings = communityAccount.getData();
+					
+					//average level tank
+					myDataCommunityAccountRatings.setAverageLevel(averageLevelTank);
+					
+					log.info("averageLevelTank" + averageLevelTank);
 					
 					//== WR calculated
 					int battles = myDataCommunityAccountRatings.getBattles();
