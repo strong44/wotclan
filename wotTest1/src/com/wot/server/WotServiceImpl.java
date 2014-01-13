@@ -41,6 +41,7 @@ import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.DataPlayerTankRatings;
 import com.wot.shared.DataPlayerVehicles;
 import com.wot.shared.DataStatVehicle;
+import com.wot.shared.DataTankEncyclopedia;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.ObjectFactory;
@@ -1725,6 +1726,28 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					gsonUser = new Gson();
 					tankEncyclopedia = gsonUser.fromJson(AllLinesUser, TankEncyclopedia.class);
 				}
+				if (tankEncyclopedia == null) {
+					log.severe("tankEncyclopedia is null" );
+					
+				}
+				else {
+					log.warning("tankEncyclopedia is good" );
+					if (tankEncyclopedia.getData() ==null ) {
+						log.severe("tankEncyclopedia data is null" );
+					}
+					else {
+						 Set<Entry<String, DataTankEncyclopedia>>  set = tankEncyclopedia.getData().entrySet();
+						
+//						for(Entry<String, DataTankEncyclopedia> entry : set) {
+//							log.warning(entry.getValue().getName());
+//							log.warning(entry.getKey());
+//						}
+						if (tankEncyclopedia.getData().get("6417") == null ){
+							log.severe("tankEncyclopedia data get tank id 1 is null" );
+						}
+					}
+							
+				}
 				
 				//API stats des joueurs ========================
 				//PB access denied sometimes
@@ -1795,7 +1818,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						int battles = dataPlayerTankRatings.getStatistics().getAll().getBattles();
 						//int wins = dataPlayerTankRatings.getStatistics().getAll().getWins();
 						//
-						int levelTank = tankEncyclopedia.getData().get(tankId).getLevel();
+						log.warning("tankId :" + tankId );
+						if (tankEncyclopedia.getData().get(String.valueOf(tankId)) == null )
+							log.severe ("tankEncyclopedia.getData().get(tankId) is null ");
+						
+						int levelTank = tankEncyclopedia.getData().get(String.valueOf(tankId)).getLevel();
 						//
 						nbBattles = nbBattles + battles;
 						levelByBattles =levelByBattles + levelTank * battles;
@@ -1823,13 +1850,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					//== Ratio capture points calculated
 					int ctfPoints = myDataCommunityAccountRatings.getCtf_points();
-					Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);
+					Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);// 1,28 :1 = 1.28 
 					
 					//on ne conserve que 2 digits après la virgule 
 					//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-					int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex : 128,27
+					int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex intCtfPointsCal : 128,27 ctfPointsCal = 1.28
 					
-					ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex : 1,28
+					ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex ctfPointsCal : 1,28 intCtfPointsCal = 128
 					myDataCommunityAccountRatings.setRatioCtfPoints(ctfPointsCal);
 					
 					//==Damage Ration calculated
