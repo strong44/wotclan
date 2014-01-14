@@ -254,6 +254,8 @@ public class TransformDtoObject {
 		
 		myDaoDataCommunityAccountRatings.setXp(new Double(dataCommunityAccountRatings.getXp()));
 		
+		myDaoDataCommunityAccountRatings.setAverageLevel(new Double(dataCommunityAccountRatings.getAverageLevel()));
+		
 		return myDaoDataCommunityAccountRatings;
 	}
 
