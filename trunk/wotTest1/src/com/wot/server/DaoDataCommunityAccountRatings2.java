@@ -69,6 +69,9 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	
 	@Persistent
 	  private DaoDataCommunityAccountRatingsElement2 ratioDetectedPoints = new DaoDataCommunityAccountRatingsElement2();
+
+	@Persistent
+	private Double averageLevelCal;
 	
 	
 
@@ -180,6 +183,10 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	public void setRatioDetectedPoints(Double ratioDetectedPoints) {
 		this.ratioDetectedPoints.setValue(ratioDetectedPoints);
 		
+	}
+	public void setAverageLevel(Double averageLevel) {
+		// TODO Auto-generated method stub
+		this.averageLevelCal = averageLevel;
 	}
 	
 	
