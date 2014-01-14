@@ -309,7 +309,15 @@ public class WotTest1 implements EntryPoint {
 	    	  object.getData().getAverageLevel();
 	    	  double tier = object.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
 	    	  double er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
-	    	  
+	    	  /*
+	    	   * wrCal = wrCal * 100; //ex : 51,844444
+					int intWrCal = (int) (wrCal * 100); //ex : 5184
+					
+					wrCal = (double)intWrCal / 100 ; //ex : 51,84
+	    	   */
+	    	  //er = er * 100;
+	    	  int erTruncate= (int) (er * 100);
+	    	  er = (double)erTruncate/100;
 	    	  
 	        return String.valueOf(er);
 	      }
@@ -333,7 +341,7 @@ public class WotTest1 implements EntryPoint {
 		    	  	Double spot = o1.getData().getRatioDetectedPoints();
 		    	  	Double cap = o1.getData().getRatioCtfPoints();
 		    	  	Double def = o1.getData().getRatioDroppedCtfPoints();
-		    	  	int tier = 5; //TODO : Ajouter ER dans parse JSON
+		    	  	double tier = o1.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
 	  	    	  	double er1= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
 	  	    	  
 	            	dmg = o2.getData().getRatioDamagePoints();
@@ -341,7 +349,7 @@ public class WotTest1 implements EntryPoint {
 		    	  	spot = o2.getData().getRatioDetectedPoints();
 		    	  	cap = o2.getData().getRatioCtfPoints();
 		    	  	def = o2.getData().getRatioDroppedCtfPoints();
-		    	  	tier = 5; //TODO : Ajouter ER dans parse JSON
+		    	  	tier = o2.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
 	  	    	  	double er2= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
   	    	  
 	            	Double val1 = er1;
@@ -353,6 +361,78 @@ public class WotTest1 implements EntryPoint {
 	        });
 
 	    
+	    // Add a text column to show the wn8.
+	    TextColumn<CommunityAccount> wn8CalcColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	    	  /*
+	    	   =465 * FRAGS + 
+				DMG*530/(184*EXP(1)^(0,24*TIER)) + 
+				125*SPOT + 
+				SI(DEF>1,6;1,6;DEF)*70 + 
+				((185/(0,17+EXP(1)^((WR-35)*-0,134)))-500)*0,45
+	    	   */
+	    	  Double dmg = object.getData().getRatioDamagePoints();
+	    	  Double frags = object.getData().getRatioDestroyedPoints();
+	    	  Double spot = object.getData().getRatioDetectedPoints();
+	    	  Double cap = object.getData().getRatioCtfPoints();
+	    	  Double def = object.getData().getRatioDroppedCtfPoints();
+	    	  Double wr =object.getData().getBattle_avg_performanceCalc();
+	    	  //on plafonne def à 1.6
+	    	  if (def > 1.6)
+	    		  def = 1.6 ;
+	    	  
+	    	  double tier = object.getData().getAverageLevel(); 
+	    	  
+	    	  double wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
+					+ 125*spot + 
+					+ def*70  
+					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
+	    	  
+	    	  int wnTruncate= (int) (wn8 * 100);
+	    	  wn8 = (double)wnTruncate/100;
+	    	  
+	        return String.valueOf(wn8);
+	      }
+	    };
+	    tableStatsCommAcc.addColumn(wn8CalcColumn, "WN8");
+	    
+	    wn8CalcColumn.setSortable(false);
+	    
+//	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+//	    columnSortHandler.setComparator(wn8CalcColumn,
+//	        new Comparator<CommunityAccount>() {
+//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+//	            if (o1 == o2) {
+//	              return 0;
+//	            }
+//
+//	            // Compare the columns.
+//	            if (o1 != null) {
+//	            	Double dmg = o1.getData().getRatioDamagePoints();
+//	            	Double frags = o1.getData().getRatioDestroyedPoints();
+//		    	  	Double spot = o1.getData().getRatioDetectedPoints();
+//		    	  	Double cap = o1.getData().getRatioCtfPoints();
+//		    	  	Double def = o1.getData().getRatioDroppedCtfPoints();
+//		    	  	double tier = o1.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
+//	  	    	  	double er1= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+//	  	    	  
+//	            	dmg = o2.getData().getRatioDamagePoints();
+//	            	frags = o2.getData().getRatioDestroyedPoints();
+//		    	  	spot = o2.getData().getRatioDetectedPoints();
+//		    	  	cap = o2.getData().getRatioCtfPoints();
+//		    	  	def = o2.getData().getRatioDroppedCtfPoints();
+//		    	  	tier = o2.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
+//	  	    	  	double er2= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+//  	    	  
+//	            	Double val1 = er1;
+//	            	Double val2 = er2;
+//	              return (o2 != null) ? val1.compareTo(val2) : 1;
+//	            }
+//	            return -1;
+//	          }
+//	        });
+
 	    
 	    
 	    
