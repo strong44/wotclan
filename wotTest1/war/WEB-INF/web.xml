@@ -17,12 +17,12 @@
   </servlet-mapping>
   
    <servlet>
-        <servlet-name>simpleservletapp</servlet-name>
-        <servlet-class>com.wot.server.SimpleServletAppServlet</servlet-class>
+        <servlet-name>cronPersistPlayersStats</servlet-name>
+        <servlet-class>com.wot.server.CronPersistPlayersStats</servlet-class>
    </servlet>
    <servlet-mapping>
-        <servlet-name>simpleservletapp</servlet-name>
-        <url-pattern>/simpleservletapp</url-pattern>
+        <servlet-name>cronPersistPlayersStats</servlet-name>
+        <url-pattern>/cronPersistPlayersStats</url-pattern>
    </servlet-mapping>
       
   <!-- Default page to serve -->
