@@ -191,7 +191,8 @@ public class TransformDtoObject {
 		//myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
 		myCommunityAccount.setIdUser(daoAccount.getIdUser());
 		//myCommunityAccount.setDateCommunityAccount(daoAccount.getDateCommunityAccount());
-		myCommunityAccount.setName(daoAccount.getName());	
+		myCommunityAccount.setName(daoAccount.getName());
+		//bug here data is null !!
 		//myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
 		
 		return myCommunityAccount;

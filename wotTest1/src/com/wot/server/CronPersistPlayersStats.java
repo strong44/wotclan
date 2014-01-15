@@ -131,7 +131,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 		List<String> listIdUser = new ArrayList<String>();
 		
 		try {
-			///Recuperation de l'encyclopédie des tanks ( nécessaire pour connaitre le level de chaque char )  (pour calcul average level) 
+			///Recuperation de l'encyclopï¿½die des tanks ( nï¿½cessaire pour connaitre le level de chaque char )  (pour calcul average level) 
 			//=======================
 			if (tankEncyclopedia == null) {
 				String urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
@@ -155,7 +155,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				tankEncyclopedia = gsonUser.fromJson(AllLinesUser, TankEncyclopedia.class);
 			}
 			
-			//contrôle --------
+			//contrï¿½le --------
 			if (tankEncyclopedia == null) {
 				log.severe("tankEncyclopedia is null" );
 				
@@ -225,14 +225,14 @@ public class CronPersistPlayersStats extends HttpServlet {
 				}//for (DataCommunityClanMembers
 			} else {
 	
-				System.out.println("Erreur de parse");
+				log.severe("Erreur de parse");
 			}
 			////
 			String AllIdUser ="";
 			for(String idUser :listIdUser) {
 				AllIdUser = AllIdUser + "," + idUser;
 			}
-						
+			
 			URL url = null ;
 			
 			String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
@@ -259,6 +259,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 			while ((lineUser = readerUser.readLine()) != null) {
 				AllLinesUser = AllLinesUser + lineUser;
 			}
+			log.warning(url + " --> " + AllLinesUser.substring(0, 400)); 
 			
 			readerUser.close();
 			Gson gsonUser = new Gson();
@@ -266,8 +267,10 @@ public class CronPersistPlayersStats extends HttpServlet {
 			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sï¿½rialisation (pas de MAP !!))
 			List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
 			
+			log.warning("TransformPlayerRatingsToListCommunityAccount done ");
 			////////////////////
-			//recup des stats de batailles par tank et par joueur (pour calcul average level) 
+			//recup des stats de batailles par tank et par joueur (pour calcul average level) -- strong44  -- gexman47 
+			//"http://api.worldoftanks.eu/2.0/account/tanks/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576,506763437";
 			urlServer = urlServerEU +"/2.0/account/tanks/?application_id=" + applicationIdEU + "&account_id=";
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
 				url = new URL("https://pedro-proxy.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
@@ -286,12 +289,20 @@ public class CronPersistPlayersStats extends HttpServlet {
 			while ((lineUser = readerUser.readLine()) != null) {
 				AllLinesUser = AllLinesUser + lineUser;
 			}
+			log.warning(url + " --> " + AllLinesUser.substring(0, 400)); 
+			
+			
 			readerUser.close();
 			gsonUser = new Gson();
 			PlayerTankRatings playerTankRatings = gsonUser.fromJson(AllLinesUser, PlayerTankRatings.class);
-			//
+			
+			//pb mapDataPlayerTankRatings is null !!!!!!
 			Map<String,List<DataPlayerTankRatings>> mapDataPlayerTankRatings = playerTankRatings.getData();
 			
+			if(mapDataPlayerTankRatings != null )
+				log.warning("playerTankRatings.getData() done mapDataPlayerTankRatings is good");
+			else 
+				log.warning("playerTankRatings.getData() done  mapDataPlayerTankRatings is null !!!");
 			
 			/////////////////////
 			for(CommunityAccount communityAccount : listCommunityAccount1) {
@@ -301,6 +312,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					
 					//make some calculation of stats 
 					//calcul average level 
+					log.warning("communityAccount.getIdUser() " + communityAccount.getIdUser());
 					List<DataPlayerTankRatings> listPlayerTanksRatings = mapDataPlayerTankRatings.get(communityAccount.getIdUser());
 					
 					//calcul du tier moyen
@@ -316,12 +328,13 @@ public class CronPersistPlayersStats extends HttpServlet {
 						//log.warning("tankId :" + tankId );
 						if (tankEncyclopedia.getData().get(String.valueOf(tankId)) == null )
 							log.severe ("tankEncyclopedia.getData().get(tankId) is null ");
-						
-						int levelTank = tankEncyclopedia.getData().get(String.valueOf(tankId)).getLevel();
-						//
-						nbBattles = nbBattles + battles;
-						levelByBattles =levelByBattles + levelTank * battles;
-					}
+						else {
+							int levelTank = tankEncyclopedia.getData().get(String.valueOf(tankId)).getLevel();
+							//
+							nbBattles = nbBattles + battles;
+							levelByBattles =levelByBattles + levelTank * battles;
+						}
+					}//for
 					averageLevelTank = levelByBattles/nbBattles;
 					DataCommunityAccountRatings myDataCommunityAccountRatings = communityAccount.getData();
 					
@@ -363,15 +376,25 @@ public class CronPersistPlayersStats extends HttpServlet {
 		} catch (MalformedURLException e) {
 			// ...
 			log.throwing("Persist stats", "", e);
-			log.severe(e.getLocalizedMessage());
+			log.severe("MalformedURLException " + e.getLocalizedMessage());
+			e.printStackTrace();
 		} catch (IOException e) {
 			// ...
 			log.throwing("Persist stats", "", e);
+			log.severe("IOException " + e.getLocalizedMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
 				// ...
 			log.throwing("Persist stats", "", e);
-			log.severe(e.getLocalizedMessage());
+			log.severe("Exception " + e.getLocalizedMessage());
+			 StackTraceElement[] stack = e.getStackTrace();
+			 for (StackTraceElement st : stack) {
+				 log.severe(st.getMethodName()+":"+st.getLineNumber());
+				 
+				 
+			 }
+			 
+			//e.printStackTrace();
 		}
 		finally {
 			if (pm != null)

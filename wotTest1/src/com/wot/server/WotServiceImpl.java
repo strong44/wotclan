@@ -2442,7 +2442,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						
 						//Set<Entry<String, List<DataPlayerTankRatings>>>  setData = mapDataPlayerTankRatings.entrySet();
 						//setData.
-						
+						log.warning("mapCommAcc " + mapCommAcc);
 						CommunityAccount  commAcc= mapCommAcc.get(user_id);
 						
 						//calcul du tier moyen
