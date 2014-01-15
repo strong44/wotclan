@@ -75,6 +75,9 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	
 	
 
+	public Double getAverageLevel() {
+		return averageLevelCal;
+	}
 	public Double getRatioDetectedPoints() {
 		return ratioDetectedPoints.getValue();
 	}
