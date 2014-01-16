@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
@@ -322,7 +323,9 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(er);
 	      }
 	    };
-	    tableStatsCommAcc.addColumn(erCalcColumn, "Efficient rating");
+	    //erCalcColumn.
+	    tableStatsCommAcc.addColumn(erCalcColumn,SafeHtmlUtils.fromSafeConstant("<span title='Formule ER=dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150'>Efficient rating</span>")); 
+	    //SafeHtmlUtils.fromSafeConstant("<span title='Formule ER=dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150'>Efficient rating</span>");
 	    
 	    erCalcColumn.setSortable(true);
 	    
@@ -359,7 +362,7 @@ public class WotTest1 implements EntryPoint {
 	            return -1;
 	          }
 	        });
-
+	    
 	    
 	    // Add a text column to show the wn8.
 	    TextColumn<CommunityAccount> wn8CalcColumn = new TextColumn<CommunityAccount>() {
@@ -375,7 +378,7 @@ public class WotTest1 implements EntryPoint {
 	    	  Double dmg = object.getData().getRatioDamagePoints();
 	    	  Double frags = object.getData().getRatioDestroyedPoints();
 	    	  Double spot = object.getData().getRatioDetectedPoints();
-	    	  Double cap = object.getData().getRatioCtfPoints();
+	    	  //Double cap = object.getData().getRatioCtfPoints();
 	    	  Double def = object.getData().getRatioDroppedCtfPoints();
 	    	  Double wr =object.getData().getBattle_avg_performanceCalc();
 	    	  //on plafonne def à 1.6
@@ -395,45 +398,102 @@ public class WotTest1 implements EntryPoint {
 	        return String.valueOf(wn8);
 	      }
 	    };
-	    tableStatsCommAcc.addColumn(wn8CalcColumn, "WN8");
+	    tableStatsCommAcc.addColumn(wn8CalcColumn, SafeHtmlUtils.fromSafeConstant("<span title='Formule WN8=465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier))) + 125*spot + def*70 + ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45. Plafond de DEF à 1,6 '>WN8</span>"));
 	    
-	    wn8CalcColumn.setSortable(false);
+	    wn8CalcColumn.setSortable(true);
 	    
-//	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-//	    columnSortHandler.setComparator(wn8CalcColumn,
-//	        new Comparator<CommunityAccount>() {
-//	          public int compare(CommunityAccount o1, CommunityAccount o2) {
-//	            if (o1 == o2) {
-//	              return 0;
-//	            }
-//
-//	            // Compare the columns.
-//	            if (o1 != null) {
-//	            	Double dmg = o1.getData().getRatioDamagePoints();
-//	            	Double frags = o1.getData().getRatioDestroyedPoints();
-//		    	  	Double spot = o1.getData().getRatioDetectedPoints();
-//		    	  	Double cap = o1.getData().getRatioCtfPoints();
-//		    	  	Double def = o1.getData().getRatioDroppedCtfPoints();
-//		    	  	double tier = o1.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
-//	  	    	  	double er1= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
-//	  	    	  
-//	            	dmg = o2.getData().getRatioDamagePoints();
-//	            	frags = o2.getData().getRatioDestroyedPoints();
-//		    	  	spot = o2.getData().getRatioDetectedPoints();
-//		    	  	cap = o2.getData().getRatioCtfPoints();
-//		    	  	def = o2.getData().getRatioDroppedCtfPoints();
-//		    	  	tier = o2.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
-//	  	    	  	double er2= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
-//  	    	  
-//	            	Double val1 = er1;
-//	            	Double val2 = er2;
-//	              return (o2 != null) ? val1.compareTo(val2) : 1;
-//	            }
-//	            return -1;
-//	          }
-//	        });
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(wn8CalcColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
 
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	Double dmg = o1.getData().getRatioDamagePoints();
+		  	    	Double frags = o1.getData().getRatioDestroyedPoints();
+		  	    	Double spot = o1.getData().getRatioDetectedPoints();
+		  	    	//Double cap = object.getData().getRatioCtfPoints();
+		  	    	Double def = o1.getData().getRatioDroppedCtfPoints();
+		  	    	Double wr =o1.getData().getBattle_avg_performanceCalc();
+		  	    	  //on plafonne def à 1.6
+		  	    	if (def > 1.6)
+		  	    		def = 1.6 ;
+		  	    	  
+		  	    	double tier = o1.getData().getAverageLevel(); 
+		  	    	  
+		  	    	double o1wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
+		  					+ 125*spot + 
+		  					+ def*70  
+		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
+	  	    	  
+		  	    	dmg = o2.getData().getRatioDamagePoints();
+		  	    	frags = o2.getData().getRatioDestroyedPoints();
+		  	    	spot = o2.getData().getRatioDetectedPoints();
+		  	    	//Double cap = object.getData().getRatioCtfPoints();
+		  	    	def = o2.getData().getRatioDroppedCtfPoints();
+		  	    	wr =o2.getData().getBattle_avg_performanceCalc();
+		  	    	  //on plafonne def à 1.6
+		  	    	if (def > 1.6)
+		  	    		def = 1.6 ;
+		  	    	  
+		  	    	tier = o2.getData().getAverageLevel(); 
+		  	    	  
+		  	    	double o2wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
+		  					+ 125*spot + 
+		  					+ def*70  
+		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;	    	  
+	            	Double val1 = o1wn8;
+	            	Double val2 = o2wn8;
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
+	    // Add a text column to show the average tier.
+	    TextColumn<CommunityAccount> tierCalcColumn = new TextColumn<CommunityAccount>() {
+	      @Override
+	      public String getValue(CommunityAccount object) {
+	    	  double tier = object.getData().getAverageLevel(); 
+	    	  
+	    	  
+	    	  int wnTruncate= (int) (tier * 100);
+	    	  tier = (double)wnTruncate/100;
+	    	  
+	        return String.valueOf(tier);
+	      }
+	    };
+	    tableStatsCommAcc.addColumn(tierCalcColumn, "Avg Tier");
 	    
+	    tierCalcColumn.setSortable(true);
+	    
+	    // Add a ColumnSortEvent.ListHandler to connect sorting to the
+	    columnSortHandler.setComparator(tierCalcColumn,
+	        new Comparator<CommunityAccount>() {
+	          public int compare(CommunityAccount o1, CommunityAccount o2) {
+	            if (o1 == o2) {
+	              return 0;
+	            }
+
+	            // Compare the columns.
+	            if (o1 != null) {
+	            	
+		  	    	  
+		  	    	double tier1 = o1.getData().getAverageLevel(); 
+		  	    	double tier2 = o2.getData().getAverageLevel(); 
+		  	    	  
+		  	    		    	  
+	            	Double val1 = tier1;
+	            	Double val2 = tier2;
+	              return (o2 != null) ? val1.compareTo(val2) : 1;
+	            }
+	            return -1;
+	          }
+	        });
+
 	    
 	    
 	    // Add a text column battleWinsColumn
