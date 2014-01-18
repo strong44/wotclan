@@ -4260,7 +4260,7 @@ public class WotTest1 implements EntryPoint {
 	        
 	      }
 	    });
-
+	   
 	    // Set the total row count. This isn't strictly necessary, but it affects
 	    // paging calculations, so its good habit to keep the row count up to date.
 	    
@@ -4268,7 +4268,7 @@ public class WotTest1 implements EntryPoint {
 
 	    // Push the data into the widget.
 	    tableClan.setRowData(0, listClan.getItems());            //idem no nedd dataprovider
-	    
+	   
 	 // Connect the table to the data provider.
 	    dataClanProvider.addDataDisplay(tableClan);
 	    dataClanProvider.refresh();
@@ -4324,7 +4324,7 @@ public class WotTest1 implements EntryPoint {
 			 /**
 			   * An instance of the constants.
 			   */
-			final CwConstants constants = GWT.create(CwConstants.class);
+			//final CwConstants constants = GWT.create(CwConstants.class);
 			
 			rootPanel = RootPanel.get();
 			Date today = new Date();
@@ -4431,9 +4431,10 @@ public class WotTest1 implements EntryPoint {
 			
 			//next row button search Clan's users
 			posTop = posTop + 35;
-			Button searchUsersClanButton = new Button("Clan's Users");
+			final Button searchUsersClanButton = new Button("Clan's Users");
 			rootPanel.add(searchUsersClanButton, 10, posTop);
 			searchUsersClanButton.setSize("210px", "28px");
+			searchUsersClanButton.setEnabled(false);
 
 			// Add a drop box with the clan's users
 		    final ListBox dropBoxClanUsers = new ListBox(true);
@@ -4446,11 +4447,11 @@ public class WotTest1 implements EntryPoint {
 	
 			//next row -- button search stats member's clan
 			posTop = posTop + 35 ;
-			final Button findMembersClanButton = new Button("Send");
-			findMembersClanButton.setText("Stats");
-			rootPanel.add(findMembersClanButton, 10, posTop);
-			findMembersClanButton.setSize("210px", "28px");
-			findMembersClanButton.setEnabled(false);
+			final Button statsMembersButton = new Button("Send");
+			statsMembersButton.setText("Stats");
+			rootPanel.add(statsMembersButton, 10, posTop);
+			statsMembersButton.setSize("210px", "28px");
+			statsMembersButton.setEnabled(false);
 
 			//findHistorizedStatsButton
 			posTop = posTop + 35 ;
@@ -4629,83 +4630,6 @@ public class WotTest1 implements EntryPoint {
 										//construct column in celltable tableClan , set data set sort handler etc ..
 										buildACellTableForCommunityClan(listClan);
 										
-										//get wiki wot (pour les m�dailles)
-//										xmlWiki = listClan.getWiki();
-//										
-//										//add items to listbox of category achievement
-//										final HashMap<String, List<XmlListAchievement>> hashMapAch = buidHashMapCategoryAchievement(xmlWiki);//Battle Hero Achievements - Commemorative Achievements - Epic Achievements (medals) - Special Achievements (titles) - Step Achievements (medals) 
-//										Set<String> setKeysCat = hashMapAch.keySet();
-//										Object[] listCat = (Object[])setKeysCat.toArray();
-//
-//										dropBoxCategoryAchievement.addItem("All Achievements");
-//									    for (int i = 0; i < listCat.length; i++) {
-//										      dropBoxCategoryAchievement.addItem((String)listCat[i]);
-//										}
-									    
-//									    // Add a handler to handle dropBoxCategoryAchievement
-//									    dropBoxCategoryAchievement.addChangeHandler(new ChangeHandler() {
-//									      public void onChange(ChangeEvent event) {
-//									        //showCategory(dropBoxAchievement, dropBoxCategoryAchievement.getSelectedIndex());
-//									    	  
-//									        dropBoxAchievement.ensureDebugId("cwListBox-multiBox");
-//									        
-//									        //on efface la liste box des m�dailles
-//									        dropBoxAchievement.clear();
-//									        int indexSelected = dropBoxCategoryAchievement.getSelectedIndex();
-//									        
-//									        if(indexSelected >= 0 ) {
-//									        	List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
-//									        	String valueSelected = dropBoxCategoryAchievement.getValue(indexSelected);
-//									        	if("All Achievements".equalsIgnoreCase(valueSelected)) {
-//									        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
-//									        		for (List<XmlListAchievement> list : col ) {
-//									        			for (XmlListAchievement ach : list ) {
-//									        				
-//									        				listAchievement.add(ach);
-//									        			}
-//									        		}
-//									        	}else {
-//									        		listAchievement = hashMapAch.get(valueSelected);
-//									        	}
-//										        
-//										        for ( XmlListAchievement ach : listAchievement)	{
-//										        	String nameAch = ach.getNAME();
-//										        	dropBoxAchievement.addItem(nameAch);
-//										        }
-//									        }
-//									        
-//									      }
-//									    });
-//									    //set all achievement of listbox
-//									    List<XmlListAchievement> listAchievement = new ArrayList<XmlListAchievement>();
-//						        		Collection<List<XmlListAchievement>>  col = hashMapAch.values();
-//						        		for (List<XmlListAchievement> list : col ) {
-//						        			for (XmlListAchievement ach : list ) {
-//						        				listAchievement.add(ach);
-//						        			}
-//						        		}
-//						        
-//							        	for ( XmlListAchievement ach : listAchievement)	{
-//								        	String nameAch = ach.getNAME();
-//								        	dropBoxAchievement.addItem(nameAch);
-//								        }
-									    
-//										//Create a Pager to control the table.
-//									    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-//									    pagerClan = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-//									    pagerClan.setDisplay(tableClan);
-										
-								    
-									    //add to dock panel ======
-//									    dockPanel.add(pagerClan, DockPanel.SOUTH);
-//									    pagerClan.setPage(10);
-//									    pagerClan.setVisible(true);
-//										
-//										dockPanel.add(tableClan, DockPanel.SOUTH);
-//										tableClan.setVisible(true);
-//										tableClan.setFocus(true);
-										
-										
 									    ScrollPanel sPanel = new ScrollPanel();
 									    //
 									    sPanel.setStyleName("myCellTableStyle");
@@ -4716,81 +4640,11 @@ public class WotTest1 implements EntryPoint {
 									    tp.add(sPanel, "Clans");
 										dockPanel.add(tp, DockPanel.SOUTH);
 										tp.selectTab(0);
-										
-										/*
-										Label close = new Label();
-								        close.setText("X");
-								        close.setTitle("Clans" );
-								        //
-								        Label text = new Label();
-								        text.setText("headingText");
-								        text.setStyleDependentName("text", true);
-								        //
-								        HorizontalPanel sPanel = new HorizontalPanel();
-									    sPanel.setStyleName("myCellTableStyle");
-									    //sPanel.setAlwaysShowScrollBars(true);
-									    sPanel.setHeight("500px");
-									    sPanel.setTitle("oooo");
-									    //sPanel.add(pagerClan);
-									    sPanel.add(text);
-									    sPanel.add(close);
-									    //
-									    sPanel.add(tableClan);
-									    tp.add(sPanel);
-										dockPanel.add(tp, DockPanel.SOUTH);
-										tp.selectTab(0);
-										
-										 close.addClickHandler(new ClickHandler() {
-												
-									            @Override
-									            public void onClick(ClickEvent event) {
-									                Window.alert("close this tab");
-									                tp.remove(tp.getWidget(0));
-									            }
-									        });
-										 */
-										/*
-										 * HorizontalPanel panel = new HorizontalPanel();
-								        panel.setStyleName("tabHeader");
-								        panel.setTitle(tooltip);
-								        Label text = new Label();
-								        text.setText(headingText);
-								        text.setStyleDependentName("text", true);
-								        Label close = new Label();
-								        close.setText("X");
-								        close.setTitle(closeText_ + headingText);
-								        text.setStyleDependentName("close", true);
-								        close.addClickHandler(new ClickHandler() {
-								
-								            @Override
-								            public void onClick(ClickEvent event) {
-								                Window.alert("close this tab");
-								                ClientGlobal.LOG.info("widget : " + tabPanel_.getWidgetIndex(widget));
-								                tabPanel_.remove(tabPanel_.getWidgetIndex(widget));
-								            }
-								        });
-								        panel.add(text);
-								        panel.add(close);
-								        panel.setCellHorizontalAlignment(text, HasHorizontalAlignment.ALIGN_LEFT);
-								        panel.setCellHorizontalAlignment(close, HasHorizontalAlignment.ALIGN_RIGHT);
-								
-								        tabPanel_.add(widget, panel);
-								        tabPanel_.getTabWidget(widget).setTitle(tooltip);
-								        tabPanel_.selectTab(widget);
-										 */
-										
-										
-									    //tp.add(pagerClan, "Clans");
-									    //pagerClan.setPage(10);
-									    //pagerClan.setVisible(true);
-									    
+
 										tableClan.setVisible(true);
 										tableClan.setFocus(true);
 
-										findMembersClanButton.setEnabled(true);
-										findHistorizedStatsButton.setEnabled(true);
-										//findHistorizedStatsTanksButton.setEnabled(true);
-										//findAchievementsMemberButton.setEnabled(true);
+										searchUsersClanButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 �lments dans TAB
 										if(listClan.getItems().size()== 100)
@@ -4798,6 +4652,11 @@ public class WotTest1 implements EntryPoint {
 										else {
 											searchClansButtonMore.setEnabled(false);
 										}
+										if(listClan.getItems().size()== 1) {
+											
+											tableClan.getSelectionModel().setSelected(listClan.getItems().get(0), true);
+										}
+										
 									}else {
 										dialogBox
 										.setText(status_code);
@@ -5094,10 +4953,7 @@ public class WotTest1 implements EntryPoint {
 									dockPanel.remove(tableStatsCommAcc);
 									dockPanel. remove(tableClan);
 									
-//									if (pagerStatsCommunityAccount != null) 
-//										dockPanel.remove(pagerStatsCommunityAccount);
-//									if (pagerClan != null) 
-//										dockPanel.remove(pagerClan);
+
 									
 									if (dataStatsProvider.getDataDisplays()!= null && !dataStatsProvider.getDataDisplays().isEmpty()) 
 										dataStatsProvider.removeDataDisplay(tableStatsCommAcc);
@@ -5127,25 +4983,14 @@ public class WotTest1 implements EntryPoint {
 									dockPanel.add(tp, DockPanel.SOUTH);
 									tp.selectTab(count-1);
 								    
-								    ////////
-							    
-								    //add to dock panel ======
-//								    dockPanel.add(pagerStatsCommunityAccount, DockPanel.SOUTH);
-//									pagerStatsCommunityAccount.setPage(10);
-//									pagerStatsCommunityAccount.setVisible(true);
-//									
-//									dockPanel.add(tableStatsCommAcc, DockPanel.SOUTH);
-//									tableStatsCommAcc.setVisible(true);
-//								    
-//									dockPanel.add(pagerClan, DockPanel.SOUTH);
-//									dockPanel.add(tableClan, DockPanel.SOUTH);
-									
 									tableClan.setVisible(true);
 									//pagerClan.setVisible(true);
 									
 									tableStatsCommAcc.setFocus(true);
 									//dialogBox.center();
 									//closeButton.setFocus(true);
+//									statsMembersButton.setEnabled(true);
+//									findHistorizedStatsButton.setEnabled(true);
 								}
 							});
 					//searchClanButton.setEnabled(true);
@@ -5525,6 +5370,8 @@ public class WotTest1 implements EntryPoint {
 										dropBoxClanUsers.addItem(originalName, hmAccNameAccId.get(originalName));
 									}
 									dropBoxClanUsers.setFocus(true);
+									statsMembersButton.setEnabled(true);
+									findHistorizedStatsButton.setEnabled(true);
 								}
 							});
 				}
@@ -5536,7 +5383,7 @@ public class WotTest1 implements EntryPoint {
 
 			// Add a handler to send the name to the server
 			HandlerGetAllMembersClanAndStats handlerFindMembers = new HandlerGetAllMembersClanAndStats();
-			findMembersClanButton.addClickHandler(handlerFindMembers);
+			statsMembersButton.addClickHandler(handlerFindMembers);
 				
 			// Add a handler to find historized stats 
 			HandlerGetHistorizedStats handlerGetHistorizedStats = new HandlerGetHistorizedStats();
