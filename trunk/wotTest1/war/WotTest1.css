@@ -96,20 +96,14 @@ h1 {
 }
 
 
-/*le premier header*/
-.myCellTableStyle th:first-child {
-    border-left: 1px solid #d3d3d3;
-    opacity:0.6;
-    font-weight: bold;
-     color: red;
-     background-color: #2F2C2B;
-}
+
 /*les autres header*/
 .myCellTableStyle th {
     border-right: 1px solid #d3d3d3;
     opacity:0.6;
-    font-weight: bold;
+    /*font-weight: bold;*/
      color: red;
       background-color: #2F2C2B;
+      font-size: 11pt;
 }
 
