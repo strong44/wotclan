@@ -31,6 +31,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -40,11 +41,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -62,7 +66,11 @@ import com.wot.shared.XmlListAchievement;
 import com.wot.shared.XmlListCategoryAchievement;
 import com.wot.shared.XmlSrc;
 import com.wot.shared.XmlWiki;
-
+import com.googlecode.gwt.charts.client.ChartLoader;
+import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
 
 
 
@@ -71,6 +79,11 @@ import com.wot.shared.XmlWiki;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class WotTest1 implements EntryPoint {
+	/////////
+	private SimpleLayoutPanel layoutPanel;
+    private PieChart pieChart;
+	/////////
+    
 	static boolean adminLogin = false ;
 	static String noData = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8KRYghA2Xyp8gWTkK4ZNtBQL2nixsiYdAFDeFBCaj_ylXcfhK";
 	//XmlWiki xmlWiki = null;
@@ -4316,9 +4329,22 @@ public class WotTest1 implements EntryPoint {
 		 * This is the entry point method.
 		 */
 	public void onModuleLoad() {
-		
-		
+
+		Window.enableScrolling(false);
+        Window.setMargin("0px");
+
+        RootLayoutPanel.get().add(getSimpleLayoutPanel());
+
+			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+			 chartLoader.loadApi(new Runnable() {
 			
+			     @Override
+			     public void run() {
+			             getSimpleLayoutPanel().setWidget(getPieChart());
+			             drawPieChart();
+			     }
+			 });
+		 
 			final Label errorLabel = new Label();
 			
 			 /**
@@ -7459,7 +7485,38 @@ public class WotTest1 implements EntryPoint {
 
 	
 			
-			
+		private SimpleLayoutPanel getSimpleLayoutPanel() {
+	             if (layoutPanel == null) {
+	                     layoutPanel = new SimpleLayoutPanel();
+	             }
+	             return layoutPanel;
+	     }
+
+	     private Widget getPieChart() {
+	             if (pieChart == null) {
+	                     pieChart = new PieChart();
+	             }
+	             return pieChart;
+	     }
+
+	     private void drawPieChart() {
+	             // Prepare the data
+	             DataTable dataTable = DataTable.create();
+	             dataTable.addColumn(ColumnType.STRING, "Name");
+	             dataTable.addColumn(ColumnType.NUMBER, "Donuts eaten");
+	             dataTable.addRows(4);
+	             dataTable.setValue(0, 0, "Michael");
+	             dataTable.setValue(1, 0, "Elisa");
+	             dataTable.setValue(2, 0, "Robert");
+	             dataTable.setValue(3, 0, "John");
+	             dataTable.setValue(0, 1, 5);
+	             dataTable.setValue(1, 1, 7);
+	             dataTable.setValue(2, 1, 3);
+	             dataTable.setValue(3, 1, 2);
+
+	             // Draw the chart
+	             pieChart.draw(dataTable);
+	     }		
 			
 			
 	
