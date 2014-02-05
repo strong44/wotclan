@@ -1999,125 +1999,12 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			 * persist wot server's datas  in datastore appengine
 			 * @param idClan
 			 * @param indexBegin
-		 * @param listIdUser 
+		 * @param listIdClan 
 			 * @param indexEnd
 			 */
-	public List<String> persistAllStats3(Date date, List<String> listIdUser) {
+	public void persistAllStats3(Date date, List<String> listIdClan) {
 	
-
-		
-		//List<String> listUserPersisted = new ArrayList<String>() ;
-		
-		for(String user : listIdUser) {
-			log.warning("persistAllStats3 user to persist : " + user);
-			
-		}
-
-		List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
-		AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
-		myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
-		PersistenceManager pm =null;
-		pm = PMF.get().getPersistenceManager();
-		try {
-			String AllIdUser ="";
-			for(String idUser :listIdUser) {
-				AllIdUser = AllIdUser + "," + idUser;
-			}
-						
-			URL url = null ;
-			//http://wotachievement.appspot.com/cronPersistPlayersStats?clanId=500006074
-			String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
-			//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
-			
-			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				url = new URL("https://pedro-proxy.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
-			}
-			else {
-				url = new URL(urlServer + AllIdUser);
-			}
-			
-			HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
-			conn2.setReadTimeout(20000);
-			conn2.setConnectTimeout(20000);
-			conn2.getInputStream();
-			BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
-
-			//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
-			String lineUser = "";
-			;
-			String AllLinesUser = "";
-
-			while ((lineUser = readerUser.readLine()) != null) {
-				AllLinesUser = AllLinesUser + lineUser;
-			}
-			
-			readerUser.close();
-			Gson gsonUser = new Gson();
-			PlayerRatings playerRatings = gsonUser.fromJson(AllLinesUser, PlayerRatings.class);
-			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sÃ©rialisation (pas de MAP !!))
-			List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
-			
-			
-			/////////////////////
-			for(CommunityAccount communityAccount : listCommunityAccount1) {
-				
-					//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sÃ©rialisation (pas de MAP !!))
-					//communityAccount =  TransformDtoObject.TransformPlayerRatingsToCommunityAccount(playerRatings);
-					
-					//make some calculation of stats 
-					DataCommunityAccountRatings myDataCommunityAccountStats = communityAccount.getData();
-					myDataCommunityAccountStats.setAverageLevel(5.5);
-//							
-					int battles = myDataCommunityAccountStats.getBattles();
-					log.warning("userId :" + communityAccount.getIdUser() + " battles : " + battles);
-
-					if (saveDataPlayer){
-						//pm = PMF.get().getPersistenceManager();
-				        try {
-				        	//must transform before persist the objet clan
-				        	pm.currentTransaction().begin();
-				        	DaoCommunityAccount2 daoCommunityAccount = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(communityAccount);
-				        	
-				        	//pour eviter trop de donnÃ©es en base 60 write OP 
-				        	//daoCommunityAccount.getData().setAchievements(null);
-				        	daoCommunityAccount.setDateCommunityAccount(date);
-				        	//
-				        	pm.makePersistent(daoCommunityAccount);
-				        	pm.currentTransaction().commit();
-				        	//log.warning("vehicules daoCommunityAccount " + daoCommunityAccount.getData().statsVehicules.get(0).getName() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getBattle_count() + ":"+  daoCommunityAccount.getData().statsVehicules.get(0).getWin_count());
-				        	listUsersPersisted.add(communityAccount.getIdUser());
-				        	
-				        }
-					    catch(Exception e){
-					    	log.log(Level.SEVERE, "Exception while saving daoCommunityAccount", e);
-				        	pm.currentTransaction().rollback();
-				        }
-				        finally {
-				            //pm.close();
-				        }
-					}
-			}
-//						}//for (DataCommunityClanMembers
-
-		} catch (MalformedURLException e) {
-			// ...
-			log.throwing("Persist stats", "", e);
-			log.severe(e.getLocalizedMessage());
-		} catch (IOException e) {
-			// ...
-			log.throwing("Persist stats", "", e);
-			e.printStackTrace();
-		} catch (Exception e) {
-				// ...
-			log.throwing("Persist stats", "", e);
-			log.severe(e.getLocalizedMessage());
-		}
-		finally {
-			if (pm != null)
-				pm.close();
-		}
-	
-		return listUsersPersisted;
+		CronPersistPlayersStats.cronPersistAllStats (new Date(), "500006074");
 	
 	}
 
@@ -2406,7 +2293,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					
 					//on requete notre base les averageLevel y ont été stockés par le cron dans la table community Account
-					Map <String, CommunityAccount> mapCommAcc = getMapHistorizedStatsUsers(listIdUser, 2);
+					Map <String, CommunityAccount> mapCommAcc = getMapHistorizedStatsUsers(listIdUser, 6);
 					
 				
 
