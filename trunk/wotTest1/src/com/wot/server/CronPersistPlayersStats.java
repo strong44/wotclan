@@ -40,10 +40,10 @@ public class CronPersistPlayersStats extends HttpServlet {
 	static List<String> listUsersPersisted = new ArrayList<String>();
 	static TankEncyclopedia tankEncyclopedia;
 	
-	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	static String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	
-	private String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
-	private String urlServerEU =  "http://api.worldoftanks.eu";
+	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
+	private static String urlServerEU =  "http://api.worldoftanks.eu";
 
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -119,7 +119,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 		return idClan;
 	}
 
-	public List<String> cronPersistAllStats(Date date, String idClan) {
+	public static List<String> cronPersistAllStats(Date date, String idClan) {
 		
 		
 		
