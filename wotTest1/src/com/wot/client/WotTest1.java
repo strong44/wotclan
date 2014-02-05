@@ -70,6 +70,7 @@ import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 
 
@@ -82,6 +83,7 @@ public class WotTest1 implements EntryPoint {
 	/////////
 	private SimpleLayoutPanel layoutPanel;
     private PieChart pieChart;
+    LineChart lineCharts;
 	/////////
     
 	static boolean adminLogin = false ;
@@ -4330,20 +4332,24 @@ public class WotTest1 implements EntryPoint {
 		 */
 	public void onModuleLoad() {
 
-		Window.enableScrolling(false);
+		Window.enableScrolling(true);
         Window.setMargin("0px");
 
-        RootLayoutPanel.get().add(getSimpleLayoutPanel());
-
-			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-			 chartLoader.loadApi(new Runnable() {
-			
-			     @Override
-			     public void run() {
-			             getSimpleLayoutPanel().setWidget(getPieChart());
-			             drawPieChart();
-			     }
-			 });
+//        RootLayoutPanel.get().add(getSimpleLayoutPanel());
+//
+//			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+//			 chartLoader.loadApi(new Runnable() {
+//			
+//			     @Override
+//			     public void run() {
+//			             getSimpleLayoutPanel().setWidget(getPieChart());
+//			             drawPieChart();
+//			     }
+//			 });
+			 
+			 //
+//	        LineChartExample lineChartExample = new LineChartExample();
+//	        RootLayoutPanel.get().add(lineChartExample);
 		 
 			final Label errorLabel = new Label();
 			
@@ -5102,6 +5108,69 @@ public class WotTest1 implements EntryPoint {
 								}
 	
 								public void onSuccess(List<CommunityAccount> listAccount) {
+									hPanelLoading.setVisible(false);
+									dockPanel.remove(tableHistorizedStatsCommAcc);
+									dockPanel.remove(tableClan);
+									
+//									if (pagerHistorizedStatsCommunityAccount != null) 
+//										dockPanel.remove(pagerHistorizedStatsCommunityAccount);
+//									if (pagerClan != null) 
+//										dockPanel.remove(pagerClan);
+									
+									if (dataHistorizedStatsProvider.getDataDisplays()!= null && !dataHistorizedStatsProvider.getDataDisplays().isEmpty()) 
+										dataHistorizedStatsProvider.removeDataDisplay(tableHistorizedStatsCommAcc);
+									
+									//on re-construit 1 nouveau tableau
+									tableHistorizedStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+									
+									
+									//construct column in celltable tableCommAcc , set data set sort handler etc ..
+									buildACellTableForHistorizedStatsCommunityAccount(listAccount);
+									
+									
+								    
+								    ///////////
+								    ScrollPanel sPanel = new ScrollPanel();
+								    //
+								    sPanel.setStyleName("myCellTableStyle");
+								    sPanel.setAlwaysShowScrollBars(true);
+								    sPanel.setHeight("500px");
+								    sPanel.setWidth("1000px");
+								    //sPanel.add(pagerClan);
+								    LineChartExample lineChartExample = new LineChartExample(); 
+								    lineChartExample.setVisible(true);
+								    sPanel.add(lineChartExample);
+								    tp.add(sPanel, "History batttles");
+								    int count = tp.getWidgetCount();
+									dockPanel.add(tp, DockPanel.SOUTH);
+									tp.selectTab(count-1);
+								    
+								    /////////
+							    
+								    //add to dock panel ======
+								    //dockPanel.add(pagerHistorizedStatsCommunityAccount, DockPanel.SOUTH);
+								    //pagerHistorizedStatsCommunityAccount.setPage(10);
+								    //pagerHistorizedStatsCommunityAccount.setVisible(true);
+									
+									//dockPanel.add(tableHistorizedStatsCommAcc, DockPanel.SOUTH);
+									
+									
+								    
+									//dockPanel.add(pagerClan, DockPanel.SOUTH);
+									//dockPanel.add(tableClan, DockPanel.SOUTH);
+									
+									//tableHistorizedStatsCommAcc.setVisible(true);
+									//tableClan.setVisible(true);
+									//pagerClan.setVisible(true);
+									
+									//tableHistorizedStatsCommAcc.setFocus(true);
+									//dialogBox.center();
+									//closeButton.setFocus(true);
+								}
+								
+								
+								
+								public void onSuccessSave(List<CommunityAccount> listAccount) {
 									hPanelLoading.setVisible(false);
 									dockPanel.remove(tableHistorizedStatsCommAcc);
 									dockPanel.remove(tableClan);
@@ -7518,6 +7587,7 @@ public class WotTest1 implements EntryPoint {
 	             pieChart.draw(dataTable);
 	     }		
 			
-			
+
+	     
 	
 }
