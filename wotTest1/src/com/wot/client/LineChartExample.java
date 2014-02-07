@@ -1,5 +1,7 @@
 package com.wot.client;
 
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -11,11 +13,14 @@ import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
+import com.wot.shared.CommunityAccount;
 
 public class LineChartExample extends SimplePanel {
 	private LineChart chart;
-
-	public LineChartExample() {
+	List<CommunityAccount> listAccount;
+	
+	public LineChartExample(List<CommunityAccount> myListAccount) {
+		listAccount = myListAccount;
 		//super(Unit.PX);
 		initialize();
 	}
@@ -35,7 +40,7 @@ public class LineChartExample extends SimplePanel {
 	}
 
 	private void draw() {
-		String[] countries = new String[] { "Austria", "Bulgaria", "Denmark", "Greece" };
+		String[] countries = new String[] { "wr", "wn8", "Denmark", "Greece" };
 		int[] years = new int[] { 2003, 2004, 2005, 2006, 2007, 2008 };
 		int[][] values = new int[][] { 
 				{ 1336060, 1538156, 1576579, 1600652, 1968113, 1901067 },	// "Austria"
