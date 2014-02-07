@@ -57,7 +57,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -349,7 +349,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			else {
 				//NVS : 500006074
 				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/500006074/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=
+				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=500006074
 				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
 			}
 			
@@ -2146,10 +2146,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
 				AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
 				myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
-				PersistenceManager pm =null;
+				//PersistenceManager pm =null;
 				
 				try {
-					pm = PMF.get().getPersistenceManager();
+					//pm = PMF.get().getPersistenceManager();
 					
 					String AllIdUser ="";
 					
@@ -2446,7 +2446,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					e.printStackTrace();
 				}
 				finally {
-					pm.close();
+					//pm.close();
 				}
 			
 				return myAllCommunityAccount;
