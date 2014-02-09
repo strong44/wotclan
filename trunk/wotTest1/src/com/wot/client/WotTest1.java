@@ -390,27 +390,9 @@ public class WotTest1 implements EntryPoint {
 				SI(DEF>1,6;1,6;DEF)*70 + 
 				((185/(0,17+EXP(1)^((WR-35)*-0,134)))-500)*0,45
 	    	   */
-	    	  Double dmg = object.getData().getRatioDamagePoints();
-	    	  Double frags = object.getData().getRatioDestroyedPoints();
-	    	  Double spot = object.getData().getRatioDetectedPoints();
-	    	  //Double cap = object.getData().getRatioCtfPoints();
-	    	  Double def = object.getData().getRatioDroppedCtfPoints();
-	    	  Double wr =object.getData().getBattle_avg_performanceCalc();
-	    	  //on plafonne def à 1.6
-	    	  if (def > 1.6)
-	    		  def = 1.6 ;
+	
 	    	  
-	    	  double tier = object.getData().getAverageLevel(); 
-	    	  
-	    	  double wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
-					+ 125*spot + 
-					+ def*70  
-					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
-	    	  
-	    	  int wnTruncate= (int) (wn8 * 100);
-	    	  wn8 = (double)wnTruncate/100;
-	    	  
-	        return String.valueOf(wn8);
+	        return String.valueOf(object.getData().getWn8());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(wn8CalcColumn, SafeHtmlUtils.fromSafeConstant("<span title='Formule WN8=465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier))) + 125*spot + def*70 + ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45. Plafond de DEF à 1,6 '>WN8</span>"));
@@ -427,41 +409,42 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double dmg = o1.getData().getRatioDamagePoints();
-		  	    	Double frags = o1.getData().getRatioDestroyedPoints();
-		  	    	Double spot = o1.getData().getRatioDetectedPoints();
-		  	    	//Double cap = object.getData().getRatioCtfPoints();
-		  	    	Double def = o1.getData().getRatioDroppedCtfPoints();
-		  	    	Double wr =o1.getData().getBattle_avg_performanceCalc();
-		  	    	  //on plafonne def à 1.6
-		  	    	if (def > 1.6)
-		  	    		def = 1.6 ;
-		  	    	  
-		  	    	double tier = o1.getData().getAverageLevel(); 
-		  	    	  
-		  	    	double o1wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
-		  					+ 125*spot + 
-		  					+ def*70  
-		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
-	  	    	  
-		  	    	dmg = o2.getData().getRatioDamagePoints();
-		  	    	frags = o2.getData().getRatioDestroyedPoints();
-		  	    	spot = o2.getData().getRatioDetectedPoints();
-		  	    	//Double cap = object.getData().getRatioCtfPoints();
-		  	    	def = o2.getData().getRatioDroppedCtfPoints();
-		  	    	wr =o2.getData().getBattle_avg_performanceCalc();
-		  	    	  //on plafonne def à 1.6
-		  	    	if (def > 1.6)
-		  	    		def = 1.6 ;
-		  	    	  
-		  	    	tier = o2.getData().getAverageLevel(); 
-		  	    	  
-		  	    	double o2wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
-		  					+ 125*spot + 
-		  					+ def*70  
-		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;	    	  
-	            	Double val1 = o1wn8;
-	            	Double val2 = o2wn8;
+//	            	Double dmg = o1.getData().getRatioDamagePoints();
+//		  	    	Double frags = o1.getData().getRatioDestroyedPoints();
+//		  	    	Double spot = o1.getData().getRatioDetectedPoints();
+//		  	    	//Double cap = object.getData().getRatioCtfPoints();
+//		  	    	Double def = o1.getData().getRatioDroppedCtfPoints();
+//		  	    	Double wr =o1.getData().getBattle_avg_performanceCalc();
+//		  	    	  //on plafonne def à 1.6
+//		  	    	if (def > 1.6)
+//		  	    		def = 1.6 ;
+//		  	    	  
+//		  	    	double tier = o1.getData().getAverageLevel(); 
+//		  	    	  
+//		  	    	double o1wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
+//		  					+ 125*spot + 
+//		  					+ def*70  
+//		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
+//	  	    	  
+//		  	    	dmg = o2.getData().getRatioDamagePoints();
+//		  	    	frags = o2.getData().getRatioDestroyedPoints();
+//		  	    	spot = o2.getData().getRatioDetectedPoints();
+//		  	    	//Double cap = object.getData().getRatioCtfPoints();
+//		  	    	def = o2.getData().getRatioDroppedCtfPoints();
+//		  	    	wr =o2.getData().getBattle_avg_performanceCalc();
+//		  	    	  //on plafonne def à 1.6
+//		  	    	if (def > 1.6)
+//		  	    		def = 1.6 ;
+//		  	    	  
+//		  	    	tier = o2.getData().getAverageLevel(); 
+//		  	    	  
+//		  	    	double o2wn8= 465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier)))  
+//		  					+ 125*spot + 
+//		  					+ def*70  
+//		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
+		  	    	
+	            	Double val1 = o1.getData().getWn8();
+	            	Double val2 = o2.getData().getWn8();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -5137,7 +5120,7 @@ public class WotTest1 implements EntryPoint {
 								    sPanel.setHeight("500px");
 								    sPanel.setWidth("1000px");
 								    //sPanel.add(pagerClan);
-								    LineChartExample lineChartExample = new LineChartExample(listAccount); 
+								    LineChartExample lineChartExample = new LineChartExample(); 
 								    lineChartExample.setVisible(true);
 								    sPanel.add(lineChartExample);
 								    tp.add(sPanel, "History batttles");
