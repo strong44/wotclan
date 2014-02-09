@@ -25,8 +25,8 @@ import javax.xml.bind.Unmarshaller;
 
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-//import com.memetix.mst.detect.Detect;
-//import com.memetix.mst.translate.Translate;
+import com.memetix.mst.detect.Detect;
+import com.memetix.mst.translate.Translate;
 import com.wot.client.WotService;
 import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.AllCommunityAccount;
@@ -57,7 +57,7 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
-	String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
+	String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -349,7 +349,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			else {
 				//NVS : 500006074
 				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/500006074/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=500006074
+				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=
 				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
 			}
 			
@@ -391,11 +391,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		    String idClient = "wotachievement";
 		    String secretClient = "/upbsAfsZzh82dNC1ehpW8u8CVNR9afujtIko9ZW22E=";
 		    
-//		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
-//		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
-//
-//		    Detect.setClientId(idClient);
-//	        Detect.setClientSecret(secretClient);
+		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
+		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
+
+		    Detect.setClientId(idClient);
+	        Detect.setClientSecret(secretClient);
 	        
 			int nbTrad = 0;
 //			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
@@ -2146,10 +2146,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
 				AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
 				myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
-				//PersistenceManager pm =null;
+				PersistenceManager pm =null;
 				
 				try {
-					//pm = PMF.get().getPersistenceManager();
+					pm = PMF.get().getPersistenceManager();
 					
 					String AllIdUser ="";
 					
@@ -2293,7 +2293,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					
 					
 					//on requete notre base les averageLevel y ont été stockés par le cron dans la table community Account
-					Map <String, CommunityAccount> mapCommAcc = getMapHistorizedStatsUsers(listIdUser, 6);
+					Map <String, CommunityAccount> mapHistStatsUsers = getMapHistorizedStatsUsers(listIdUser, 6);
 					
 				
 
@@ -2329,17 +2329,18 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						
 						//Set<Entry<String, List<DataPlayerTankRatings>>>  setData = mapDataPlayerTankRatings.entrySet();
 						//setData.
-						log.warning("mapCommAcc " + mapCommAcc);
-						CommunityAccount  commAcc= mapCommAcc.get(user_id);
+						log.warning("mapCommAcc " + mapHistStatsUsers);
+						CommunityAccount  histStatUser= mapHistStatsUsers.get(user_id);
 						
 						//calcul du tier moyen
 						//Double nbBattles = 0.0;
 						//Double levelByBattles = 0.0 ; 
-						log.warning("commAcc " + commAcc);
-						log.warning("commAcc.getData() " + commAcc.getData());
+						log.warning("histStatUser " + histStatUser);
+						log.warning("histStatUser.getData() " + histStatUser.getData());
 						///log.warning("commAcc.getData().getAverageLevel " + commAcc.getData().getAverageLevel);
 						
-						Double averageLevelTank =commAcc.getData().getAverageLevel(); 
+						Double averageLevelTank =histStatUser.getData().getAverageLevel(); 
+						Double wn8 =histStatUser.getData().getWn8(); 
 						
 //						for (DataPlayerTankRatings dataPlayerTankRatings : listPlayerTanksRatings) {
 //							int tankId= dataPlayerTankRatings.getTank_id() ;
@@ -2361,6 +2362,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						
 						//average level tank
 						myDataCommunityAccountRatings.setAverageLevel(averageLevelTank);
+						
+						myDataCommunityAccountRatings.setWn8(wn8);
 						
 						//log.info("averageLevelTank" + averageLevelTank);
 						
@@ -2446,7 +2449,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					e.printStackTrace();
 				}
 				finally {
-					//pm.close();
+					pm.close();
 				}
 			
 				return myAllCommunityAccount;
