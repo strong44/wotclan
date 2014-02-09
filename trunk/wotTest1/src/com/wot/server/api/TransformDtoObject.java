@@ -247,6 +247,7 @@ public class TransformDtoObject {
 		
 		myDataCommunityAccountRatings.setAverageLevel(new Double(data.getStats().getAverageLevel()));
 		
+		myDataCommunityAccountRatings.setWn8(new Double(data.getStats().getWn8()));
 		
 		
 		return myDataCommunityAccountRatings;
@@ -311,6 +312,8 @@ public class TransformDtoObject {
 		myDaoDataCommunityAccountRatings.setXp(new Double(dataCommunityAccountRatings.getXp()));
 		
 		myDaoDataCommunityAccountRatings.setAverageLevel(new Double(dataCommunityAccountRatings.getAverageLevel()));
+		
+		myDaoDataCommunityAccountRatings.setWn8(new Double(dataCommunityAccountRatings.getWn8()));
 		
 		return myDaoDataCommunityAccountRatings;
 	}

@@ -72,6 +72,9 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 
 	@Persistent
 	private Double averageLevelCal;
+
+	@Persistent
+	private Double wn8;
 	
 	
 
@@ -83,6 +86,9 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	}
 	public Double getRatioDestroyedPoints() {
 		return ratioDestroyedPoints.getValue();
+	}
+	public Double getWn8() {
+		return wn8;
 	}
 	public void setRatioDestroyedPoints(Double ratioDestroyedPoints) {
 		this.ratioDestroyedPoints.setValue( ratioDestroyedPoints);
@@ -190,6 +196,10 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	public void setAverageLevel(Double averageLevel) {
 		// TODO Auto-generated method stub
 		this.averageLevelCal = averageLevel;
+	}
+	public void setWn8(Double wn8) {
+		this.wn8 = wn8;
+		
 	}
 	
 	
