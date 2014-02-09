@@ -46,9 +46,16 @@ public class DataCommunityAccountRatings implements Serializable {
 	  private DataCommunityAccountRatingsElement ratioDetectedPoints = new DataCommunityAccountRatingsElement();
 
 	private Double averageLevelTankCalc;
+
+	//calculate field
+	private double wn8;
 	
 	
 
+	public double getWn8() {
+		return wn8;
+	}
+	
 	public Double getRatioDetectedPoints() {
 		return ratioDetectedPoints.getValue();
 	}
@@ -165,6 +172,10 @@ public class DataCommunityAccountRatings implements Serializable {
 	public Double getAverageLevel() {
 		// TODO Auto-generated method stub
 		return this.averageLevelTankCalc;
+	}
+	public void setWn8(double wn8) {
+		this.wn8 = wn8 ;
+		
 	}
 	
 }
