@@ -25,8 +25,6 @@ import javax.xml.bind.Unmarshaller;
 
 import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.memetix.mst.detect.Detect;
-import com.memetix.mst.translate.Translate;
 import com.wot.client.WotService;
 import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.AllCommunityAccount;
@@ -391,11 +389,11 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		    String idClient = "wotachievement";
 		    String secretClient = "/upbsAfsZzh82dNC1ehpW8u8CVNR9afujtIko9ZW22E=";
 		    
-		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
-		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
-
-		    Detect.setClientId(idClient);
-	        Detect.setClientSecret(secretClient);
+//		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
+//		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
+//
+//		    Detect.setClientId(idClient);
+//	        Detect.setClientSecret(secretClient);
 	        
 			int nbTrad = 0;
 //			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
