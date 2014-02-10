@@ -391,11 +391,14 @@ public class WotTest1 implements EntryPoint {
 				((185/(0,17+EXP(1)^((WR-35)*-0,134)))-500)*0,45
 	    	   */
 	
+	    	  double dbWn8 = object.getData().getWn8();
+	    	  int intWn8 = (int) (dbWn8 * 100);
+	    	  dbWn8 = (double)intWn8/100;
 	    	  
-	        return String.valueOf(object.getData().getWn8());
+	        return String.valueOf(dbWn8);
 	      }
 	    };
-	    tableStatsCommAcc.addColumn(wn8CalcColumn, SafeHtmlUtils.fromSafeConstant("<span title='Formule WN8=465 * frags +  dmg*530/(184*Math.pow(Math.exp(1),(0.24*tier))) + 125*spot + def*70 + ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45. Plafond de DEF à 1,6 '>WN8</span>"));
+	    tableStatsCommAcc.addColumn(wn8CalcColumn, SafeHtmlUtils.fromSafeConstant("<span title='Formule sur http://wiki.wnefficiency.net/pages/WN8 -> WN8 = 980*rDAMAGEc + 210*rDAMAGEc*rFRAGc + 155*rFRAGc*rSPOTc + 75*rDEFc*rFRAGc + 145*MIN(1.8,rWINc)'>WN8</span>"));
 	    
 	    wn8CalcColumn.setSortable(true);
 	    
