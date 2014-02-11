@@ -5123,7 +5123,7 @@ public class WotTest1 implements EntryPoint {
 								    sPanel.setHeight("500px");
 								    sPanel.setWidth("1000px");
 								    //sPanel.add(pagerClan);
-								    LineChartExample lineChartExample = new LineChartExample(); 
+								    LineChartExample lineChartExample = new LineChartExample(listAccount); 
 								    lineChartExample.setVisible(true);
 								    sPanel.add(lineChartExample);
 								    tp.add(sPanel, "History batttles");

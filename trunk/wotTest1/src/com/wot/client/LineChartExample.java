@@ -1,5 +1,8 @@
 package com.wot.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -11,11 +14,14 @@ import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.LineChartOptions;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
+import com.wot.shared.CommunityAccount;
 
 public class LineChartExample extends SimplePanel {
 	private LineChart chart;
-
-	public LineChartExample() {
+	List<CommunityAccount> listAccount ;
+	
+	public LineChartExample(List<CommunityAccount> listAccount) {
+		this.listAccount = listAccount;
 		//super(Unit.PX);
 		initialize();
 	}
@@ -35,37 +41,87 @@ public class LineChartExample extends SimplePanel {
 	}
 
 	private void draw() {
-		String[] countries = new String[] { "Austria", "Bulgaria", "Denmark", "Greece" };
+		//String[] countries = new String[] { "Austria", "Bulgaria", "Denmark", "Greece" };
 		int[] years = new int[] { 2003, 2004, 2005, 2006, 2007, 2008 };
+		
 		int[][] values = new int[][] { 
 				{ 1336060, 1538156, 1576579, 1600652, 1968113, 1901067 },	// "Austria"
 				{ 400361, 366849, 440514, 434552, 393032, 517206 }, 		//  "Bulgaria"
 				{ 1001582, 1119450, 993360, 1004163, 979198, 916965 },
 				{ 997974, 941795, 930593, 897127, 1080887, 1056036 } };
 
+		//new stats WOT
+		List<String> listStats = new ArrayList<String>();
+		
+		///comme countries
+		listStats.add("Wr");
+//		listStats.add("CtfPoints");
+//		listStats.add("DamagePoints");
+//		listStats.add("DestroyedPoints");
+//		listStats.add("DroppedCtfPoints");
+		
+//	    for (CommunityAccount commAcc :  listAccount) {
+//	    	commAcc.getData().getRatioCtfPoints();
+//	    	commAcc.getData().getRatioDamagePoints();
+//	    	commAcc.getData().getRatioDestroyedPoints();
+//	    	commAcc.getData().getRatioDetectedPoints();
+//	    	commAcc.getData().getRatioDroppedCtfPoints();
+//	    	
+//	    }
+		///
 		// Prepare the data
 		DataTable dataTable = DataTable.create();
-		dataTable.addColumn(ColumnType.STRING, "Year");
-		for (int i = 0; i < countries.length; i++) {
-			dataTable.addColumn(ColumnType.NUMBER, countries[i]);
+		dataTable.addColumn(ColumnType.STRING, "dates");
+		
+//		for (int i = 0; i < countries.length; i++) {
+//			dataTable.addColumn(ColumnType.NUMBER, countries[i]);
+//		}
+		//
+		for (String nameStat: listStats) {
+			dataTable.addColumn(ColumnType.NUMBER, nameStat);
 		}
-		dataTable.addRows(years.length);
-		for (int i = 0; i < years.length; i++) {
-			dataTable.setValue(i, 0, String.valueOf(years[i]));
+		
+		//dataTable.addRows(years.length);
+		//
+		CommunityAccount commAccount = listAccount.get(0);
+		String [] tabDates = (String[]) commAccount.listDates.toArray();
+		Integer [] tabBattlesWins = (Integer[]) commAccount.listBattlesWins.toArray();
+		Integer [] tabBattles = (Integer[]) commAccount.listbattles.toArray();
+		//
+		dataTable.addRows(tabDates.length);
+		
+//		for (int i = 0; i < years.length; i++) {
+//			dataTable.setValue(i, 0, String.valueOf(years[i]));
+//		}
+		//
+		//on set la légende des abscisses ligne 0 
+		for (int i = 0; i < tabDates.length; i++) {
+			dataTable.setValue(i, 0, String.valueOf(tabDates[i]));
 		}
-		for (int col = 0; col < values.length; col++) {
-			for (int row = 0; row < values[col].length; row++) {
-				dataTable.setValue(row, col + 1, values[col][row]);
+		//
+//		for (int col = 0; col < values.length; col++) {
+//			for (int row = 0; row < values[col].length; row++) {
+//				dataTable.setValue(row, col + 1, values[col][row]);
+//			}
+//		}
+		//
+		for (int col = 0; col < tabDates.length; col++) {
+			for (int row = 0; row < listStats.size(); row++) {
+				int bw = tabBattlesWins[col] ;
+				int b = tabBattles[col] ;
+				double db =  (double)bw/(double)b ;
+				int intdb = (int) (db * 100);
+				db = intdb / 100 ;
+				dataTable.setValue(row, col + 1, db);
 			}
 		}
-
 		// Set options
 		LineChartOptions options = LineChartOptions.create();
 		options.setBackgroundColor("#f0f0f0");
 		options.setFontName("Tahoma");
-		options.setTitle("Yearly Coffee Consumption by Country");
-		options.setHAxis(HAxis.create("Year"));
-		options.setVAxis(VAxis.create("Cups"));
+		options.setTitle("Wr");
+		options.setHAxis(HAxis.create("dates"));
+		options.setVAxis(VAxis.create("wr"));
 
 		// Draw the chart
 		chart.draw(dataTable, options);
