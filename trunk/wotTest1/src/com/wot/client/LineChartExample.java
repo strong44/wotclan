@@ -84,37 +84,61 @@ public class LineChartExample extends SimplePanel {
 		//dataTable.addRows(years.length);
 		//
 		CommunityAccount commAccount = listAccount.get(0);
-		String [] tabDates = (String[]) commAccount.listDates.toArray();
-		Integer [] tabBattlesWins = (Integer[]) commAccount.listBattlesWins.toArray();
-		Integer [] tabBattles = (Integer[]) commAccount.listbattles.toArray();
+		String  tabDates[] = new String [100] ;
+		//init tabDates
+		int i = 0;
+		for(String date :commAccount.listDates) {
+			tabDates[i] = date;
+			i++;
+		}
+		
+		Integer [] tabBattlesWins = new Integer [100];
+		i = 0;
+		for(Integer wn :commAccount.listBattlesWins) {
+			tabBattlesWins[i] = wn;
+			i++;
+		}
+		
+		Integer [] tabBattles = new Integer [100];
+		i = 0;
+		for(Integer wn :commAccount.listbattles) {
+			tabBattles[i] = wn;
+			i++;
+		}
+		
 		//
-		dataTable.addRows(tabDates.length);
+		dataTable.addRows(commAccount.listDates.size());
 		
 //		for (int i = 0; i < years.length; i++) {
 //			dataTable.setValue(i, 0, String.valueOf(years[i]));
 //		}
 		//
 		//on set la légende des abscisses ligne 0 
-		for (int i = 0; i < tabDates.length; i++) {
-			dataTable.setValue(i, 0, String.valueOf(tabDates[i]));
+		i = 0;
+		for (String date: commAccount.listDates ) {
+			dataTable.setValue(i, 0, String.valueOf(date));
+			i++;
 		}
 		//
 //		for (int col = 0; col < values.length; col++) {
 //			for (int row = 0; row < values[col].length; row++) {
+		
+		
 //				dataTable.setValue(row, col + 1, values[col][row]);
 //			}
 //		}
 		//
-		for (int col = 0; col < tabDates.length; col++) {
+		for (int col = 0; col < commAccount.listDates.size(); col++) {
 			for (int row = 0; row < listStats.size(); row++) {
 				int bw = tabBattlesWins[col] ;
 				int b = tabBattles[col] ;
 				double db =  (double)bw/(double)b ;
 				int intdb = (int) (db * 100);
-				db = intdb / 100 ;
+				db = (double) intdb / (double)100 ;
 				dataTable.setValue(row, col + 1, db);
 			}
 		}
+		
 		// Set options
 		LineChartOptions options = LineChartOptions.create();
 		options.setBackgroundColor("#f0f0f0");

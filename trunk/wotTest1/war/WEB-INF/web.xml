@@ -20,6 +20,18 @@
         <servlet-name>cronPersistPlayersStats</servlet-name>
         <servlet-class>com.wot.server.CronPersistPlayersStats</servlet-class>
    </servlet>
+   
+   <servlet>
+        <servlet-name>proxyWotWeb</servlet-name>
+        <servlet-class>com.wot.server.ProxyWotWeb</servlet-class>
+   </servlet>
+   
+
+   <servlet-mapping>
+        <servlet-name>proxyWotWeb</servlet-name>
+        <url-pattern>/WotWeb</url-pattern>
+   </servlet-mapping>
+   
    <servlet-mapping>
         <servlet-name>cronPersistPlayersStats</servlet-name>
         <url-pattern>/cronPersistPlayersStats</url-pattern>
