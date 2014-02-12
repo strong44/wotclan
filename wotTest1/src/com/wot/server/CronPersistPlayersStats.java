@@ -57,10 +57,16 @@ public class CronPersistPlayersStats extends HttpServlet {
         resp.setContentType("text/plain");
         resp.getWriter().println("Hello, persistStatsForCron for NVS");
         String clanId = req.getParameter("clanId");
+        if(clanId != null && !"".equalsIgnoreCase(clanId)) {
         
-        cronPersistStats(clanId);//clan NVS
-        //cronPersistStats("500006074");//clan NVS
-        //cronPersistStats("500006824");//clan FAFE -Forces Armées FrancophonEs
+	        cronPersistStats(clanId);//clan NVS
+	        //cronPersistStats("500006074");//clan NVS
+	        //cronPersistStats("500006824");//clan FAFE -Forces Armées FrancophonEs
+        }
+        //pour proxy http://wotachievement.appspot.com/cronPersistPlayersStats?clanId=500006824
+        //pour proxy en DEV : http://127.0.0.1:8888/cronPersistPlayersStats?clanId=500006824
+        //
+        //http://api.worldoftanks.ru/2.0/account/info/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
     }
     
     
@@ -143,7 +149,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					URL url = null;
 					
 					if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") );
+						url = new URL(WotServiceImpl.proxy + urlServer );
 					}
 					else {
 						url = new URL(urlServer );
@@ -206,7 +212,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					urlWnEfficienty = null ;
 					
 					if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						urlWnEfficienty = new URL("https://mirrorrr.appspot.com/www.wnefficiency.net/exp/expected_tank_values_latest.json");				
+						urlWnEfficienty = new URL(WotServiceImpl.proxy + "http://www.wnefficiency.net/exp/expected_tank_values_latest.json");				
 					}
 					else {
 						//500006074
@@ -244,7 +250,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				urlClan = null ;
 					
 				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					urlClan = new URL("https://mirrorrr.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+					urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
 				}
 				else {
 					//500006074
@@ -306,7 +312,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
 				
 				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+					url = new URL(WotServiceImpl.proxy + urlServer + AllIdUser);
 				}
 				else {
 					url = new URL(urlServer + AllIdUser);
@@ -340,18 +346,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				//"http://api.worldoftanks.eu/2.0/account/tanks/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576,506763437";
 				urlServer = urlServerEU +"/2.0/account/tanks/?application_id=" + applicationIdEU + "&account_id=";
 				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					AllIdUser = "";
-					int nb = 0;
-					for(String idUser :listIdUser) {
-						nb ++;
-						if (nb < 4) { //pb du proxy !!!
-							if ("".equalsIgnoreCase(AllIdUser)) 
-								AllIdUser = idUser;
-							else
-								AllIdUser = AllIdUser + "," + idUser;
-							}
-					}
-					url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+					url = new URL(WotServiceImpl.proxy + urlServer + AllIdUser);
 				}
 				else {
 					url = new URL(urlServer + AllIdUser);
@@ -604,7 +599,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				URL url = null;
 
 				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") );
+					url = new URL(WotServiceImpl.proxy + urlServer );
 				}
 				else {
 					url = new URL(urlServer);
@@ -667,7 +662,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				urlWnEfficienty = null ;
 
 				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					urlWnEfficienty = new URL("https://mirrorrr.appspot.com/www.wnefficiency.net/exp/expected_tank_values_latest.json");				
+					urlWnEfficienty = new URL(WotServiceImpl.proxy + "http://www.wnefficiency.net/exp/expected_tank_values_latest.json");				
 				}
 				else {
 					//500006074
@@ -704,7 +699,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 			// recup des membres du clan NVS
 			urlClan = null ;
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://mirrorrr.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+				urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
 			}
 			else {
 				//500006074
@@ -762,7 +757,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 			//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
 			
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+				url = new URL(WotServiceImpl.proxy + urlServer + AllIdUser);
 			}
 			else {
 				url = new URL(urlServer + AllIdUser);
@@ -797,7 +792,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 			urlServer = urlServerEU +"/2.0/account/tanks/?application_id=" + applicationIdEU + "&account_id=";
 			
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+				url = new URL(WotServiceImpl.proxy + urlServer + AllIdUser);
 			}
 			else {
 				url = new URL(urlServer + AllIdUser);

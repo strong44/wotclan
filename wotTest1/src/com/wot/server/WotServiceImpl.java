@@ -55,6 +55,8 @@ import com.wot.shared.XmlWiki;
  */
 @SuppressWarnings("serial")
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
+	static public String proxy =  "http://wotachievement.appspot.com/WotWeb?";
+	
 	static public String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
@@ -342,7 +344,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://mirrorrr.appspot.com/api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input + "&offset="+ offset+ "&limit=" + limit);					
+				urlClan = new URL(proxy + "http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input);					
 			}
 			else {
 				//NVS : 500006074
@@ -497,7 +499,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			// recup des membres du clan NVS
 			urlClan = null ;
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL("https://mirrorrr.appspot.com/api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
+				urlClan = new URL(proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
 			}
 			else {
 				//500006074
@@ -722,7 +724,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				    query.setFilter("idUser == nameParam");
 				    query.setOrdering("name desc");
 				    query.setOrdering("dateCommunityAccount desc");
-				    query.setRange(0, range); //only 6 results 
+				    //query.setRange(0, range); //only 6 results 
 				    //query.setOrdering("hireDate desc");
 				    query.declareParameters("String nameParam");
 				    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
@@ -969,7 +971,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
 				
 				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+					url = new URL(proxy + urlServer + AllIdUser);
 				}
 				else {
 					url = new URL(urlServer + AllIdUser);
@@ -1023,7 +1025,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
 					
 					if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") );
+						url = new URL(proxy + urlServer );
 					}
 					else {
 						url = new URL(urlServer);
@@ -1081,7 +1083,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//http://api.worldoftanks.eu/2.0/account/tanks/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576,502674600
 				urlServer = urlServerEU +"/2.0/account/tanks/?application_id=" + applicationIdEU + "&account_id=";
 				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-					url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+					url = new URL(proxy + urlServer + AllIdUser);
 				}
 				else {
 					url = new URL(urlServer + AllIdUser);
@@ -1293,7 +1295,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
 					
 					if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL("https://mirrorrr.appspot.com/"+urlServer.replaceAll("http://", "") + AllIdUser);
+						url = new URL(proxy + urlServer + AllIdUser);
 					}
 					else {
 						url = new URL(urlServer + AllIdUser);
