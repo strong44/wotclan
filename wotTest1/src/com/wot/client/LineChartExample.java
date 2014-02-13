@@ -128,8 +128,8 @@ public class LineChartExample extends SimplePanel {
 //			}
 //		}
 		//
-		for (int col = 0; col < commAccount.listDates.size(); col++) {
-			for (int row = 0; row < listStats.size(); row++) {
+		for (int col = 0; col < listStats.size() ; col++) {
+			for (int row = 0; row < commAccount.listDates.size(); row++) {
 				int bw = tabBattlesWins[col] ;
 				int b = tabBattles[col] ;
 				double db =  (double)bw/(double)b ;

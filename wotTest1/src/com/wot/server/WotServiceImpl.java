@@ -57,7 +57,7 @@ import com.wot.shared.XmlWiki;
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static public String proxy =  "http://wotachievement.appspot.com/WotWeb?";
 	
-	static public String lieu = "boulot"; //boulot ou maison si boulot -> pedro proxy 
+	static public String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -960,7 +960,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				String AllIdUser ="";
 				
 				for(String idUser :listIdUser) {
-					AllIdUser = AllIdUser + "," + idUser;
+					if("".equalsIgnoreCase(AllIdUser))
+						AllIdUser =  idUser;
+					else
+						AllIdUser = AllIdUser + "," + idUser;
 				}
 				
 		
@@ -1284,7 +1287,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					String AllIdUser ="";
 					
 					for(String idUser :listIdUser) {
-						AllIdUser = AllIdUser + "," + idUser;
+						if("".equalsIgnoreCase(AllIdUser))
+							AllIdUser =  idUser;
+						else
+							AllIdUser = AllIdUser + "," + idUser;
 					}
 					
 			
