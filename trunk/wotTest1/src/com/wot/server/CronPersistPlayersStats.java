@@ -748,7 +748,10 @@ public class CronPersistPlayersStats extends HttpServlet {
 			////
 			String AllIdUser ="";
 			for(String idUser :listIdUser) {
-				AllIdUser = AllIdUser + "," + idUser;
+				if("".equalsIgnoreCase(AllIdUser))
+					AllIdUser =  idUser;
+				else
+					AllIdUser = AllIdUser + "," + idUser;
 			}
 			
 			URL url = null ;

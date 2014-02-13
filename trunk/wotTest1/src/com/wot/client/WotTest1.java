@@ -4763,16 +4763,16 @@ public class WotTest1 implements EntryPoint {
 								
 								public void onSuccess(List<String> listClan) {
 									hPanelLoading.setVisible(false);
-									if (listClan.size()== 0) {
-
-										dialogBox
-										.setText(idClan);
-										serverResponseLabel
-												.addStyleName("serverResponseLabelError");
-										serverResponseLabel.setHTML(idClan + " An error arrived , please Retry again ! " );
-										dialogBox.center();
-										closeButton.setFocus(true);
-									}
+//									if (listClan.size()== 0) {
+//
+//										dialogBox
+//										.setText(idClan);
+//										serverResponseLabel
+//												.addStyleName("serverResponseLabelError");
+//										serverResponseLabel.setHTML(idClan + " An error arrived , please Retry again ! " );
+//										dialogBox.center();
+//										closeButton.setFocus(true);
+//									}
 									
 								}
 						});
