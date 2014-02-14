@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.http.*;
 
 import com.google.gson.Gson;
@@ -541,6 +542,29 @@ public class CronPersistPlayersStats extends HttpServlet {
 					            //pm.close();
 					        }
 						}
+						
+//						//some cleaning in old tables 
+//						Query query = pm.newQuery("SELECT * from DaoCommunityAccount");
+//					    query.setOrdering("dateCommunityAccount desc");
+//					    //query.setRange(0, range); //only 6 results 
+//					    List<Object> resultsTmp = (List<Object>) query.execute();
+//					    try {
+//				        	//must transform before persist the objet clan
+//				        	pm.currentTransaction().begin();
+//				        	//
+//				        	pm.deletePersistentAll(resultsTmp);
+//				        	pm.currentTransaction().commit();
+//				        }
+//					    catch(Exception e){
+//					    	e.printStackTrace();
+//					    	log.log(Level.SEVERE, "Exception while deleting daoCommunityAccount", e);
+//				        	pm.currentTransaction().rollback();
+//				        }
+//				        finally {
+//				            //pm.close();
+//				        }
+					    
+						//
 				}
 	//						}//for (DataCommunityClanMembers
 	
