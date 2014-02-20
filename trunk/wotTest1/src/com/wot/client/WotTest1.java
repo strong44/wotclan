@@ -274,7 +274,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> wrCalcColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getBattle_avg_performanceCalc());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getBattle_avg_performanceCalc());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(wrCalcColumn, "Win rate");
@@ -291,8 +291,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getBattle_avg_performanceCalc();
-	            	Double val2 = o2.getData().getBattle_avg_performanceCalc();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getBattle_avg_performanceCalc();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getBattle_avg_performanceCalc();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -317,13 +317,13 @@ public class WotTest1 implements EntryPoint {
 						
 						Source: http://www.modxvm.com/en/faq/
 	    	   */
-	    	  Double dmg = object.getData().getRatioDamagePoints();
-	    	  Double frags = object.getData().getRatioDestroyedPoints();
-	    	  Double spot = object.getData().getRatioDetectedPoints();
-	    	  Double cap = object.getData().getRatioCtfPoints();
-	    	  Double def = object.getData().getRatioDroppedCtfPoints();
-	    	  object.getData().getAverageLevel();
-	    	  double tier = object.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
+	    	  Double dmg = object.getData().getStatistics().getAllStatistics().getRatioDamagePoints();
+	    	  Double frags = object.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints();
+	    	  Double spot = object.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
+	    	  Double cap = object.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
+	    	  Double def = object.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
+	    	  object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc();
+	    	  double tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); //TODO : Ajouter ER dans parse JSON
 	    	  double er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
 	    	  /*
 	    	   * wrCal = wrCal * 100; //ex : 51,844444
@@ -354,20 +354,20 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double dmg = o1.getData().getRatioDamagePoints();
-	            	Double frags = o1.getData().getRatioDestroyedPoints();
-		    	  	Double spot = o1.getData().getRatioDetectedPoints();
-		    	  	Double cap = o1.getData().getRatioCtfPoints();
-		    	  	Double def = o1.getData().getRatioDroppedCtfPoints();
-		    	  	double tier = o1.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
+	            	Double dmg = o1.getData().getStatistics().getAllStatistics().getRatioDamagePoints();
+	            	Double frags = o1.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints();
+		    	  	Double spot = o1.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
+		    	  	Double cap = o1.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
+		    	  	Double def = o1.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
+		    	  	double tier = o1.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); //TODO : Ajouter ER dans parse JSON
 	  	    	  	double er1= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
 	  	    	  
-	            	dmg = o2.getData().getRatioDamagePoints();
-	            	frags = o2.getData().getRatioDestroyedPoints();
-		    	  	spot = o2.getData().getRatioDetectedPoints();
-		    	  	cap = o2.getData().getRatioCtfPoints();
-		    	  	def = o2.getData().getRatioDroppedCtfPoints();
-		    	  	tier = o2.getData().getAverageLevel(); //TODO : Ajouter ER dans parse JSON
+	            	dmg = o2.getData().getStatistics().getAllStatistics().getRatioDamagePoints();
+	            	frags = o2.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints();
+		    	  	spot = o2.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
+		    	  	cap = o2.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
+		    	  	def = o2.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
+		    	  	tier = o2.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); //TODO : Ajouter ER dans parse JSON
 	  	    	  	double er2= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
   	    	  
 	            	Double val1 = er1;
@@ -391,7 +391,7 @@ public class WotTest1 implements EntryPoint {
 				((185/(0,17+EXP(1)^((WR-35)*-0,134)))-500)*0,45
 	    	   */
 	
-	    	  double dbWn8 = object.getData().getWn8();
+	    	  double dbWn8 = object.getData().getStatistics().getAllStatistics().getWn8();
 	    	  int intWn8 = (int) (dbWn8 * 100);
 	    	  dbWn8 = (double)intWn8/100;
 	    	  
@@ -446,8 +446,8 @@ public class WotTest1 implements EntryPoint {
 //		  					+ def*70  
 //		  					+ ((185/(0.17 + Math.pow(Math.exp(1),((wr-35)*-0.134)))) -500)*0.45 ;
 		  	    	
-	            	Double val1 = o1.getData().getWn8();
-	            	Double val2 = o2.getData().getWn8();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getWn8();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getWn8();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -458,7 +458,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> tierCalcColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	    	  double tier = object.getData().getAverageLevel(); 
+	    	  double tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
 	    	  
 	    	  
 	    	  int wnTruncate= (int) (tier * 100);
@@ -483,8 +483,8 @@ public class WotTest1 implements EntryPoint {
 	            if (o1 != null) {
 	            	
 		  	    	  
-		  	    	double tier1 = o1.getData().getAverageLevel(); 
-		  	    	double tier2 = o2.getData().getAverageLevel(); 
+		  	    	double tier1 = o1.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
+		  	    	double tier2 = o2.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
 		  	    	  
 		  	    		    	  
 	            	Double val1 = tier1;
@@ -501,7 +501,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> battleWinsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getBattle_wins() );
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getWins() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(battleWinsColumn, "Victories");
@@ -518,8 +518,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getBattle_wins();
-	            	int val2 = o2.getData().getBattle_wins();
+	            	int val1 = o1.getData().getStatistics().getAllStatistics().getWins();
+	            	int val2 = o2.getData().getStatistics().getAllStatistics().getWins();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -530,7 +530,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> battlesColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getBattles() );
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getBattles() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(battlesColumn, "Battles");
@@ -548,8 +548,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getBattles();
-	            	int val2 = o2.getData().getBattles();
+	            	int val1 = o1.getData().getStatistics().getAllStatistics().getBattles();
+	            	int val2 = o2.getData().getStatistics().getAllStatistics().getBattles();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -590,7 +590,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getRatioCtfPoints());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getRatioCtfPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioCtfColumn, "Avg capture points");
@@ -607,8 +607,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getRatioCtfPoints();
-	            	Double val2 = o2.getData().getRatioCtfPoints();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -650,7 +650,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDamageColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getRatioDamagePoints());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getRatioDamagePoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDamageColumn, "Avg damage points");
@@ -667,8 +667,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getRatioDamagePoints();
-	            	Double val2 = o2.getData().getRatioDamagePoints();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getRatioDamagePoints();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getRatioDamagePoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -709,7 +709,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDroppedCtfColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getRatioDroppedCtfPoints());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDroppedCtfColumn, "Avg Defense points");
@@ -726,8 +726,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getRatioDroppedCtfPoints();
-	            	Double val2 = o2.getData().getRatioDroppedCtfPoints();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -767,7 +767,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioFragsColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getRatioDestroyedPoints());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioFragsColumn, "Avg destroyed");
@@ -784,8 +784,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getRatioDestroyedPoints();
-	            	Double val2 = o2.getData().getRatioDestroyedPoints();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getRatioDestroyedPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -860,7 +860,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> ratioDetectedColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getRatioDetectedPoints());
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getRatioDetectedPoints());
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(ratioDetectedColumn, "Avg detected");
@@ -877,8 +877,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	Double val1 = o1.getData().getRatioDetectedPoints();
-	            	Double val2 = o2.getData().getRatioDetectedPoints();
+	            	Double val1 = o1.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
+	            	Double val2 = o2.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
 	              return (o2 != null) ? val1.compareTo(val2) : 1;
 	            }
 	            return -1;
@@ -890,7 +890,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> xpColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getXp() );
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getXp() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(xpColumn, "Experience");
@@ -908,8 +908,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getXp();
-	            	int val2 = o2.getData().getXp();
+	            	int val1 = o1.getData().getStatistics().getAllStatistics().getXp();
+	            	int val2 = o2.getData().getStatistics().getAllStatistics().getXp();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -920,7 +920,7 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> avgXpColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	        return String.valueOf(object.getData().getBattle_avg_xp() );
+	        return String.valueOf(object.getData().getStatistics().getAllStatistics().getBattle_avg_xp() );
 	      }
 	    };
 	    tableStatsCommAcc.addColumn(avgXpColumn, "Avg Xp");
@@ -937,8 +937,8 @@ public class WotTest1 implements EntryPoint {
 
 	            // Compare the columns.
 	            if (o1 != null) {
-	            	int val1 = o1.getData().getBattle_avg_xp();
-	            	int val2 = o2.getData().getBattle_avg_xp();
+	            	int val1 = o1.getData().getStatistics().getAllStatistics().getBattle_avg_xp();
+	            	int val2 = o2.getData().getStatistics().getAllStatistics().getBattle_avg_xp();
 	              return (o2 != null) ? Integer.valueOf(val1).compareTo(Integer.valueOf(val2)) : 1;
 	            }
 	            return -1;
@@ -4474,7 +4474,7 @@ public class WotTest1 implements EntryPoint {
 			//findHistorizedStatsButton
 			posTop = posTop + 35 ;
 			final Button findHistorizedStatsButton = new Button("Send");
-			findHistorizedStatsButton.setText("Histo Battles");
+			findHistorizedStatsButton.setText("Histo WN8");
 			rootPanel.add(findHistorizedStatsButton, 10, posTop);
 			findHistorizedStatsButton.setSize("210px", "28px");
 			findHistorizedStatsButton.setEnabled(false);
@@ -5126,7 +5126,7 @@ public class WotTest1 implements EntryPoint {
 								    LineChartExample lineChartExample = new LineChartExample(listAccount); 
 								    lineChartExample.setVisible(true);
 								    sPanel.add(lineChartExample);
-								    tp.add(sPanel, "History batttles");
+								    tp.add(sPanel, "History WN8");
 								    int count = tp.getWidgetCount();
 									dockPanel.add(tp, DockPanel.SOUTH);
 									tp.selectTab(count-1);

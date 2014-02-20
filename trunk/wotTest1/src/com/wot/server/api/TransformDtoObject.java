@@ -1,6 +1,7 @@
 package com.wot.server.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,18 +19,20 @@ import com.wot.server.DaoDataCommunityAccountStatsVehicules;
 import com.wot.server.DaoDataCommunityClanMembers;
 import com.wot.server.DaoDataCommunityMembers;
 import com.wot.server.DaoItemsDataClan;
+import com.wot.shared.AllStatistics;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataClan;
 import com.wot.shared.DataCommunityAccountAchievements;
-import com.wot.shared.DataCommunityAccountRatings;
+import com.wot.shared.DataPlayerInfos;
 import com.wot.shared.DataCommunityAccountVehicules;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
 import com.wot.shared.ItemsDataClan;
-import com.wot.shared.PlayerRatings;
+import com.wot.shared.PlayersInfos;
+import com.wot.shared.Statistics;
 
 public class TransformDtoObject {
 
@@ -169,16 +172,16 @@ public class TransformDtoObject {
 		return myDataCommunityMembers;
 	}
 
-	public static DaoCommunityAccount2 TransformCommunityAccountToDaoCommunityAccount(CommunityAccount account) {
+	public static DaoCommunityAccount2 TransformCommunityAccountToDaoCommunityAccount(DataPlayerInfos dataPlayerInfos) {
 		// TODO Auto-generated method stub
 		DaoCommunityAccount2 myDaoCommunityAccount = new DaoCommunityAccount2();
-		myDaoCommunityAccount.setStatus( account.getStatus());
+		//myDaoCommunityAccount.setStatus( dataPlayerInfos.getStatus());
 		//myDaoCommunityAccount.setStatus_code(account.getStatus_code());
-		myDaoCommunityAccount.setIdUser(account.getIdUser());
+		myDaoCommunityAccount.setIdUser(String.valueOf(dataPlayerInfos.getAccount_id()));
 		//myDaoCommunityAccount.setDateCommunityAccount(account.getDateCommunityAccount());
-		myDaoCommunityAccount.setName(account.getName());	
+		myDaoCommunityAccount.setName(dataPlayerInfos.getNickname());	
 		//! TODO setData
-		myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(account.getData()));
+		myDaoCommunityAccount.setData(TransformDataCommunityAccountToDaoDataCommunityAccount(dataPlayerInfos.getStatistics()));
 		
 		return myDaoCommunityAccount;
 	}
@@ -199,65 +202,67 @@ public class TransformDtoObject {
 	}
 
 	
-	private static DataCommunityAccountRatings TransformDaoDataCommunityAccountToDataCommunityAccount(DaoDataCommunityAccount2 data) {
-		// TODO Auto-generated method stub
-		DataCommunityAccountRatings myDataCommunityAccountRatings = new DataCommunityAccountRatings();
+	private static DataPlayerInfos TransformDaoDataCommunityAccountToDataCommunityAccount(DaoDataCommunityAccount2 data) {
 		
-		
+		//	build return object
+		DataPlayerInfos myDataPlayerInfos = new DataPlayerInfos();
+		//
+		Statistics statistics = new Statistics();
+		AllStatistics allStatistics = new AllStatistics();
+		myDataPlayerInfos.setStatistics(statistics);
+		myDataPlayerInfos.getStatistics().setAllStatistics(allStatistics);
 		
 		if(data.getStats().getBattle_avg_performanceCalc() != null)
-			myDataCommunityAccountRatings.setBattle_avg_performanceCalc(data.getStats().getBattle_avg_performanceCalc());
+			myDataPlayerInfos.getStatistics().getAllStatistics().setBattle_avg_performanceCalc(data.getStats().getBattle_avg_performanceCalc());
 		
-		myDataCommunityAccountRatings.setBattle_avg_xp(new Double(data.getStats().getBattle_avg_xp()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setBattle_avg_xp(data.getStats().getBattle_avg_xp());
 		
-		myDataCommunityAccountRatings.setBattle_wins(new Double(data.getStats().getBattle_wins()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setWins(data.getStats().getBattle_wins());
 		
-		myDataCommunityAccountRatings.setBattles(new Double(data.getStats().getBattles()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setBattles(data.getStats().getBattles());
 		
-		myDataCommunityAccountRatings.setCtf_points(new Double(data.getStats().getCtf_points()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setCapture_points(data.getStats().getCtf_points());
 		
-		myDataCommunityAccountRatings.setDamage_dealt(new Double(data.getStats().getDamage_dealt()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setDamage_dealt(data.getStats().getDamage_dealt());
 		
-		myDataCommunityAccountRatings.setDropped_ctf_points(new Double(data.getStats().getDropped_ctf_points()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setDropped_capture_points(data.getStats().getDropped_ctf_points());
 		
-		myDataCommunityAccountRatings.setFrags(new Double(data.getStats().getFrags()));
-		
-		myDataCommunityAccountRatings.setIntegrated_rating(new Double(data.getStats().getIntegrated_rating()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setFrags(data.getStats().getFrags());
 		
 		if (data.getStats().getRatioCtfPoints() != null)
-			myDataCommunityAccountRatings.setRatioCtfPoints(new Double(data.getStats().getRatioCtfPoints()));
+			myDataPlayerInfos.getStatistics().getAllStatistics().setRatioCtfPoints(new Double(data.getStats().getRatioCtfPoints()));
 		
 		if (data.getStats().getRatioDamagePoints() != null) 
-			myDataCommunityAccountRatings.setRatioDamagePoints(new Double(data.getStats().getRatioDamagePoints()));
+			myDataPlayerInfos.getStatistics().getAllStatistics().setRatioDamagePoints(new Double(data.getStats().getRatioDamagePoints()));
 		
 		if(data.getStats().getRatioDestroyedPoints()!= null) 
-			myDataCommunityAccountRatings.setRatioDestroyedPoints(new Double(data.getStats().getRatioDestroyedPoints()));
+			myDataPlayerInfos.getStatistics().getAllStatistics().setRatioDestroyedPoints(new Double(data.getStats().getRatioDestroyedPoints()));
 		
 		if(data.getStats().getRatioDetectedPoints() != null)
-			myDataCommunityAccountRatings.setRatioDetectedPoints(new Double(data.getStats().getRatioDetectedPoints()));
+			myDataPlayerInfos.getStatistics().getAllStatistics().setRatioDetectedPoints(new Double(data.getStats().getRatioDetectedPoints()));
 		
 		if(data.getStats().getRatioDestroyedPoints() != null)
-			myDataCommunityAccountRatings.setRatioDroppedCtfPoints(new Double(data.getStats().getRatioDestroyedPoints()));
+			myDataPlayerInfos.getStatistics().getAllStatistics().setRatioDroppedCtfPoints(new Double(data.getStats().getRatioDestroyedPoints()));
 		
 		
-		myDataCommunityAccountRatings.setSpotted(new Double(data.getStats().getSpotted()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setSpotted(data.getStats().getSpotted());
 		
 		
-		myDataCommunityAccountRatings.setXp(new Double(data.getStats().getXp()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setXp(data.getStats().getXp());
 		
-		myDataCommunityAccountRatings.setAverageLevel(new Double(data.getStats().getAverageLevel()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setAverageLevelTankCalc(new Double(data.getStats().getAverageLevel()));
 		
-		myDataCommunityAccountRatings.setWn8(new Double(data.getStats().getWn8()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setWn8(new Double(data.getStats().getWn8()));
 		
 		
-		return myDataCommunityAccountRatings;
+		return myDataPlayerInfos;
 		
 		
 	}
 
-	private static DaoDataCommunityAccount2 TransformDataCommunityAccountToDaoDataCommunityAccount(DataCommunityAccountRatings dataCommunityAccountRatings) {
+	private static DaoDataCommunityAccount2 TransformDataCommunityAccountToDaoDataCommunityAccount(Statistics statistics) {
 		DaoDataCommunityAccount2 myDaoDataCommunityAccount = new DaoDataCommunityAccount2();
-		myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountRatingsToDaoDataCommunityAccountRatings(dataCommunityAccountRatings));
+		myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountRatingsToDaoDataCommunityAccountRatings(statistics));
 		
 		//myDaoDataCommunityAccount.setAchievements(TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(map.getAchievements()));
 		//myDaoDataCommunityAccount.setStats(TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(map.getStats()));
@@ -266,54 +271,53 @@ public class TransformDtoObject {
 		return myDaoDataCommunityAccount;
 	}
 
-	private static DaoDataCommunityAccountRatings2 TransformDataCommunityAccountRatingsToDaoDataCommunityAccountRatings(DataCommunityAccountRatings dataCommunityAccountRatings) {
+	private static DaoDataCommunityAccountRatings2 TransformDataCommunityAccountRatingsToDaoDataCommunityAccountRatings(Statistics statistics) {
 		DaoDataCommunityAccountRatings2 myDaoDataCommunityAccountRatings = new DaoDataCommunityAccountRatings2();
 		
-		myDaoDataCommunityAccountRatings.setBattle_avg_performance(new Double(dataCommunityAccountRatings.getBattle_avg_performance()));
+		//avg perf : ratio wins/battles 
+		//Double perf =  new Double(statistics.getAllStatistics().getWins())/ new Double(statistics.getAllStatistics().getBattles());
+		//myDaoDataCommunityAccountRatings.setBattle_avg_performance(perf);
 		
-		if(dataCommunityAccountRatings.getBattle_avg_performanceCalc() != null)
-			myDaoDataCommunityAccountRatings.setBattle_avg_performanceCalc(dataCommunityAccountRatings.getBattle_avg_performanceCalc());
+		myDaoDataCommunityAccountRatings.setBattle_avg_performanceCalc(statistics.getAllStatistics().getBattle_avg_performanceCalc());
 		
-		myDaoDataCommunityAccountRatings.setBattle_avg_xp(new Double(dataCommunityAccountRatings.getBattle_avg_xp()));
+		myDaoDataCommunityAccountRatings.setBattle_avg_xp(new Double(statistics.getAllStatistics().getBattle_avg_xp()));
 		
-		myDaoDataCommunityAccountRatings.setBattle_wins(new Double(dataCommunityAccountRatings.getBattle_wins()));
+		myDaoDataCommunityAccountRatings.setBattle_wins(new Double(statistics.getAllStatistics().getWins()));
 		
-		myDaoDataCommunityAccountRatings.setBattles(new Double(dataCommunityAccountRatings.getBattles()));
+		myDaoDataCommunityAccountRatings.setBattles(new Double(statistics.getAllStatistics().getBattles()));
 		
-		myDaoDataCommunityAccountRatings.setCtf_points(new Double(dataCommunityAccountRatings.getCtf_points()));
+		myDaoDataCommunityAccountRatings.setCtf_points(new Double(statistics.getAllStatistics().getCapture_points()));
 		
-		myDaoDataCommunityAccountRatings.setDamage_dealt(new Double(dataCommunityAccountRatings.getDamage_dealt()));
+		myDaoDataCommunityAccountRatings.setDamage_dealt(new Double(statistics.getAllStatistics().getDamage_dealt()));
 		
-		myDaoDataCommunityAccountRatings.setDropped_ctf_points(new Double(dataCommunityAccountRatings.getDropped_ctf_points()));
+		myDaoDataCommunityAccountRatings.setDropped_ctf_points(new Double(statistics.getAllStatistics().getDropped_capture_points()));
 		
-		myDaoDataCommunityAccountRatings.setFrags(new Double(dataCommunityAccountRatings.getFrags()));
+		myDaoDataCommunityAccountRatings.setFrags(new Double(statistics.getAllStatistics().getFrags()));
 		
-		myDaoDataCommunityAccountRatings.setIntegrated_rating(new Double(dataCommunityAccountRatings.getIntegrated_rating()));
+	
+		myDaoDataCommunityAccountRatings.setRatioCtfPoints(new Double(statistics.getAllStatistics().getRatioCtfPoints()));
 		
-		if (dataCommunityAccountRatings.getRatioCtfPoints() != null)
-			myDaoDataCommunityAccountRatings.setRatioCtfPoints(new Double(dataCommunityAccountRatings.getRatioCtfPoints()));
+		if (statistics.getAllStatistics().getRatioDamagePoints() != null) 
+			myDaoDataCommunityAccountRatings.setRatioDamagePoints(new Double(statistics.getAllStatistics().getRatioDamagePoints()));
 		
-		if (dataCommunityAccountRatings.getRatioDamagePoints() != null) 
-			myDaoDataCommunityAccountRatings.setRatioDamagePoints(new Double(dataCommunityAccountRatings.getRatioDamagePoints()));
+		if(statistics.getAllStatistics().getRatioDestroyedPoints()!= null) 
+			myDaoDataCommunityAccountRatings.setRatioDestroyedPoints(new Double(statistics.getAllStatistics().getRatioDestroyedPoints()));
 		
-		if(dataCommunityAccountRatings.getRatioDestroyedPoints()!= null) 
-			myDaoDataCommunityAccountRatings.setRatioDestroyedPoints(new Double(dataCommunityAccountRatings.getRatioDestroyedPoints()));
+		if(statistics.getAllStatistics().getRatioDetectedPoints() != null)
+			myDaoDataCommunityAccountRatings.setRatioDetectedPoints(new Double(statistics.getAllStatistics().getRatioDetectedPoints()));
 		
-		if(dataCommunityAccountRatings.getRatioDetectedPoints() != null)
-			myDaoDataCommunityAccountRatings.setRatioDetectedPoints(new Double(dataCommunityAccountRatings.getRatioDetectedPoints()));
-		
-		if(dataCommunityAccountRatings.getRatioDestroyedPoints() != null)
-			myDaoDataCommunityAccountRatings.setRatioDroppedCtfPoints(new Double(dataCommunityAccountRatings.getRatioDestroyedPoints()));
-		
-		
-		myDaoDataCommunityAccountRatings.setSpotted(new Double(dataCommunityAccountRatings.getSpotted()));
+		if(statistics.getAllStatistics().getRatioDestroyedPoints() != null)
+			myDaoDataCommunityAccountRatings.setRatioDroppedCtfPoints(new Double(statistics.getAllStatistics().getRatioDestroyedPoints()));
 		
 		
-		myDaoDataCommunityAccountRatings.setXp(new Double(dataCommunityAccountRatings.getXp()));
+		myDaoDataCommunityAccountRatings.setSpotted(new Double(statistics.getAllStatistics().getSpotted()));
 		
-		myDaoDataCommunityAccountRatings.setAverageLevel(new Double(dataCommunityAccountRatings.getAverageLevel()));
 		
-		myDaoDataCommunityAccountRatings.setWn8(new Double(dataCommunityAccountRatings.getWn8()));
+		myDaoDataCommunityAccountRatings.setXp(new Double(statistics.getAllStatistics().getXp()));
+		
+		myDaoDataCommunityAccountRatings.setAverageLevel(new Double(statistics.getAllStatistics().getAverageLevelTankCalc()));
+		
+		myDaoDataCommunityAccountRatings.setWn8(new Double(statistics.getAllStatistics().getWn8()));
 		
 		return myDaoDataCommunityAccountRatings;
 	}
@@ -389,25 +393,25 @@ public class TransformDtoObject {
 		return listDataCommAccVeh;
 	}
 
-	private static DataCommunityAccountRatings TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(DaoDataCommunityAccountStats stats) {
-		DataCommunityAccountRatings myDataCommunityAccountStats =  new DataCommunityAccountRatings();
-		
-		myDataCommunityAccountStats.setBattle_avg_performance(new Double(stats.getBattle_avg_performance()));
-		myDataCommunityAccountStats.setBattle_avg_xp(new Double(stats.getBattle_avg_xp()));
-		myDataCommunityAccountStats.setBattle_wins(new Double(stats.getBattle_wins()));
-		myDataCommunityAccountStats.setBattles(new Double(stats.getBattles()));
-		myDataCommunityAccountStats.setCtf_points(new Double(stats.getCtf_points()));
-		myDataCommunityAccountStats.setDamage_dealt(new Double(stats.getDamage_dealt()));
-		myDataCommunityAccountStats.setDropped_ctf_points(new Double(stats.getDropped_ctf_points()));
-		myDataCommunityAccountStats.setFrags(new Double(stats.getFrags()));
-		myDataCommunityAccountStats.setIntegrated_rating(new Double(stats.getIntegrated_rating()));
-		myDataCommunityAccountStats.setSpotted(new Double(stats.getSpotted()));
-		myDataCommunityAccountStats.setXp(new Double(stats.getXp()));
-		
-		
-		
-		return myDataCommunityAccountStats;
-	}
+//	private static DataPlayerInfos TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(DaoDataCommunityAccountStats stats) {
+//		DataPlayerInfos myDataCommunityAccountStats =  new DataPlayerInfos();
+//		
+//		myDataCommunityAccountStats.setBattle_avg_performance(new Double(stats.getBattle_avg_performance()));
+//		myDataCommunityAccountStats.setBattle_avg_xp(new Double(stats.getBattle_avg_xp()));
+//		myDataCommunityAccountStats.setBattle_wins(new Double(stats.getBattle_wins()));
+//		myDataCommunityAccountStats.setBattles(new Double(stats.getBattles()));
+//		myDataCommunityAccountStats.setCtf_points(new Double(stats.getCtf_points()));
+//		myDataCommunityAccountStats.setDamage_dealt(new Double(stats.getDamage_dealt()));
+//		myDataCommunityAccountStats.setDropped_ctf_points(new Double(stats.getDropped_ctf_points()));
+//		myDataCommunityAccountStats.setFrags(new Double(stats.getFrags()));
+//		myDataCommunityAccountStats.setIntegrated_rating(new Double(stats.getIntegrated_rating()));
+//		myDataCommunityAccountStats.setSpotted(new Double(stats.getSpotted()));
+//		myDataCommunityAccountStats.setXp(new Double(stats.getXp()));
+//		
+//		
+//		
+//		return myDataCommunityAccountStats;
+//	}
 
 	private static DataCommunityAccountAchievements TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(DaoDataCommunityAccountAchievements achievements) {
 		// TODO Auto-generated method stub
@@ -448,25 +452,25 @@ public class TransformDtoObject {
 	
 	
 	
-	private static DaoDataCommunityAccountStats TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(DataCommunityAccountRatings stats) {
-		DaoDataCommunityAccountStats myDaoDataCommunityAccountStats =  new DaoDataCommunityAccountStats();
-		
-		myDaoDataCommunityAccountStats.setBattle_avg_performance(stats.getBattle_avg_performance());
-		myDaoDataCommunityAccountStats.setBattle_avg_xp(stats.getBattle_avg_xp());
-		myDaoDataCommunityAccountStats.setBattle_wins(stats.getBattle_wins());
-		myDaoDataCommunityAccountStats.setBattles(stats.getBattles());
-		myDaoDataCommunityAccountStats.setCtf_points(stats.getCtf_points());
-		myDaoDataCommunityAccountStats.setDamage_dealt(stats.getDamage_dealt());
-		myDaoDataCommunityAccountStats.setDropped_ctf_points(stats.getDropped_ctf_points());
-		myDaoDataCommunityAccountStats.setFrags(stats.getFrags());
-		myDaoDataCommunityAccountStats.setIntegrated_rating(stats.getIntegrated_rating());
-		myDaoDataCommunityAccountStats.setSpotted(stats.getSpotted());
-		myDaoDataCommunityAccountStats.setXp(stats.getXp());
-		
-		
-		
-		return myDaoDataCommunityAccountStats;
-	}
+//	private static DaoDataCommunityAccountStats TransformDataCommunityAccountStatsToDaoDataCommunityAccountStats(DataPlayerInfos stats) {
+//		DaoDataCommunityAccountStats myDaoDataCommunityAccountStats =  new DaoDataCommunityAccountStats();
+//		
+//		myDaoDataCommunityAccountStats.setBattle_avg_performance(stats.getBattle_avg_performance());
+//		myDaoDataCommunityAccountStats.setBattle_avg_xp(stats.getBattle_avg_xp());
+//		myDaoDataCommunityAccountStats.setBattle_wins(stats.getBattle_wins());
+//		myDaoDataCommunityAccountStats.setBattles(stats.getBattles());
+//		myDaoDataCommunityAccountStats.setCtf_points(stats.getCtf_points());
+//		myDaoDataCommunityAccountStats.setDamage_dealt(stats.getDamage_dealt());
+//		myDaoDataCommunityAccountStats.setDropped_ctf_points(stats.getDropped_ctf_points());
+//		myDaoDataCommunityAccountStats.setFrags(stats.getFrags());
+//		myDaoDataCommunityAccountStats.setIntegrated_rating(stats.getIntegrated_rating());
+//		myDaoDataCommunityAccountStats.setSpotted(stats.getSpotted());
+//		myDaoDataCommunityAccountStats.setXp(stats.getXp());
+//		
+//		
+//		
+//		return myDaoDataCommunityAccountStats;
+//	}
 
 	private static DaoDataCommunityAccountAchievements TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(DataCommunityAccountAchievements achievements) {
 		// TODO Auto-generated method stub
@@ -504,22 +508,22 @@ public class TransformDtoObject {
 		return myDaoDataCommunityAccountAchievements;
 	}
 
-	public static CommunityAccount TransformPlayerRatingsToCommunityAccount(PlayerRatings playerRatings) {
-		// TODO Auto-generated method stub
-		CommunityAccount myCommunityAccount = new CommunityAccount();
-		myCommunityAccount.setStatus( playerRatings.getStatus());
-		//myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
-		myCommunityAccount.setIdUser(playerRatings.getIdUser());
-		//myCommunityAccount.setDateCommunityAccount(daoAccount.getDateCommunityAccount());
-		myCommunityAccount.setName(playerRatings.getName());
-		
-		//myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
-		
-		myCommunityAccount.setData(playerRatings.getData().get(playerRatings.getIdUser()));
-		return myCommunityAccount;
-	}
+//	public static CommunityAccount TransformPlayerRatingsToCommunityAccount(PlayersInfos playerRatings) {
+//		// TODO Auto-generated method stub
+//		CommunityAccount myCommunityAccount = new CommunityAccount();
+//		myCommunityAccount.setStatus( playerRatings.getStatus());
+//		//myCommunityAccount.setStatus_code(daoAccount.getStatus_code());
+//		myCommunityAccount.setIdUser(playerRatings.getIdUser());
+//		//myCommunityAccount.setDateCommunityAccount(daoAccount.getDateCommunityAccount());
+//		myCommunityAccount.setName(playerRatings.getName());
+//		
+//		//myCommunityAccount.setData(TransformDaoDataCommunityAccountToDataCommunityAccount(daoAccount.getData()));
+//		
+//		myCommunityAccount.setData(playerRatings.getData().get(playerRatings.getIdUser()));
+//		return myCommunityAccount;
+//	}
 
-	public static List<CommunityAccount> TransformPlayerRatingsToListCommunityAccount(PlayerRatings playerRatings) {
+	public static List<CommunityAccount> TransformPlayersInfosToListCommunityAccount(PlayersInfos playerRatings) {
 	/**
 	 * {"status":"ok","count":2,"data":{ 
 		"461":{ 
@@ -551,9 +555,9 @@ public class TransformDtoObject {
 	 */
 		List<CommunityAccount> myListCommunityAccount = new ArrayList<CommunityAccount>();
 		
-		Set<Entry<String, DataCommunityAccountRatings>>  set = playerRatings.getData().entrySet();
+		Set<Entry<String, DataPlayerInfos>>  set = playerRatings.getData().entrySet();
 		
-		for(Entry<String, DataCommunityAccountRatings> entry :set) {
+		for(Entry<String, DataPlayerInfos> entry :set) {
 			CommunityAccount myCommunityAccount = new CommunityAccount();
 			myCommunityAccount.setIdUser(entry.getKey());
 			myCommunityAccount.setData(entry.getValue());
@@ -562,6 +566,18 @@ public class TransformDtoObject {
 			myListCommunityAccount.add(myCommunityAccount);
 		}
 		return myListCommunityAccount;
+	}
+
+	public static List<DataPlayerInfos> TransformPlayerInfosToListDataPlayerInfos(PlayersInfos playersInfos) {
+		// TODO Auto-generated method stub
+		
+		List<DataPlayerInfos> listDataPlayerInfos = new ArrayList<DataPlayerInfos>();
+		
+		Collection<DataPlayerInfos> col = playersInfos.getData().values();
+		
+		listDataPlayerInfos.addAll(col);
+		
+		return listDataPlayerInfos;
 	}
 	
 	
