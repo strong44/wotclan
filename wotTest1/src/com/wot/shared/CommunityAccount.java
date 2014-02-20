@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.view.client.ProvidesKey;
+import com.wot.server.DaoDataCommunityAccount2;
 
 public class CommunityAccount implements Serializable, Comparable<CommunityAccount>{
 
@@ -34,7 +35,7 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 	String nameAccount ;
 
 	//Map<String, DataCommunityAccountRatings> data;
-	DataCommunityAccountRatings data;
+	DataPlayerInfos data;
 
 	public List<String> listDates = new ArrayList<String>()  ;
 	public List<Integer> listbattles = new ArrayList<Integer>()  ;
@@ -82,6 +83,8 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 
 	private List<DataCommunityAccountVehicules> listVehPlayedDay1;
 	
+	public List< DataPlayerInfos>  listDataPlayerInfos = new ArrayList<DataPlayerInfos>();
+	
     public List<DataCommunityAccountVehicules> getListVehPlayedDay1() {
 		return listVehPlayedDay1;
 	}
@@ -90,11 +93,11 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 		this.listVehPlayedDay1 = listVehPlayed;
 	}
 	
-	public DataCommunityAccountRatings getData() {
+	public DataPlayerInfos getData() {
 		return data;
 	}
 
-	public void setData(DataCommunityAccountRatings data) {
+	public void setData(DataPlayerInfos data) {
 		this.data = data;
 	}
 

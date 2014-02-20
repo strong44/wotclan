@@ -39,7 +39,7 @@ public class DataCommunityAccount implements Serializable {
 	 * @return
 	 */
 
-	DataCommunityAccountRatings ratings;
+	DataPlayerInfos ratings;
 	
 	/**
 	 * "vehicles": [
@@ -85,11 +85,11 @@ public class DataCommunityAccount implements Serializable {
 		this.vehicles = vehicles;
 	}
 
-	public DataCommunityAccountRatings getStats() {
+	public DataPlayerInfos getStats() {
 		return ratings;
 	}
 
-	public void setStats(DataCommunityAccountRatings stats) {
+	public void setStats(DataPlayerInfos stats) {
 		this.ratings = stats;
 	}
 

@@ -137,6 +137,7 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
 	public int getBattle_avg_performance() {
 		return battle_avg_performance.getValue().intValue();
 	}
+	//ratio wins/battle
 	public void setBattle_avg_performance(Double battle_avg_performance) {
 		this.battle_avg_performance.setValue( battle_avg_performance);
 	}

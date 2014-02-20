@@ -31,7 +31,7 @@ import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
-import com.wot.shared.DataCommunityAccountRatings;
+import com.wot.shared.DataPlayerInfos;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
@@ -39,7 +39,7 @@ import com.wot.shared.DataPlayerTankRatings;
 import com.wot.shared.DataTankEncyclopedia;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ObjectFactory;
-import com.wot.shared.PlayerRatings;
+import com.wot.shared.PlayersInfos;
 import com.wot.shared.PlayerTankRatings;
 import com.wot.shared.TankEncyclopedia;
 import com.wot.shared.XmlDescription;
@@ -85,114 +85,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		//
 		log.warning("========lancement persistStats ============== " + input);
 		
-		//recup des stats des user du clan NVS -- pour l'instant le seul clan
-		// a terme il faut rÃ©cupÃ©rer les clan prÃ©sents en base, et requeter les stats de leur joueurs 
-
-		
-		//getAllStats("500006074", indexBeginUser, indexEndUser); // 0 10 , 10 20 ,30 40 , 60 70, .. 90 100 
-		
-//		if (indexEndUser > indexMaxUser) {
-//			indexBeginUser = 0; 
-//			indexEndUser = pas;
-//		}else {
-//			indexBeginUser = indexBeginUser +  pas ;
-//			indexEndUser = indexEndUser +  pas;
-//		}
-		
-//		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-//		Queue queue = QueueFactory.getDefaultQueue();
-//		try {
-//		    Transaction txn = ds.beginTransaction();
-//		    
-//		    // http://wotachievement.appspot.com/wottest1/greet
-//		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
-//		    //Content-Type	text/x-gwt-rpc; charset=utf-8
-//		    HashMap hm= new HashMap<String, String>();
-//		    hm.put("Content-Type", "text/x-gwt-rpc");
-//		    
-//		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
-//		    to.method(Method.POST);
-//		    //to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
-//		    //http://wotachievement.appspot.com
-//		    if (lieu.equalsIgnoreCase("boulot")) {
-//		    	//local
-//		    	to.payload("7|0|6|http://127.0.0.1:8888/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");	
-//		    }else {
-//		    	to.payload("7|0|6|http://http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");
-//		    }
-//		    
-//		    queue.add(to);
-//
-//		    // ...
-//		    txn.commit();
-//		} catch (DatastoreFailureException e) {
-//			log.severe(e.getMessage());
-//		}
-		
-		
-		
-		
 		persistAllStats3( new Date(), listIdUser);
 		//return resultAchievement;
 		return listUsersPersisted;
 	}
-
-	@Override
-		public String persistStatsForCron(String idClan) throws IllegalArgumentException {
-			//
-			log.warning("========lancement persistStatsForCron  ============== " + idClan);
-			
-			//recup des stats des user du clan NVS -- pour l'instant le seul clan
-			// a terme il faut rÃ©cupÃ©rer les clan prÃ©sents en base, et requeter les stats de leur joueurs 
-	
-			
-			//getAllStats("500006074", indexBeginUser, indexEndUser); // 0 10 , 10 20 ,30 40 , 60 70, .. 90 100 
-			
-	//		if (indexEndUser > indexMaxUser) {
-	//			indexBeginUser = 0; 
-	//			indexEndUser = pas;
-	//		}else {
-	//			indexBeginUser = indexBeginUser +  pas ;
-	//			indexEndUser = indexEndUser +  pas;
-	//		}
-			
-	//		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-	//		Queue queue = QueueFactory.getDefaultQueue();
-	//		try {
-	//		    Transaction txn = ds.beginTransaction();
-	//		    
-	//		    // http://wotachievement.appspot.com/wottest1/greet
-	//		    // 7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClans|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|
-	//		    //Content-Type	text/x-gwt-rpc; charset=utf-8
-	//		    HashMap hm= new HashMap<String, String>();
-	//		    hm.put("Content-Type", "text/x-gwt-rpc");
-	//		    
-	//		    TaskOptions to = TaskOptions.Builder.withUrl("/wottest1/greet").headers(hm);
-	//		    to.method(Method.POST);
-	//		    //to.payload("7|0|7|http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|I|NOVA SNAIL|1|2|3|4|2|5|6|7|0|");
-	//		    //http://wotachievement.appspot.com
-	//		    if (lieu.equalsIgnoreCase("boulot")) {
-	//		    	//local
-	//		    	to.payload("7|0|6|http://127.0.0.1:8888/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");	
-	//		    }else {
-	//		    	to.payload("7|0|6|http://http://wotachievement.appspot.com/wottest1/|E03CD0D1B0EF18B0BD735F9C9BA22A2E|com.wot.client.WotService|getClan|java.lang.String/2004016611|NOVA SNAIL|1|2|3|4|1|5|6|");
-	//		    }
-	//		    
-	//		    queue.add(to);
-	//
-	//		    // ...
-	//		    txn.commit();
-	//		} catch (DatastoreFailureException e) {
-	//			log.severe(e.getMessage());
-	//		}
-			
-			
-			
-			
-			//persistAllStatsCron( new Date(), idClan);
-			//return resultAchievement;
-			return idClan;
-		}
 
 	/**
 	 * Escape an html string. Escaping data received from the client helps to prevent cross-site script vulnerabilities.
@@ -212,38 +108,6 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	public Clan getClans(String input, int offset) throws IllegalArgumentException {
 		//////////
 		log.warning("========lancement getClans ==============");
-		
-		//getClan("");
-		
-		////////////////
-//		URL urlAchievement = null;
-//		String AllLinesWot = "";
-//		try {
-//			if(lieu.equalsIgnoreCase("boulot")) //on passe par 1 proxy
-//				urlAchievement = new URL ("https://pedro-proxy.appspot.com/wiki.worldoftanks.com/achievements");
-//			else
-//				urlAchievement = new URL ("http://wiki.worldoftanks.com/achievements");
-//			
-//			HttpURLConnection conn = (HttpURLConnection)urlAchievement.openConnection();
-//			conn.setReadTimeout(60000);
-//			conn.setConnectTimeout(60000);
-//			conn.getInputStream();
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//			
-//			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlAchievement.openStream()));
-//			String line = "";
-//			
-//
-//			while ((line = reader.readLine()) != null) {
-//				AllLinesWot = AllLinesWot + line;
-//			}
-//			reader.close();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		log.info(AllLinesWot);
-		
 		ObjectFactory objFactory = null;
 		try {
 			JAXBContext context = JAXBContext.newInstance(XmlWiki.class);
@@ -377,41 +241,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			clan = gson.fromJson(AllLines, Clan.class );
 			//ItemsDataClan  myItemsDataClan = null ;
 			
-			//translate the motto
-			//https://www.googleapis.com/language/translate/v2/detect?{parameters}
-			
-			// Set your Windows Azure Marketplace client info - See http://msdn.microsoft.com/en-us/library/hh454950.aspx
-		    
-		    //String idClient = "a41ecfea-8da4-41a9-8f66-be116476de4b";
-		    //String secretClient = "LgIs7oBcmBUSZ0964xZxdqkZDMWSSSzvGHUZf1sUEMs";
-		    
-		    
-//		    Translate.setClientId(idClient/* Enter your Windows Azure Client Id here */);
-//		    Translate.setClientSecret(secretClient/* Enter your Windows Azure Client Secret here */);
-//
-//		    Detect.setClientId(idClient);
-//	        Detect.setClientSecret(secretClient);
-	        
-//			for (ItemsDataClan myItemsDataClan : clan.getItems()) {
-//				translatedText = "Pas de traduction, Seules les 5 premieres lignes sont traduites";
-//				String motto = myItemsDataClan.getMotto();
-//				//detect lang motto
-//				try {
-//					Language detectedLanguage = null;
-//					
-//						detectedLanguage = Detect.execute(motto);
-//						
-//						if (detectedLanguage != null && !detectedLanguage.getName(Language.FRENCH).equalsIgnoreCase("FranÃ§ais") && nbTrad < 6  ) {
-//							translatedText = Translate.execute(motto, detectedLanguage, Language.FRENCH);
-//							myItemsDataClan.setMotto(motto + " (" + detectedLanguage.name() +") " + "--> traduction : " + translatedText);
-//							nbTrad++;
-//						}
-//					
-//				} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				System.out.println(e.getMessage());
-//				}
-//			}
+
 	
 		} catch (MalformedURLException e) {
 			// ...
@@ -744,6 +574,8 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						    		comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
 						    		
 						    		comAcc.listBattlesWins.add(myDaoCommunityAccount.getData().getStats().getBattle_wins());
+						    		CommunityAccount comA=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(myDaoCommunityAccount);
+						    		comAcc.listDataPlayerInfos.add(comA.getData());
 						    	}
 					    	}
 					    	previousDate = dateCurrent;
@@ -957,196 +789,196 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 
 
-		@Override
-			public AllCommunityAccount getAllMembersClanAndStats( List<String> listIdUser) {
-			
-				String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-			
-				// Escape data from the client to avoid cross-site script vulnerabilities.
-				userAgent = escapeHtml(userAgent);
-				
-				List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
-				AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
-				myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
-				PersistenceManager pm =null;
-				
-				try {
-					pm = PMF.get().getPersistenceManager();
-					
-					String AllIdUser ="";
-					
-					for(String idUser :listIdUser) {
-						if("".equalsIgnoreCase(AllIdUser))
-							AllIdUser =  idUser;
-						else
-							AllIdUser = AllIdUser + "," + idUser;
-					}
-					
-			
-								
-					URL url = null ;
-					
-					String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
-					//http://api.worldoftanks.eu/2.0/account/ratings/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576
-					//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
-					
-					if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-						url = new URL(proxy + urlServer + AllIdUser);
-					}
-					else {
-						url = new URL(urlServer + AllIdUser);
-					}
-				
-					HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
-					conn2.setReadTimeout(20000);
-					conn2.setConnectTimeout(20000);
-					conn2.getInputStream();
-					BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+	@Override
+	public AllCommunityAccount getAllMembersClanAndStats( List<String> listIdUser) {
 	
-					//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
-					String lineUser = "";
-					;
-					String AllLinesUser = "";
+		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 	
-					while ((lineUser = readerUser.readLine()) != null) {
-						AllLinesUser = AllLinesUser + lineUser;
-					}
-					//System.out.println(AllLinesUser);
-					
-					readerUser.close();
-	
-					Gson gsonUser = new Gson();
-					//log.info(AllLinesUser.substring(0, 200));
-					PlayerRatings playerRatings = gsonUser.fromJson(AllLinesUser, PlayerRatings.class);
-					//playerRatings.setIdUser(idUser);
-					
-					//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sÃ©rialisation (pas de MAP !!))
-					List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayerRatingsToListCommunityAccount(playerRatings);
-					
-					
-					//////////////////////////////////
-					// ==API encyclopÃ©die des tanks - Pour obtenir le level des char (on doit calculier le tier moyen jouÃ©)
-					// Dans les stats des joueurs nous avons le tank-id mais pas son level
-					
-					//on requete notre base les averageLevel y ont été stockés par le cron dans la table community Account
-					Map <String, CommunityAccount> mapHistStatsUsers = getMapHistorizedStatsUsers(listIdUser, 6);
-					
-					
-					//make some calculation of stats 
-					for(CommunityAccount communityAccount : listCommunityAccount1) {
-						String user_id = communityAccount.getIdUser();
-					
-						//setData.
-						log.warning("mapCommAcc " + mapHistStatsUsers);
-						CommunityAccount  histStatUser= mapHistStatsUsers.get(user_id);
-						
-						//calcul du tier moyen
-						//Double nbBattles = 0.0;
-						//Double levelByBattles = 0.0 ; 
-						log.warning("histStatUser " + histStatUser);
-						log.warning("histStatUser.getData() " + histStatUser.getData());
-						///log.warning("commAcc.getData().getAverageLevel " + commAcc.getData().getAverageLevel);
-						
-						Double averageLevelTank =histStatUser.getData().getAverageLevel(); 
-						Double wn8 =histStatUser.getData().getWn8(); 
-						
-						DataCommunityAccountRatings myDataCommunityAccountRatings = communityAccount.getData();
-						
-						//average level tank
-						myDataCommunityAccountRatings.setAverageLevel(averageLevelTank);
-						
-						myDataCommunityAccountRatings.setWn8(wn8);
-						
-						//log.info("averageLevelTank" + averageLevelTank);
-						
-						//== WR calculated
-						int battles = myDataCommunityAccountRatings.getBattles();
-						int battlesWin = myDataCommunityAccountRatings.getBattle_wins();
-						Double wrCal = (double) ((double)battlesWin/(double)battles);
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						wrCal = wrCal * 100; //ex : 51,844444
-						int intWrCal = (int) (wrCal * 100); //ex : 5184
-						
-						wrCal = (double)intWrCal / 100 ; //ex : 51,84
-						myDataCommunityAccountRatings.setBattle_avg_performanceCalc(wrCal);
-						
-						//== Ratio capture points calculated
-						int ctfPoints = myDataCommunityAccountRatings.getCtf_points();
-						Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);// 1,28 :1 = 1.28 
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-						int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex intCtfPointsCal : 128,27 ctfPointsCal = 1.28
-						
-						ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex ctfPointsCal : 1,28 intCtfPointsCal = 128
-						myDataCommunityAccountRatings.setRatioCtfPoints(ctfPointsCal);
-						
-						//==Damage Ration calculated
-						int damagePoints = myDataCommunityAccountRatings.getDamage_dealt();
-						Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-						int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
-						
-						ratioDamagePoints = (double)intRatioDamagePoints / 100 ; //ex : 1,28
-						myDataCommunityAccountRatings.setRatioDamagePoints(ratioDamagePoints);
-						
-						
-						//==Ratio Defense calculated
-						int droppedCtfPoints = myDataCommunityAccountRatings.getDropped_ctf_points();
-						Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-						int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
-						
-						ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
-						myDataCommunityAccountRatings.setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
-						
-						
-						//==Ratio Destroyed calculated
-						int destroyedPoints = myDataCommunityAccountRatings.getFrags();
-						Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-						int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
-						
-						ratiodestroyedPoints = (double)intRatiodestroyedPoints / 100 ; //ex : 1,28
-						myDataCommunityAccountRatings.setRatioDestroyedPoints(ratiodestroyedPoints);
-						
-						//==Ratio Detected calculated
-						int detectedPoints = myDataCommunityAccountRatings.getSpotted();
-						Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
-						
-						//on ne conserve que 2 digits aprÃ¨s la virgule 
-						//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
-						int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
-						
-						ratioDetectedPoints = (double)intRatioDetectedPoints / 100 ; //ex : 1,28
-						myDataCommunityAccountRatings.setRatioDetectedPoints(ratioDetectedPoints);
-					
-					}
-					//add account
-					listCommunityAccount.addAll(listCommunityAccount1);
+		// Escape data from the client to avoid cross-site script vulnerabilities.
+		userAgent = escapeHtml(userAgent);
 		
-	
-				} catch (MalformedURLException e) {
-					// ...
-					e.printStackTrace();
-				} catch (IOException e) {
-					// ...
-					e.printStackTrace();
-				}
-				finally {
-					pm.close();
-				}
+		List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
+		AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
+		myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+		PersistenceManager pm =null;
+		
+		try {
+			pm = PMF.get().getPersistenceManager();
 			
-				return myAllCommunityAccount;
+			String AllIdUser ="";
+			
+			for(String idUser :listIdUser) {
+				if("".equalsIgnoreCase(AllIdUser))
+					AllIdUser =  idUser;
+				else
+					AllIdUser = AllIdUser + "," + idUser;
+			}
+			
+	
+						
+			URL url = null ;
+			
+			//String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
+			String urlServer = urlServerEU +"/wot/account/info/?application_id=" + applicationIdEU + "&account_id=";
+			
+			//http://api.worldoftanks.eu/2.0/account/ratings/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576
+			//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
+			
+			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				url = new URL(proxy + urlServer + AllIdUser);
+			}
+			else {
+				url = new URL(urlServer + AllIdUser);
+			}
+		
+			HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
+			conn2.setReadTimeout(20000);
+			conn2.setConnectTimeout(20000);
+			conn2.getInputStream();
+			BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+
+			//BufferedReader readerUser = new BufferedReader(new InputStreamReader(url.openStream()));
+			String lineUser = "";
+			;
+			String AllLinesUser = "";
+
+			while ((lineUser = readerUser.readLine()) != null) {
+				AllLinesUser = AllLinesUser + lineUser;
+			}
+			//System.out.println(AllLinesUser);
+			
+			readerUser.close();
+
+			Gson gsonUser = new Gson();
+			//log.info(AllLinesUser.substring(0, 200));
+			PlayersInfos playersInfos = gsonUser.fromJson(AllLinesUser, PlayersInfos.class);
+			//playerRatings.setIdUser(idUser);
+			
+			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sÃ©rialisation (pas de MAP !!))
+			List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayersInfosToListCommunityAccount(playersInfos);
+			
+			
+			//////////////////////////////////
+			// ==API encyclopÃ©die des tanks - Pour obtenir le level des char (on doit calculier le tier moyen jouÃ©)
+			// Dans les stats des joueurs nous avons le tank-id mais pas son level
+			
+			//on requete notre base les averageLevel y ont été stockés par le cron dans la table community Account
+			Map <String, CommunityAccount> mapHistStatsUsers = getMapHistorizedStatsUsers(listIdUser, 6);
+			
+			
+			//make some calculation of stats 
+			for(CommunityAccount communityAccount : listCommunityAccount1) {
+				String user_id = communityAccount.getIdUser();
+			
+				//setData.
+				log.warning("mapCommAcc " + mapHistStatsUsers);
+				CommunityAccount  histStatUser= mapHistStatsUsers.get(user_id);
+				
+				//calcul du tier moyen
+				//Double nbBattles = 0.0;
+				//Double levelByBattles = 0.0 ; 
+				log.warning("histStatUser " + histStatUser);
+				log.warning("histStatUser.getData() " + histStatUser.getData());
+				///log.warning("commAcc.getData().getAverageLevel " + commAcc.getData().getAverageLevel);
+				
+				Double averageLevelTank =histStatUser.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
+				Double wn8 =histStatUser.getData().getStatistics().getAllStatistics().getWn8(); 
+				
+				DataPlayerInfos myDataCommunityAccountRatings = communityAccount.getData();
+				
+				//average level tank
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setAverageLevelTankCalc(averageLevelTank);
+				
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setWn8(wn8);
+				
+				//== WR calculated
+				int battles = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getBattles();
+				int battlesWin = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getWins();
+				Double wrCal = (double) ((double)battlesWin/(double)battles);
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				wrCal = wrCal * 100; //ex : 51,844444
+				int intWrCal = (int) (wrCal * 100); //ex : 5184
+				
+				wrCal = (double)intWrCal / 100 ; //ex : 51,84
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setBattle_avg_performanceCalc(wrCal);
+				
+				//== Ratio capture points calculated
+				int ctfPoints = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getCapture_points();
+				Double ctfPointsCal = (double) ((double)ctfPoints/(double)battles);// 1,28 :1 = 1.28 
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+				int intCtfPointsCal = (int) (ctfPointsCal * 100); //ex intCtfPointsCal : 128,27 ctfPointsCal = 1.28
+				
+				ctfPointsCal = (double)intCtfPointsCal / 100 ; //ex ctfPointsCal : 1,28 intCtfPointsCal = 128
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setRatioCtfPoints(ctfPointsCal);
+				
+				//==Damage Ration calculated
+				int damagePoints = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getDamage_dealt();
+				Double ratioDamagePoints = (double) ((double)damagePoints/(double)battles);
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+				int intRatioDamagePoints = (int) (ratioDamagePoints * 100); //ex : 128,27
+				
+				ratioDamagePoints = (double)intRatioDamagePoints / 100 ; //ex : 1,28
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setRatioDamagePoints(ratioDamagePoints);
+				
+				
+				//==Ratio Defense calculated
+				int droppedCtfPoints = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getDropped_capture_points();
+				Double ratioDroppedCtfPoints = (double) ((double)droppedCtfPoints/(double)battles);
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+				int intRatioDroppedCtfPoints = (int) (ratioDroppedCtfPoints * 100); //ex : 128,27
+				
+				ratioDroppedCtfPoints = (double)intRatioDroppedCtfPoints / 100 ; //ex : 1,28
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setRatioDroppedCtfPoints(ratioDroppedCtfPoints);
+				
+				
+				//==Ratio Destroyed calculated
+				int destroyedPoints = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getFrags();
+				Double ratiodestroyedPoints = (double) ((double)destroyedPoints/(double)battles);
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+				int intRatiodestroyedPoints = (int) (ratiodestroyedPoints * 100); //ex : 128,27
+				
+				ratiodestroyedPoints = (double)intRatiodestroyedPoints / 100 ; //ex : 1,28
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setRatioDestroyedPoints(ratiodestroyedPoints);
+				
+				//==Ratio Detected calculated
+				int detectedPoints = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getSpotted();
+				Double ratioDetectedPoints = (double) ((double)detectedPoints/(double)battles);
+				
+				//on ne conserve que 2 digits aprÃ¨s la virgule 
+				//ctfPointsCal = ctfPointsCal * 100; //ex : 1,2827
+				int intRatioDetectedPoints = (int) (ratioDetectedPoints * 100); //ex : 128,27
+				
+				ratioDetectedPoints = (double)intRatioDetectedPoints / 100 ; //ex : 1,28
+				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setRatioDetectedPoints(ratioDetectedPoints);
 			
 			}
+			//add account
+			listCommunityAccount.addAll(listCommunityAccount1);
+
+
+		} catch (MalformedURLException e) {
+			// ...
+			e.printStackTrace();
+		} catch (IOException e) {
+			// ...
+			e.printStackTrace();
+		}
+		finally {
+			pm.close();
+		}
+	
+		return myAllCommunityAccount;
+	
+	}
 
 	static void main (String arg[]) {
 		WotServiceImpl wot  = new WotServiceImpl();

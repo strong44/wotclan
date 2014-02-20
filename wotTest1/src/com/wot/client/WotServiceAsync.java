@@ -15,9 +15,6 @@ public interface WotServiceAsync {
 	void persistStats(String input, int indexBegin, int indexEnd, List<String> listIdUser, AsyncCallback<List<String>> callback)
 			throws IllegalArgumentException;
 
-	void persistStatsForCron(String idClan, AsyncCallback<String> callback)
-			throws IllegalArgumentException;
-	
 	void getClans(String input, int offsetClan, AsyncCallback<Clan> callback)
 			throws IllegalArgumentException;
 	
