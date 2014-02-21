@@ -251,8 +251,12 @@ public class TransformDtoObject {
 		myDataPlayerInfos.getStatistics().getAllStatistics().setXp(data.getStats().getXp());
 		
 		myDataPlayerInfos.getStatistics().getAllStatistics().setAverageLevelTankCalc(new Double(data.getStats().getAverageLevel()));
+		//
+		Double wn8 =  data.getStats().getWn8();
+		if(wn8 == null)
+			wn8 = 0.0;
 		
-		myDataPlayerInfos.getStatistics().getAllStatistics().setWn8(new Double(data.getStats().getWn8()));
+		myDataPlayerInfos.getStatistics().getAllStatistics().setWn8(wn8);
 		
 		
 		return myDataPlayerInfos;

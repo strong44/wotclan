@@ -5091,6 +5091,7 @@ public class WotTest1 implements EntryPoint {
 									dialogBox.center();
 									closeButton.setFocus(true);
 									
+									
 								}
 	
 								public void onSuccess(List<CommunityAccount> listAccount) {

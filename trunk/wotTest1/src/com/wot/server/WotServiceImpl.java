@@ -28,6 +28,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.wot.client.WotService;
 import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.AllCommunityAccount;
+import com.wot.shared.AllStatistics;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
@@ -41,6 +42,7 @@ import com.wot.shared.FieldVerifier;
 import com.wot.shared.ObjectFactory;
 import com.wot.shared.PlayersInfos;
 import com.wot.shared.PlayerTankRatings;
+import com.wot.shared.Statistics;
 import com.wot.shared.TankEncyclopedia;
 import com.wot.shared.XmlDescription;
 import com.wot.shared.XmlListAchievement;
@@ -528,8 +530,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 * @param indexBegin
 	 * @param indexEnd
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<CommunityAccount> getHistorizedStatsUsers(List<String> listIdUsers, int range ) {
+	public List<CommunityAccount> getHistorizedStatsUsers(List<String> listIdUsers, int range ) throws Exception {
 		
 		log.warning("getHistorizedStatsUsers for :" + listIdUsers.size() + " users");
 		
@@ -547,54 +550,50 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd hh:mm");
 
 				
-	        try {
-	        	for (String user  : listIdUsers) {
-	        	/// query
-					Query query = pm.newQuery(DaoCommunityAccount2.class);
-				    query.setFilter("idUser == nameParam");
-				    query.setOrdering("name desc");
-				    query.setOrdering("dateCommunityAccount desc");
-				    //query.setRange(0, range); //only 6 results 
-				    //query.setOrdering("hireDate desc");
-				    query.declareParameters("String nameParam");
-				    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
-				    
-				    if(resultsTmp.size() != 0 )
-				    {
-					    DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
-					    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
-					    String previousDate = "";
-					    for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
-					    	//si 2 dates identiques se suivent on ne prend la deuxiÃ¨me
-					    	String dateCurrent = "";
-					    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) { 
-						    	dateCurrent = sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
-						    	if (!dateCurrent.equalsIgnoreCase(previousDate)) {
-						    		comAcc.listDates.add(dateCurrent);
-						    		comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
-						    		
-						    		comAcc.listBattlesWins.add(myDaoCommunityAccount.getData().getStats().getBattle_wins());
-						    		CommunityAccount comA=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(myDaoCommunityAccount);
-						    		comAcc.listDataPlayerInfos.add(comA.getData());
-						    	}
+	        
+        	for (String user  : listIdUsers) {
+        	/// query
+				Query query = pm.newQuery(DaoCommunityAccount2.class);
+			    query.setFilter("idUser == nameParam");
+			    query.setOrdering("name desc");
+			    query.setOrdering("dateCommunityAccount desc");
+			    //query.setRange(0, range); //only 6 results 
+			    //query.setOrdering("hireDate desc");
+			    query.declareParameters("String nameParam");
+			    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
+			    
+			    if(resultsTmp.size() != 0 )
+			    {
+				    DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
+				    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
+				    String previousDate = "";
+				    for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
+				    	//si 2 dates identiques se suivent on ne prend la deuxiÃ¨me
+				    	String dateCurrent = "";
+				    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) { 
+					    	dateCurrent = sdf.format(myDaoCommunityAccount.getDateCommunityAccount());
+					    	if (!dateCurrent.equalsIgnoreCase(previousDate)) {
+					    		comAcc.listDates.add(dateCurrent);
+					    		comAcc.listbattles.add(myDaoCommunityAccount.getData().getStats().getBattles());
+					    		
+					    		comAcc.listBattlesWins.add(myDaoCommunityAccount.getData().getStats().getBattle_wins());
+					    		CommunityAccount comA=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(myDaoCommunityAccount);
+					    		
+					    		comAcc.listDataPlayerInfos.add(comA.getData());
 					    	}
-					    	previousDate = dateCurrent;
-					    }
-					    resultsFinal.add(comAcc);
+				    	}
+				    	previousDate = dateCurrent;
 				    }
-				    query.closeAll();
-			    
-	        	}
-			    
-			    
-	        }
-		    catch(Exception e){
-		    	log.severe(e.getLocalizedMessage());
-	        	//pm.currentTransaction().rollback();
-	        }
+				    resultsFinal.add(comAcc);
+			    }
+			    query.closeAll();
+		    
+        	}
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 			log.severe(e.getLocalizedMessage());
+			log.log(Level.SEVERE, "exception :" , e);
+			throw e;
 		} 
 		finally {
 			if(pm != null)
@@ -765,7 +764,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		}
 	
 	@Override
-		public List<CommunityAccount> getHistorizedStats(  List<String> listIdUser) {
+		public List<CommunityAccount> getHistorizedStats(  List<String> listIdUser) throws Exception {
 		
 			return getHistorizedStatsUsers(listIdUser, 6);
 		
