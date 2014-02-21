@@ -4473,19 +4473,19 @@ public class WotTest1 implements EntryPoint {
 
 			//findHistorizedStatsButton
 			posTop = posTop + 35 ;
-			final Button findHistorizedStatsButton = new Button("Send");
-			findHistorizedStatsButton.setText("Histo WN8");
-			rootPanel.add(findHistorizedStatsButton, 10, posTop);
-			findHistorizedStatsButton.setSize("210px", "28px");
-			findHistorizedStatsButton.setEnabled(false);
+			final Button findHistorizedStatsWN8Button = new Button("Send");
+			findHistorizedStatsWN8Button.setText("Histo WN8");
+			rootPanel.add(findHistorizedStatsWN8Button, 10, posTop);
+			findHistorizedStatsWN8Button.setSize("210px", "28px");
+			findHistorizedStatsWN8Button.setEnabled(false);
 
 			//findHistorizedStatsTanksButton
 			posTop = posTop + 35 ;
-			final Button findHistorizedStatsTanksButton = new Button("Send");
-			findHistorizedStatsTanksButton.setText("Histo Battles Tanks");
-			rootPanel.add(findHistorizedStatsTanksButton, 10, posTop);
-			findHistorizedStatsTanksButton.setSize("210px", "28px");
-			findHistorizedStatsTanksButton.setEnabled(false);
+			final Button findHistorizedStatsWRButton = new Button("Send");
+			findHistorizedStatsWRButton.setText("Histo WR");
+			rootPanel.add(findHistorizedStatsWRButton, 10, posTop);
+			findHistorizedStatsWRButton.setSize("210px", "28px");
+			findHistorizedStatsWRButton.setEnabled(false);
 
 			
 			//next row - button achievement's member
@@ -5021,6 +5021,11 @@ public class WotTest1 implements EntryPoint {
 			///////////
 			// Create a handler for search clan's members
 			class HandlerGetHistorizedStats implements ClickHandler, KeyUpHandler {
+				public String stat ;
+				public HandlerGetHistorizedStats(String stat) {
+					this.stat = stat;
+				}
+
 				/**
 				 * Fired when the user clicks on the sendButton.
 				 */
@@ -5078,7 +5083,8 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setEnabled(false);
 					textToServerLabel.setText(textToServer);
 					serverResponseLabel.setText("");
-					wotService.getHistorizedStats( listIdUser,
+					//
+					wotService.getHistorizedStats( stat, listIdUser, 
 							new AsyncCallback<List<CommunityAccount>>() {
 								public void onFailure(Throwable caught) {
 									hPanelLoading.setVisible(false);
@@ -5124,10 +5130,10 @@ public class WotTest1 implements EntryPoint {
 								    sPanel.setHeight("500px");
 								    sPanel.setWidth("1000px");
 								    //sPanel.add(pagerClan);
-								    LineChartExample lineChartExample = new LineChartExample(listAccount); 
+								    LineChartExample lineChartExample = new LineChartExample(stat, listAccount); 
 								    lineChartExample.setVisible(true);
 								    sPanel.add(lineChartExample);
-								    tp.add(sPanel, "History WN8");
+								    tp.add(sPanel, "History " + stat);
 								    int count = tp.getWidgetCount();
 									dockPanel.add(tp, DockPanel.SOUTH);
 									tp.selectTab(count-1);
@@ -5453,7 +5459,8 @@ public class WotTest1 implements EntryPoint {
 									}
 									dropBoxClanUsers.setFocus(true);
 									statsMembersButton.setEnabled(true);
-									findHistorizedStatsButton.setEnabled(true);
+									findHistorizedStatsWN8Button.setEnabled(true);
+									findHistorizedStatsWRButton.setEnabled(true);
 								}
 							});
 				}
@@ -5468,12 +5475,15 @@ public class WotTest1 implements EntryPoint {
 			statsMembersButton.addClickHandler(handlerFindMembers);
 				
 			// Add a handler to find historized stats 
-			HandlerGetHistorizedStats handlerGetHistorizedStats = new HandlerGetHistorizedStats();
-			findHistorizedStatsButton.addClickHandler(handlerGetHistorizedStats);
+			HandlerGetHistorizedStats handlerGetHistorizedStats = new HandlerGetHistorizedStats("WN8");
+			findHistorizedStatsWN8Button.addClickHandler(handlerGetHistorizedStats);
 
+			HandlerGetHistorizedStats handlerGetHistorizedStatsWR = new HandlerGetHistorizedStats("WR");
+			findHistorizedStatsWRButton.addClickHandler(handlerGetHistorizedStatsWR);
+			
 			// Add a handler to find historized stats tanks
-			HandlerGetHistorizedStatsTanks handlerGetHistorizedStatsTanks = new HandlerGetHistorizedStatsTanks();
-			findHistorizedStatsTanksButton.addClickHandler(handlerGetHistorizedStatsTanks);
+			//HandlerGetHistorizedStatsTanks handlerGetHistorizedStatsTanks = new HandlerGetHistorizedStatsTanks();
+			//findHistorizedStatsERButton.addClickHandler(handlerGetHistorizedStatsTanks);
 
 			// Add a handler to find clans
 			HandlerGetClans handlerGetClans = new HandlerGetClans();

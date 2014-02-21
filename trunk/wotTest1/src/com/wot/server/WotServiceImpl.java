@@ -525,6 +525,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 	/**
 	 * get all historized stats of users with their id 
+	 * @param stat 
 	 * @param range 
 	 * @param idClan
 	 * @param indexBegin
@@ -532,7 +533,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public List<CommunityAccount> getHistorizedStatsUsers(List<String> listIdUsers, int range ) throws Exception {
+	public List<CommunityAccount> getHistorizedStatsUsers(String stat, List<String> listIdUsers, int range ) throws Exception {
 		
 		log.warning("getHistorizedStatsUsers for :" + listIdUsers.size() + " users");
 		
@@ -557,7 +558,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			    query.setFilter("idUser == nameParam");
 			    query.setOrdering("name desc");
 			    query.setOrdering("dateCommunityAccount desc");
-			    //query.setRange(0, range); //only 6 results 
+			    query.setRange(0, range); //only 6 results 
 			    //query.setOrdering("hireDate desc");
 			    query.declareParameters("String nameParam");
 			    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(user);
@@ -764,9 +765,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		}
 	
 	@Override
-		public List<CommunityAccount> getHistorizedStats(  List<String> listIdUser) throws Exception {
+		public List<CommunityAccount> getHistorizedStats(  String stat, List<String> listIdUser) throws Exception {
 		
-			return getHistorizedStatsUsers(listIdUser, 6);
+			return getHistorizedStatsUsers(stat , listIdUser, 30);
 		
 		}
 

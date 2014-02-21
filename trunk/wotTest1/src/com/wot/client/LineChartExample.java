@@ -20,9 +20,11 @@ import com.wot.shared.DataPlayerInfos;
 public class LineChartExample extends SimplePanel {
 	private LineChart chart;
 	List<CommunityAccount> listAccount ;
+	String stat; 
 	
-	public LineChartExample(List<CommunityAccount> listAccount) {
+	public LineChartExample(String stat, List<CommunityAccount> listAccount) {
 		this.listAccount = listAccount;
+		this.stat = stat;
 		//super(Unit.PX);
 		initialize();
 	}
@@ -144,8 +146,11 @@ public class LineChartExample extends SimplePanel {
 			for (int row = 0; row < commAccount.listDates.size(); row++) {
 				
 				 List<DataPlayerInfos> subList = commAcc.listDataPlayerInfos.subList(row, row+1);
+				 if (stat.equalsIgnoreCase("WN8"))
+					 dataTable.setValue(row, col + 1, subList.get(0).getStatistics().getAllStatistics().getWn8());
 				 
-				dataTable.setValue(row, col + 1, subList.get(0).getStatistics().getAllStatistics().getWn8());
+				 if (stat.equalsIgnoreCase("WR"))
+					 dataTable.setValue(row, col + 1, subList.get(0).getStatistics().getAllStatistics().getBattle_avg_performanceCalc());
 				//dataTable.setValue(row, col + 1, tabWr[col]);
 			}
 			
@@ -172,8 +177,8 @@ public class LineChartExample extends SimplePanel {
 		LineChartOptions options = LineChartOptions.create();
 		options.setBackgroundColor("#f0f0f0");
 		options.setFontName("Tahoma");
-		options.setTitle("Wr");
-		options.setHAxis(HAxis.create("dates"));
+		options.setTitle(stat);
+		options.setHAxis(HAxis.create("Il y a xx Jours"));
 		options.setVAxis(VAxis.create("wr"));
 
 		// Draw the chart
