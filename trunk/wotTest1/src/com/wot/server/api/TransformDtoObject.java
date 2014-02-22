@@ -250,7 +250,7 @@ public class TransformDtoObject {
 		
 		myDataPlayerInfos.getStatistics().getAllStatistics().setXp(data.getStats().getXp());
 		
-		Double avLevel =  data.getStats().getWn8();
+		Double avLevel =  data.getStats().getAverageLevel();
 		if(avLevel == null)
 			avLevel = 0.0;
 		

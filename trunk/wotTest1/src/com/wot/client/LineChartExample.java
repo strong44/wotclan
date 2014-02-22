@@ -142,15 +142,33 @@ public class LineChartExample extends SimplePanel {
 //		}
 //		
 		int col = 0 ;
+		double avg = 0.0;
 		for (CommunityAccount commAcc: listAccount) {
 			for (int row = 0; row < commAccount.listDates.size(); row++) {
 				
-				 List<DataPlayerInfos> subList = commAcc.listDataPlayerInfos.subList(row, row+1);
-				 if (stat.equalsIgnoreCase("WN8"))
-					 dataTable.setValue(row, col + 1, subList.get(0).getStatistics().getAllStatistics().getWn8());
+				 DataPlayerInfos dataPlayerInfos = commAcc.listDataPlayerInfos.get(row);
+				 if (stat.equalsIgnoreCase("WN8")) {
+					 double tmp = dataPlayerInfos.getStatistics().getAllStatistics().getWn8();
+					 
+					 if (dataPlayerInfos.getStatistics().getAllStatistics().getWn8()!=0 && !Double.isNaN(dataPlayerInfos.getStatistics().getAllStatistics().getWn8())){
+						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getWn8();
+					 }
+					 
+					 dataTable.setValue(row, col + 1, avg);
+				 }
 				 
-				 if (stat.equalsIgnoreCase("WR"))
-					 dataTable.setValue(row, col + 1, subList.get(0).getStatistics().getAllStatistics().getBattle_avg_performanceCalc());
+				 if (stat.equalsIgnoreCase("WR")) {
+					 if (dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() ==null) {
+						 if (dataPlayerInfos.getStatistics().getAllStatistics().getWins() !=0 && dataPlayerInfos.getStatistics().getAllStatistics().getBattles() != 0) {
+							 avg = (double)dataPlayerInfos.getStatistics().getAllStatistics().getWins()/ (double)dataPlayerInfos.getStatistics().getAllStatistics().getBattles();
+							 avg = avg *100 ;
+						 } 
+						 dataTable.setValue(row, col + 1, avg);
+					 } else {
+						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() *  100 ;
+						 dataTable.setValue(row, col + 1, avg);
+					 }
+				 }
 				//dataTable.setValue(row, col + 1, tabWr[col]);
 			}
 			
@@ -179,7 +197,9 @@ public class LineChartExample extends SimplePanel {
 		options.setFontName("Tahoma");
 		options.setTitle(stat);
 		options.setHAxis(HAxis.create("Il y a xx Jours"));
-		options.setVAxis(VAxis.create("wr"));
+		options.setVAxis(VAxis.create(stat));
+		options.setHeight(500);
+		options.setWidth(1000);
 
 		// Draw the chart
 		chart.draw(dataTable, options);

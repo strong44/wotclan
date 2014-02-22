@@ -306,8 +306,9 @@ public class WotTest1 implements EntryPoint {
 	      @Override
 	      public String getValue(CommunityAccount object) {
 	    	  /*
-	    	   * DAMAGE * (10 / (TIER + 2)) * (0.21 + 3*TIER / 100) + FRAGS * 250 + SPOT * 150 + log(CAP + 1) / log(1.732) * 150 + DEF * 150 
-
+	    	   * DAMAGE * (10 / (TIER + 2)) * (0.21 + 3 * TIER / 100) + FRAGS * 250        + SPOT * 150 +        log(CAP + 1) / log(1.732) * 150    + DEF * 150
+	    	   * 
+      
 						DAMAGE - average damage 				- 619
 						FRAGS - average kills 					- 0.89
 						SPOT - average spots 					- 1.24
