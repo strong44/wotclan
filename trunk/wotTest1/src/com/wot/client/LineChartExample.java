@@ -145,8 +145,9 @@ public class LineChartExample extends SimplePanel {
 		double avg = 0.0;
 		for (CommunityAccount commAcc: listAccount) {
 			for (int row = 0; row < commAccount.listDates.size(); row++) {
-				
-				 DataPlayerInfos dataPlayerInfos = commAcc.listDataPlayerInfos.get(row);
+				int index = commAccount.listDates.size() -1 ;
+				index = index - row;
+				 DataPlayerInfos dataPlayerInfos = commAcc.listDataPlayerInfos.get(index);
 				 if (stat.equalsIgnoreCase("WN8")) {
 					 double tmp = dataPlayerInfos.getStatistics().getAllStatistics().getWn8();
 					 
@@ -169,27 +170,12 @@ public class LineChartExample extends SimplePanel {
 						 dataTable.setValue(row, col + 1, avg);
 					 }
 				 }
-				//dataTable.setValue(row, col + 1, tabWr[col]);
 			}
 			
 			col++;
 		}
 
-//		for (int col = 0; col < listStats.size() ; col++) {
-//			if (col == 0) //wn8 
-//				for (int row = 0; row < commAccount.listDates.size(); row++) {
-//	
-//					dataTable.setValue(row, col + 1, tabWn8[col]);
-//					//dataTable.setValue(row, col + 1, tabWr[col]);
-//				}
-//			
-////			if (col == 1) //Wr
-////				for (int row = 0; row < commAccount.listDates.size(); row++) {
-////	
-////					dataTable.setValue(row, col + 1, tabWr[col]);
-////				}
-//
-//		}
+
 
 		// Set options
 		LineChartOptions options = LineChartOptions.create();
