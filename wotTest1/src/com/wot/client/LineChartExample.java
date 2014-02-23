@@ -154,8 +154,8 @@ public class LineChartExample extends SimplePanel {
 					 if (dataPlayerInfos.getStatistics().getAllStatistics().getWn8()!=0 && !Double.isNaN(dataPlayerInfos.getStatistics().getAllStatistics().getWn8())){
 						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getWn8();
 					 }
-					 
-					 dataTable.setValue(row, col + 1, avg);
+					 if (avg != 0.0)
+						 dataTable.setValue(row, col + 1, avg);
 				 }
 				 
 				 if (stat.equalsIgnoreCase("WR")) {
@@ -164,10 +164,12 @@ public class LineChartExample extends SimplePanel {
 							 avg = (double)dataPlayerInfos.getStatistics().getAllStatistics().getWins()/ (double)dataPlayerInfos.getStatistics().getAllStatistics().getBattles();
 							 avg = avg *100 ;
 						 } 
-						 dataTable.setValue(row, col + 1, avg);
+						 if (avg != 0.0)
+							 dataTable.setValue(row, col + 1, avg);
 					 } else {
 						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() *  100 ;
-						 dataTable.setValue(row, col + 1, avg);
+						 if (avg != 0.0)
+							 dataTable.setValue(row, col + 1, avg);
 					 }
 				 }
 			}
