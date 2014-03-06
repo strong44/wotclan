@@ -84,11 +84,26 @@ public class WotTest1 implements EntryPoint {
 	private SimpleLayoutPanel layoutPanel;
     private PieChart pieChart;
     LineChart lineCharts;
+    ///
+	final HorizontalPanel hPanelLoading = new HorizontalPanel();
+	final Label errorLabel = new Label();
+	final DialogBox dialogBox = new DialogBox();
+	
+	final HTML serverResponseLabel = new HTML();
+	final Button closeButton = new Button("Close");
+	final Label textToServerLabel = new Label();
+    final ListBox dropBoxClanUsers = new ListBox(true);
+
+	final Button statsMembersButton = new Button("Send");
+	final Button findHistorizedStatsWN8Button = new Button("Send");
+	final Button findHistorizedStatsWRButton = new Button("Send");
 	/////////
     
 	static boolean adminLogin = false ;
 	static String noData = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8KRYghA2Xyp8gWTkK4ZNtBQL2nixsiYdAFDeFBCaj_ylXcfhK";
 	//XmlWiki xmlWiki = null;
+	//HandlerGetAllMembersClan handlerFindMembersClan ;
+	
 	String idClan ="" ;
 	int offsetClan = 0;
 	int limitClan = 100;
@@ -4258,6 +4273,8 @@ public class WotTest1 implements EntryPoint {
 	        if (selected != null) {
 	          //Window.alert("You selected: " + selected.getName() +". You can find members now !");
 	          idClan = selected.getId();
+	          
+	          getMembersClan();
 	        }
 	        
 	      }
@@ -4338,7 +4355,6 @@ public class WotTest1 implements EntryPoint {
 //	        LineChartExample lineChartExample = new LineChartExample();
 //	        RootLayoutPanel.get().add(lineChartExample);
 		 
-			final Label errorLabel = new Label();
 			
 			 /**
 			   * An instance of the constants.
@@ -4368,29 +4384,25 @@ public class WotTest1 implements EntryPoint {
 			dockPanel.setSize("1193px", "550px");
 
 			//button search Clans
-			int posLeft = 10;
+			//int posLeft = 10;
 			int posTop = 10;
 			Button searchClansButton = new Button("Clans");
 			rootPanel.add(searchClansButton, 10, posTop);
 			searchClansButton.setSize("80px", "28px");
 
 			//bouton plus de clans
-			final Button searchClansButtonMore = new Button("100 Clans +");
-			rootPanel.add(searchClansButtonMore, 95, posTop);
-			searchClansButtonMore.setSize("120px", "28px");
-			searchClansButtonMore.setEnabled(false);
+//			final Button searchClansButtonMore = new Button("100 Clans +");
+//			rootPanel.add(searchClansButtonMore, 95, posTop);
+//			searchClansButtonMore.setSize("120px", "28px");
+//			searchClansButtonMore.setEnabled(false);
 			
 			
 			//label clan
-			Label lblNewLabel = new Label("Clan");
 			//lblNewLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-			rootPanel.add(lblNewLabel, 300, posTop + 4);
-			lblNewLabel.setSize("50px", "24px");
-			
 			
 			//nom du clan a rechercher
 			final TextBox nameClan = new TextBox();
-			rootPanel.add(nameClan, 350, posTop);
+			rootPanel.add(nameClan, 300, posTop);
 			nameClan.setText("NOVA SNAIL");
 			nameClan.setSize("125px", "18px");
 			nameClan.addFocusHandler(new FocusHandler() {
@@ -4456,7 +4468,7 @@ public class WotTest1 implements EntryPoint {
 			searchUsersClanButton.setEnabled(false);
 
 			// Add a drop box with the clan's users
-		    final ListBox dropBoxClanUsers = new ListBox(true);
+		    //final ListBox dropBoxClanUsers = new ListBox(true);
 		    dropBoxClanUsers.setSize("300px", "150px");
 		    dropBoxClanUsers.ensureDebugId("cwListBox-dropBox");
 		    dropBoxClanUsers.setVisibleItemCount(20);
@@ -4466,7 +4478,7 @@ public class WotTest1 implements EntryPoint {
 	
 			//next row -- button search stats member's clan
 			posTop = posTop + 35 ;
-			final Button statsMembersButton = new Button("Send");
+			//final Button statsMembersButton = new Button("Send");
 			statsMembersButton.setText("Stats");
 			rootPanel.add(statsMembersButton, 10, posTop);
 			statsMembersButton.setSize("210px", "28px");
@@ -4474,7 +4486,7 @@ public class WotTest1 implements EntryPoint {
 
 			//findHistorizedStatsButton
 			posTop = posTop + 35 ;
-			final Button findHistorizedStatsWN8Button = new Button("Send");
+			//final Button findHistorizedStatsWN8Button = new Button("Send");
 			findHistorizedStatsWN8Button.setText("Histo WN8");
 			rootPanel.add(findHistorizedStatsWN8Button, 10, posTop);
 			findHistorizedStatsWN8Button.setSize("210px", "28px");
@@ -4482,7 +4494,7 @@ public class WotTest1 implements EntryPoint {
 
 			//findHistorizedStatsTanksButton
 			posTop = posTop + 35 ;
-			final Button findHistorizedStatsWRButton = new Button("Send");
+			//final Button findHistorizedStatsWRButton = new Button("Send");
 			findHistorizedStatsWRButton.setText("Histo WR");
 			rootPanel.add(findHistorizedStatsWRButton, 10, posTop);
 			findHistorizedStatsWRButton.setSize("210px", "28px");
@@ -4514,20 +4526,17 @@ public class WotTest1 implements EntryPoint {
 			//loading .gif
 		    posTop = posTop + 35 ;
 			Image image = new Image("loading.gif");
-			final HorizontalPanel hPanelLoading = new HorizontalPanel();
 			hPanelLoading.add(image);
 			hPanelLoading.setVisible(false);
 		    rootPanel.add(hPanelLoading, 350, posTop);
 		    
 			// Create the popup dialog box in case of error
-			final DialogBox dialogBox = new DialogBox();
+
 			dialogBox.setText("Remote Procedure Call");
 			dialogBox.setAnimationEnabled(true);
-			final Button closeButton = new Button("Close");
+
 			// We can set the id of a widget by accessing its Element
 			closeButton.getElement().setId("closeButton");
-			final Label textToServerLabel = new Label();
-			final HTML serverResponseLabel = new HTML();
 			VerticalPanel dialogVPanel = new VerticalPanel();
 			dialogVPanel.addStyleName("dialogVPanel");
 			dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
@@ -4556,14 +4565,14 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onClick(ClickEvent event) {
 					//si c'est bouton find more on incr�mente offset por trouver les 100 clans suivnats
-					if ( ((Button)event.getSource()).getText().equalsIgnoreCase(searchClansButtonMore.getText())) {
-						offsetClan = offsetClan + 100;
-						limitClan = 100;
-					} else {
+//					if ( ((Button)event.getSource()).getText().equalsIgnoreCase(searchClansButtonMore.getText())) {
+//						offsetClan = offsetClan + 100;
+//						limitClan = 100;
+//					} else {
 						//bouton find clan offset 0
-						offsetClan = 0;
-						limitClan = 100;
-					}
+					offsetClan = 0;
+					limitClan = 100;
+					//}
 					//recherche des clans
 					getClans();
 				}
@@ -4573,13 +4582,13 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						if ( event.getSource() instanceof Button && ((Button)event.getSource()).getText().equalsIgnoreCase(searchClansButtonMore.getText())) {
-							offsetClan = offsetClan + 100;
-							limitClan = 100;
-						} else {
-							offsetClan = 0;
-							limitClan = 100;
-						}
+//						if ( event.getSource() instanceof Button && ((Button)event.getSource()).getText().equalsIgnoreCase(searchClansButtonMore.getText())) {
+//							offsetClan = offsetClan + 100;
+//							limitClan = 100;
+//						} else {
+						offsetClan = 0;
+						limitClan = 100;
+//						}
 						getClans();
 					}
 				}
@@ -4666,14 +4675,18 @@ public class WotTest1 implements EntryPoint {
 										searchUsersClanButton.setEnabled(true);
 										
 										//on autorise le bouton  more clans s'il y a en core 100 �lments dans TAB
-										if(listClan.getItems().size()== 100)
-											searchClansButtonMore.setEnabled(true);
-										else {
-											searchClansButtonMore.setEnabled(false);
-										}
+//										if(listClan.getItems().size()== 100)
+//											searchClansButtonMore.setEnabled(true);
+//										else {
+//											searchClansButtonMore.setEnabled(false);
+//										}
 										if(listClan.getItems().size()== 1) {
 											
 											tableClan.getSelectionModel().setSelected(listClan.getItems().get(0), true);
+											
+											//On pourrait chosir tout de suite les users du clan
+											
+											
 										}
 										
 									}else {
@@ -4692,6 +4705,11 @@ public class WotTest1 implements EntryPoint {
 					//searchClanButton.setFocus(true);
 				}
 				
+				
+
+				
+				
+				//
 				
 				
 			}
@@ -5371,8 +5389,8 @@ public class WotTest1 implements EntryPoint {
 				 */
 				public void onClick(ClickEvent event) {
 					getMembersClan();
-					offsetClan = 0;
-					limitClan = 100;
+					//offsetClan = 0;
+					//limitClan = 100;
 				}
 	
 				/**
@@ -5381,8 +5399,8 @@ public class WotTest1 implements EntryPoint {
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 						getMembersClan();
-						offsetClan = 0;
-						limitClan = 100;
+						//offsetClan = 0;
+						//limitClan = 100;
 					}
 				}
 	
@@ -5491,7 +5509,7 @@ public class WotTest1 implements EntryPoint {
 			searchClansButton.addClickHandler(handlerGetClans);
 			
 			// Add a handler to find clans more
-			searchClansButtonMore.addClickHandler(handlerGetClans);
+			//searchClansButtonMore.addClickHandler(handlerGetClans);
 			nameClan.addKeyUpHandler(handlerGetClans);
 	
 			//HandlerPersistStats
@@ -7585,7 +7603,89 @@ public class WotTest1 implements EntryPoint {
 	             pieChart.draw(dataTable);
 	     }		
 			
+/////////
+			/////
+			/**
+			 * Send the name from the nameField to the server and wait for a response.
+			 */
+			private void getMembersClan() {
+				// First, we validate the input.
+				hPanelLoading.setVisible(true);
+			    
+				errorLabel.setText("");
+				String textToServer = idClan;
+				if (!FieldVerifier.isValidName(textToServer)) {
+					errorLabel.setText("Please enter at least four characters");
+					
+					/////
+					dialogBox
+					.setText("Select a Clan before!!");
+					serverResponseLabel
+							.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML("Click on a clan before find members !"  );
+					dialogBox.center();
+					closeButton.setFocus(true);
+					hPanelLoading.setVisible(false);
+					return;
+				}
 
+				// Then, we send the input to the server.
+				//searchClanButton.setEnabled(false);
+				textToServerLabel.setText(textToServer);
+				serverResponseLabel.setText("");
+				wotService.getAllMembersClan(textToServer,
+						new AsyncCallback<CommunityClan>() {
+							public void onFailure(Throwable caught) {
+								hPanelLoading.setVisible(false);
+								// Show the RPC error message to the user
+								dialogBox
+										.setText("Remote Procedure Call - Failure");
+								serverResponseLabel
+										.addStyleName("serverResponseLabelError");
+								serverResponseLabel.setHTML(SERVER_ERROR);
+								dialogBox.center();
+								closeButton.setFocus(true);
+								
+							}
+
+							public void onSuccess(CommunityClan listAccount) {
+								hPanelLoading.setVisible(false);
+								//dropBoxClanUsers
+								dropBoxClanUsers.clear();
+								List<String> listAccName = new ArrayList<String>();
+								hmAccNameAccId =new HashMap<String, String >();
+								hmAccIdAccName =new HashMap<String, String >();
+								hmAccUpperNameAccName =new HashMap<String, String >();
+								
+								for (DataCommunityClanMembers dataCom :  listAccount.getData().getMembers()) {
+									for (DataCommunityMembers dataComMembers : dataCom.getMembers()) {
+										listAccName.add(dataComMembers.getAccount_name().toUpperCase());
+										//hashmap nom en majuscule / nom origine
+										hmAccUpperNameAccName.put(dataComMembers.getAccount_name().toUpperCase(), dataComMembers.getAccount_name());
+										
+										hmAccNameAccId.put(dataComMembers.getAccount_name(), dataComMembers.getAccount_id());
+										hmAccIdAccName.put(dataComMembers.getAccount_id(), dataComMembers.getAccount_name());
+										//dropBoxClanUsers.addItem(dataCom.getAccount_name());
+									}
+								}
+								//sort the list 
+								Collections.sort(listAccName);
+								
+								//add to the list 
+								for (String accName : listAccName) {
+									//list box contain  name of user and id of user
+									String originalName = hmAccUpperNameAccName.get(accName);
+									dropBoxClanUsers.addItem(originalName, hmAccNameAccId.get(originalName));
+								}
+								dropBoxClanUsers.setFocus(true);
+								statsMembersButton.setEnabled(true);
+								findHistorizedStatsWN8Button.setEnabled(true);
+								findHistorizedStatsWRButton.setEnabled(true);
+							}
+						});
+			}	     
+	     
+/////
 	     
 	
 }

@@ -116,10 +116,21 @@ public class LineChartExample extends SimplePanel {
 //		}
 		//
 		//on set la légende des abscisses ligne 0 
-		i = 0;
-		for (String date: commAccount.listDates ) {
-			dataTable.setValue(i, 0, String.valueOf(i));
-			i++;
+//		i = 0;
+//		for (String date: commAccount.listDates ) {
+//			//String partdate= date.substring(0, 8);
+//			dataTable.setValue(i, 0, String.valueOf(i));
+//			i++;
+//		}
+		for (int row = 0; row < commAccount.listDates.size(); row++) {
+			int index = commAccount.listDates.size() -1 ;
+			index = index - row;
+			String partdate = commAccount.listDates.get(index);
+			//dd-Mm-AAAA
+			partdate = partdate.substring(0, 5);
+			dataTable.setValue(row, 0, String.valueOf(partdate));
+			
+			
 		}
 		//
 //		for (int col = 0; col < values.length; col++) {
@@ -154,8 +165,11 @@ public class LineChartExample extends SimplePanel {
 					 if (dataPlayerInfos.getStatistics().getAllStatistics().getWn8()!=0 && !Double.isNaN(dataPlayerInfos.getStatistics().getAllStatistics().getWn8())){
 						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getWn8();
 					 }
-					 if (avg != 0.0)
+					 if (avg != 0.0) {
+						 int nb = (int) (avg * 100);
+						 avg = (double)nb/100;
 						 dataTable.setValue(row, col + 1, avg);
+					 }
 				 }
 				 
 				 if (stat.equalsIgnoreCase("WR")) {
@@ -168,8 +182,11 @@ public class LineChartExample extends SimplePanel {
 							 dataTable.setValue(row, col + 1, avg);
 					 } else {
 						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() *  100 ;
-						 if (avg != 0.0)
+						 if (avg != 0.0) {
+							 int nb = (int) (avg * 100);
+							 avg = (double)nb/100;
 							 dataTable.setValue(row, col + 1, avg);
+						 }
 					 }
 				 }
 			}
@@ -183,8 +200,9 @@ public class LineChartExample extends SimplePanel {
 		LineChartOptions options = LineChartOptions.create();
 		options.setBackgroundColor("#f0f0f0");
 		options.setFontName("Tahoma");
+		options.setFontSize(9.0);
 		options.setTitle(stat);
-		options.setHAxis(HAxis.create("Il y a xx Jours"));
+		options.setHAxis(HAxis.create("Dates"));
 		options.setVAxis(VAxis.create(stat));
 		options.setHeight(500);
 		options.setWidth(1000);
