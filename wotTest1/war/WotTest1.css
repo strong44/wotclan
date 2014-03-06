@@ -100,7 +100,7 @@ h1 {
 /*les autres header*/
 .myCellTableStyle th {
     border-right: 1px solid #d3d3d3;
-    opacity:0.6;
+    opacity:1;
     /*font-weight: bold;*/
      color: red;
       background-color: #2F2C2B;

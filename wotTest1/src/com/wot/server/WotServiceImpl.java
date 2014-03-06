@@ -59,7 +59,7 @@ import com.wot.shared.XmlWiki;
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static public String proxy =  "http://wotachievement.appspot.com/WotWeb?";
 	
-	static public String lieu = "maison"; //boulot ou maison si boulot -> pedro proxy 
+	static public String lieu = "maison"; //boulot ou maison si boulot -> WotWeb
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -548,7 +548,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		
 		try {
 			pm = PMF.get().getPersistenceManager();
-	    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd hh:mm");
+	    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy hh:mm");
 
 				
 	        
