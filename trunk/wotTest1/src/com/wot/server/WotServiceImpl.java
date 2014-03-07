@@ -73,6 +73,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static int indexMaxUser = 100;
 	static List<String> listUsersPersisted = new ArrayList<String>();
 	
+	//Definition d'un hashMap id userName
+	static HashMap <String , String> hMapIdUserName = new HashMap <String , String>();
+	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	
 	static TankEncyclopedia tankEncyclopedia;
@@ -362,6 +365,15 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			daoCommunityClan.setDateCommunityClan(new java.util.Date());
 			//persist clan ?
 			
+			for (DaoDataCommunityClanMembers members : daoCommunityClan.getData().values() ) {
+				for (DaoDataCommunityMembers member : members.getMembers().values() ) {
+					hMapIdUserName.put(member.getAccount_id(), member.getAccount_name());
+					
+				}
+ 
+
+			}
+			
 		} catch (MalformedURLException e) {
 			// ...
 			e.printStackTrace();
@@ -535,10 +547,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 */
 	public List<CommunityAccount> getHistorizedStatsUsers(String stat, List<String> listIdUsers, int range ) throws Exception {
 		
-		log.warning("getHistorizedStatsUsers for :" + listIdUsers.size() + " users");
-		
 		for (String user :  listIdUsers ) {
-			log.warning("getHistorizedStatsUsers for user : " + user);
+			
+			log.warning("getHistorizedStatsUsers for user : " + hMapIdUserName.get(user));
 		}
 		
 		List<CommunityAccount> resultsFinal = new ArrayList<CommunityAccount>();
@@ -607,10 +618,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 
 	public Map<String, CommunityAccount> getMapHistorizedStatsUsers(List<String> listIdUsers, int range ) {
 		
-		log.warning("getHistorizedStatsUsers for :" + listIdUsers.size() + " users");
-		
 		for (String user :  listIdUsers ) {
-			log.warning("getHistorizedStatsUsers for user : " + user);
+			
+			log.warning("getHistorizedStatsUsers for user : " + hMapIdUserName.get(user));
 		}
 		
 		Map<String, CommunityAccount> resultsFinal = new HashMap<String, CommunityAccount>();
@@ -808,6 +818,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			String AllIdUser ="";
 			
 			for(String idUser :listIdUser) {
+				
+				log.warning("Request stat for user : " + hMapIdUserName.get(idUser));
+				
 				if("".equalsIgnoreCase(AllIdUser))
 					AllIdUser =  idUser;
 				else
@@ -817,12 +830,9 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 						
 			URL url = null ;
-			
-			//String urlServer = urlServerEU +"/2.0/account/ratings/?application_id=" + applicationIdEU + "&account_id=";
-			String urlServer = urlServerEU +"/wot/account/info/?application_id=" + applicationIdEU + "&account_id=";
-			
+
 			//http://api.worldoftanks.eu/2.0/account/ratings/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576
-			//http://api.worldoftanks.ru/2.0/account/ratings/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
+			String urlServer = urlServerEU +"/wot/account/info/?application_id=" + applicationIdEU + "&account_id=";
 			
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
 				url = new URL(proxy + urlServer + AllIdUser);
@@ -845,18 +855,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			while ((lineUser = readerUser.readLine()) != null) {
 				AllLinesUser = AllLinesUser + lineUser;
 			}
-			//System.out.println(AllLinesUser);
-			
 			readerUser.close();
 
 			Gson gsonUser = new Gson();
-			//log.info(AllLinesUser.substring(0, 200));
 			PlayersInfos playersInfos = gsonUser.fromJson(AllLinesUser, PlayersInfos.class);
-			//playerRatings.setIdUser(idUser);
 			
 			//Transform playerRatings en communityAccount (pour utiliser des types compatibles avec la sÃ©rialisation (pas de MAP !!))
 			List<CommunityAccount> listCommunityAccount1 =  TransformDtoObject.TransformPlayersInfosToListCommunityAccount(playersInfos);
-			
 			
 			//////////////////////////////////
 			// ==API encyclopÃ©die des tanks - Pour obtenir le level des char (on doit calculier le tier moyen jouÃ©)
@@ -871,14 +876,13 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				String user_id = communityAccount.getIdUser();
 			
 				//setData.
-				log.warning("mapCommAcc " + mapHistStatsUsers);
 				CommunityAccount  histStatUser= mapHistStatsUsers.get(user_id);
 				
 				//calcul du tier moyen
 				//Double nbBattles = 0.0;
 				//Double levelByBattles = 0.0 ; 
-				log.warning("histStatUser " + histStatUser);
-				log.warning("histStatUser.getData() " + histStatUser.getData());
+				//log.warning("histStatUser " + histStatUser);
+				//log.warning("histStatUser.getData() " + histStatUser.getData());
 				///log.warning("commAcc.getData().getAverageLevel " + commAcc.getData().getAverageLevel);
 				
 				Double averageLevelTank =histStatUser.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
