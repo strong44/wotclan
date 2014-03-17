@@ -154,6 +154,7 @@ public class LineChartExample extends SimplePanel {
 //		
 		int col = 0 ;
 		double avg = 0.0;
+		int previousNbBattle = 0;
 		for (CommunityAccount commAcc: listAccount) {
 			for (int row = 0; row < commAccount.listDates.size(); row++) {
 				int index = commAccount.listDates.size() -1 ;
@@ -187,6 +188,38 @@ public class LineChartExample extends SimplePanel {
 							 avg = (double)nb/100;
 							 dataTable.setValue(row, col + 1, avg);
 						 }
+					 }
+				 }
+				 
+				 if (stat.equalsIgnoreCase("BATTLE")) {
+//					 if (dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() == null) {
+//						 if (dataPlayerInfos.getStatistics().getAllStatistics().getWins() !=0 && dataPlayerInfos.getStatistics().getAllStatistics().getBattles() != 0) {
+//							 avg = (double)dataPlayerInfos.getStatistics().getAllStatistics().getWins()/ (double)dataPlayerInfos.getStatistics().getAllStatistics().getBattles();
+//							 avg = avg *100 ;
+//						 } 
+//						 if (avg != 0.0)
+//							 dataTable.setValue(row, col + 1, avg);
+//					 } else {
+//						 avg = dataPlayerInfos.getStatistics().getAllStatistics().getBattle_avg_performanceCalc() *  100 ;
+//						 if (avg != 0.0) {
+//							 int nb = (int) (avg * 100);
+//							 avg = (double)nb/100;
+//							 dataTable.setValue(row, col + 1, avg);
+//						 }
+//					 }
+					 if (dataPlayerInfos.getStatistics().getAllStatistics()!= null) {
+						 int nbBattle = dataPlayerInfos.getStatistics().getAllStatistics().getBattles();
+						 avg = nbBattle;
+						 if (previousNbBattle == 0 )
+							 dataTable.setValue(row, col + 1, previousNbBattle);
+						 else {
+							 //diff par rapoort au précédent
+							 dataTable.setValue(row, col + 1, nbBattle - previousNbBattle);
+						 }
+						 previousNbBattle = nbBattle;
+							 
+					 }else {
+						 dataTable.setValue(row, col + 1, avg);
 					 }
 				 }
 			}

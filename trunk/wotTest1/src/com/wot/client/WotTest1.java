@@ -97,6 +97,8 @@ public class WotTest1 implements EntryPoint {
 	final Button statsMembersButton = new Button("Send");
 	final Button findHistorizedStatsWN8Button = new Button("Send");
 	final Button findHistorizedStatsWRButton = new Button("Send");
+	final Button findHistorizedStatsBattleButton = new Button("Send");
+	
 	/////////
     
 	static boolean adminLogin = false ;
@@ -4500,6 +4502,13 @@ public class WotTest1 implements EntryPoint {
 			findHistorizedStatsWRButton.setSize("210px", "28px");
 			findHistorizedStatsWRButton.setEnabled(false);
 
+			posTop = posTop + 35 ;
+			//final Button findHistorizedStatsWRButton = new Button("Send");
+			findHistorizedStatsBattleButton.setText("Histo Battle");
+			rootPanel.add(findHistorizedStatsBattleButton, 10, posTop);
+			findHistorizedStatsBattleButton.setSize("210px", "28px");
+			findHistorizedStatsBattleButton.setEnabled(false);
+			
 			
 			//next row - button achievement's member
 		    posTop = posTop + 70 ;
@@ -5480,6 +5489,7 @@ public class WotTest1 implements EntryPoint {
 									statsMembersButton.setEnabled(true);
 									findHistorizedStatsWN8Button.setEnabled(true);
 									findHistorizedStatsWRButton.setEnabled(true);
+									findHistorizedStatsBattleButton.setEnabled(true);
 								}
 							});
 				}
@@ -5499,6 +5509,9 @@ public class WotTest1 implements EntryPoint {
 
 			HandlerGetHistorizedStats handlerGetHistorizedStatsWR = new HandlerGetHistorizedStats("WR");
 			findHistorizedStatsWRButton.addClickHandler(handlerGetHistorizedStatsWR);
+			
+			HandlerGetHistorizedStats handlerGetHistorizedStatsBattle = new HandlerGetHistorizedStats("BATTLE");
+			findHistorizedStatsBattleButton.addClickHandler(handlerGetHistorizedStatsBattle);
 			
 			// Add a handler to find historized stats tanks
 			//HandlerGetHistorizedStatsTanks handlerGetHistorizedStatsTanks = new HandlerGetHistorizedStatsTanks();
@@ -7570,38 +7583,38 @@ public class WotTest1 implements EntryPoint {
 
 	
 			
-		private SimpleLayoutPanel getSimpleLayoutPanel() {
-	             if (layoutPanel == null) {
-	                     layoutPanel = new SimpleLayoutPanel();
-	             }
-	             return layoutPanel;
-	     }
+//		private SimpleLayoutPanel getSimpleLayoutPanel() {
+//	             if (layoutPanel == null) {
+//	                     layoutPanel = new SimpleLayoutPanel();
+//	             }
+//	             return layoutPanel;
+//	     }
 
-	     private Widget getPieChart() {
-	             if (pieChart == null) {
-	                     pieChart = new PieChart();
-	             }
-	             return pieChart;
-	     }
+//	     private Widget getPieChart() {
+//	             if (pieChart == null) {
+//	                     pieChart = new PieChart();
+//	             }
+//	             return pieChart;
+//	     }
 
-	     private void drawPieChart() {
-	             // Prepare the data
-	             DataTable dataTable = DataTable.create();
-	             dataTable.addColumn(ColumnType.STRING, "Name");
-	             dataTable.addColumn(ColumnType.NUMBER, "Donuts eaten");
-	             dataTable.addRows(4);
-	             dataTable.setValue(0, 0, "Michael");
-	             dataTable.setValue(1, 0, "Elisa");
-	             dataTable.setValue(2, 0, "Robert");
-	             dataTable.setValue(3, 0, "John");
-	             dataTable.setValue(0, 1, 5);
-	             dataTable.setValue(1, 1, 7);
-	             dataTable.setValue(2, 1, 3);
-	             dataTable.setValue(3, 1, 2);
-
-	             // Draw the chart
-	             pieChart.draw(dataTable);
-	     }		
+//	     private void drawPieChart() {
+//	             // Prepare the data
+//	             DataTable dataTable = DataTable.create();
+//	             dataTable.addColumn(ColumnType.STRING, "Name");
+//	             dataTable.addColumn(ColumnType.NUMBER, "Donuts eaten");
+//	             dataTable.addRows(4);
+//	             dataTable.setValue(0, 0, "Michael");
+//	             dataTable.setValue(1, 0, "Elisa");
+//	             dataTable.setValue(2, 0, "Robert");
+//	             dataTable.setValue(3, 0, "John");
+//	             dataTable.setValue(0, 1, 5);
+//	             dataTable.setValue(1, 1, 7);
+//	             dataTable.setValue(2, 1, 3);
+//	             dataTable.setValue(3, 1, 2);
+//
+//	             // Draw the chart
+//	             pieChart.draw(dataTable);
+//	     }		
 			
 /////////
 			/////
@@ -7681,6 +7694,7 @@ public class WotTest1 implements EntryPoint {
 								statsMembersButton.setEnabled(true);
 								findHistorizedStatsWN8Button.setEnabled(true);
 								findHistorizedStatsWRButton.setEnabled(true);
+								findHistorizedStatsBattleButton.setEnabled(true);
 							}
 						});
 			}	     
