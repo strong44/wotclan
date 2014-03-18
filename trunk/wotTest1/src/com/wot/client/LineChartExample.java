@@ -156,6 +156,8 @@ public class LineChartExample extends SimplePanel {
 		double avg = 0.0;
 		int previousNbBattle = 0;
 		for (CommunityAccount commAcc: listAccount) {
+			avg = 0.0;
+			previousNbBattle = 0;
 			for (int row = 0; row < commAccount.listDates.size(); row++) {
 				int index = commAccount.listDates.size() -1 ;
 				index = index - row;
