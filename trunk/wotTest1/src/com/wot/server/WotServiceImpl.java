@@ -59,7 +59,7 @@ import com.wot.shared.XmlWiki;
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static public String proxy =  "http://wotachievement.appspot.com/WotWeb?";
 	
-	static public String lieu = "boulot"; //boulot ou maison si boulot -> WotWeb
+	static public String lieu = "maison"; //boulot ou maison si boulot -> WotWeb
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -831,7 +831,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 						
 			URL url = null ;
 
-			//http://api.worldoftanks.eu/2.0/account/ratings/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576
+			//http://api.worldoftanks.eu/wot/account/info/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=506486576
 			String urlServer = urlServerEU +"/wot/account/info/?application_id=" + applicationIdEU + "&account_id=";
 			
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
