@@ -135,6 +135,15 @@ public class DossierToJsonTanks implements Serializable{
 			//parsing gson
 			DossierToJson clan = gson.fromJson(AllLines, DossierToJson.class );
 			System.out.println(clan.tanks);
+			
+			//il nous faut les descriptions des tanks pour chaque ID 
+			//https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json
+			/*
+			 * [
+				{"tankid": 0, "countryid": 3, "compDescr": 49, "active": 1, "type": 2, "type_name": "MT", "tier": 8, "premium": 1, "title": "Type 59", "icon": "ch01_type59", "icon_orig": "Ch01_Type59"},
+				{"tankid": 1, "countryid": 3, "compDescr": 305, "active": 1, "type": 1, "type_name": "LT", "tier": 7, "premium": 1, "title": "Type 62", "icon": "ch02_type62", "icon_orig": "Ch02_Type62"},
+			 */
+			
 			//ItemsDataClan  myItemsDataClan = null ;
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
