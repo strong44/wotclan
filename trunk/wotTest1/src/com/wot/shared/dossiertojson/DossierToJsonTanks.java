@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -100,15 +101,14 @@ public class DossierToJsonTanks implements Serializable{
 	public static void main(String[] args) {
 		URL urlClan = null ;
 		//input = input.replace(" ", "%20");
+		System.setProperty("jsse.enableSNIExtension", "false");
 		
 		try {
+			//5726971199750144 correspond à l'ID de mon dossier cache dans wot-dossier.appspot.com
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
 				urlClan = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com//dossier-data/5726971199750144");					
 			}
 			else {
-				//NVS : 500006074
-				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/500006074/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=
 				urlClan = new URL("http://wot-dossier.appspot.com//dossier-data/5726971199750144" );		
 			}
 			
@@ -143,6 +143,42 @@ public class DossierToJsonTanks implements Serializable{
 				{"tankid": 0, "countryid": 3, "compDescr": 49, "active": 1, "type": 2, "type_name": "MT", "tier": 8, "premium": 1, "title": "Type 59", "icon": "ch01_type59", "icon_orig": "Ch01_Type59"},
 				{"tankid": 1, "countryid": 3, "compDescr": 305, "active": 1, "type": 1, "type_name": "LT", "tier": 7, "premium": 1, "title": "Type 62", "icon": "ch02_type62", "icon_orig": "Ch02_Type62"},
 			 */
+			
+			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				urlClan = new URL(WotServiceImpl.proxy + "https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json");					
+			}
+			else {
+				//NVS : 500006074
+				urlClan = new URL("https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json" );		
+			}
+			
+			//lecture de la rÃ©ponse recherche du clan
+			conn = (HttpURLConnection)urlClan.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			//conn.getInputStream();
+			reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
+			line = "";
+			AllLines = "";
+
+			while ((line = reader.readLine()) != null) {
+				AllLines = AllLines + line;
+			}
+			
+			reader.close();
+
+			gson = new Gson();
+			//System.out.println("before " + AllLines);
+			
+			//parsing gson
+			TankToJson[] listTanksToJson = gson.fromJson(AllLines,TankToJson[].class );
+			System.out.println(listTanksToJson);
+			for(TankToJson tk : listTanksToJson) {
+				System.out.println(tk.tankid + ":" + tk.title);
+			}
+			
 			
 			//ItemsDataClan  myItemsDataClan = null ;
 		} catch (JsonSyntaxException e) {
