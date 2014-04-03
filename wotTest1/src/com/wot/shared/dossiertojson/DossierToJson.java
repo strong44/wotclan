@@ -42,7 +42,7 @@ public class DossierToJson implements Serializable{
 	 */
 	
 
-	List<DossierToJsonTanks> tanks ;
+	public List<DossierToJsonTanks> tanks ;
 
 	
 	

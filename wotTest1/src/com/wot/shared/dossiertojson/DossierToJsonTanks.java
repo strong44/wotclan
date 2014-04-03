@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -18,7 +20,26 @@ import com.wot.shared.Clan;
 
 
 public class DossierToJsonTanks implements Serializable{
-
+	public enum EnumOrder{
+		asc,
+		desc
+	};
+	
+	public enum EnumAttrToSort {
+		tankid, 
+		countryid, 
+		compDescr , 
+		active , 
+		type , 
+		type_name , 
+		tier , 
+		premium , 
+		title , 
+		icon , 
+		icon_orig 
+	};
+	
+	
 	/**
 	 * 
 	 * "tanks": [{
@@ -62,14 +83,14 @@ public class DossierToJsonTanks implements Serializable{
 	
 	//_7x7 "_7x7": {"spotted": 33, "capture_points": 175, "survived": 26, "defence_points": 47, "losses": 31, "hits": 266, "battles": 59, "max_experience": 1110, "damage_dealt": 68683, "experience": 23575, "victories": 28, "damage_received": 61792, "max_frags": 3, "shots": 334, "original_experience": 23575, "tier8_frags": 31, "frags": 39, "max_damage": 2949, "survived_with_victory": 23}, 
 
-	DossierToJson77 _7x7;
+	private DossierToJson77 _7x7;
 	
 	//updated
-	double updated;
+	private double updated;
 	
 	//_15*15  "_15x15": {"spotted": 232, "experience_before_88": 114714, "capture_points": 258, "losses": 152, "survived": 95, "defence_points": 218, "original_experience": 43435, "hits": 1351, "battles": 291, "max_experience": 1554, "damage_dealt": 310259, "experience": 158291, "victories": 132, "damage_received": 354357, "max_frags": 8, "shots": 1772, "battles_before_88": 178, "tier8_frags": 121, "frags": 201, "max_damage": 3253, "survived_with_victory": 78}, 
 
-	DossierToJson1515 _15x15;
+	private DossierToJson1515 _15x15;
 	
 	//amounts
 	
@@ -80,40 +101,211 @@ public class DossierToJsonTanks implements Serializable{
 	//epics
 	
 	//id of tank
-	int id;
+	private int id;
 	
 	//frag_counts "frag_counts": [[0, 12, 1], [0, 25, 1], [1, 25, 1], [1, 17, 1], [2, 13, 1], [5, 25, 1], [1, 61, 1], [2, 19, 1]], 
 	
 	//awards
 	
 	//country
-	int country;
+	private int country;
 	
 	//play_time
-	double play_time;
+	private double play_time;
 	
 	//last_time_played
-	double last_time_played;
+	private double last_time_played;
 	
 	//medals
 	
 	
+	//data from tankToJson (githuh !!)
+	//{"tankid": 0, "countryid": 3, "compDescr": 49, "active": 1, "type": 2, "type_name": "MT", "tier": 8, "premium": 1, "title": "Type 59", 
+	//"icon": "ch01_type59", "icon_orig": "Ch01_Type59"},
+
+	//int tankid ; 
+	//int countryid ; 
+	private int compDescr ; 
+	private int active ; 
+	private int type ; 
+	private String type_name ; 
+	private int tier ; 
+	private int premium ; 
+	private String title; 
+	private String icon ; 
+	private String icon_orig ;
+
+	
+	
+	
+	public int getCountry() {
+		return country;
+	}
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setCountry(int country) {
+		this.country = country;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public DossierToJson77 get_7x7() {
+		return _7x7;
+	}
+
+	public double getUpdated() {
+		return updated;
+	}
+
+	public DossierToJson1515 get_15x15() {
+		return _15x15;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public double getPlay_time() {
+		return play_time;
+	}
+
+	public double getLast_time_played() {
+		return last_time_played;
+	}
+
+	public int getCompDescr() {
+		return compDescr;
+	}
+
+
+	public int getActive() {
+		return active;
+	}
+
+
+
+	public int getType() {
+		return type;
+	}
+
+
+	public String getType_name() {
+		return type_name;
+	}
+
+	public int getTier() {
+		return tier;
+	}
+
+
+	public int getPremium() {
+		return premium;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getIcon_orig() {
+		return icon_orig;
+	}
+
+	public void set_7x7(DossierToJson77 _7x7) {
+		this._7x7 = _7x7;
+	}
+
+
+	public void setUpdated(double updated) {
+		this.updated = updated;
+	}
+
+
+
+
+	public void set_15x15(DossierToJson1515 _15x15) {
+		this._15x15 = _15x15;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public void setPlay_time(double play_time) {
+		this.play_time = play_time;
+	}
+
+	public void setLast_time_played(double last_time_played) {
+		this.last_time_played = last_time_played;
+	}
+
+
+	public void setCompDescr(int compDescr) {
+		this.compDescr = compDescr;
+	}
+
+
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+
+
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
+
+
+	public void setTier(int tier) {
+		this.tier = tier;
+	}
+
+
+
+	public void setPremium(int premium) {
+		this.premium = premium;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+
+	public void setIcon_orig(String icon_orig) {
+		this.icon_orig = icon_orig;
+	}
+
+
+	//////////////////
 	public static void main(String[] args) {
-		URL urlClan = null ;
+		URL url = null ;
 		//input = input.replace(" ", "%20");
+		
+		//to avoid SSL Protcole erreur ?
 		System.setProperty("jsse.enableSNIExtension", "false");
 		
 		try {
 			//5726971199750144 correspond à l'ID de mon dossier cache dans wot-dossier.appspot.com
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com//dossier-data/5726971199750144");					
+				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com//dossier-data/5726971199750144");					
 			}
 			else {
-				urlClan = new URL("http://wot-dossier.appspot.com//dossier-data/5726971199750144" );		
+				url = new URL("http://wot-dossier.appspot.com//dossier-data/5726971199750144" );		
 			}
 			
 			//lecture de la rÃ©ponse recherche du clan
-			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			conn.setReadTimeout(60000);
 			conn.setConnectTimeout(60000);
 			//conn.getInputStream();
@@ -133,8 +325,8 @@ public class DossierToJsonTanks implements Serializable{
 			//System.out.println("before " + AllLines);
 			
 			//parsing gson
-			DossierToJson clan = gson.fromJson(AllLines, DossierToJson.class );
-			System.out.println(clan.tanks);
+			DossierToJson dossierToJson = gson.fromJson(AllLines, DossierToJson.class );
+			//System.out.println(dossierToJson.tanks);
 			
 			//il nous faut les descriptions des tanks pour chaque ID 
 			//https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json
@@ -145,15 +337,15 @@ public class DossierToJsonTanks implements Serializable{
 			 */
 			
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL(WotServiceImpl.proxy + "https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json");					
+				url = new URL(WotServiceImpl.proxy + "https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json");					
 			}
 			else {
 				//NVS : 500006074
-				urlClan = new URL("https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json" );		
+				url = new URL("https://raw.githubusercontent.com/Phalynx/WoT-Dossier-Cache-to-JSON/master/tanks.json" );		
 			}
 			
 			//lecture de la rÃ©ponse recherche du clan
-			conn = (HttpURLConnection)urlClan.openConnection();
+			conn = (HttpURLConnection)url.openConnection();
 			conn.setReadTimeout(60000);
 			conn.setConnectTimeout(60000);
 			//conn.getInputStream();
@@ -175,10 +367,38 @@ public class DossierToJsonTanks implements Serializable{
 			//parsing gson
 			TankToJson[] listTanksToJson = gson.fromJson(AllLines,TankToJson[].class );
 			System.out.println(listTanksToJson);
+			//la clé correspond à l'id du tank + id country : idTank_idCountry
+			HashMap<String, TankToJson> hmTanksJson =  new HashMap<String, TankToJson>();
+					
 			for(TankToJson tk : listTanksToJson) {
-				System.out.println(tk.tankid + ":" + tk.title);
+				//System.out.println(tk.getTankid() + ":" + tk.getTitle());
+				hmTanksJson.put(tk.getTankid()+"_"+tk.getCountryid(), tk);
+			}
+			//copie all data of TankToJson in DossierToJson
+			//{"tankid": 0, "countryid": 3, "compDescr": 49, "active": 1, "type": 2, "type_name": "MT", "tier": 8, "premium": 1, "title": "Type 59", 
+			//"icon": "ch01_type59", "icon_orig": "Ch01_Type59"},
+			
+			for (DossierToJsonTanks dossierToJsonTanks :dossierToJson.tanks ) {
+				String keyTankJson =  dossierToJsonTanks.getId()+"_"+dossierToJsonTanks.getCountry(); 
+				//
+				TankToJson tk = hmTanksJson.get(keyTankJson);
+				//copie all data from TankToJson in DossierToJson
+				dossierToJsonTanks.setActive(tk.getActive());
+				dossierToJsonTanks.setCompDescr(tk.getCompDescr());
+				dossierToJsonTanks.setIcon_orig(tk.getIcon_orig());
+				dossierToJsonTanks.setIcon(tk.getIcon());
+				dossierToJsonTanks.setPremium(tk.getPremium());
+				dossierToJsonTanks.setTier(tk.getTier());
+				dossierToJsonTanks.setTitle(tk.getTitle());
+				dossierToJsonTanks.setType(tk.getType());
+				dossierToJsonTanks.setType_name(tk.getType_name());
+				dossierToJsonTanks.setTitle(tk.getTitle());
 			}
 			
+			
+			for (DossierToJsonTanks dossierToJsonTanks :dossierToJson.tanks ) {
+				System.out.println("id:" + dossierToJsonTanks.getId() + " title:" + dossierToJsonTanks.getTitle() + " Type_name:"+dossierToJsonTanks.getType_name()+ " Type:"+dossierToJsonTanks.getType());
+			}
 			
 			//ItemsDataClan  myItemsDataClan = null ;
 		} catch (JsonSyntaxException e) {

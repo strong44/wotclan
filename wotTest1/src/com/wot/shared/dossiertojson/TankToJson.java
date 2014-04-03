@@ -17,16 +17,83 @@ public class TankToJson implements Serializable {
 
 	 */
 	
-	public int tankid ; 
-	public int countryid ; 
-	public int compDescr ; 
-	public int active ; 
-	public int type ; 
-	public String type_name; 
-	public int tier ; 
-	public int premium ; 
-	public String title ; 
-	public String icon; 
-	public String icon_orig;
+	private int tankid ; 
+	private int countryid ; 
+	private int compDescr ; 
+	private int active ; 
+	private int type ; 
+	private String type_name; 
+	private int tier ; 
+	private int premium ; 
+	private String title ; 
+	private String icon; 
+	private String icon_orig;
+	
+	public int getTankid() {
+		return tankid;
+	}
+	public int getCountryid() {
+		return countryid;
+	}
+	public int getCompDescr() {
+		return compDescr;
+	}
+	public int getActive() {
+		return active;
+	}
+	public int getType() {
+		return type;
+	}
+	public String getType_name() {
+		return type_name;
+	}
+	public int getTier() {
+		return tier;
+	}
+	public int getPremium() {
+		return premium;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public String getIcon_orig() {
+		return icon_orig;
+	}
+	public void setTankid(int tankid) {
+		this.tankid = tankid;
+	}
+	public void setCountryid(int countryid) {
+		this.countryid = countryid;
+	}
+	public void setCompDescr(int compDescr) {
+		this.compDescr = compDescr;
+	}
+	public void setActive(int active) {
+		this.active = active;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public void setType_name(String type_name) {
+		this.type_name = type_name;
+	}
+	public void setTier(int tier) {
+		this.tier = tier;
+	}
+	public void setPremium(int premium) {
+		this.premium = premium;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	public void setIcon_orig(String icon_orig) {
+		this.icon_orig = icon_orig;
+	}
 
 }
