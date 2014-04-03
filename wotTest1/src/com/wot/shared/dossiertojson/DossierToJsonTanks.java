@@ -1,7 +1,7 @@
 package com.wot.shared.dossiertojson;
 
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -9,14 +9,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.wot.server.WotServiceImpl;
-import com.wot.shared.Clan;
+
 
 
 public class DossierToJsonTanks implements Serializable{
@@ -396,9 +397,14 @@ public class DossierToJsonTanks implements Serializable{
 			}
 			
 			
+			
+			//On veut trier <listObjectLinked> en fonction de la colonne triée
+			Collections.sort(dossierToJson.tanks , new DossierToJsonTanksComparator(EnumAttrToSort.type, EnumOrder.asc))   ; //asc A ou desc V
+
 			for (DossierToJsonTanks dossierToJsonTanks :dossierToJson.tanks ) {
 				System.out.println("id:" + dossierToJsonTanks.getId() + " title:" + dossierToJsonTanks.getTitle() + " Type_name:"+dossierToJsonTanks.getType_name()+ " Type:"+dossierToJsonTanks.getType());
 			}
+
 			
 			//ItemsDataClan  myItemsDataClan = null ;
 		} catch (JsonSyntaxException e) {
