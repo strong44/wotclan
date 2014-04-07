@@ -7,10 +7,10 @@
      <timezone>Europe/Paris</timezone>
   </cron>
   
- <!--  <cron>
+ <cron>
     <url>/cronPersistPlayersStats?clanId=500006824</url>
     <description>Persist all stats of FAFE users</description>
     <schedule>every day 03:15</schedule>
      <timezone>Europe/Paris</timezone>
-  </cron> -->
+ </cron>
 </cronentries>
