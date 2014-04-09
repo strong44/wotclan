@@ -17,6 +17,8 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.wot.server.WotServiceImpl;
+import com.wot.shared.DataWnEfficientyTank;
+import com.wot.shared.WnEfficientyTank;
 
 
 
@@ -180,6 +182,7 @@ public class DossierToJsonTanks implements Serializable{
 		return last_time_played;
 	}
 
+	//l'id dans encyclopédia des tanks de 
 	public int getCompDescr() {
 		return compDescr;
 	}
@@ -299,6 +302,7 @@ public class DossierToJsonTanks implements Serializable{
 		try {
 			//5726971199750144 correspond à l'ID de mon dossier cache dans wot-dossier.appspot.com
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+																								 //5726971199750144
 				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com//dossier-data/5726971199750144");					
 			}
 			else {
@@ -399,10 +403,116 @@ public class DossierToJsonTanks implements Serializable{
 			
 			
 			//On veut trier <listObjectLinked> en fonction de la colonne triée
-			Collections.sort(dossierToJson.tanks , new DossierToJsonTanksComparator(EnumAttrToSort.type, EnumOrder.asc))   ; //asc A ou desc V
+			Collections.sort(dossierToJson.tanks , new DossierToJsonTanksComparator(EnumAttrToSort.active, EnumOrder.asc))   ; //asc A ou desc V
 
+//			for (DossierToJsonTanks dossierToJsonTanks :dossierToJson.tanks ) {
+//				System.out.println("id:" + dossierToJsonTanks.getId() + " tier:" + dossierToJsonTanks.getTier() +" compDesc :" + dossierToJsonTanks.getCompDescr() + " title:" + dossierToJsonTanks.getTitle() + " Type_name:"+dossierToJsonTanks.getType_name()+ " Type:"+dossierToJsonTanks.getType());
+//			}
+
+			//Calcul du wn8 pour chaque tank
+			//formule :
+			WnEfficientyTank wnEfficientyTank = null ;
+			HashMap<String, DataWnEfficientyTank> hMapWnEfficientyTankHashMap = new HashMap<String, DataWnEfficientyTank>();
+			
+			if (wnEfficientyTank == null) {
+				URL urlWnEfficienty = null ;
+				// recup des membres du clan NVS
+				urlWnEfficienty = null ;
+				
+				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+					urlWnEfficienty = new URL(WotServiceImpl.proxy + "http://www.wnefficiency.net/exp/expected_tank_values_latest.json");				
+				}
+				else {
+					//500006074
+					urlWnEfficienty = new URL("http://www.wnefficiency.net/exp/expected_tank_values_latest.json");
+				}
+				
+				HttpURLConnection connWN = (HttpURLConnection)urlWnEfficienty.openConnection();
+				connWN.setReadTimeout(60000);
+				connWN.setConnectTimeout(60000);
+				connWN.getInputStream();
+				reader = new BufferedReader(new InputStreamReader(connWN.getInputStream()));
+				
+				line = "";
+				AllLines = "";
+		
+				while ((line = reader.readLine()) != null) {
+					AllLines = AllLines + line;
+				}
+				reader.close();
+				gson = new Gson();
+				wnEfficientyTank = gson.fromJson(AllLines, WnEfficientyTank.class);
+				System.out.println("wnEfficientyTank" + wnEfficientyTank);
+				
+				//transform list to hashMap for easy treatement
+				//HashMap<String, DataWnEfficientyTank> hMapWnEfficientyTankHashMap = new HashMap<String, DataWnEfficientyTank>();
+				for (DataWnEfficientyTank dataWnEfficientyTank : wnEfficientyTank.getData()) {
+					//dataWnEfficientyTank.
+					hMapWnEfficientyTankHashMap.put(dataWnEfficientyTank.getIDNum(), dataWnEfficientyTank);
+				}
+			}
+			
+			//calculate WN8 of each tank 
+			double  totalExpFrag = 0.0;
+			double  totalExpDmg = 0.0;
+			double  totalExpSpot = 0.0;
+			double 	totalExpDef = 0.0;
+			double  totalExpWr = 0.0;
+			
 			for (DossierToJsonTanks dossierToJsonTanks :dossierToJson.tanks ) {
-				System.out.println("id:" + dossierToJsonTanks.getId() + " title:" + dossierToJsonTanks.getTitle() + " Type_name:"+dossierToJsonTanks.getType_name()+ " Type:"+dossierToJsonTanks.getType());
+				totalExpFrag = 0.0;
+				totalExpDmg = 0.0;
+				totalExpSpot = 0.0;
+				totalExpDef = 0.0;
+				totalExpWr = 0.0;
+			
+				//batailles aléatoires
+				int tankBattles = dossierToJsonTanks.get_15x15().battles;
+				tankBattles = 1;
+				int tankId = dossierToJsonTanks.getCompDescr();
+				
+				//for each tank do the sum of frag, dmg,  spot def, xp, wr
+				DataWnEfficientyTank dataWnEfficientyTank = hMapWnEfficientyTankHashMap.get(String.valueOf(tankId));
+				// takes the counts of tanks played on account, and multiplies them by the expected stats to get the account total expected values.
+				
+//				totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
+//				totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
+//				totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
+//				totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
+//				totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
+//				
+//				System.out.println( " tank title (1 bataille):" + dossierToJsonTanks.getTitle() + "	totalExpFrag:" + totalExpFrag + "	totalExpDmg: " + totalExpDmg + "	totalExpSpot: " + totalExpSpot + "	totalExpDef:" + totalExpDef + "	totalExpWr: " + totalExpWr);
+
+				//avec ,toutes les batailles du tank 
+				tankBattles = dossierToJsonTanks.get_15x15().battles;
+				totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
+				totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
+				totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
+				totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
+				totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
+				
+				
+				
+				//Then the actual account totals (your total dmg, frags, spots, def, win-rate) are divided by the total expected values to give the ratios.
+				double  rFrag = dossierToJsonTanks.get_15x15().frags /totalExpFrag ;
+				double  rDmg = dossierToJsonTanks.get_15x15().damage_dealt /totalExpDmg ;
+				double  rSpot = dossierToJsonTanks.get_15x15().spotted / totalExpSpot;
+				double  rDef = dossierToJsonTanks.get_15x15().defence_points / totalExpDef;
+				double  rWr = ((dossierToJsonTanks.get_15x15().victories/dossierToJsonTanks.get_15x15().battles)*100) / totalExpWr;//0.50 * 100 = 50 
+
+				double  rWrC    =   Math.max(0,                     (rWr    - 0.71) / (1 - 0.71) );
+				double  rDmgC =  Math.max(0,                     (rDmg - 0.22) / (1 - 0.22) );
+				double  rFragC   =  Math.max(0, Math.min(rDmgC + 0.2, (rFrag   - 0.12) / (1 - 0.12)));
+				double  rSpotC   =  Math.max(0, Math.min(rDmgC + 0.1, (rSpot   - 0.38) / (1 - 0.38)));
+				double  rDefC    =  Math.max(0, Math.min(rDmgC + 0.1, (rDef    - 0.10) / (1 - 0.10)));
+				//
+				//Step 3
+				//WN8 = 980*rDAMAGEc + 210*rDAMAGEc*rFRAGc + 155*rFRAGc*rSPOTc + 75*rDEFc*rFRAGc + 145*MIN(1.8,rWINc)
+				double  wn8 =   980*rDmgC    + 210*rDmgC*rFragC    + 155*rFragC*rSpotC + 75*rDefC*rFragC + 145*Math.min(1.8,rWrC);
+				//
+				System.out.println( " tank title:" + dossierToJsonTanks.getTitle() + "	wn8:" + wn8);
+				
+				
 			}
 
 			
