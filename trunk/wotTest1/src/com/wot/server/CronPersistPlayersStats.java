@@ -83,6 +83,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				///Recuperation de l'encyclop�die des tanks ( n�cessaire pour connaitre le level de chaque char )  (pour calcul average level) 
 				//=======================
 				if (tankEncyclopedia == null) {
+					//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
 					String urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
 					URL url = null;
 					
