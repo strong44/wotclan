@@ -2,15 +2,21 @@ package com.wot.shared.dossiertojson;
 
 import java.io.BufferedReader;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -300,17 +306,70 @@ public class DossierToJsonTanks implements Serializable{
 		System.setProperty("jsse.enableSNIExtension", "false");
 		
 		try {
+			
+			//posting a folder to wot-dossier
+			//http://wot-dossier.appspot.com/service/dossier-to-json 
+			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				 //5726971199750144
+				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com/service/dossier-to-json");					
+			}
+			else {
+				url = new URL("http://wot-dossier.appspot.com/service/dossier-to-json" );		
+			}
+			
+			//String urlToConnect = "http://localhost:9000/upload";
+			File fileToUpload = new File("D:\\Privé\\tle-conniat\\wot\\Wargaming.net\\WorldOfTanks\\dossier_cache\\NRXWO2LOFZYDELTXN5ZGYZDPMZ2GC3TLOMXGK5J2GIYDAMJWHNZXI4TPNZTTINA=.dat");
+			String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			
+			
+			conn.setDoOutput(true); // This sets request method to POST.
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/binary");
+			PrintWriter writer = null;
+			try {
+			    writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream()));
+			    //writer.println("--" + boundary);
+			    writer.println("Content-Disposition: form-data; name=\"dossier\"; filename=\"NRXWO2LOFZYDELTXN5ZGYZDPMZ2GC3TLOMXGK5J2GIYDAMJWHNZXI4TPNZTTINA=.dat\"");
+			    writer.println("Content-Type: application/binary");
+			    //writer.println();
+			    BufferedReader reader = null;
+			    try {
+			        reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileToUpload)));
+			        for (String line; (line = reader.readLine()) != null;) {
+			            writer.println(line);
+			        }
+			    } finally {
+			        if (reader != null) try { reader.close(); } catch (IOException logOrIgnore) {}
+			    }
+			    //writer.println("--" + boundary + "--");
+			} finally {
+			    if (writer != null) writer.close();
+			}
+
+			// Connection is lazily executed whenever you request any status.
+			int responseCode = ((HttpURLConnection) conn).getResponseCode();
+			System.out.println(responseCode); // Should be 200
+			
+			
+			
+			
+	        
+	        
 			//5726971199750144 correspond à l'ID de mon dossier cache dans wot-dossier.appspot.com
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
 																								 //5726971199750144
-				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com//dossier-data/5726971199750144");					
+				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com/dossier-data/5726971199750144");					
 			}
 			else {
-				url = new URL("http://wot-dossier.appspot.com//dossier-data/5726971199750144" );		
+				url = new URL("http://wot-dossier.appspot.com/dossier-data/5726971199750144" );		
 			}
 			
 			//lecture de la rÃ©ponse recherche du clan
-			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn = (HttpURLConnection)url.openConnection();
 			conn.setReadTimeout(60000);
 			conn.setConnectTimeout(60000);
 			//conn.getInputStream();
@@ -467,6 +526,20 @@ public class DossierToJsonTanks implements Serializable{
 				totalExpWr = 0.0;
 			
 				//batailles aléatoires
+				double dateUpdated = dossierToJsonTanks.getUpdated();
+				//dateUpdated = dateUpdated/1000;
+//				System.out.println("dateUpdated " + dateUpdated);
+				
+				
+//				Date date = new Date ();
+//				date.setTime((long)dateUpdated*1000);
+//				
+//				System.out.println(date);
+				
+				Calendar mydate = Calendar.getInstance();
+				mydate.setTimeInMillis((long)dateUpdated*1000);
+				String strDateUpdate = mydate.get(Calendar.DAY_OF_MONTH)+"."+mydate.get(Calendar.MONTH)+"."+mydate.get(Calendar.YEAR);
+				
 				int tankBattles = dossierToJsonTanks.get_15x15().battles;
 				tankBattles = 1;
 				int tankId = dossierToJsonTanks.getCompDescr();
@@ -510,7 +583,7 @@ public class DossierToJsonTanks implements Serializable{
 				//WN8 = 980*rDAMAGEc + 210*rDAMAGEc*rFRAGc + 155*rFRAGc*rSPOTc + 75*rDEFc*rFRAGc + 145*MIN(1.8,rWINc)
 				double  wn8 =   980*rDmgC    + 210*rDmgC*rFragC    + 155*rFragC*rSpotC + 75*rDefC*rFragC + 145*Math.min(1.8,rWrC);
 				//
-				System.out.println( " tank title:" + dossierToJsonTanks.getTitle() + "	wn8:" + wn8);
+				System.out.println( strDateUpdate + ":tank title:" + dossierToJsonTanks.getTitle() + "	wn8:" + wn8 + " tank battle:" + tankBattles);
 				
 				
 			}
