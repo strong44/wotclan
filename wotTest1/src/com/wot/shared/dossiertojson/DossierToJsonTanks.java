@@ -2,9 +2,11 @@ package com.wot.shared.dossiertojson;
 
 import java.io.BufferedReader;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -13,11 +15,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.CharsetEncoder;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+
+import org.python.core.PyFunction;
+import org.python.core.PyInteger;
+import org.python.core.PyObject;
+import org.python.util.PythonInterpreter;
+import org.python.util.jython;
+
 
 
 import com.google.gson.Gson;
@@ -296,9 +307,32 @@ public class DossierToJsonTanks implements Serializable{
 		this.icon_orig = icon_orig;
 	}
 
+	
+	public static void main3(String args[]){  
+		
+		//PythonInterpreter interpreter2 = new PythonInterpreter();  
+//        interpreter2.exec("from com.xhaus.jyson import JysonCodec as json");  
+
+        
+		PythonInterpreter interpreter = new PythonInterpreter();  
+        interpreter.execfile("D:\\TEMP\\WoT-Dossier-Cache-to-JSON-master\\wotdc2jTLT.py");  
+        
+        //PyFunction pyFuntion = (PyFunction)interpreter.get("add",PyFunction.class);  
+        //int a = 10, b = 20 ;  
+//        PyObject pyobj = pyFuntion.__call__(new PyInteger(a), new PyInteger(b));  
+//        System.out.println("result = " + pyobj.toString());  
+          //from com.xhaus.jyson import JysonCodec as json"from com.xhaus.jyson import JysonCodec as json"rpreter.exec("D:\\TEMP\\WoT-Dossier-Cache-to-JSON-master\\wotdc2j.py dossier.dat -f -r");
+        
+    }
+	
 
 	//////////////////
 	public static void main(String[] args) {
+		
+		//String[] arg2s = {"D:\Privé\tle-conniat\Téléchargements\WoT-Dossier-Cache-to-JSON-master\WoT-Dossier-Cache-to-JSON-master\wotdc2j.py"} ;
+		
+		//jython.run(arg2s);
+		
 		URL url = null ;
 		//input = input.replace(" ", "%20");
 		
@@ -318,7 +352,7 @@ public class DossierToJsonTanks implements Serializable{
 			}
 			
 			//String urlToConnect = "http://localhost:9000/upload";
-			File fileToUpload = new File("D:\\Privé\\tle-conniat\\wot\\Wargaming.net\\WorldOfTanks\\dossier_cache\\NRXWO2LOFZYDELTXN5ZGYZDPMZ2GC3TLOMXGK5J2GIYDAMJWHNZXI4TPNZTTINA=.dat");
+			File fileToUpload = new File("D:\\Privé\\tle-conniat\\wot\\Wargaming.net\\WorldOfTanks\\dossier_cache\\NRXWO2LOFVRXILLQGEXHO33SNRSG6ZTUMFXGW4ZONZSXIORSGAYDCNJ3ON2HE33OM42DIX2FKU======.dat");
 			String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
 
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -329,21 +363,55 @@ public class DossierToJsonTanks implements Serializable{
 			conn.setDoOutput(true); // This sets request method to POST.
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/binary");
+			conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			conn.setRequestProperty("Accept-Language", "en,fr;q=0.8,fr-fr;q=0.5,en-us;q=0.3");
+			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+			conn.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+			conn.setRequestProperty("Transfer-Encoding", "base64");
+			
+			conn.setRequestProperty("Pragma", "no-cache");
+			conn.setRequestProperty("Cache-Control", "no-cache");
+			//conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:6.0) Gecko/20100101 Firefox/6.0");
+			
 			PrintWriter writer = null;
+			
 			try {
-			    writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream()));
+			    writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream(), "utf-8"));
 			    //writer.println("--" + boundary);
-			    writer.println("Content-Disposition: form-data; name=\"dossier\"; filename=\"NRXWO2LOFZYDELTXN5ZGYZDPMZ2GC3TLOMXGK5J2GIYDAMJWHNZXI4TPNZTTINA=.dat\"");
-			    writer.println("Content-Type: application/binary");
+			    //writer.println("Content-Disposition: form-data; name=\"dossier\"; filename=\"NRXWO2LOFZYDELTXN5ZGYZDPMZ2GC3TLOMXGK5J2GIYDAMJWHNZXI4TPNZTTINA=.dat\"");
+			    //writer.println("Content-Type: application/binary");
 			    //writer.println();
 			    BufferedReader reader = null;
+			    //int ch=0;  
+			    StringBuffer rec = new StringBuffer("");  
+			    InputStreamReader is = null;
+			    BufferedInputStream in = null;
 			    try {
-			        reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileToUpload)));
-			        for (String line; (line = reader.readLine()) != null;) {
-			            writer.println(line);
+//			        reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileToUpload)));
+//			        for (String line; (line = reader.readLine()) != null;) {
+//			        	rec.append(line);
+//			            //writer.println(line);
+//			        }
+//			        is = new InputStreamReader(new FileInputStream(fileToUpload));
+//			        
+//			        while ( (ch = is.read()) != -1) {  
+//			              rec.append( ch);  
+//			        }
+//			        writer.print(rec.toString());
+			        
+			        FileInputStream inputStream = new FileInputStream(fileToUpload);
+			        byte[] buffer = new byte[4096];
+			        int bytesRead = -1;
+			        while ((bytesRead = inputStream.read(buffer)) != -1) {
+			        	conn.getOutputStream().write(buffer, 0, bytesRead);
 			        }
+			        conn.getOutputStream().flush();
+			        inputStream.close();
+			        
 			    } finally {
 			        if (reader != null) try { reader.close(); } catch (IOException logOrIgnore) {}
+			        if (is != null) is.close();
+			        if (in != null) in.close();
 			    }
 			    //writer.println("--" + boundary + "--");
 			} finally {
@@ -355,13 +423,18 @@ public class DossierToJsonTanks implements Serializable{
 			System.out.println(responseCode); // Should be 200
 			
 			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 			
+			String line = "";
+			String AllLines = "";
+			while ((line = reader.readLine()) != null) {
+				AllLines = AllLines + line;
+			}
+			System.out.println(AllLines);
+	        
 			
-	        
-	        
 			//5726971199750144 correspond à l'ID de mon dossier cache dans wot-dossier.appspot.com
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-																								 //5726971199750144
 				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com/dossier-data/5726971199750144");					
 			}
 			else {
@@ -373,11 +446,11 @@ public class DossierToJsonTanks implements Serializable{
 			conn.setReadTimeout(60000);
 			conn.setConnectTimeout(60000);
 			//conn.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 			
 			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream(), "UTF-8"));
-			String line = "";
-			String AllLines = "";
+			line = "";
+			AllLines = "";
 
 			while ((line = reader.readLine()) != null) {
 				AllLines = AllLines + line;
