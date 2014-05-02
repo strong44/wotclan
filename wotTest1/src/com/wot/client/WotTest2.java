@@ -2,6 +2,21 @@ package com.wot.client;
 
 
 
+
+
+
+import gwtupload.client.IUploadStatus.Status;
+import gwtupload.client.IUploader;
+import gwtupload.client.IUploader.UploadedInfo;
+import gwtupload.client.MultiUploader;
+import gwtupload.client.PreloadedImage;
+import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,9 +50,6 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -68,6 +80,10 @@ import com.wot.shared.XmlListAchievement;
 import com.wot.shared.XmlListCategoryAchievement;
 import com.wot.shared.XmlSrc;
 import com.wot.shared.XmlWiki;
+import com.googlecode.gwt.charts.client.ChartLoader;
+import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.LineChart;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 
@@ -77,15 +93,12 @@ import com.googlecode.gwt.charts.client.corechart.PieChart;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class WotTest1 implements EntryPoint {
+public class WotTest2 implements EntryPoint {
 	
 	// A panel where the thumbnails of uploaded images will be shown
-
+	private FlowPanel panelImages = new FlowPanel();
 	  
 	/////////
-	
-	private static final String UPLOAD_ACTION_URL = GWT.getModuleBaseURL() + "upload";
-	//
 	private SimpleLayoutPanel layoutPanel;
     private PieChart pieChart;
     LineChart lineCharts;
@@ -4345,73 +4358,36 @@ public class WotTest1 implements EntryPoint {
 
 		Window.enableScrolling(true);
         Window.setMargin("0px");
-////////////////////////////
+
         
-        // Create a FormPanel and point it at a service.
-         final FormPanel form = new FormPanel();
-         form.setAction(UPLOAD_ACTION_URL);
- 
-         // Because we're going to add a FileUpload widget, we'll need to set the
-         // form to use the POST method, and multipart MIME encoding.
-         form.setEncoding(FormPanel.ENCODING_MULTIPART);
-         form.setMethod(FormPanel.METHOD_POST);
- 
-         // Create a panel to hold all of the form widgets.
-         VerticalPanel panel = new VerticalPanel();
-         form.setWidget(panel);
- 
-         // Create a TextBox, giving it a name so that it will be submitted.
-         final TextBox tb = new TextBox();
-         tb.setName("textBoxFormElement");
-         panel.add(tb);
- 
-         // Create a ListBox, giving it a name and some values to be associated
-         // with its options.
-         ListBox lb = new ListBox();
-         lb.setName("listBoxFormElement");
-         lb.addItem("foo", "fooValue");
-         lb.addItem("bar", "barValue");
-         lb.addItem("baz", "bazValue");
-         panel.add(lb);
- 
-         // Create a FileUpload widget.
-         FileUpload upload = new FileUpload();
-         upload.setName("uploadFormElement");
-         panel.add(upload);
- 
-         // Add a 'submit' button.
-         panel.add(new Button("Submit", new ClickHandler() {
-         public  void onClick(ClickEvent event) {
-                 form.submit();
-             }
-         }));
- 
-         // Add an event handler to the form.
-         form.addSubmitHandler(new FormPanel.SubmitHandler() {
-             public void onSubmit(SubmitEvent event) {
-                 // This event is fired just before the form is submitted. We can
-                 // take this opportunity to perform validation.
-                 if (tb.getText().length() == 0) {
-                     Window.alert("The text box must not be empty");
-                     event.cancel();
-                 }
-             }
-         });
- 
-         form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-             public void onSubmitComplete(SubmitCompleteEvent event) {
-                 // When the form submission is successfully completed, this
-                 // event is fired. Assuming the service returned a response of type
-                 // text/html, we can get the result text here (see the FormPanel
-                 // documentation for further explanation).
-             }
-         });
- 
-         RootPanel.get().add(form);
- 
-  			
+        // Attach the image viewer to the document
+        RootPanel.get().add(panelImages);
         
-        ///////////////////////////////
+        // Create a new uploader panel and attach it to the document
+        MultiUploader defaultUploader = new MultiUploader();
+        RootPanel.get().add(defaultUploader);
+
+        // Add a finish handler which will load the image once the upload finishes
+        defaultUploader.addOnFinishUploadHandler(onFinishUploaderHandler);
+        
+        
+//        RootLayoutPanel.get().add(getSimpleLayoutPanel());
+//
+//			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+//			 chartLoader.loadApi(new Runnable() {
+//			
+//			     @Override
+//			     public void run() {
+//			             getSimpleLayoutPanel().setWidget(getPieChart());
+//			             drawPieChart();
+//			     }
+//			 });
+			 
+			 //
+//	        LineChartExample lineChartExample = new LineChartExample();
+//	        RootLayoutPanel.get().add(lineChartExample);
+		 
+			
 			 /**
 			   * An instance of the constants.
 			   */
@@ -4439,8 +4415,31 @@ public class WotTest1 implements EntryPoint {
 			rootPanel.add(dockPanel, 29, 265);
 			dockPanel.setSize("1193px", "550px");
 
-	
+			// Add a file upload widget
+		    final FileUpload fileUpload = new FileUpload();
+		   
+		    fileUpload.ensureDebugId("cwFileUpload");
 		    int posTop = 10;
+		    rootPanel.add(fileUpload, 10 , posTop);
+
+		    //
+			Button fileUploadButton = new Button("Download dossier cache");
+		    fileUploadButton.addClickHandler(new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		        String filename = fileUpload.getFilename();
+		        if (filename.length() == 0) {
+		          Window.alert("file size null");
+		        } else {
+		          Window.alert("file size OK");
+		          
+		          //TODO : Display stats of dossier cache
+		          
+		        }
+		      }
+		    });
+		    posTop = posTop + 35;
+		    rootPanel.add(fileUploadButton, 10, posTop );
+		    fileUploadButton.setSize("80px", "28px");
 		    
 			//button search Clans
 			//int posLeft = 10;
@@ -5105,149 +5104,149 @@ public class WotTest1 implements EntryPoint {
 			
 			
 			///////////
-//			// Create a handler for search clan's members
-//			class HandlerGetAllStatsFromDossierCache implements ClickHandler, KeyUpHandler {
-//				/**
-//				 * Fired when the user clicks on the sendButton.
-//				 */
-//				public void onClick(ClickEvent event) {
-//					getStats();
-//					
-//				}
-//	
-//				/**
-//				 * Fired when the user types in the nameField.
-//				 */
-//				public void onKeyUp(KeyUpEvent event) {
-//					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-//						getStats();
-//						
+			// Create a handler for search clan's members
+			class HandlerGetAllStatsFromDossierCache implements ClickHandler, KeyUpHandler {
+				/**
+				 * Fired when the user clicks on the sendButton.
+				 */
+				public void onClick(ClickEvent event) {
+					getStats();
+					
+				}
+	
+				/**
+				 * Fired when the user types in the nameField.
+				 */
+				public void onKeyUp(KeyUpEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						getStats();
+						
+					}
+				}
+	
+				/**
+				 * Send the name from the nameField to the server and wait for a response.
+				 */
+				private void getStats() {
+					
+			        String filename = fileUpload.getFilename();
+			        String textToServer = filename;
+			        
+			        if (filename.length() == 0) {
+			        	errorLabel.setText("Please enter at least four characters");
+						
+						/////
+						dialogBox
+						.setText("Select a file before!!");
+						serverResponseLabel
+								.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML("Click on a file before !"  );
+						dialogBox.center();
+						closeButton.setFocus(true);
+						return;
+			          
+			        } else {
+			          Window.alert("file size OK");
+			          
+//			          FileReader fileReader = null;
+//			          try {
+//						  File fileToUpload = new File(filename);
+//						  fileReader = new FileReader(fileToUpload); 
+//						  
+//						  
+//						  CharBuffer buffer = CharBuffer.allocate(1000*1000);
+//						  int bytesRead = -1;
+//						  while ((bytesRead = fileReader.read(buffer)) != -1) {
+//						    	System.out.println("bytesRead " + bytesRead );
+//						  }
+//						  
+//						  
+//					} catch (FileNotFoundException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
 //					}
-//				}
-//	
-//				/**
-//				 * Send the name from the nameField to the server and wait for a response.
-//				 */
-//				private void getStats() {
-//					
-//			        String filename = fileUpload.getFilename();
-//			        String textToServer = filename;
-//			        
-//			        if (filename.length() == 0) {
-//			        	errorLabel.setText("Please enter at least four characters");
-//						
-//						/////
-//						dialogBox
-//						.setText("Select a file before!!");
-//						serverResponseLabel
-//								.addStyleName("serverResponseLabelError");
-//						serverResponseLabel.setHTML("Click on a file before !"  );
-//						dialogBox.center();
-//						closeButton.setFocus(true);
-//						return;
-//			          
-//			        } else {
-//			          Window.alert("file size OK");
-//			          
-////			          FileReader fileReader = null;
-////			          try {
-////						  File fileToUpload = new File(filename);
-////						  fileReader = new FileReader(fileToUpload); 
-////						  
-////						  
-////						  CharBuffer buffer = CharBuffer.allocate(1000*1000);
-////						  int bytesRead = -1;
-////						  while ((bytesRead = fileReader.read(buffer)) != -1) {
-////						    	System.out.println("bytesRead " + bytesRead );
-////						  }
-////						  
-////						  
-////					} catch (FileNotFoundException e) {
-////						// TODO Auto-generated catch block
-////						e.printStackTrace();
-////					} catch (IOException e) {
-////						// TODO Auto-generated catch block
-////						e.printStackTrace();
-////					}
-////			        finally {
-////			        	try {
-////							if (fileReader != null ) fileReader.close();
-////						} catch (IOException e) {
-////							// TODO Auto-generated catch block
-////							e.printStackTrace();
-////						}
-////			        }
-//			          
-//			          //TODO : Display stats of dossier cache
+//			        finally {
+//			        	try {
+//							if (fileReader != null ) fileReader.close();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 //			        }
-//					
-//					// First, we validate the input.
-//					hPanelLoading.setVisible(true);
-//					
-//				    // Sending filename <file *.dat> to server 
-//					// Then, we send the input to the server.
-//					//searchClanButton.setEnabled(false);
-//					textToServerLabel.setText(textToServer);
-//					serverResponseLabel.setText("");
-//					wotService.getAllStatsFromDossierCache(filename,
-//							new AsyncCallback<AllCommunityAccount>() {
-//								public void onFailure(Throwable caught) {
-//									hPanelLoading.setVisible(false);
-//									// Show the RPC error message to the user
-//									dialogBox
-//											.setText("Remote Procedure Call - Failure");
-//									serverResponseLabel
-//											.addStyleName("serverResponseLabelError");
-//									serverResponseLabel.setHTML(SERVER_ERROR);
-//									dialogBox.center();
-//									closeButton.setFocus(true);
-//									
-//								}
-//	
-//								public void onSuccess(AllCommunityAccount listAccount) {
-//									hPanelLoading.setVisible(false);
-//									dockPanel.remove(tableStatsCommAcc);
-//									dockPanel. remove(tableClan);
-//									
-//
-//									
-//									if (dataStatsProvider.getDataDisplays()!= null && !dataStatsProvider.getDataDisplays().isEmpty()) 
-//										dataStatsProvider.removeDataDisplay(tableStatsCommAcc);
-//									
-//									//on re-construit 1 nouveau tableau
-//									tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
-//									
-//									//construct column in celltable tableCommAcc , set data set sort handler etc ..
-//									buildACellTableForStatsCommunityAccount(listAccount.getListCommunityAccount());
-//									  
-//									//Create a Pager to control the table.
-////								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-////								    pagerStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
-////								    pagerStatsCommunityAccount.setDisplay(tableStatsCommAcc);
-//									
-//								    
-//								    /////////
-//								    ScrollPanel sPanel = new ScrollPanel();
-//								    //
-//								    sPanel.setStyleName("myCellTableStyle");
-//								    sPanel.setAlwaysShowScrollBars(true);
-//								    sPanel.setHeight("500px");
-//								    //sPanel.add(pagerClan);
-//								    sPanel.add(tableStatsCommAcc);
-//								    tp.add(sPanel, "Stats");
-//								    int count = tp.getWidgetCount();
-//									dockPanel.add(tp, DockPanel.SOUTH);
-//									tp.selectTab(count-1);
-//								    
-//									tableClan.setVisible(true);
-//									//pagerClan.setVisible(true);
-//									
-//									tableStatsCommAcc.setFocus(true);
-//								}
-//							});
-//				}
-//			}
-//			///////////			
+			          
+			          //TODO : Display stats of dossier cache
+			        }
+					
+					// First, we validate the input.
+					hPanelLoading.setVisible(true);
+					
+				    // Sending filename <file *.dat> to server 
+					// Then, we send the input to the server.
+					//searchClanButton.setEnabled(false);
+					textToServerLabel.setText(textToServer);
+					serverResponseLabel.setText("");
+					wotService.getAllStatsFromDossierCache(filename,
+							new AsyncCallback<AllCommunityAccount>() {
+								public void onFailure(Throwable caught) {
+									hPanelLoading.setVisible(false);
+									// Show the RPC error message to the user
+									dialogBox
+											.setText("Remote Procedure Call - Failure");
+									serverResponseLabel
+											.addStyleName("serverResponseLabelError");
+									serverResponseLabel.setHTML(SERVER_ERROR);
+									dialogBox.center();
+									closeButton.setFocus(true);
+									
+								}
+	
+								public void onSuccess(AllCommunityAccount listAccount) {
+									hPanelLoading.setVisible(false);
+									dockPanel.remove(tableStatsCommAcc);
+									dockPanel. remove(tableClan);
+									
+
+									
+									if (dataStatsProvider.getDataDisplays()!= null && !dataStatsProvider.getDataDisplays().isEmpty()) 
+										dataStatsProvider.removeDataDisplay(tableStatsCommAcc);
+									
+									//on re-construit 1 nouveau tableau
+									tableStatsCommAcc = new  CellTable<CommunityAccount> (CommunityAccount.KEY_PROVIDER);
+									
+									//construct column in celltable tableCommAcc , set data set sort handler etc ..
+									buildACellTableForStatsCommunityAccount(listAccount.getListCommunityAccount());
+									  
+									//Create a Pager to control the table.
+//								    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+//								    pagerStatsCommunityAccount = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
+//								    pagerStatsCommunityAccount.setDisplay(tableStatsCommAcc);
+									
+								    
+								    /////////
+								    ScrollPanel sPanel = new ScrollPanel();
+								    //
+								    sPanel.setStyleName("myCellTableStyle");
+								    sPanel.setAlwaysShowScrollBars(true);
+								    sPanel.setHeight("500px");
+								    //sPanel.add(pagerClan);
+								    sPanel.add(tableStatsCommAcc);
+								    tp.add(sPanel, "Stats");
+								    int count = tp.getWidgetCount();
+									dockPanel.add(tp, DockPanel.SOUTH);
+									tp.selectTab(count-1);
+								    
+									tableClan.setVisible(true);
+									//pagerClan.setVisible(true);
+									
+									tableStatsCommAcc.setFocus(true);
+								}
+							});
+				}
+			}
+			///////////			
 			
 			
 			
@@ -5709,8 +5708,8 @@ public class WotTest1 implements EntryPoint {
 
 			
 			// Add a handler to send to get the dossier cache
-//			HandlerGetAllStatsFromDossierCache handlerGetAllStatsFromDossierCache = new HandlerGetAllStatsFromDossierCache();
-//			fileUploadButton.addClickHandler(handlerGetAllStatsFromDossierCache);
+			HandlerGetAllStatsFromDossierCache handlerGetAllStatsFromDossierCache = new HandlerGetAllStatsFromDossierCache();
+			fileUploadButton.addClickHandler(handlerGetAllStatsFromDossierCache);
 
 			// Add a handler to find historized stats 
 			HandlerGetHistorizedStats handlerGetHistorizedStats = new HandlerGetHistorizedStats("WN8");
@@ -7909,7 +7908,32 @@ public class WotTest1 implements EntryPoint {
 	     
 /////
 	     
-	
+	  // Load the image in the document and in the case of success attach it to the viewer
+	  private IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
+	    public void onFinish(IUploader uploader) {
+	      if (uploader.getStatus() == Status.SUCCESS) {
+
+	        new PreloadedImage(uploader.fileUrl(), showImage);
+	        
+	        // The server sends useful information to the client by default
+	        UploadedInfo info = uploader.getServerInfo();
+	        System.out.println("File name " + info.name);
+	        System.out.println("File content-type " + info.ctype);
+	        System.out.println("File size " + info.size);
+
+	        // You can send any customized message and parse it 
+	        System.out.println("Server message " + info.message);
+	      }
+	    }
+	  };
+
+	  // Attach an image to the pictures viewer
+	  private OnLoadPreloadedImageHandler showImage = new OnLoadPreloadedImageHandler() {
+	    public void onLoad(PreloadedImage image) {
+	      image.setWidth("75px");
+	      panelImages.add(image);
+	    }
+	  };
 			
 			
 }

@@ -20,6 +20,8 @@ public interface WotServiceAsync {
 	
 	void getAllMembersClanAndStats(List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
 	
+	void getAllStatsFromDossierCache(String fileName, AsyncCallback<AllCommunityAccount> callBack);
+
 	void getAllMembersClanAndStatsHistorised(String textToServer,
 			List<String> listIdUser, AsyncCallback<AllCommunityAccount> callBack);
 	

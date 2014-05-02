@@ -1,9 +1,12 @@
 package com.wot.server;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -989,6 +992,86 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 		 wot.getClans("NOVA_SNAIL", 0);
 		 System.exit(0);
 		
+	}
+
+	@Override
+	public AllCommunityAccount getAllStatsFromDossierCache(String fileName)
+			throws IllegalArgumentException {
+		
+		URL url = null ;
+		//to avoid SSL Protcole erreur ?
+		System.setProperty("jsse.enableSNIExtension", "false");
+		try {
+			//posting a folder to wot-dossier
+			//http://wot-dossier.appspot.com/service/dossier-to-json 
+			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				 //5726971199750144
+				url = new URL(WotServiceImpl.proxy + "http://wot-dossier.appspot.com/service/dossier-to-json");					
+			}
+			else {
+				url = new URL("http://wot-dossier.appspot.com/service/dossier-to-json" );		
+			}
+			
+			File fileToUpload = new File("D:\\PrivÃ©\\tle-conniat\\wot\\Wargaming.net\\WorldOfTanks\\dossier_cache\\NRXWO2LOFVRXILLQGEXHO33SNRSG6ZTUMFXGW4ZONZSXIORSGAYDCNJ3ON2HE33OM42DIX2FKU======.dat");
+
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setReadTimeout(60000);
+			conn.setConnectTimeout(60000);
+			
+			conn.setDoOutput(true); // This sets request method to POST.
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/binary");
+			conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			conn.setRequestProperty("Accept-Language", "en,fr;q=0.8,fr-fr;q=0.5,en-us;q=0.3");
+			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+			conn.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+			conn.setRequestProperty("Transfer-Encoding", "base64");
+			
+			conn.setRequestProperty("Pragma", "no-cache");
+			conn.setRequestProperty("Cache-Control", "no-cache");
+			
+			PrintWriter writer = null;
+			FileInputStream inputStream  = null;
+			
+			try {
+			    BufferedReader reader = null;
+			    //StringBuffer rec = new StringBuffer("");  
+			    InputStreamReader is = null;
+			    BufferedInputStream in = null;
+			        
+			        inputStream = new FileInputStream(fileToUpload);
+			        byte[] buffer = new byte[4096];
+			        int bytesRead = -1;
+			        while ((bytesRead = inputStream.read(buffer)) != -1) {
+			        	conn.getOutputStream().write(buffer, 0, bytesRead);
+			        }
+			        conn.getOutputStream().flush();
+			        
+					int responseCode = ((HttpURLConnection) conn).getResponseCode();
+					System.out.println(responseCode); // Should be 200
+					reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+					//printing response
+					String line = "";
+					String AllLines = "";
+					while ((line = reader.readLine()) != null) {
+						AllLines = AllLines + line;
+					}
+					System.out.println(AllLines);
+			        
+			} finally {
+		        if (inputStream == null )
+						inputStream.close();
+					
+			}
+			
+		} catch (Exception e)  {
+	       
+			e.printStackTrace();
+		}
+		
+		
+		return null;
 	}
 
 
