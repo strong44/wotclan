@@ -320,18 +320,12 @@ public class DossierToJsonTanks implements Serializable{
 	//////////////////
 	public static void main(String[] args) {
 		
-		//String[] arg2s = {"D:\Privé\tle-conniat\Téléchargements\WoT-Dossier-Cache-to-JSON-master\WoT-Dossier-Cache-to-JSON-master\wotdc2j.py"} ;
-		
-		//jython.run(arg2s);
-		
+		//
 		URL url = null ;
-		//input = input.replace(" ", "%20");
-		
 		//to avoid SSL Protcole erreur ?
 		System.setProperty("jsse.enableSNIExtension", "false");
 		
 		try {
-			
 			//posting a folder to wot-dossier
 			//http://wot-dossier.appspot.com/service/dossier-to-json 
 			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
@@ -342,9 +336,8 @@ public class DossierToJsonTanks implements Serializable{
 				url = new URL("http://wot-dossier.appspot.com/service/dossier-to-json" );		
 			}
 
-			
 			File fileToUpload = new File("D:\\Privé\\tle-conniat\\wot\\Wargaming.net\\WorldOfTanks\\dossier_cache\\NRXWO2LOFVRXILLQGEXHO33SNRSG6ZTUMFXGW4ZONZSXIORSGAYDCNJ3ON2HE33OM42DIX2FKU======.dat");
-			String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+			//String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
 
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			conn.setReadTimeout(60000);
@@ -378,6 +371,8 @@ public class DossierToJsonTanks implements Serializable{
 			        	conn.getOutputStream().write(buffer, 0, bytesRead);
 			        }
 			        conn.getOutputStream().flush();
+			        
+			         
 			        
 					int responseCode = ((HttpURLConnection) conn).getResponseCode();
 					System.out.println(responseCode); // Should be 200
