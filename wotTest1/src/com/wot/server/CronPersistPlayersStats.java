@@ -395,12 +395,14 @@ public class CronPersistPlayersStats extends HttpServlet {
 	//						}
 							//for each tank do the sum of frag, dmg,  spot def, xp, wr
 							DataWnEfficientyTank dataWnEfficientyTank = hMapWnEfficientyTankHashMap.get(String.valueOf(tankId));
-							// takes the counts of tanks played on account, and multiplies them by the expected stats to get the account total expected values.
-							totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
-							totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
-							totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
-							totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
-							totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
+							if (dataWnEfficientyTank != null) {
+								// takes the counts of tanks played on account, and multiplies them by the expected stats to get the account total expected values.
+								totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
+								totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
+								totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
+								totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
+								totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
+							}
 							
 							
 							
