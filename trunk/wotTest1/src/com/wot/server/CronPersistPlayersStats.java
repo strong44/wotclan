@@ -372,52 +372,61 @@ public class CronPersistPlayersStats extends HttpServlet {
 						double wn8 = 0;
 						//---calculate WN8 -----
 						for (DataPlayerTankRatings dataPlayerTankRatings : listPlayerTanksRatings) {
-							int tankId= dataPlayerTankRatings.getTank_id() ;
-							int tankBattles = dataPlayerTankRatings.getStatistics().getAll().getBattles();
-							//int wins = dataPlayerTankRatings.getStatistics().getAll().getWins();
-							//
-							//log.warning("tankId :" + tankId );
-							if (tankEncyclopedia.getData().get(String.valueOf(tankId)) == null )
-								log.severe ("tankEncyclopedia.getData().get(tankId) is null ");
-							else {
-								int levelTank = tankEncyclopedia.getData().get(String.valueOf(tankId)).getLevel();
+							try {
+								int tankId= dataPlayerTankRatings.getTank_id() ;
+								int tankBattles =0 ;
+								
+									tankBattles = dataPlayerTankRatings.getStatistics().getAll().getBattles();
+								
+								//int wins = dataPlayerTankRatings.getStatistics().getAll().getWins();
 								//
-								nbBattles = nbBattles + tankBattles;
-								levelByBattles =levelByBattles + levelTank * tankBattles;
-							}
-	
-							//for each tank do sum of frag, dmg,  spot def, xp, wr
-							//In wnEfficientyTank we have the expected values for each tank 
-							//
-	//						for (DataWnEfficientyTank dataWnEfficientyTank : wnEfficientyTank.getData()) {
-	//							//dataWnEfficientyTank.
-	//							
-	//						}
-							//for each tank do the sum of frag, dmg,  spot def, xp, wr
-							DataWnEfficientyTank dataWnEfficientyTank = hMapWnEfficientyTankHashMap.get(String.valueOf(tankId));
-							if (dataWnEfficientyTank != null) {
-								// takes the counts of tanks played on account, and multiplies them by the expected stats to get the account total expected values.
-								totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
-								totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
-								totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
-								totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
-								totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
-							}
+								//log.warning("tankId :" + tankId );
+								if (tankEncyclopedia.getData().get(String.valueOf(tankId)) == null )
+									log.severe ("tankEncyclopedia.getData().get(tankId) is null ");
+								else {
+									int levelTank = tankEncyclopedia.getData().get(String.valueOf(tankId)).getLevel();
+									//
+									nbBattles = nbBattles + tankBattles;
+									levelByBattles =levelByBattles + levelTank * tankBattles;
+								}
+		
+								//for each tank do sum of frag, dmg,  spot def, xp, wr
+								//In wnEfficientyTank we have the expected values for each tank 
+								//
+								//						for (DataWnEfficientyTank dataWnEfficientyTank : wnEfficientyTank.getData()) {
+								//							//dataWnEfficientyTank.
+								//							
+								//						}
+								//for each tank do the sum of frag, dmg,  spot def, xp, wr
+								DataWnEfficientyTank dataWnEfficientyTank = hMapWnEfficientyTankHashMap.get(String.valueOf(tankId));
+								if (dataWnEfficientyTank != null) {
+									// takes the counts of tanks played on account, and multiplies them by the expected stats to get the account total expected values.
+									totalExpFrag = totalExpFrag + Double.valueOf(dataWnEfficientyTank.getExpFrag()) * tankBattles;
+									totalExpDmg = totalExpDmg + Double.valueOf(dataWnEfficientyTank.getExpDamage()) * tankBattles;
+									totalExpSpot = totalExpSpot + Double.valueOf(dataWnEfficientyTank.getExpSpot()) * tankBattles;
+									totalExpDef = totalExpDef + Double.valueOf(dataWnEfficientyTank.getExpDef()) * tankBattles;
+									totalExpWr = totalExpWr + Double.valueOf(dataWnEfficientyTank.getExpWinRate()) * tankBattles;
+								}
 							
 							
 							
-							//
-							/*
-							Very Bad	below 500	below 300
-							Bad	500 - 699	300 - 599
-							Below Average	700 - 899	600 - 899
-							Average	900 - 1099	900 - 1249
-							Good	1100 - 1349	1250 - 1599
-							Very Good	1350 - 1499	1600 - 1899
-							Great	1500 - 1699	1900 - 2349
-							Unicum	1700 - 1999	2350 - 2899
-							Super Unicum	2000 and above	2900 and above
-							*/
+								//
+								/*
+								Very Bad	below 500	below 300
+								Bad	500 - 699	300 - 599
+								Below Average	700 - 899	600 - 899
+								Average	900 - 1099	900 - 1249
+								Good	1100 - 1349	1250 - 1599
+								Very Good	1350 - 1499	1600 - 1899
+								Great	1500 - 1699	1900 - 2349
+								Unicum	1700 - 1999	2350 - 2899
+								Super Unicum	2000 and above	2900 and above
+								*/
+								
+							}catch (Exception e) {
+								break ;
+							}	
+								
 						}//for 
 						
 						//Then the actual account totals (your total dmg, frags, spots, def, win-rate) are divided by the total expected values to give the ratios.
@@ -580,6 +589,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 //				        }
 					    
 						//
+						
 				}
 	//						}//for (DataCommunityClanMembers
 	
