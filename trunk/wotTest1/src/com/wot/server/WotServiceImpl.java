@@ -78,7 +78,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	
 	//Definition d'un hashMap id userName
 	static HashMap <String , String> hMapIdUserName = new HashMap <String , String>();
-	
+
+	//Definition d'un hashMap id userName
+	static HashMap <String , String> hMapUserNameId = new HashMap <String , String>();
+
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	
 	static TankEncyclopedia tankEncyclopedia;
@@ -371,7 +374,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			for (DaoDataCommunityClanMembers members : daoCommunityClan.getData().values() ) {
 				for (DaoDataCommunityMembers member : members.getMembers().values() ) {
 					hMapIdUserName.put(member.getAccount_id(), member.getAccount_name());
-					
+					hMapUserNameId.put( member.getAccount_name(), member.getAccount_id());
 				}
  
 
@@ -390,6 +393,129 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	}
 
 
+//	public void generateHMIdUSerNameClan(String idClan) {
+//		CommunityClan communityClan = null;
+//		
+//		DaoCommunityClan2 daoCommunityClan = null;
+//		Clan desClan =null;
+//		// Verify that the input is valid.
+//		if (!FieldVerifier.isValidName(idClan)) {
+//			// If the input is not valid, throw an IllegalArgumentException back to
+//			// the client.
+//			throw new IllegalArgumentException("Name must be at least 4 characters long");
+//		}
+//	
+//		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+//	
+//		// Escape data from the client to avoid cross-site script vulnerabilities.
+//		idClan = escapeHtml(idClan);
+//		userAgent = escapeHtml(userAgent);
+//		
+//		List<CommunityAccount> listCommunityAccount = new ArrayList<CommunityAccount>();
+//		AllCommunityAccount myAllCommunityAccount = new AllCommunityAccount ();
+//		myAllCommunityAccount.setListCommunityAccount(listCommunityAccount);
+//		/**
+//		 * {
+//		  "status": "ok", 
+//		  "count": 1, 
+//		  "data": {
+//		    "1": {
+//		      "members_count": 100, 
+//		      "description": "Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ ÐºÐ»Ð°Ð½, Ð² Ñ�Ð¾Ñ�Ñ‚Ð°Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð²Ñ…Ð¾Ð´Ñ�Ñ‚ Ð»Ð¸ÑˆÑŒ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¸ Ð¸Ð³Ñ€Ñ‹ &quot;World of Tanks&quot;.\n\nÐ—Ð°Ñ�Ð²ÐºÐ¸, Ð¿Ð¾Ñ�Ð»Ð°Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð¸Ñ€Ñƒ ÐºÐ»Ð°Ð½Ð° Ñ‡ÐµÑ€ÐµÐ· Ñ„Ð¾Ñ€ÑƒÐ¼, Ð�Ð• Ð Ð�Ð¡Ð¡ÐœÐ�Ð¢Ð Ð˜Ð’Ð�Ð®Ð¢Ð¡Ð¯ .", 
+//		      "description_html": "<p>Ð—Ð°ÐºÑ€Ñ‹Ñ‚Ñ‹Ð¹ ÐºÐ»Ð°Ð½, Ð² Ñ�Ð¾Ñ�Ñ‚Ð°Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð³Ð¾ Ð²Ñ…Ð¾Ð´Ñ�Ñ‚ <i>Ð»Ð¸ÑˆÑŒ</i> Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸ÐºÐ¸ Ð¸Ð³Ñ€Ñ‹ &quot;World of Tanks&quot;.\n</p><p>\n<br/>Ð—Ð°Ñ�Ð²ÐºÐ¸, Ð¿Ð¾Ñ�Ð»Ð°Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð¸Ñ€Ñƒ ÐºÐ»Ð°Ð½Ð° Ñ‡ÐµÑ€ÐµÐ· Ñ„Ð¾Ñ€ÑƒÐ¼, <i>Ð�Ð• Ð Ð�Ð¡Ð¡ÐœÐ�Ð¢Ð Ð˜Ð’Ð�Ð®Ð¢Ð¡Ð¯</i> .\n</p>", 
+//		      "created_at": 1293024672, 
+//		      "updated_at": 1375930001, 
+//		      "name": "Wargaming.net", 
+//		      "abbreviation": "WG", 
+//		      "emblems": {
+//		        "large": "http://cw.worldoftanks.ru/media/clans/emblems/clans_1/1/emblem_64x64.png", 
+//		        "small": "http://cw.worldoftanks.ru/media/clans/emblems/clans_1/1/emblem_24x24.png", 
+//		        "medium": "http://cw.worldoftanks.ru/media/clans/emblems/clans_1/1/emblem_32x32.png", 
+//		        "bw_tank": "http://cw.worldoftanks.ru/media/clans/emblems/clans_1/1/emblem_64x64_tank.png"
+//		      }, 
+//		      "clan_id": 1, 
+//		      "members": {
+//		        "196632": {
+//		          "created_at": 1293126248, 
+//		          "role": "private", 
+//		          "updated_at": 1375930001, 
+//		          "account_id": 196632, 
+//		          "account_name": "Wrobel"
+//		        }, 
+//		        "18458": {
+//		          "created_at": 1360836543, 
+//		          "role": "diplomat", 
+//		          "updated_at": 1375930001, 
+//		          "account_id": 18458, 
+//		          "account_name": "alienraven"
+//		        }, 
+//			      "motto": "ÐžÑ€Ð»Ñ‹! ÐžÑ€Ð»Ð¸Ñ†Ñ‹!", 
+//			      "clan_color": "#e18000", 
+//			      "owner_id": 1277137
+//			    }
+//			  }
+//			}
+//		 */
+//		try {
+//		
+//			URL urlClan = null ;
+//			// recup des membres du clan NVS
+//			urlClan = null ;
+//			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+//				urlClan = new URL(proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
+//			}
+//			else {
+//				//500006074
+//				//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
+//				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
+//				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
+//			}
+//	
+//			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+//			conn.setReadTimeout(60000);
+//			conn.setConnectTimeout(60000);
+//			conn.getInputStream();
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			
+//			//BufferedReader reader = new BufferedReader(new InputStreamReader(urlClan.openStream()));
+//			String line = "";
+//			String AllLines = "";
+//	
+//			while ((line = reader.readLine()) != null) {
+//				AllLines = AllLines + line;
+//			}
+//			reader.close();
+//	
+//			Gson gson = new Gson();
+//			
+//			daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
+//			daoCommunityClan.setIdClan(idClan);
+//			daoCommunityClan.setDateCommunityClan(new java.util.Date());
+//			//persist clan ?
+//			
+//			for (DaoDataCommunityClanMembers members : daoCommunityClan.getData().values() ) {
+//				for (DaoDataCommunityMembers member : members.getMembers().values() ) {
+//					hMapIdUserName.put(member.getAccount_id(), member.getAccount_name());
+//					hMapUserNameId.put( member.getAccount_name(), member.getAccount_id());
+//				}
+// 
+//
+//			}
+//			
+//		} catch (MalformedURLException e) {
+//			// ...
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// ...
+//			e.printStackTrace();
+//		}
+//		 ///
+//		//communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
+//		//return communityClan;
+//	}
+
+	
+	
 
 	@Override
 	public AllCommunityAccount getAllMembersClanAndStatsHistorised(String idClan, List<String> listIdUser) throws IllegalArgumentException {
