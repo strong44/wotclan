@@ -1,6 +1,7 @@
 package com.wot.shared;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DataPlayerTankRatings implements Serializable{
 
@@ -26,13 +27,27 @@ public class DataPlayerTankRatings implements Serializable{
 		} 
 		,"last_battle_time":0,"mark_of_mastery":4,"in_garage":0,"tank_id":2817
 		} 
+		
+		nouveau :
+		
+		nouveau 
+
+{"status":"ok","count":36,"data":{"503294210":
+[{"statistics":{"wins":567,"battles":1123},"mark_of_mastery":4,"tank_id":2849},
+{"statistics":{"wins":279,"battles":540},"mark_of_mastery":4,"tank_id":3649},
+{"statistics":{"wins":290,"battles":533},"mark_of_mastery":4,"tank_id":5137},
+{"statistics":{"wins":259,"battles":508},"mark_of_mastery":4,"tank_id":5697},
+{"statistics":{"wins":238,"battles":485},"mark_of_mastery":4,"tank_id":14865},
+{"statistics":{"wins":219,"battles":439},"mark_of_mastery":3,"tank_id":4929},
+{"statistics":{"wins":239,"battles":433},"mark_of_mastery":4,"tank_id":9745},
+
 
 	 */
 	private static final long serialVersionUID = 7479748986919619834L;
 
 	//achievements
 	
-	DataPlayerTankRatingsStatistics statistics ;
+	DataPlayerTankRatingsStatistics statistics ; //{"wins":567,"battles":1123},"mark_of_mastery":4,"tank_id":2849}
 	
 	public DataPlayerTankRatingsStatistics getStatistics() {
 		return statistics;
