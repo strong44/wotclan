@@ -22,6 +22,11 @@
    </servlet>
    
    <servlet>
+        <servlet-name>readPersistPlayersStats</servlet-name>
+        <servlet-class>com.wot.server.ReadPersistPlayersStats</servlet-class>
+   </servlet>
+   
+   <servlet>
         <servlet-name>proxyWotWeb</servlet-name>
         <servlet-class>com.wot.server.ProxyWotWeb</servlet-class>
    </servlet>
@@ -36,10 +41,25 @@
         <servlet-name>cronPersistPlayersStats</servlet-name>
         <url-pattern>/cronPersistPlayersStats</url-pattern>
    </servlet-mapping>
+   
+   <servlet-mapping>
+        <servlet-name>readPersistPlayersStats</servlet-name>
+        <url-pattern>/readPersistPlayersStats</url-pattern>
+   </servlet-mapping>
       
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WotTest1.html</welcome-file>
   </welcome-file-list>
 
+ <!-- Servlets -->
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>com.wot.server.FileUploadServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>/wottest1/upload</url-pattern>
+  </servlet-mapping>
 </web-app>
