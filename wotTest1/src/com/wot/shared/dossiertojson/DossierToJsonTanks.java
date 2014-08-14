@@ -1,27 +1,21 @@
 package com.wot.shared.dossiertojson;
 
-import java.io.BufferedReader;
-
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.CharsetEncoder;
-
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.wot.server.WotServiceImpl;
@@ -387,7 +381,7 @@ public class DossierToJsonTanks implements Serializable{
 					System.out.println(AllLines);
 			        
 			} finally {
-		        if (inputStream == null ) inputStream.close();
+		        if (inputStream != null ) inputStream.close();
 
 			}
 
