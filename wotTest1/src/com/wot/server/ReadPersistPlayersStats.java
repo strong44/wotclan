@@ -112,7 +112,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
                                 				if (wr > 0.60)
                                 					wrCodeColor = "#5a3175"; //violet foncé
         		//== WN8
-        		strBuf.append("<TABLE border bgcolor='" + wn8CodeColor + "' style='color:white;' >").
+        		strBuf.append("<TABLE width='150' border bgcolor='" + wn8CodeColor + "' style='color:white;' >").
         					//entêtes des colonnes
 			        		append("<TR>").
 								append("<TH>").
@@ -126,7 +126,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         					append("</TR>").
         				append("</TABLE>");
         		//== WR
-        		strBuf.append("<TABLE border bgcolor='" + wrCodeColor + "' style='color:white;' >").
+        		strBuf.append("<TABLE width='150' border bgcolor='" + wrCodeColor + "' style='color:white;' >").
 				//entêtes des colonnes
         		append("<TR>").
 					append("<TH>").
