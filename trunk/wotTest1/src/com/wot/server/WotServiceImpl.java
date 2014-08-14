@@ -15,8 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,21 +29,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.wot.client.WotService;
 import com.wot.server.api.TransformDtoObject;
 import com.wot.shared.AllCommunityAccount;
-import com.wot.shared.AllStatistics;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataPlayerInfos;
-import com.wot.shared.DataCommunityClan;
-import com.wot.shared.DataCommunityClanMembers;
-import com.wot.shared.DataCommunityMembers;
-import com.wot.shared.DataPlayerTankRatings;
-import com.wot.shared.DataTankEncyclopedia;
 import com.wot.shared.FieldVerifier;
 import com.wot.shared.ObjectFactory;
 import com.wot.shared.PlayersInfos;
-import com.wot.shared.PlayerTankRatings;
-import com.wot.shared.Statistics;
 import com.wot.shared.TankEncyclopedia;
 import com.wot.shared.XmlDescription;
 import com.wot.shared.XmlListAchievement;
@@ -1186,7 +1176,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					System.out.println(AllLines);
 			        
 			} finally {
-		        if (inputStream == null )
+		        if (inputStream != null )
 						inputStream.close();
 					
 			}

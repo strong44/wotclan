@@ -4,37 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
-import javax.servlet.http.*;
-
-import com.google.gson.Gson;
-import com.wot.server.api.TransformDtoObject;
-import com.wot.shared.AllCommunityAccount;
-import com.wot.shared.CommunityAccount;
-import com.wot.shared.CommunityClan;
-import com.wot.shared.DataPlayerInfos;
-import com.wot.shared.DataCommunityClan;
-import com.wot.shared.DataCommunityClanMembers;
-import com.wot.shared.DataCommunityMembers;
-import com.wot.shared.DataPlayerTankRatings;
-import com.wot.shared.DataTankEncyclopedia;
-import com.wot.shared.DataWnEfficientyTank;
-import com.wot.shared.PlayersInfos;
-import com.wot.shared.PlayerTankRatings;
-import com.wot.shared.TankEncyclopedia;
-import com.wot.shared.WnEfficientyTank;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class ProxyWotWeb extends HttpServlet {
