@@ -33,27 +33,22 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.googlecode.gwt.charts.client.corechart.LineChart;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
@@ -68,8 +63,6 @@ import com.wot.shared.XmlListAchievement;
 import com.wot.shared.XmlListCategoryAchievement;
 import com.wot.shared.XmlSrc;
 import com.wot.shared.XmlWiki;
-import com.googlecode.gwt.charts.client.corechart.LineChart;
-import com.googlecode.gwt.charts.client.corechart.PieChart;
 
 
 
