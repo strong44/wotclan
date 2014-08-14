@@ -1,7 +1,10 @@
 package com.wot.server;
 
+import gwtupload.server.exceptions.UploadActionException;
+import gwtupload.server.gae.AppEngineUploadAction;
+import gwtupload.shared.UConsts;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
@@ -10,11 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-
-import gwtupload.server.UploadAction;
-import gwtupload.server.exceptions.UploadActionException;
-import gwtupload.server.gae.AppEngineUploadAction;
-import gwtupload.shared.UConsts;
 
 /**
  * This is an example of how to use UploadAction class.

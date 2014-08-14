@@ -14,7 +14,7 @@ import com.wot.server.DaoDataClan;
 import com.wot.server.DaoDataCommunityAccount2;
 import com.wot.server.DaoDataCommunityAccountAchievements;
 import com.wot.server.DaoDataCommunityAccountRatings2;
-import com.wot.server.DaoDataCommunityAccountStats;
+//import com.wot.server.DaoDataCommunityAccountStats;
 import com.wot.server.DaoDataCommunityAccountStatsVehicules;
 import com.wot.server.DaoDataCommunityClanMembers;
 import com.wot.server.DaoDataCommunityMembers;
