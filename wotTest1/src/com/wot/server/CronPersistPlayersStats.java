@@ -11,15 +11,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
-import javax.servlet.http.*;
-
-import org.apache.tools.ant.taskdefs.Get;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.wot.server.api.TransformDtoObject;
@@ -27,16 +27,15 @@ import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.AllStatistics;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
-import com.wot.shared.DataPlayerInfos;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
+import com.wot.shared.DataPlayerInfos;
 import com.wot.shared.DataPlayerTankRatings;
 import com.wot.shared.DataTankEncyclopedia;
 import com.wot.shared.DataWnEfficientyTank;
-import com.wot.shared.PlayersInfos;
 import com.wot.shared.PlayerTankRatings;
-import com.wot.shared.Statistics;
+import com.wot.shared.PlayersInfos;
 import com.wot.shared.TankEncyclopedia;
 import com.wot.shared.WnEfficientyTank;
 
@@ -401,6 +400,8 @@ public class CronPersistPlayersStats extends HttpServlet {
 						if (true){
 							//pm = PMF.get().getPersistenceManager();
 					        try {
+					        	
+					        	
 					        	//must transform before persist the objet
 					        	pm.currentTransaction().begin();
 					        	DaoCommunityAccount2 daoCommunityAccount2 = TransformDtoObject.TransformCommunityAccountToDaoCommunityAccount(dataPlayerInfos);
