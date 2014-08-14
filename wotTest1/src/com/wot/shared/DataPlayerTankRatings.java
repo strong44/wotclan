@@ -1,7 +1,6 @@
 package com.wot.shared;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class DataPlayerTankRatings implements Serializable{
 

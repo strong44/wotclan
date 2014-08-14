@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.view.client.ProvidesKey;
-import com.wot.server.DaoDataCommunityAccount2;
 
 public class CommunityAccount implements Serializable, Comparable<CommunityAccount>{
 
