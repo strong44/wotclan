@@ -425,28 +425,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					        
 						}
 						
-						//some cleaning in old tables 
-						Query query = pm.newQuery(DaoCommunityAccount2.class);
-					    query.setOrdering("dateCommunityAccount asc");
-					    query.setRange(0, 50); //only 6 results 
-					    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute();
-					    
-					    try {
-					    	 if (!resultsTmp.isEmpty()) {
-					    		    for (DaoCommunityAccount2 myDaoCommunityAccount2 : resultsTmp) {
-					    		      // Process result p
-					    		    	pm.currentTransaction().begin();
-							        	//
-							        	pm.deletePersistent(myDaoCommunityAccount2);
-							        	pm.currentTransaction().commit();
-					    		    }
-					    	 } 
-				        }
-					    catch(Exception e){
-					    	e.printStackTrace();
-					    	log.log(Level.SEVERE, "Exception while deleting daoCommunityAccount", e);
-				        	pm.currentTransaction().rollback();
-				        }
+						
 				}
 			} catch (MalformedURLException e) {
 				// ...
