@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -421,37 +422,32 @@ public class CronPersistPlayersStats extends HttpServlet {
 						    	log.log(Level.SEVERE, "Exception while saving daoCommunityAccount", e);
 					        	pm.currentTransaction().rollback();
 					        }
-					        finally {
-					            //pm.close();
-					        }
+					        
 						}
 						
-//						//some cleaning in old tables 
-//						Query query = pm.newQuery("SELECT * from DaoCommunityAccount");
-//					    query.setOrdering("dateCommunityAccount desc");
-//					    //query.setRange(0, range); //only 6 results 
-//					    List<Object> resultsTmp = (List<Object>) query.execute();
-//					    try {
-//				        	//must transform before persist the objet clan
-//				        	pm.currentTransaction().begin();
-//				        	//
-//				        	pm.deletePersistentAll(resultsTmp);
-//				        	pm.currentTransaction().commit();
-//				        }
-//					    catch(Exception e){
-//					    	e.printStackTrace();
-//					    	log.log(Level.SEVERE, "Exception while deleting daoCommunityAccount", e);
-//				        	pm.currentTransaction().rollback();
-//				        }
-//				        finally {
-//				            //pm.close();
-//				        }
+						//some cleaning in old tables 
+						Query query = pm.newQuery(DaoCommunityAccount2.class);
+					    query.setOrdering("dateCommunityAccount asc");
+					    query.setRange(0, 50); //only 6 results 
+					    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute();
 					    
-						//
-						
+					    try {
+					    	 if (!resultsTmp.isEmpty()) {
+					    		    for (DaoCommunityAccount2 myDaoCommunityAccount2 : resultsTmp) {
+					    		      // Process result p
+					    		    	pm.currentTransaction().begin();
+							        	//
+							        	pm.deletePersistent(myDaoCommunityAccount2);
+							        	pm.currentTransaction().commit();
+					    		    }
+					    	 } 
+				        }
+					    catch(Exception e){
+					    	e.printStackTrace();
+					    	log.log(Level.SEVERE, "Exception while deleting daoCommunityAccount", e);
+				        	pm.currentTransaction().rollback();
+				        }
 				}
-	//						}//for (DataCommunityClanMembers
-	
 			} catch (MalformedURLException e) {
 				// ...
 				log.throwing("Persist stats", "", e);
