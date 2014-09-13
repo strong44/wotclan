@@ -22,6 +22,12 @@
    </servlet>
    
    <servlet>
+        <servlet-name>cronDeletePlayersStats</servlet-name>
+        <servlet-class>com.wot.server.CronDeletePlayersStats</servlet-class>
+   </servlet>
+   
+   
+   <servlet>
         <servlet-name>readPersistPlayersStats</servlet-name>
         <servlet-class>com.wot.server.ReadPersistPlayersStats</servlet-class>
    </servlet>
@@ -35,6 +41,11 @@
    <servlet-mapping>
         <servlet-name>proxyWotWeb</servlet-name>
         <url-pattern>/WotWeb</url-pattern>
+   </servlet-mapping>
+   
+   <servlet-mapping>
+        <servlet-name>cronDeletePlayersStats</servlet-name>
+        <url-pattern>/cronDeletePlayersStats</url-pattern>
    </servlet-mapping>
    
    <servlet-mapping>
