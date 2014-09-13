@@ -46,8 +46,44 @@ public class ReadPersistPlayersStats extends HttpServlet {
         	//build a HTML result
         	if (listCommAcc.size() > 0) { 
         		CommunityAccount commAcc = listCommAcc.get(0);
+        		
+        		
         		double wn8 = commAcc.getData().getStatistics().getAllStatistics().getWn8();
+          		wn8 = wn8 * 100; //ex : 125184,1234
+        		int intWn8 = (int) (wn8 * 100); //ex : 125184
+        		wn8 = (double)intWn8 / 100 ; //ex : 1251,84
+    
         		double wr = (double)commAcc.getData().getStatistics().getAllStatistics().getWins()/(double)commAcc.getData().getStatistics().getAllStatistics().getBattles();
+        		wr = wr * 100; //ex : 
+        		int intWr = (int) (wr * 100); 
+        		wr = (double)intWr / 100 ; 
+        		
+        		//stats du jour d'avant 
+        		CommunityAccount commAccBef = null;
+        		double wn8Bef = 0;
+        		double wrBef = 0;
+        		if (listCommAcc.size() > 1) {
+        			commAccBef = listCommAcc.get(1);
+            		wn8Bef = commAccBef.getData().getStatistics().getAllStatistics().getWn8();
+            		wrBef = (double)commAccBef.getData().getStatistics().getAllStatistics().getWins()/(double)commAccBef.getData().getStatistics().getAllStatistics().getBattles();
+            		
+            		//trunc
+            		wn8Bef = wn8Bef * 100; //ex : 125184,1234
+            		int intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
+            		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
+            		
+            		//trunc
+            		wrBef = wrBef * 100; //ex : 
+            		int intWrBef = (int) (wrBef * 100); 
+            		wrBef = (double)intWrBef / 100 ; 
+        
+            		//diffs
+            		wn8Bef = wn8 -wn8Bef ;
+            		wrBef = wr - wrBef;
+            		
+        		}
+        		
+        		
         		StringBuffer strBuf = new StringBuffer();
         		//<html
         		strBuf.append("<HTML>");
@@ -112,6 +148,22 @@ public class ReadPersistPlayersStats extends HttpServlet {
                                 				if (wr > 0.60)
                                 					wrCodeColor = "#5a3175"; //violet foncé
         		//== WN8
+        		/**
+        		 *  Double wrCal = (double) ((double)diffWins/(double)diff);
+		    		  //on ne conserve que 2 digits aprÃ¨s la virgule 
+		    		  wrCal = wrCal * 100; //ex : 51,844444
+		    		  int intWrCal = (int) (wrCal * 100); //ex : 5184
+		    		  wrCal = (double)intWrCal / 100 ; //ex : 51,84
+		    		  String wr = String.valueOf(wrCal);
+        		 */
+    		
+        		String strWn8 = Double.valueOf(wn8).toString();
+        		String strWr = Double.valueOf(wr*100).toString();
+        		if (listCommAcc.size() > 1) {
+        			strWn8 = strWn8 + "(" + Double.valueOf(wn8Bef).toString() + ")" ;
+        			strWr = strWr + "(" + Double.valueOf(wrBef*100).toString() + ")" ;
+        		}
+        		
         		strBuf.append("<TABLE width='150' border bgcolor='" + wn8CodeColor + "' style='color:white;' >").
         					//entêtes des colonnes
 			        		append("<TR>").
@@ -121,7 +173,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 							append("</TR>").
         					append("<TR>").
         						append("<TD>").
-        							append(wn8).
+        							append(strWn8).
         						append("</TD>").
         					append("</TR>").
         				append("</TABLE>");
@@ -135,7 +187,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 				append("</TR>").
 				append("<TR>").
 					append("<TD>").
-						append(wr*100).
+						append(strWr).
 					append("</TD>").
 				append("</TR>").
 			append("</TABLE>");
@@ -147,7 +199,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         	}
         	
 		}else {
-			log.severe("ERROR: =======lancement ReadPersistPlayersStats  with idClan or userName null ===" + clanId +":" +userName);
+			log.warning("WARNING: =======lancement ReadPersistPlayersStats  with idClan or bad userName =" + clanId +":" +userName);
 		}
     }
 
@@ -183,17 +235,18 @@ public class ReadPersistPlayersStats extends HttpServlet {
 							    query.setFilter("idUser == nameParam");
 							    query.setOrdering("name desc");
 							    query.setOrdering("dateCommunityAccount desc");
-							    query.setRange(0, 1); //only 6 results 
+							    query.setRange(0, 2); //only 2 results 
 							    //query.setOrdering("hireDate desc");
 							    query.declareParameters("String nameParam");
 							    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute(idUser);
 							    
-							    if(resultsTmp.size() != 0 )
+							    if(resultsTmp.size() >= 1  )
 							    {
-								    DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
-								    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(daoComAcc);
-								    String previousDate = "";
-								    for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
+							    	for (DaoCommunityAccount2 myDaoCommunityAccount : resultsTmp ) {
+									    //DaoCommunityAccount2 daoComAcc = resultsTmp.get(0);
+									    CommunityAccount comAcc=  TransformDtoObject.TransformDaoCommunityAccountToCommunityAccount(myDaoCommunityAccount);
+									    String previousDate = "";
+								    
 								    	//si 2 dates identiques se suivent on ne prend la deuxiÃ¨me
 								    	String dateCurrent = "";
 								    	if (myDaoCommunityAccount.getDateCommunityAccount() != null) { 
@@ -206,8 +259,9 @@ public class ReadPersistPlayersStats extends HttpServlet {
 									    	}
 								    	}
 								    	previousDate = dateCurrent;
+								    	resultsFinal.add(comAcc);
 								    }
-								    resultsFinal.add(comAcc);
+								    
 							    }
 							    query.closeAll();
 				        }
@@ -244,6 +298,10 @@ public class ReadPersistPlayersStats extends HttpServlet {
 
 	
 	public static String generateAllIdUsers(String idClan, String userName, Date date) throws IOException {
+		//si userName = USERNAME alors on fait rien c'est le user par défaut donc pas de stats
+		if (userName == null || userName.isEmpty() || userName.equalsIgnoreCase("USERNAME")) 
+			return null;
+		
 		List<String> listIdUser = new ArrayList<String>();
 		////-- membres du clan 
 		URL urlClan = null ;
