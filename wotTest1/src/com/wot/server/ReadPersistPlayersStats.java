@@ -47,7 +47,6 @@ public class ReadPersistPlayersStats extends HttpServlet {
         	if (listCommAcc.size() > 0) { 
         		CommunityAccount commAcc = listCommAcc.get(0);
         		
-        		
         		double wn8 = commAcc.getData().getStatistics().getAllStatistics().getWn8();
         		//trunc wn8
         		wn8 = round(wn8);
@@ -55,7 +54,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         		double wr = (double)commAcc.getData().getStatistics().getAllStatistics().getWins()/(double)commAcc.getData().getStatistics().getAllStatistics().getBattles();
         		wr = wr * 100;
         		//trunc Wr
-        		wn8 = round(wn8);
+        		wr = round(wr);
       		
         		//stats du jour d'avant 
         		CommunityAccount commAccBef = null;
@@ -80,12 +79,9 @@ public class ReadPersistPlayersStats extends HttpServlet {
             		wn8Bef = round(wn8Bef);
            		
             		wrBef = wr - wrBef;
-            		
               		//trunc WRBef
             		wrBef = round(wrBef);
-           		
-            		
-        		}
+       		}
         		
         		
         		StringBuffer strBuf = new StringBuffer();
