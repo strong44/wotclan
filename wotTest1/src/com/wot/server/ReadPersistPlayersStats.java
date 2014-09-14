@@ -49,15 +49,14 @@ public class ReadPersistPlayersStats extends HttpServlet {
         		
         		
         		double wn8 = commAcc.getData().getStatistics().getAllStatistics().getWn8();
-          		wn8 = wn8 * 100; //ex : 125184,1234
-        		int intWn8 = (int) (wn8 * 100); //ex : 125184
-        		wn8 = (double)intWn8 / 100 ; //ex : 1251,84
-    
+        		//trunc wn8
+        		wn8 = round(wn8);
+  
         		double wr = (double)commAcc.getData().getStatistics().getAllStatistics().getWins()/(double)commAcc.getData().getStatistics().getAllStatistics().getBattles();
-        		wr = wr * 100; //ex : 
-        		int intWr = (int) (wr * 100); 
-        		wr = (double)intWr / 100 ; 
-        		
+        		wr = wr * 100;
+        		//trunc Wr
+        		wn8 = round(wn8);
+      		
         		//stats du jour d'avant 
         		CommunityAccount commAccBef = null;
         		double wn8Bef = 0;
@@ -66,20 +65,25 @@ public class ReadPersistPlayersStats extends HttpServlet {
         			commAccBef = listCommAcc.get(1);
             		wn8Bef = commAccBef.getData().getStatistics().getAllStatistics().getWn8();
             		wrBef = (double)commAccBef.getData().getStatistics().getAllStatistics().getWins()/(double)commAccBef.getData().getStatistics().getAllStatistics().getBattles();
+            		wrBef = wrBef *100;
             		
-            		//trunc
-            		wn8Bef = wn8Bef * 100; //ex : 125184,1234
-            		int intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
-            		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
+               		//trunc wn8Febore
+            		wn8Bef = round(wn8Bef);
+                  		
+              		//trunc WRBef
+            		wrBef = round(wrBef);
+  
+              		//diffs wn8Bef
+            		wn8Bef = wn8 -wn8Bef ; //1107.82 -  1105.50
             		
-            		//trunc
-            		wrBef = wrBef * 100; //ex : 
-            		int intWrBef = (int) (wrBef * 100); 
-            		wrBef = (double)intWrBef / 100 ; 
-        
-            		//diffs
-            		wn8Bef = wn8 -wn8Bef ;
+              		//trunc wn8Febore
+            		wn8Bef = round(wn8Bef);
+           		
             		wrBef = wr - wrBef;
+            		
+              		//trunc WRBef
+            		wrBef = round(wrBef);
+           		
             		
         		}
         		
@@ -101,7 +105,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         			else
         				if (wn8 <= 899 )
             				wn8CodeColor = "#d77900"; //orange
-        				else
+         				else
             				if (wn8 <= 1249 )
                 				wn8CodeColor = "#d7b600"; //jaune
             				else
@@ -119,33 +123,32 @@ public class ReadPersistPlayersStats extends HttpServlet {
                             				else
                                 				if (wn8 >= 2900 )
                                     				wn8CodeColor = "#5a3175"; //violet foncé
-        			
         		
-        		if (wr <= 0.45 ) 
+        		if (wr <= 45 ) 
         			wrCodeColor = "#cd3333";// couleur rouge du fond de la cellule
         		else
-        			if (wr <= 0.45 )
+        			if (wr <= 45 )
         				wrCodeColor = "#cd3333"; //rouge
         			else
-        				if (wr <= 0.47 )
+        				if (wr <= 47 )
         					wrCodeColor = "#d77900"; //orange
         				else
-            				if (wr <= 0.49 )
+            				if (wr <= 49 )
             					wrCodeColor = "#d7b600"; //jaune
             				else
-                				if (wr <= 0.52 )
+                				if (wr <= 52 )
                 					wrCodeColor = "#6d9521"; //vert
                 				else
-                    				if (wr <= 0.54 )
+                    				if (wr <= 54 )
                     					wrCodeColor = "#4c762e"; //vert foncé
                     				else
-                        				if (wr <= 0.56 )
+                        				if (wr <= 56 )
                         					wrCodeColor = "#4a92b7"; //bleu
                         				else
-                            				if (wr <= 0.60 )
+                            				if (wr <= 60 )
                             					wrCodeColor = "#83579d"; //violet
                             				else
-                                				if (wr > 0.60)
+                                				if (wr > 60)
                                 					wrCodeColor = "#5a3175"; //violet foncé
         		//== WN8
         		/**
@@ -157,13 +160,21 @@ public class ReadPersistPlayersStats extends HttpServlet {
 		    		  String wr = String.valueOf(wrCal);
         		 */
     		
-        		String strWn8 = Double.valueOf(wn8).toString();
-        		String strWr = Double.valueOf(wr*100).toString();
+         		String strWn8 = Double.valueOf(wn8).toString();
+        		String strWr = Double.valueOf(wr).toString();
         		if (listCommAcc.size() > 1) {
-        			strWn8 = strWn8 + "(" + Double.valueOf(wn8Bef).toString() + ")" ;
-        			strWr = strWr + "(" + Double.valueOf(wrBef*100).toString() + ")" ;
-        		}
-        		
+        			String signWN8 = "" ;
+        			if (wn8Bef > 0 ){
+        				signWN8 = "+";
+        			}
+        			String signWr = "" ;
+        			if (wrBef > 0 ){
+        				signWr = "+";
+        			}
+        			strWn8 = strWn8 + " (" + signWN8 + Double.valueOf(wn8Bef).toString() + ")" ;
+        			strWr = strWr + " (" + signWr + Double.valueOf(wrBef).toString() + ")" ;
+        		} 
+       		
         		strBuf.append("<TABLE width='150' border bgcolor='" + wn8CodeColor + "' style='color:white;' >").
         					//entêtes des colonnes
 			        		append("<TR>").
@@ -383,6 +394,83 @@ public class ReadPersistPlayersStats extends HttpServlet {
 		return AllIdUser;
 	}
 	
+	/**
+	 * fonction d'arrondi a 2 chiffres apres la virgule
+	 * @param nbToTruncate
+	 * @return
+	 */
+	public static double round(double nbToTruncate) {
+		double result; 
+ 		int intWn8 = (int) (nbToTruncate * 100); //ex : 125184
+ 		result = (double)intWn8 / 100 ; //ex : 1251,84
+		
+		return result ;
+	}
+	
+	 public static void main(String[] args) throws Exception {
+		System.out.println("main");
+		
+  		double wn8 =  1151.1234;
+  		double wr = 0.5110 *100;
+  		//
+  		double wn8Bef = 1150.0012;
+		double wrBef = 0.5100*100; 
+		
+		wn8 = round(wn8);
+		System.out.println(wn8);
+		
+  		int intWn8 = (int) (wn8 * 100); //ex : 125184
+		wn8 = (double)intWn8 / 100 ; //ex : 1251,84
 
+		 
+		int intWr = (int) (wr * 100 ); 
+		wr = (double)intWr / 100 ; 
+		
+		//stats du jour d'avant 
+
+		if (true) {
+			
+    		
+    		//trunc wn8
+    		int intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
+    		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
+    		
+    		//trunc WR
+    		int intWrBef = (int) (wrBef * 100); 
+    		wrBef = (double)intWrBef / 100 ; 
+
+    		//diffs wn8
+    		wn8Bef = wn8 -wn8Bef ; //1107.82 -  1105.50
+    		intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
+    		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
+    		
+    		wrBef = wr - wrBef;
+    		//trunc WR
+    		intWrBef = (int) (wrBef * 100); 
+    		wrBef = (double)intWrBef / 100 ; 
+    		
+    		
+		}
+		
+  		String strWn8 = Double.valueOf(wn8).toString();
+		String strWr = Double.valueOf(wr).toString();
+		if (true) {
+			String signWN8 = "" ;
+			if (wn8Bef > 0 ){
+				signWN8 = "+";
+			}
+			String signWr = "" ;
+			if (wrBef > 0 ){
+				signWr = "+";
+			}
+			strWn8 = strWn8 + "(" + signWN8 + Double.valueOf(wn8Bef).toString() + ")" ;
+			strWr = strWr + "(" + signWr + Double.valueOf(wrBef).toString() + ")" ;
+		}
+		System.out.println("strWn8 " + strWn8);
+		
+		System.out.println("strWr " + strWr);
+		
+		
+	}
 
 }
