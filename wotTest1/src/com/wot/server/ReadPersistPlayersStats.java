@@ -109,7 +109,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
                     				wn8CodeColor = "#6d9521"; //vert
                 				else
                     				if (wn8 <= 1899 )
-                        				wn8CodeColor = "#4c762e"; //vert foncé
+                        				wn8CodeColor = "#4c762e"; //vert foncï¿½
                     				else
                         				if (wn8 <= 2349 )
                             				wn8CodeColor = "#4a92b7"; //bleu
@@ -118,7 +118,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
                                 				wn8CodeColor = "#83579d"; //violet
                             				else
                                 				if (wn8 >= 2900 )
-                                    				wn8CodeColor = "#5a3175"; //violet foncé
+                                    				wn8CodeColor = "#5a3175"; //violet foncï¿½
         		
         		if (wr <= 45 ) 
         			wrCodeColor = "#cd3333";// couleur rouge du fond de la cellule
@@ -136,7 +136,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
                 					wrCodeColor = "#6d9521"; //vert
                 				else
                     				if (wr <= 54 )
-                    					wrCodeColor = "#4c762e"; //vert foncé
+                    					wrCodeColor = "#4c762e"; //vert foncï¿½
                     				else
                         				if (wr <= 56 )
                         					wrCodeColor = "#4a92b7"; //bleu
@@ -145,7 +145,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
                             					wrCodeColor = "#83579d"; //violet
                             				else
                                 				if (wr > 60)
-                                					wrCodeColor = "#5a3175"; //violet foncé
+                                					wrCodeColor = "#5a3175"; //violet foncï¿½
         		//== WN8
         		/**
         		 *  Double wrCal = (double) ((double)diffWins/(double)diff);
@@ -172,7 +172,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         		} 
        		
         		strBuf.append("<TABLE width='150' border bgcolor='" + wn8CodeColor + "' style='color:white;' >").
-        					//entêtes des colonnes
+        					//entï¿½tes des colonnes
 			        		append("<TR>").
 								append("<TH>").
 									append("WN8").
@@ -186,7 +186,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         				append("</TABLE>");
         		//== WR
         		strBuf.append("<TABLE width='150' border bgcolor='" + wrCodeColor + "' style='color:white;' >").
-				//entêtes des colonnes
+				//entï¿½tes des colonnes
         		append("<TR>").
 					append("<TH>").
 						append("WR").
@@ -228,7 +228,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 			
 			try {
 				
-				//construction de la liste des id des joueurs du clan (séparateur la ,)  
+				//construction de la liste des id des joueurs du clan (sï¿½parateur la ,)  
 				String idUser = generateAllIdUsers(idClan, userName, date);System.out.println(date);
 				if (idUser != null ){
 					
@@ -305,7 +305,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 
 	
 	public static String generateAllIdUsers(String idClan, String userName, Date date) throws IOException {
-		//si userName = USERNAME alors on fait rien c'est le user par défaut donc pas de stats
+		//si userName = USERNAME alors on fait rien c'est le user par dï¿½faut donc pas de stats
 		if (userName == null || userName.isEmpty() || userName.equalsIgnoreCase("USERNAME")) 
 			return null;
 		
@@ -360,14 +360,14 @@ public class ReadPersistPlayersStats extends HttpServlet {
 						listIdUser.add(idUser);
 
 					
-					//si on aprécisé un username, on ne veut alors que l'ID de ce USER
+					//si on aprï¿½cisï¿½ un username, on ne veut alors que l'ID de ce USER
 					if (userName != null && accountName  != null && userName.equalsIgnoreCase(accountName))
 						break ;
 
 					
 					
 				}
-				//si on aprécisé un username, on ne veut alors que l'ID de ce USER
+				//si on aprï¿½cisï¿½ un username, on ne veut alors que l'ID de ce USER
 				if (userName != null && accountName  != null && userName.equalsIgnoreCase(accountName))
 					break ;
 
@@ -397,8 +397,8 @@ public class ReadPersistPlayersStats extends HttpServlet {
 	 */
 	public static double round(double nbToTruncate) {
 		double result; 
- 		int intWn8 = (int) (nbToTruncate * 100); //ex : 125184
- 		result = (double)intWn8 / 100 ; //ex : 1251,84
+ 		int intWn8 = (int) (nbToTruncate * 1000); //ex : 125184
+ 		result = (double)intWn8 / 1000 ; //ex : 1251,84
 		
 		return result ;
 	}
@@ -407,7 +407,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 		System.out.println("main");
 		
   		double wn8 =  1151.1234;
-  		double wr = 0.5110 *100;
+  		double wr = 0.5101 *100;
   		//
   		double wn8Bef = 1150.0012;
 		double wrBef = 0.5100*100; 
@@ -415,35 +415,31 @@ public class ReadPersistPlayersStats extends HttpServlet {
 		wn8 = round(wn8);
 		System.out.println(wn8);
 		
-  		int intWn8 = (int) (wn8 * 100); //ex : 125184
-		wn8 = (double)intWn8 / 100 ; //ex : 1251,84
-
-		 
-		int intWr = (int) (wr * 100 ); 
-		wr = (double)intWr / 100 ; 
+		wr = round(wr);
+		System.out.println(wr);
 		
 		//stats du jour d'avant 
 
 		if (true) {
 			
     		
-    		//trunc wn8
-    		int intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
-    		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
-    		
+    		wn8Bef = round(wn8Bef);
+    		System.out.println(wn8Bef);
+
     		//trunc WR
-    		int intWrBef = (int) (wrBef * 100); 
-    		wrBef = (double)intWrBef / 100 ; 
+    		wrBef = round(wrBef);
+    		System.out.println(wrBef);
 
     		//diffs wn8
     		wn8Bef = wn8 -wn8Bef ; //1107.82 -  1105.50
-    		intWn8Bef = (int) (wn8Bef * 100); //ex : 125184
-    		wn8Bef = (double)intWn8Bef / 100 ; //ex : 1251,84
     		
+    		wn8Bef = round(wn8Bef);
+    		System.out.println(wn8Bef);
+  		
     		wrBef = wr - wrBef;
     		//trunc WR
-    		intWrBef = (int) (wrBef * 100); 
-    		wrBef = (double)intWrBef / 100 ; 
+    		wrBef = round(wrBef);
+    		System.out.println(wrBef);
     		
     		
 		}
