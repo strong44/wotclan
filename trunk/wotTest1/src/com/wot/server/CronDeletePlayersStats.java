@@ -47,7 +47,7 @@ public class CronDeletePlayersStats extends HttpServlet {
 				//some cleaning in stats 
 				Query query = pm.newQuery(DaoCommunityAccount2.class);
 			    query.setOrdering("dateCommunityAccount asc");
-			    query.setRange(0, nb); //only 6 results 
+			    query.setRange(0, nb); //only nb results 
 			    List<DaoCommunityAccount2> resultsTmp = (List<DaoCommunityAccount2>) query.execute();
 			    
 			    try {
@@ -55,6 +55,8 @@ public class CronDeletePlayersStats extends HttpServlet {
 			    		    for (DaoCommunityAccount2 myDaoCommunityAccount2 : resultsTmp) {
 			    		    	pm.currentTransaction().begin();
 					        	//
+			    		    	log.warning(myDaoCommunityAccount2.getDateCommunityAccount().toString());
+			    		    	//
 					        	pm.deletePersistent(myDaoCommunityAccount2);
 					        	pm.currentTransaction().commit();
 			    		    }
@@ -66,10 +68,34 @@ public class CronDeletePlayersStats extends HttpServlet {
 		        	pm.currentTransaction().rollback();
 		        }
 			    
+			    //DaoDataCommunityAccountStatsVehicules - On peut tout supprimer
+			    query = pm.newQuery(DaoDataCommunityAccountStatsVehicules.class);
+			    query.setRange(0, nb); //only nb results 
+			    List<DaoDataCommunityAccountStatsVehicules> resultsVeh = (List<DaoDataCommunityAccountStatsVehicules>) query.execute();
+			    
+			    try {
+			    	 if (!resultsVeh.isEmpty()) {
+			    		    for (DaoDataCommunityAccountStatsVehicules myDao : resultsVeh) {
+			    		    	pm.currentTransaction().begin();
+					        	//
+			    		    	log.warning(myDao.getName());
+			    		    	//
+					        	pm.deletePersistent(myDao);
+					        	pm.currentTransaction().commit();
+			    		    }
+			    	 } 
+		        }
+			    catch(Exception e){
+			    	e.printStackTrace();
+			    	log.log(Level.SEVERE, "Exception while deleting DaoDataCommunityAccountStatsVehicules", e);
+		        	pm.currentTransaction().rollback();
+		        }
+			    
+			    
 			}  catch (Exception e) {
 					// ...
 				e.printStackTrace();
-				log.throwing("Persist stats", "", e);
+				log.throwing("Delete stats", "", e);
 				log.severe("Exception " + e.getLocalizedMessage());
 				 StackTraceElement[] stack = e.getStackTrace();
 				 for (StackTraceElement st : stack) {
