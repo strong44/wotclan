@@ -42,44 +42,14 @@ public class DaoDataCommunityMembers implements Serializable {
 		this.account_name = account_name;
 	}
 
-	public String getCreated_at() {
-		return created_at;
-	}
 
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getUpdated_at() {
-		return updated_at;
-	}
-
-	public void setUpdated_at(String updated_at) {
-		this.updated_at = updated_at;
-	}
 
 	private static final long serialVersionUID = -4956114545804795075L;
 	////////// not use =======
 	@Persistent
 	private
 	String account_id;
-	@Persistent
-	private
-    String created_at;
-	@Persistent
-	private
-    String updated_at;
-	@Persistent
-	private
-    String role;
+	
 	@Persistent
 	private
     String account_name;
