@@ -98,8 +98,21 @@ public class CronPersistPlayersStats extends HttpServlet {
 				 */
 				generateWnEfficientyTank();
 
-				//construction de la liste des id des joueurs du clan (s�parateur la ,)  
-				String AllIdUser = generateAllIdUsers(idClan, date);
+				//construction de la liste des id des joueurs du clan (s�parateur la ,)  
+				//String AllIdUser = generateAllIdUsers(idClan, date);
+				
+				//Tous les joueurs du clan sont stockés dans cette hashMap <hMIdUser> : id joueur / nom joueur 
+				HashMap<String , String>  hMIdUser = generateHMAllIdUsers(idClan, date);
+
+				String AllIdUser ="";
+				for(String idUser :hMIdUser.keySet()) {
+					if ("".equalsIgnoreCase(AllIdUser)) 
+						AllIdUser = idUser;
+					else
+						AllIdUser = AllIdUser + "," + idUser;
+				}
+
+				
 				
 				//=== recup des stats des joueurs ==========
 				URL url = null ;
@@ -556,9 +569,81 @@ public class CronPersistPlayersStats extends HttpServlet {
 			}
 		}
 	}
-	
+	/*
+	 * Génere une hashMap id joueur/nom du joueur
+	 */
 	public static String generateAllIdUsers(String idClan, Date date) throws IOException {
 		List<String> listIdUser = new ArrayList<String>();
+		////-- membres du clan 
+		URL urlClan = null ;
+		// recup des membres du clan NVS
+		urlClan = null ;
+			
+		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+		}
+		else {
+			//500006074
+			urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+		}
+		
+		
+		HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();
+		conn.setReadTimeout(60000);
+		conn.setConnectTimeout(60000);
+		conn.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		
+		String line = "";
+		String AllLines = "";
+	
+		while ((line = reader.readLine()) != null) {
+			AllLines = AllLines + line;
+		}
+		reader.close();
+		Gson gson = new Gson();
+		DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
+		daoCommunityClan.setIdClan(idClan);
+		daoCommunityClan.setDateCommunityClan(date);
+		//persist clan ?
+		
+		CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
+		if (communityClan != null) {
+	
+			DataCommunityClan myDataCommunityClan = communityClan.getData();
+			List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
+	
+			for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+				for (DataCommunityMembers member : dataClanMember.getMembers()) {
+					log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
+					String idUser = member.getAccount_id();
+					//log.warning("treatUser " + treatUser);
+					listIdUser.add(idUser);
+				}
+	
+			}//for (DataCommunityClanMembers
+		} else {
+	
+			log.severe("Erreur de parse");
+		}
+		////
+		String AllIdUser ="";
+		for(String idUser :listIdUser) {
+			if ("".equalsIgnoreCase(AllIdUser)) 
+				AllIdUser = idUser;
+			else
+				AllIdUser = AllIdUser + "," + idUser;
+				
+		}
+		
+		return AllIdUser;
+	}
+
+	/*
+	 * Génere une hashMap id joueur/nom du joueur , persist le clan et ses joueurs
+	 */
+	public static HashMap<String, String> generateHMAllIdUsers(String idClan, Date date) throws IOException {
+		HashMap<String, String> hMidUser = new HashMap<String, String>();
 		////-- membres du clan 
 		URL urlClan = null ;
 		// recup des membres du clan NVS
@@ -590,7 +675,24 @@ public class CronPersistPlayersStats extends HttpServlet {
 		DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
 		daoCommunityClan.setIdClan(idClan);
 		daoCommunityClan.setDateCommunityClan(date);
-		//persist clan ?
+		
+		//On persist le clan et ses joueurs pour trouver ceux qui partent et qui arrivent 
+		if (true){
+			//pm = PMF.get().getPersistenceManager();
+			PersistenceManager pm =null;
+			pm = PMF.get().getPersistenceManager();
+	        try {
+	        	pm.currentTransaction().begin();
+	        	pm.makePersistent(daoCommunityClan);
+	        	pm.currentTransaction().commit();
+	        }
+		    catch(Exception e){
+		    	e.printStackTrace();
+		    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
+	        	pm.currentTransaction().rollback();
+	        }
+	        
+		}
 		
 		CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
 		if (communityClan != null) {
@@ -603,7 +705,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
 					String idUser = member.getAccount_id();
 					//log.warning("treatUser " + treatUser);
-					listIdUser.add(idUser);
+					hMidUser.put(idUser, member.getAccount_name());
 				}
 
 			}//for (DataCommunityClanMembers
@@ -611,17 +713,9 @@ public class CronPersistPlayersStats extends HttpServlet {
 
 			log.severe("Erreur de parse");
 		}
-		////
-		String AllIdUser ="";
-		for(String idUser :listIdUser) {
-			if ("".equalsIgnoreCase(AllIdUser)) 
-				AllIdUser = idUser;
-			else
-				AllIdUser = AllIdUser + "," + idUser;
-				
-		}
+
 		
-		return AllIdUser;
+		return hMidUser;
 	}
 	
 

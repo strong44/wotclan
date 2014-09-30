@@ -111,8 +111,8 @@ public class TransformDtoObject {
 	public static CommunityClan TransformCommunityDaoCommunityClanToCommunityClan(DaoCommunityClan2 daoCommunityClan ) {
 		
 		CommunityClan communityClan = new CommunityClan();
-		communityClan.setStatus( daoCommunityClan.getStatus());
-		communityClan.setStatus_code(daoCommunityClan.getStatus_code());
+		//communityClan.setStatus( daoCommunityClan.getStatus());
+		//communityClan.setStatus_code(daoCommunityClan.getStatus_code());
 		
 		communityClan.setIdClan(daoCommunityClan.getIdClan());
 		communityClan.setDateCommunityClan(daoCommunityClan.getDateCommunityClan());
@@ -145,8 +145,8 @@ public class TransformDtoObject {
 		DataCommunityClanMembers myDataCommunityClanMembers = new DataCommunityClanMembers();
 		List<DataCommunityMembers> listDataCommunityMembers = new ArrayList<DataCommunityMembers>();
 		
-		myDataCommunityClanMembers.setAccount_id(clanMembers.getAccount_id());
-		myDataCommunityClanMembers.setAccount_name(clanMembers.getAccount_name());
+		//myDataCommunityClanMembers.setAccount_id(clanMembers.getAccount_id());
+		//myDataCommunityClanMembers.setAccount_name(clanMembers.getAccount_name());
 		
 		//Transform 
 		Set<Entry<String, DaoDataCommunityMembers>> set =  clanMembers.getMembers().entrySet();
@@ -165,9 +165,9 @@ public class TransformDtoObject {
 		//
 		myDataCommunityMembers.setAccount_id(myDaoDataCommunityMembers.getAccount_id());
 		myDataCommunityMembers.setAccount_name(myDaoDataCommunityMembers.getAccount_name());
-		myDataCommunityMembers.setCreated_at(myDaoDataCommunityMembers.getCreated_at());
-		myDataCommunityMembers.setRole(myDaoDataCommunityMembers.getRole());
-		myDataCommunityMembers.setUpdated_at(myDaoDataCommunityMembers.getUpdated_at());
+		//myDataCommunityMembers.setCreated_at(myDaoDataCommunityMembers.getCreated_at());
+		//myDataCommunityMembers.setRole(myDaoDataCommunityMembers.getRole());
+		//myDataCommunityMembers.setUpdated_at(myDaoDataCommunityMembers.getUpdated_at());
 		
 		return myDataCommunityMembers;
 	}
