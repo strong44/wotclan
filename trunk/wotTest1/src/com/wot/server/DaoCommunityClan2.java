@@ -41,7 +41,9 @@ public class DaoCommunityClan2 implements Serializable{
 	@Persistent
 	private Date dateCommunityClan;
 
-	
+	@Persistent
+	Map<String, DaoDataCommunityClanMembers> data;
+
 	public String getIdClan() {
 		return idClan;
 	}
@@ -58,8 +60,6 @@ public class DaoCommunityClan2 implements Serializable{
 		this.dateCommunityClan = dateCommunityClan;
 	}
 
-	///
-	Map<String, DaoDataCommunityClanMembers> data;
 	
 	public Map<String, DaoDataCommunityClanMembers> getData() {
 		return data;

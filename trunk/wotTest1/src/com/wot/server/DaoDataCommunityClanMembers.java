@@ -1,6 +1,7 @@
 package com.wot.server;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -54,8 +55,31 @@ public class DaoDataCommunityClanMembers implements Serializable {
 //    String account_name;
 	
 	///ajout test
+	@Persistent
 	Map<String, DaoDataCommunityMembers> members;
 	
+	@Persistent
+	Map<String, DaoDataCommunityMembers> membersAdded = new HashMap<String, DaoDataCommunityMembers>();
+	
+	@Persistent
+	Map<String, DaoDataCommunityMembers> membersDeleted = new HashMap<String, DaoDataCommunityMembers>();
+	
+	
+	public Map<String, DaoDataCommunityMembers> getMembersAdded() {
+		return membersAdded;
+	}
+
+	public Map<String, DaoDataCommunityMembers> getMembersDeleted() {
+		return membersDeleted;
+	}
+
+	public void setMembersAdded(Map<String, DaoDataCommunityMembers> membersAdded) {
+		this.membersAdded = membersAdded;
+	}
+
+	public void setMembersDeleted(Map<String, DaoDataCommunityMembers> membersDeleted) {
+		this.membersDeleted = membersDeleted;
+	}
 
 	public Map<String, DaoDataCommunityMembers> getMembers() {
 		return members;
