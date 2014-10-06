@@ -142,7 +142,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				while ((lineUser = readerUser.readLine()) != null) {
 					AllLinesUser = AllLinesUser + lineUser;
 				}
-				log.warning(url + " --> " + AllLinesUser.substring(0, 400)); 
+				//log.warning(url + " --> " + AllLinesUser.substring(0, 400)); 
 				
 				readerUser.close();
 				Gson gsonUser = new Gson();
