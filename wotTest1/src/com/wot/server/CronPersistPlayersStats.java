@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -676,24 +677,110 @@ public class CronPersistPlayersStats extends HttpServlet {
 		daoCommunityClan.setIdClan(idClan);
 		daoCommunityClan.setDateCommunityClan(date);
 		
-		//On persist le clan et ses joueurs pour trouver ceux qui partent et qui arrivent 
-		if (true){
-			//pm = PMF.get().getPersistenceManager();
-			PersistenceManager pm =null;
-			pm = PMF.get().getPersistenceManager();
-	        try {
-	        	pm.currentTransaction().begin();
-	        	pm.makePersistent(daoCommunityClan);
-	        	pm.currentTransaction().commit();
-	        }
-		    catch(Exception e){
-		    	e.printStackTrace();
-		    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
-	        	pm.currentTransaction().rollback();
-	        }
-	        
-		}
 		
+		//construction de la liste des joueurs partis ou arrivés dans le clan
+		//on requête le dernier <DaoCommunityClan2> et on le compare avec le courant (pas encore sauvé) pour constituer une liste des joueurs added et une autre deleted
+		PersistenceManager pm = null;
+		pm = PMF.get().getPersistenceManager();
+        try {
+			Query query = pm.newQuery(DaoCommunityClan2.class);
+		    query.setFilter("idClan == nameParam");
+		    //query.setOrdering("name desc");
+		    query.setOrdering("dateCommunityClan desc");
+		    query.setRange(0, 1); //only 1 results 
+		    //query.setOrdering("hireDate desc");
+		    query.declareParameters("String nameParam");
+		    List<DaoCommunityClan2> resultsTmp = (List<DaoCommunityClan2>) query.execute(idClan);
+		    
+		  //recup des membres du j-1
+		    if(resultsTmp.size() >= 1  )
+		    {       
+		    	DaoCommunityClan2 myPrevDaoCommunityClan = resultsTmp.get(0);
+		    	Map<String, DaoDataCommunityMembers>  mapPrevDaoMembers = null; 
+		    	Map<String, DaoDataCommunityMembers>  mapDaoMembers = null; 
+		    	
+		    	if ( myPrevDaoCommunityClan.getData() != null && myPrevDaoCommunityClan.getData().values() != null ) {
+		    		Collection<DaoDataCommunityClanMembers> colPrevDaoClanMemb = myPrevDaoCommunityClan.getData().values();
+		    		
+		    		for ( DaoDataCommunityClanMembers daoMember : colPrevDaoClanMemb ) {
+		    			mapPrevDaoMembers = daoMember.getMembers();
+		    		 }
+		    		
+		    	}
+		    	//recup des membres courant 
+		    	if (mapPrevDaoMembers != null) {
+		    		
+			    	
+			    	if ( daoCommunityClan.getData() != null && daoCommunityClan.getData().values() != null ) {
+			    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = daoCommunityClan.getData().values();
+			    		
+			    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
+			    			mapDaoMembers = daoMember.getMembers();
+			    		 }
+			    	}
+		    		
+		    	}
+		    	
+		    	//comparaison des 2 liste de users
+		    	 Set<Entry<String, DaoDataCommunityMembers>>  entryDaoMembers =  mapDaoMembers.entrySet();
+		    	 Set<Entry<String, DaoDataCommunityMembers>>  entryPrevDaoMembers =  mapPrevDaoMembers.entrySet();
+		    	 
+		    	 for(Entry<String, DaoDataCommunityMembers> entryDaoMember : entryDaoMembers) {
+		    		 
+		    		 if (mapPrevDaoMembers.get(entryDaoMember.getKey()) == null ) {
+		    			 //joueur nouveau ds Clan 
+		    			 daoCommunityClan.getData().get(0).getMembersAdded().put(entryDaoMember.getKey(), entryDaoMember.getValue());
+		    			 
+		    		 }
+		    		 
+		    	 }
+		    	 
+		    	 for(Entry<String, DaoDataCommunityMembers> entryPrevDaoMember : entryPrevDaoMembers) {
+		    		 
+		    		 if (mapDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
+		    			 //Joueur parti du clan 
+		    			 daoCommunityClan.getData().get(0).getMembersDeleted().put(entryPrevDaoMember.getKey(), entryPrevDaoMember.getValue());
+		    				
+		    		 }
+		    		 
+		    	 }
+		    	
+		    }
+		    
+        }
+	    catch(Exception e){
+	    	e.printStackTrace();
+	    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
+        	pm.currentTransaction().rollback();
+        }
+		
+		
+		
+		
+		
+	
+		
+		
+		//On persist le clan et ses joueurs pour trouver ceux qui partent et qui arrivent 
+		//pm = PMF.get().getPersistenceManager();
+		pm =null;
+		pm = PMF.get().getPersistenceManager();
+        try {
+        	pm.currentTransaction().begin();
+        	pm.makePersistent(daoCommunityClan);
+        	pm.currentTransaction().commit();
+        }
+	    catch(Exception e){
+	    	e.printStackTrace();
+	    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
+        	pm.currentTransaction().rollback();
+        }
+	        
+
+		
+	
+		
+		//construction de la hashMap des id et name du ser
 		CommunityClan communityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
 		if (communityClan != null) {
 
