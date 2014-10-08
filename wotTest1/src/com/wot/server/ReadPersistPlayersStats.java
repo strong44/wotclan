@@ -6,8 +6,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -33,7 +39,11 @@ public class ReadPersistPlayersStats extends HttpServlet {
 	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
 	private static String urlServerEU =  "http://api.worldoftanks.eu";
 
+	//private static List<CommunityAccount> listCommAcc = new ArrayList<CommunityAccount>();
 	
+	private static	Map<String, DaoDataCommunityMembers> mapMembersAdded = null;
+	private static	Map<String, DaoDataCommunityMembers> mapMembersDeleted = null;
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
     	log.warning("========lancement doGet  ReadPersistPlayersStats ============== " );
@@ -42,7 +52,52 @@ public class ReadPersistPlayersStats extends HttpServlet {
         String clanId = req.getParameter("clanId");
         String userName = req.getParameter("userName");
         if(clanId != null && !"".equalsIgnoreCase(clanId) && userName != null && !"".equalsIgnoreCase(userName)) {
+        	
+        	//lecture des stats du joueur de nom userName
         	List<CommunityAccount> listCommAcc = readPersistAllStats( new Date(), clanId, userName);
+        	
+        	//lecture de la composition du clan en base wotachievement et seulement une fois 
+        	if (mapMembersAdded == null ) {
+        		mapMembersAdded = new HashMap<String, DaoDataCommunityMembers>();
+        		mapMembersDeleted = new HashMap<String, DaoDataCommunityMembers>();
+
+         		PersistenceManager pm = null;
+        		pm = PMF.get().getPersistenceManager();
+        		
+                try {
+        			Query query = pm.newQuery(DaoCommunityClan2.class);
+        		    query.setFilter("idClan == nameParam");
+        		    //query.setOrdering("name desc");
+        		    query.setOrdering("dateCommunityClan desc");
+        		    query.setRange(0, 30); //only 30 results 
+        		    //query.setOrdering("hireDate desc");
+        		    query.declareParameters("String nameParam");
+        		    List<DaoCommunityClan2> resultsTmp = (List<DaoCommunityClan2>) query.execute(clanId);
+        		    
+        		  //recup des membres des 30 derniers jours
+        		    if(resultsTmp.size() >= 1  )
+        		    {       
+        		    	
+        		    	for (DaoCommunityClan2 myDaoCommunityClan2 : resultsTmp) {
+        		    		if ( myDaoCommunityClan2.getData() != null && myDaoCommunityClan2.getData().values() != null ) {
+            		    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = myDaoCommunityClan2.getData().values();
+            		    		
+            		    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
+            		    			mapMembersAdded.putAll(daoMember.getMembersAdded());
+            		    			mapMembersDeleted.putAll(daoMember.getMembersDeleted());
+            		    		 }
+        		    		}
+        		    	}
+        		    }
+                }
+        	    catch(Exception e){
+        	    	e.printStackTrace();
+        	    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
+                	pm.currentTransaction().rollback();
+                }
+        	}
+        	
+        	
         	//build a HTML result
         	if (listCommAcc.size() > 0) { 
         		CommunityAccount commAcc = listCommAcc.get(0);
@@ -206,7 +261,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
         	}
         	
 		}else {
-			log.warning("WARNING: =======lancement ReadPersistPlayersStats  with idClan or bad userName =" + clanId +":" +userName);
+			log.warning("WARNING: =======lancement ReadPersistPlayersStats  with bad idClan or bad userName =" + clanId +":" +userName);
 		}
     }
 
