@@ -679,7 +679,8 @@ public class CronPersistPlayersStats extends HttpServlet {
 		
 		
 		//construction de la liste des joueurs partis ou arrivés dans le clan
-		//on requête le dernier <DaoCommunityClan2> et on le compare avec le courant (pas encore sauvé) pour constituer une liste des joueurs added et une autre deleted
+		//on requête le dernier <DaoCommunityClan2> et on le compare avec le courant (pas encore sauvé) 
+		//pour constituer une liste des joueurs added et une autre deleted que l'on sauve dans DaoCommunityClan2 courant
 		PersistenceManager pm = null;
 		pm = PMF.get().getPersistenceManager();
         try {
@@ -754,13 +755,7 @@ public class CronPersistPlayersStats extends HttpServlet {
         	pm.currentTransaction().rollback();
         }
 		
-		
-		
-		
-		
-	
-		
-		
+				
 		//On persist le clan et ses joueurs pour trouver ceux qui partent et qui arrivent 
 		//pm = PMF.get().getPersistenceManager();
 		pm =null;
