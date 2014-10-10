@@ -32,6 +32,13 @@
         <servlet-class>com.wot.server.ReadPersistPlayersStats</servlet-class>
    </servlet>
    
+
+   <servlet>
+        <servlet-name>readPersistPlayersAddedOrDeletedInClan</servlet-name>
+        <servlet-class>com.wot.server.ReadPersistPlayersAddedOrDeletedInClan</servlet-class>
+   </servlet>
+   
+   
    <servlet>
         <servlet-name>proxyWotWeb</servlet-name>
         <servlet-class>com.wot.server.ProxyWotWeb</servlet-class>
@@ -57,7 +64,14 @@
         <servlet-name>readPersistPlayersStats</servlet-name>
         <url-pattern>/readPersistPlayersStats</url-pattern>
    </servlet-mapping>
+
+
       
+      <servlet-mapping>
+        <servlet-name>readPersistPlayersAddedOrDeletedInClan</servlet-name>
+        <url-pattern>/readPersistPlayersAddedOrDeletedInClan</url-pattern>
+   </servlet-mapping>
+   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WotTest1.html</welcome-file>
