@@ -41,9 +41,6 @@ public class ReadPersistPlayersStats extends HttpServlet {
 
 	//private static List<CommunityAccount> listCommAcc = new ArrayList<CommunityAccount>();
 	
-	private static	Map<String, DaoDataCommunityMembers> mapMembersAdded = null;
-	private static	Map<String, DaoDataCommunityMembers> mapMembersDeleted = null;
-
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
     	log.warning("========lancement doGet  ReadPersistPlayersStats ============== " );
@@ -57,45 +54,6 @@ public class ReadPersistPlayersStats extends HttpServlet {
         	List<CommunityAccount> listCommAcc = readPersistAllStats( new Date(), clanId, userName);
         	
         	//lecture de la composition du clan en base wotachievement et seulement une fois 
-        	if (mapMembersAdded == null ) {
-        		mapMembersAdded = new HashMap<String, DaoDataCommunityMembers>();
-        		mapMembersDeleted = new HashMap<String, DaoDataCommunityMembers>();
-
-         		PersistenceManager pm = null;
-        		pm = PMF.get().getPersistenceManager();
-        		
-                try {
-        			Query query = pm.newQuery(DaoCommunityClan2.class);
-        		    query.setFilter("idClan == nameParam");
-        		    //query.setOrdering("name desc");
-        		    query.setOrdering("dateCommunityClan desc");
-        		    query.setRange(0, 30); //only 30 results 
-        		    //query.setOrdering("hireDate desc");
-        		    query.declareParameters("String nameParam");
-        		    List<DaoCommunityClan2> resultsTmp = (List<DaoCommunityClan2>) query.execute(clanId);
-        		    
-        		  //recup des membres des 30 derniers jours
-        		    if(resultsTmp.size() >= 1  )
-        		    {       
-        		    	
-        		    	for (DaoCommunityClan2 myDaoCommunityClan2 : resultsTmp) {
-        		    		if ( myDaoCommunityClan2.getData() != null && myDaoCommunityClan2.getData().values() != null ) {
-            		    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = myDaoCommunityClan2.getData().values();
-            		    		
-            		    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
-            		    			mapMembersAdded.putAll(daoMember.getMembersAdded());
-            		    			mapMembersDeleted.putAll(daoMember.getMembersDeleted());
-            		    		 }
-        		    		}
-        		    	}
-        		    }
-                }
-        	    catch(Exception e){
-        	    	e.printStackTrace();
-        	    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
-                	pm.currentTransaction().rollback();
-                }
-        	}
         	
         	
         	//build a HTML result
