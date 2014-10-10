@@ -83,8 +83,12 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
             		    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = myDaoCommunityClan2.getData().values();
             		    		
             		    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
-            		    			mapMembersAdded.putAll(daoMember.getMembersAdded());
-            		    			mapMembersDeleted.putAll(daoMember.getMembersDeleted());
+            		    			if ( daoMember.getMembersAdded() != null)
+            		    				mapMembersAdded.putAll(daoMember.getMembersAdded());
+            		    			
+            		    			if ( daoMember.getMembersDeleted() != null)
+            		    				mapMembersDeleted.putAll(daoMember.getMembersDeleted());
+            		    			
             		    		 }
         		    		}
         		    	}
@@ -105,11 +109,11 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         		
 				for ( DaoDataCommunityMembers members :mapMembersAdded.values()) {
 					
-					userNameAdded = userNameAdded + members.getAccount_name() ;
+					userNameAdded = userNameAdded + members.getAccount_name() +"<BR>";
 				}
 				for ( DaoDataCommunityMembers members :mapMembersDeleted.values()) {
 					
-					userNameDeleted = userNameDeleted + members.getAccount_name() ;
+					userNameDeleted = userNameDeleted + members.getAccount_name() +"<BR>";
 				}
         		
         		StringBuffer strBuf = new StringBuffer();
@@ -125,7 +129,7 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         					//ent�tes des colonnes
 			        		append("<TR>").
 								append("<TH>").
-									append("Entrées de Joueurs").
+									append("Entrées de Joueurs dans le clan").
 								append("</TH>").
 							append("</TR>").
         					append("<TR>").
@@ -139,12 +143,12 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
 				//ent�tes des colonnes
         		append("<TR>").
 					append("<TH>").
-						append("WR").
+						append("Sorties de joueurs du clan").
 					append("</TH>").
 				append("</TR>").
 				append("<TR>").
 					append("<TD>").
-						append("Sorties de joueurs").
+						append(userNameDeleted).
 					append("</TD>").
 				append("</TR>").
 			append("</TABLE>");
