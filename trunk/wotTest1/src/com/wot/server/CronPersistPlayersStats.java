@@ -697,26 +697,28 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    if(resultsTmp.size() >= 1  )
 		    {       
 		    	DaoCommunityClan2 myPrevDaoCommunityClan = resultsTmp.get(0);
-		    	Map<String, DaoDataCommunityMembers>  mapPrevDaoMembers = null; 
-		    	Map<String, DaoDataCommunityMembers>  mapDaoMembers = null; 
+		    	Map<String, DaoDataCommunityMembers>  mapPrevDaoMembers = new HashMap<String, DaoDataCommunityMembers>();; 
+		    	Map<String, DaoDataCommunityMembers>  mapDaoMembers = new HashMap<String, DaoDataCommunityMembers>(); 
 		    	
 		    	if ( myPrevDaoCommunityClan.getData() != null && myPrevDaoCommunityClan.getData().values() != null ) {
 		    		Collection<DaoDataCommunityClanMembers> colPrevDaoClanMemb = myPrevDaoCommunityClan.getData().values();
 		    		
 		    		for ( DaoDataCommunityClanMembers daoMember : colPrevDaoClanMemb ) {
-		    			mapPrevDaoMembers = daoMember.getMembers();
+		    			if (daoMember.getMembers() != null) 
+		    				mapPrevDaoMembers = daoMember.getMembers();
 		    		 }
 		    		
 		    	}
 		    	//recup des membres courant 
-		    	if (mapPrevDaoMembers != null) {
+		    	if (mapPrevDaoMembers != null && mapPrevDaoMembers.size() > 0 ) {
 		    		
 			    	
 			    	if ( daoCommunityClan.getData() != null && daoCommunityClan.getData().values() != null ) {
 			    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = daoCommunityClan.getData().values();
 			    		
 			    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
-			    			mapDaoMembers = daoMember.getMembers();
+			    			if (daoMember.getMembers() != null)
+			    				mapDaoMembers = daoMember.getMembers();
 			    		 }
 			    	}
 		    		
@@ -731,6 +733,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    		 if (mapPrevDaoMembers.get(entryDaoMember.getKey()) == null ) {
 		    			 //joueur nouveau ds Clan 
 		    			 daoCommunityClan.getData().get(0).getMembersAdded().put(entryDaoMember.getKey(), entryDaoMember.getValue());
+		    			 log.warning("joueur ajouté " + entryDaoMember.getValue().getAccount_name());
 		    			 
 		    		 }
 		    		 
@@ -740,7 +743,22 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    		 
 		    		 if (mapDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
 		    			 //Joueur parti du clan 
-		    			 daoCommunityClan.getData().get(0).getMembersDeleted().put(entryPrevDaoMember.getKey(), entryPrevDaoMember.getValue());
+		    			 if (daoCommunityClan.getData() == null )
+		    				 log.log(Level.SEVERE,"daoCommunityClan.getData() is null");
+		    			 
+		    			 else {
+		    				 if (daoCommunityClan.getData().get(0) == null ) {
+		    					 log.log(Level.SEVERE,"daoCommunityClan.getData().get(0) is null");
+		    					 
+		    				 }else
+			    				 if (daoCommunityClan.getData().get(0).getMembersDeleted() == null ) {
+			    					 log.log(Level.SEVERE,"daoCommunityClan.getData().get(0).getMembersDeleted() is null");
+			    					 
+			    				 } else {
+			    					 daoCommunityClan.getData().get(0).getMembersDeleted().put(entryPrevDaoMember.getKey(), entryPrevDaoMember.getValue());
+			    					 log.warning("joueur parti " + entryPrevDaoMember.getValue().getAccount_name());
+			    				 }
+		    			 }
 		    				
 		    		 }
 		    		 
