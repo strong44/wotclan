@@ -753,21 +753,25 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    	 
 		    	 for(Entry<String, String> entryCurrentDaoMember : entryCurrentDaoMembers) {
 		    		 
-		    		 if (mapPrevDaoMembers.get(entryCurrentDaoMember.getKey()) == null ) {
+		    		 if (!mapPrevDaoMembers.containsKey(entryCurrentDaoMember.getKey())  ) {
 		    			 //joueur nouveau ds Clan 
 			    		 log.warning("joueur ajouté " + entryCurrentDaoMember.getValue());
 			    		 userAdded = userAdded + " " + entryCurrentDaoMember.getValue();
 
+		    		 }else {
+		    			 log.warning("joueur deja la  " + entryCurrentDaoMember.getValue());
 		    		 }
 		    		 
 		    	 }
 		    	 
 		    	 for(Entry<String, String> entryPrevDaoMember : entryPrevDaoMembers) {
 		    		 
-		    		 if (mapCurrentDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
+		    		 if (!mapCurrentDaoMembers.containsKey(entryPrevDaoMember.getKey())) {
 		    			 //Joueur parti du clan 
 		    			 log.warning("joueur parti du clan " + entryPrevDaoMember.getValue());
 		    			 userDeleted = userDeleted + " " + entryPrevDaoMember.getValue();
+		    		 }else {
+		    			 log.warning("joueur tjrs la " + entryPrevDaoMember.getValue());
 		    		 }
 		    		 
 		    	 }
