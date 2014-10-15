@@ -687,61 +687,93 @@ public class CronPersistPlayersStats extends HttpServlet {
 			Query query = pm.newQuery(DaoCommunityClan2.class);
 		    query.setFilter("idClan == nameParam");
 		    //query.setOrdering("name desc");
-		    query.setOrdering("dateCommunityClan desc");
+		    query.setOrdering("dateCommunityClan desc"); //recup de la  derniere compo du CLAN  (J-1) 
 		    query.setRange(0, 1); //only 1 results 
 		    //query.setOrdering("hireDate desc");
 		    query.declareParameters("String nameParam");
 		    List<DaoCommunityClan2> resultsTmp = (List<DaoCommunityClan2>) query.execute(idClan);
-		    
+	
+	    	Map<String, String>  mapPrevDaoMembers = new HashMap<String, String>();; 
+	    	Map<String, String>  mapCurrentDaoMembers = new HashMap<String, String>(); 
+
 		  //recup des membres du j-1
 		    if(resultsTmp.size() >= 1  )
 		    {       
 		    	DaoCommunityClan2 myPrevDaoCommunityClan = resultsTmp.get(0);
-		    	Map<String, DaoDataCommunityMembers>  mapPrevDaoMembers = new HashMap<String, DaoDataCommunityMembers>();; 
-		    	Map<String, DaoDataCommunityMembers>  mapDaoMembers = new HashMap<String, DaoDataCommunityMembers>(); 
 		    	
-		    	if ( myPrevDaoCommunityClan.getData() != null && myPrevDaoCommunityClan.getData().values() != null ) {
-		    		Collection<DaoDataCommunityClanMembers> colPrevDaoClanMemb = myPrevDaoCommunityClan.getData().values();
-		    		
-		    		for ( DaoDataCommunityClanMembers daoMember : colPrevDaoClanMemb ) {
-		    			if (daoMember.getMembers() != null) 
-		    				mapPrevDaoMembers = daoMember.getMembers();
-		    		 }
-		    		
-		    	}
+		    	//construction de la hashMap des id et name du ser
+				CommunityClan prevCommunityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(myPrevDaoCommunityClan);
+				if (prevCommunityClan != null) {
+
+					DataCommunityClan myDataCommunityClan = prevCommunityClan.getData();
+					List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
+
+					for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+						for (DataCommunityMembers member : dataClanMember.getMembers()) {
+							log.warning("previous member " + member.getAccount_name() + " " + member.getAccount_id() );
+							String idUser = member.getAccount_id();
+							//log.warning("Previous User " + member.getAccount_name());
+							mapPrevDaoMembers.put(idUser, member.getAccount_name());
+						}
+					}//for (DataCommunityClanMembers
+				} else {
+
+					log.severe("Erreur de parse sur myPrevDaoCommunityClan");
+				}
+		    	
 		    	//recup des membres courant 
 		    	if (mapPrevDaoMembers != null && mapPrevDaoMembers.size() > 0 ) {
-		    		
-			    	
-			    	if ( daoCommunityClan.getData() != null && daoCommunityClan.getData().values() != null ) {
-			    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = daoCommunityClan.getData().values();
-			    		
-			    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
-			    			if (daoMember.getMembers() != null)
-			    				mapDaoMembers = daoMember.getMembers();
-			    		 }
-			    	}
-		    		
+					CommunityClan currentCommunityClan = TransformDtoObject.TransformCommunityDaoCommunityClanToCommunityClan(daoCommunityClan);
+
+					if (currentCommunityClan != null) {
+
+						DataCommunityClan myDataCommunityClan = currentCommunityClan.getData();
+						List<DataCommunityClanMembers> listClanMembers = myDataCommunityClan.getMembers();
+
+						for (DataCommunityClanMembers dataClanMember : listClanMembers) {
+							for (DataCommunityMembers member : dataClanMember.getMembers()) {
+								log.warning("member " + member.getAccount_name() + " " + member.getAccount_id() );
+								String idUser = member.getAccount_id();
+								//log.warning("Previous User " + member.getAccount_name());
+								mapCurrentDaoMembers.put(idUser, member.getAccount_name());
+							}
+						}//for (DataCommunityClanMembers
+					} else {
+
+						log.severe("Erreur de parse sur currentCommunityClan");
+					}
 		    	}
 		    	
 		    	//comparaison des 2 liste de users
-		    	 Set<Entry<String, DaoDataCommunityMembers>>  entryDaoMembers =  mapDaoMembers.entrySet();
-		    	 Set<Entry<String, DaoDataCommunityMembers>>  entryPrevDaoMembers =  mapPrevDaoMembers.entrySet();
+		    	 Set<Entry<String, String>>  entryDaoMembers =  mapCurrentDaoMembers.entrySet();
+		    	 Set<Entry<String, String>>  entryPrevDaoMembers =  mapPrevDaoMembers.entrySet();
 		    	 
-		    	 for(Entry<String, DaoDataCommunityMembers> entryDaoMember : entryDaoMembers) {
+		    	 for(Entry<String, String> entryDaoMember : entryDaoMembers) {
 		    		 
 		    		 if (mapPrevDaoMembers.get(entryDaoMember.getKey()) == null ) {
 		    			 //joueur nouveau ds Clan 
-		    			 daoCommunityClan.getData().get(0).getMembersAdded().put(entryDaoMember.getKey(), entryDaoMember.getValue());
-		    			 log.warning("joueur ajouté " + entryDaoMember.getValue().getAccount_name());
-		    			 
+		    			 if (daoCommunityClan.getData() != null && daoCommunityClan.getData().get(0) != null && daoCommunityClan.getData().get(0).getMembersAdded() != null ) {
+			    			 daoCommunityClan.getData().get(0).getMembersAdded().put(entryDaoMember.getKey(), entryDaoMember.getValue());
+			    			 log.warning("joueur ajouté " + entryDaoMember.getValue());
+		    				 
+		    			 }else {
+			    			 if (daoCommunityClan.getData() == null ) {
+				    			 log.warning("daoCommunityClan.getData() is null");
+			    			 } else
+				    			 if (daoCommunityClan.getData().get(0) == null  ) {
+					    			 log.warning("daoCommunityClan.getData().get(0) is null");
+				    			 } else 
+					    			 if (daoCommunityClan.getData().get(0).getMembersAdded() == null  ) {
+						    			 log.warning("daoCommunityClan.getData().get(0).getMembersAdded()");
+					    			 }
+		    			 }
 		    		 }
 		    		 
 		    	 }
 		    	 
-		    	 for(Entry<String, DaoDataCommunityMembers> entryPrevDaoMember : entryPrevDaoMembers) {
+		    	 for(Entry<String, String> entryPrevDaoMember : entryPrevDaoMembers) {
 		    		 
-		    		 if (mapDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
+		    		 if (mapCurrentDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
 		    			 //Joueur parti du clan 
 		    			 if (daoCommunityClan.getData() == null )
 		    				 log.log(Level.SEVERE,"daoCommunityClan.getData() is null");
@@ -756,7 +788,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 			    					 
 			    				 } else {
 			    					 daoCommunityClan.getData().get(0).getMembersDeleted().put(entryPrevDaoMember.getKey(), entryPrevDaoMember.getValue());
-			    					 log.warning("joueur parti " + entryPrevDaoMember.getValue().getAccount_name());
+			    					 log.warning("joueur parti " + entryPrevDaoMember.getValue());
 			    				 }
 		    			 }
 		    				
