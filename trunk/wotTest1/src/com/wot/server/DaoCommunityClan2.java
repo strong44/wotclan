@@ -42,7 +42,30 @@ public class DaoCommunityClan2 implements Serializable{
 	private Date dateCommunityClan;
 
 	@Persistent
+	private String userAdded;
+	
+	@Persistent
+	private String userDeleted;
+	
+	@Persistent
 	Map<String, DaoDataCommunityClanMembers> data;
+
+	
+	public String getUserAdded() {
+		return userAdded;
+	}
+
+	public String getUserDeleted() {
+		return userDeleted;
+	}
+
+	public void setUserAdded(String userAdded) {
+		this.userAdded = userAdded;
+	}
+
+	public void setUserDeleted(String userDeleted) {
+		this.userDeleted = userDeleted;
+	}
 
 	public String getIdClan() {
 		return idClan;
