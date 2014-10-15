@@ -41,8 +41,8 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
 
 	//private static List<CommunityAccount> listCommAcc = new ArrayList<CommunityAccount>();
 	
-	private static	Map<String, DaoDataCommunityMembers> mapMembersAdded = null;
-	private static	Map<String, DaoDataCommunityMembers> mapMembersDeleted = null;
+	private static	Map<String, String> mapMembersAdded = null;
+	private static	Map<String, String> mapMembersDeleted = null;
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -59,8 +59,8 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         	
         	//lecture de la composition du clan en base wotachievement et seulement une fois 
         	if (mapMembersAdded == null ) {
-        		mapMembersAdded = new HashMap<String, DaoDataCommunityMembers>();
-        		mapMembersDeleted = new HashMap<String, DaoDataCommunityMembers>();
+        		mapMembersAdded = new HashMap<String, String>();
+        		mapMembersDeleted = new HashMap<String, String>();
 
          		PersistenceManager pm = null;
         		pm = PMF.get().getPersistenceManager();
@@ -107,13 +107,13 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         		String userNameAdded = "";
         		String userNameDeleted = "";
         		
-				for ( DaoDataCommunityMembers members :mapMembersAdded.values()) {
+				for ( String members :mapMembersAdded.values()) {
 					
-					userNameAdded = userNameAdded + members.getAccount_name() +"<BR>";
+					userNameAdded = userNameAdded + " " + members +"<BR>";
 				}
-				for ( DaoDataCommunityMembers members :mapMembersDeleted.values()) {
+				for ( String members :mapMembersDeleted.values()) {
 					
-					userNameDeleted = userNameDeleted + members.getAccount_name() +"<BR>";
+					userNameDeleted = userNameDeleted + " " + members +"<BR>";
 				}
         		
         		StringBuffer strBuf = new StringBuffer();
