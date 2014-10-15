@@ -41,8 +41,8 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
 
 	//private static List<CommunityAccount> listCommAcc = new ArrayList<CommunityAccount>();
 	
-	private static	Map<String, String> mapMembersAdded = null;
-	private static	Map<String, String> mapMembersDeleted = null;
+	private static	List<String> listMembersAdded = null;
+	private static	List<String> listMembersDeleted = null;
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -58,9 +58,9 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         	
         	
         	//lecture de la composition du clan en base wotachievement et seulement une fois 
-        	if (mapMembersAdded == null ) {
-        		mapMembersAdded = new HashMap<String, String>();
-        		mapMembersDeleted = new HashMap<String, String>();
+        	if (listMembersAdded == null ) {
+        		listMembersAdded = new ArrayList<String>();
+        		listMembersDeleted = new ArrayList<String>();
 
          		PersistenceManager pm = null;
         		pm = PMF.get().getPersistenceManager();
@@ -79,24 +79,20 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         		    if(resultsTmp.size() >= 1  )
         		    {       
         		    	for (DaoCommunityClan2 myDaoCommunityClan2 : resultsTmp) {
-        		    		if ( myDaoCommunityClan2.getData() != null && myDaoCommunityClan2.getData().values() != null ) {
-            		    		Collection<DaoDataCommunityClanMembers> colDaoClanMemb = myDaoCommunityClan2.getData().values();
-            		    		
-            		    		for ( DaoDataCommunityClanMembers daoMember : colDaoClanMemb ) {
-            		    			if ( daoMember.getMembersAdded() != null)
-            		    				mapMembersAdded.putAll(daoMember.getMembersAdded());
-            		    			
-            		    			if ( daoMember.getMembersDeleted() != null)
-            		    				mapMembersDeleted.putAll(daoMember.getMembersDeleted());
-            		    			
-            		    		 }
+        		    		
+        		    		if (myDaoCommunityClan2.getUserAdded() != null && !"".equalsIgnoreCase(myDaoCommunityClan2.getUserAdded()) )  {
+        		    			listMembersAdded.add(myDaoCommunityClan2.getUserAdded());
+        		    		}
+
+        		    		if (myDaoCommunityClan2.getUserDeleted() != null && !"".equalsIgnoreCase(myDaoCommunityClan2.getUserDeleted()) )  {
+        		    			listMembersDeleted.add(myDaoCommunityClan2.getUserDeleted());
         		    		}
         		    	}
         		    }
                 }
         	    catch(Exception e){
         	    	e.printStackTrace();
-        	    	log.log(Level.SEVERE, "Exception while saving daoCommunityClan", e);
+        	    	log.log(Level.SEVERE, "Exception while quering  DaoCommunityClan2", e);
                 	pm.currentTransaction().rollback();
                 }
         	}
@@ -107,11 +103,11 @@ public class ReadPersistPlayersAddedOrDeletedInClan extends HttpServlet {
         		String userNameAdded = "";
         		String userNameDeleted = "";
         		
-				for ( String members :mapMembersAdded.values()) {
+				for ( String members :listMembersAdded) {
 					
 					userNameAdded = userNameAdded + " " + members +"<BR>";
 				}
-				for ( String members :mapMembersDeleted.values()) {
+				for ( String members :listMembersDeleted) {
 					
 					userNameDeleted = userNameDeleted + " " + members +"<BR>";
 				}

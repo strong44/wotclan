@@ -745,28 +745,19 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    	}
 		    	
 		    	//comparaison des 2 liste de users
-		    	 Set<Entry<String, String>>  entryDaoMembers =  mapCurrentDaoMembers.entrySet();
+		    	 Set<Entry<String, String>>  entryCurrentDaoMembers =  mapCurrentDaoMembers.entrySet();
 		    	 Set<Entry<String, String>>  entryPrevDaoMembers =  mapPrevDaoMembers.entrySet();
 		    	 
-		    	 for(Entry<String, String> entryDaoMember : entryDaoMembers) {
+		    	 String userAdded = "";
+		    	 String userDeleted = "";
+		    	 
+		    	 for(Entry<String, String> entryCurrentDaoMember : entryCurrentDaoMembers) {
 		    		 
-		    		 if (mapPrevDaoMembers.get(entryDaoMember.getKey()) == null ) {
+		    		 if (mapPrevDaoMembers.get(entryCurrentDaoMember.getKey()) == null ) {
 		    			 //joueur nouveau ds Clan 
-		    			 if (daoCommunityClan.getData() != null && daoCommunityClan.getData().get(0) != null && daoCommunityClan.getData().get(0).getMembersAdded() != null ) {
-			    			 daoCommunityClan.getData().get(0).getMembersAdded().put(entryDaoMember.getKey(), entryDaoMember.getValue());
-			    			 log.warning("joueur ajouté " + entryDaoMember.getValue());
-		    				 
-		    			 }else {
-			    			 if (daoCommunityClan.getData() == null ) {
-				    			 log.warning("daoCommunityClan.getData() is null");
-			    			 } else
-				    			 if (daoCommunityClan.getData().get(0) == null  ) {
-					    			 log.warning("daoCommunityClan.getData().get(0) is null");
-				    			 } else 
-					    			 if (daoCommunityClan.getData().get(0).getMembersAdded() == null  ) {
-						    			 log.warning("daoCommunityClan.getData().get(0).getMembersAdded()");
-					    			 }
-		    			 }
+			    		 log.warning("joueur ajouté " + entryCurrentDaoMember.getValue());
+			    		 userAdded = userAdded + " " + entryCurrentDaoMember.getValue();
+
 		    		 }
 		    		 
 		    	 }
@@ -775,26 +766,13 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    		 
 		    		 if (mapCurrentDaoMembers.get(entryPrevDaoMember.getKey()) == null ) {
 		    			 //Joueur parti du clan 
-		    			 if (daoCommunityClan.getData() == null )
-		    				 log.log(Level.SEVERE,"daoCommunityClan.getData() is null");
-		    			 
-		    			 else {
-		    				 if (daoCommunityClan.getData().get(0) == null ) {
-		    					 log.log(Level.SEVERE,"daoCommunityClan.getData().get(0) is null");
-		    					 
-		    				 }else
-			    				 if (daoCommunityClan.getData().get(0).getMembersDeleted() == null ) {
-			    					 log.log(Level.SEVERE,"daoCommunityClan.getData().get(0).getMembersDeleted() is null");
-			    					 
-			    				 } else {
-			    					 daoCommunityClan.getData().get(0).getMembersDeleted().put(entryPrevDaoMember.getKey(), entryPrevDaoMember.getValue());
-			    					 log.warning("joueur parti " + entryPrevDaoMember.getValue());
-			    				 }
-		    			 }
-		    				
+		    			 log.warning("joueur parti du clan " + entryPrevDaoMember.getValue());
+		    			 userDeleted = userDeleted + " " + entryPrevDaoMember.getValue();
 		    		 }
 		    		 
 		    	 }
+		    	 daoCommunityClan.setUserAdded(userAdded);
+		    	 daoCommunityClan.setUserDeleted(userDeleted);
 		    	
 		    }
 		    
