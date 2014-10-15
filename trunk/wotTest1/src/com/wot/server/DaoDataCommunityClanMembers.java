@@ -59,25 +59,25 @@ public class DaoDataCommunityClanMembers implements Serializable {
 	Map<String, DaoDataCommunityMembers> members;
 	
 	@Persistent
-	Map<String, DaoDataCommunityMembers> membersAdded = new HashMap<String, DaoDataCommunityMembers>();
+	Map<String, String> membersAdded = new HashMap<String, String>();
 	
 	@Persistent
-	Map<String, DaoDataCommunityMembers> membersDeleted = new HashMap<String, DaoDataCommunityMembers>();
+	Map<String, String> membersDeleted = new HashMap<String, String>();
 	
 	
-	public Map<String, DaoDataCommunityMembers> getMembersAdded() {
+	public Map<String, String> getMembersAdded() {
 		return membersAdded;
 	}
 
-	public Map<String, DaoDataCommunityMembers> getMembersDeleted() {
+	public Map<String, String> getMembersDeleted() {
 		return membersDeleted;
 	}
 
-	public void setMembersAdded(Map<String, DaoDataCommunityMembers> membersAdded) {
+	public void setMembersAdded(Map<String, String> membersAdded) {
 		this.membersAdded = membersAdded;
 	}
 
-	public void setMembersDeleted(Map<String, DaoDataCommunityMembers> membersDeleted) {
+	public void setMembersDeleted(Map<String, String> membersDeleted) {
 		this.membersDeleted = membersDeleted;
 	}
 
