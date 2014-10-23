@@ -52,7 +52,7 @@ import com.wot.shared.XmlWiki;
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static public String proxy =  "http://wotachievement.appspot.com/WotWeb?";
 	
-	static public String lieu = "maison"; //boulot ou maison si boulot -> WotWeb
+	static public String lieu = "boulot"; //boulot ou maison si boulot -> WotWeb
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;

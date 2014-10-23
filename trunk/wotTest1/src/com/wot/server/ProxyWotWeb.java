@@ -56,6 +56,10 @@ public class ProxyWotWeb extends HttpServlet {
         }
 		
 		
+        //en dev 
+        //exemple d'utilisation 
+        // http://127.0.0.1:8888/WotWeb?http://wotachievement.appspot.com/WotWeb?http://api.worldoftanks.eu/2.0/account/tanks/?application_id=d0a293dc77667c9328783d489c8cef73&account_id=507890690
+        
 		//pour proxy http://wotachievement.appspot.com/WotWeb/
         //api.worldoftanks.ru/2.0/account/info/?application_id=171745d21f7f98fd8878771da1000a31&account_id=461
         
