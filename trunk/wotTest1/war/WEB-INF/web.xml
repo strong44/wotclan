@@ -27,6 +27,11 @@
    </servlet>
    
    <servlet>
+        <servlet-name>readPersistPlayersRecruistation</servlet-name>
+        <servlet-class>com.wot.server.ReadPersistPlayersRecruistation</servlet-class>
+   </servlet>
+   
+   <servlet>
         <servlet-name>cronDeletePlayersStats</servlet-name>
         <servlet-class>com.wot.server.CronDeletePlayersStats</servlet-class>
    </servlet>
@@ -70,6 +75,11 @@
         <url-pattern>/persistPlayersRecruistation</url-pattern>
    </servlet-mapping>
    
+   <servlet-mapping>
+        <servlet-name>readPersistPlayersRecruistation</servlet-name>
+        <url-pattern>/readPersistPlayersRecruistation</url-pattern>
+   </servlet-mapping>
+ 
    <servlet-mapping>
         <servlet-name>readPersistPlayersStats</servlet-name>
         <url-pattern>/readPersistPlayersStats</url-pattern>
