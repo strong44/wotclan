@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Text;
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.CommunityAccount;
 
@@ -52,7 +53,8 @@ public class PersistPlayersRecruistation extends HttpServlet {
 				
 				DaoRecruistation myDaoRecruistation = new DaoRecruistation();
 				myDaoRecruistation.setDate(date);
-				myDaoRecruistation.setUsers(users);
+				Text text =  new Text(users);
+				myDaoRecruistation.setUsers(text);
 				
 				/////////////////////
 				//pm = PMF.get().getPersistenceManager();
@@ -95,6 +97,8 @@ public class PersistPlayersRecruistation extends HttpServlet {
 					pm.close();
 			}
 		
+			log.warning("======== End persistAllUsersRecruistation : " +  date + ":" + users + " :============== " );
+
 			return users;
 		
 		}
