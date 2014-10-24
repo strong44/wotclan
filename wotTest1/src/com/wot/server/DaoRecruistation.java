@@ -11,6 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
 public class DaoRecruistation implements Serializable{
@@ -27,7 +28,7 @@ public class DaoRecruistation implements Serializable{
 	private Date date;
 	
 	@Persistent
-	private String users = "";
+	private Text users ;
 	
 	
 	public Key getKey() {
@@ -38,10 +39,10 @@ public class DaoRecruistation implements Serializable{
 		this.key = key;
 	}
 
-	public void setUsers(String users) {
+	public void setUsers(Text users) {
 		this.users = users;
 	}
-	public String getUsers() {
+	public Text getUsers() {
 		return users;
 	}
 	public Date getDate() {
