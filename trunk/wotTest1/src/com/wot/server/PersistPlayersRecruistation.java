@@ -53,6 +53,9 @@ public class PersistPlayersRecruistation extends HttpServlet {
 				
 				DaoRecruistation myDaoRecruistation = new DaoRecruistation();
 				myDaoRecruistation.setDate(date);
+				//,,,,,,,,,,,,,,,,,,,,,Joueur,bigbatblues,ecraseur37,Jed8,Daveylee,Litiri,luffy145,TCH3RN0BILD,toudoux91,mdum,baracuda58,valdohel07,Jo124,patsappa1973,le_duke,Sheetogaz,Filoflo95,Arns31,___Arno___,z750naked,miwashaky,kormag,KENNY_1,poussinot,Non2diou,Jaeger_Legendary,francisdup57,jubibi,Twinkl3Twinkl3Littl3Star,Traboucaire,lolo5974,Arathornf,slaydead,Heloane,blacksharck,GeneralSkiny,Philix,mathoulin,LaurentH,THUNDERBIRDS1965,keokuk,atila31,Rael_Cun,antourter,JE_GUEVARA,Cappi13,RAGUL27_13,Slayercore,taupinw_a,Pyro68220,Fuxyions,maxagaz60,cesar95,willor62,Blapi2342,Jenka1,Shadowgaia,SdtPithivier,The_replicants,Jarv7s,rompafrolic,Cagole,johnbond005,samaribail,KarmelowyMen,tinkydead,bencrosoft,Acebanana,neox83600,Dokuganryu,jourquinm,backcat,larverne81,lttlejoe,Angelusftw,SaVaFaireBoum,sephirot74,waketrip,appodu92,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+				//users = users.replaceAll(",,", "");
+				
 				Text text =  new Text(users);
 				myDaoRecruistation.setUsers(text);
 				
