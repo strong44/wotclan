@@ -82,7 +82,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	for (String jLastuser : listJlastUsers) {
         		    		
         		    		//si la liste du jour plus ancien ne contient le nom de joueur de la liste recent c'est une nouvelle recrue 
-        		    		if (!listJFirstUsers.contains(jLastuser))
+        		    		if (jLastuser != null && !"".equalsIgnoreCase(jLastuser) &&  !"Joueur".equalsIgnoreCase(jLastuser) && !listJFirstUsers.contains(jLastuser))
         		    		{
         		    			listMembersAdded.add(jLastuser);
         		    		}
@@ -92,7 +92,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	for (String jFirstUser : listJFirstUsers) {
         		    		
         		    		//si la liste du jour plus ancien ne contient le nom de joueur de la liste recent c'est une nouvelle recrue 
-        		    		if (!listJlastUsers.contains(jFirstUser))
+        		    		if (jFirstUser != null && !"".equalsIgnoreCase(jFirstUser) &&  !"Joueur".equalsIgnoreCase(jFirstUser) && !listJlastUsers.contains(jFirstUser))
         		    		{
         		    			listMembersDeleted.add(jFirstUser);
         		    		}
