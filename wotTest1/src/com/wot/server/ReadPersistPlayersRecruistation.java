@@ -3,6 +3,7 @@ package com.wot.server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     	log.warning("========lancement doGet  ReadPersistPlayersRecruistation ============== " );
         resp.setContentType("text/html");
        String nbJours = req.getParameter("NbJours");
+       String dateUpdate = "";
        
        if (nbJours == null || "".equalsIgnoreCase(nbJours) ) 
     		   nbJours = "2"; 
@@ -62,10 +64,38 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    {       
         		    	//on prend le premier et le dernier jour
         		    	int size = resultsTmp.size();
+        		    	
+        		    	//Rechercher la sauvegarde du jour d'avant j-1
+         		    	Calendar mydate = Calendar.getInstance();
+        		    	log.warning("Date of the day :" + mydate.get(Calendar.DAY_OF_MONTH)+"."+mydate.get(Calendar.MONTH)+"."+mydate.get(Calendar.YEAR));
+        		    	Date dateToday = mydate.getTime();
+          		    	
         		    	DaoRecruistation jLastDaoRecruistation =  resultsTmp.get(0); //le dernier jour sauvegardé  
         		    	DaoRecruistation jFirstDaoRecruistation =  resultsTmp.get(size-1); //le premier jour sauvegardé
         		    	
-        		    	//recup des users du bureau de R pour les 2 jours 
+        		    	//milliseconds for one day
+        		    	// 1000 * 1s * 60s * 60mn * 24 
+        		    	long milliSecondsDay = 1000 *60 * 60 * 24 ;
+        		    	
+        		    	for (DaoRecruistation dao : resultsTmp) {
+        		    		long timeDateDao = dao.getDate().getTime() ;
+        		    		//trouver l'enregistrement du jour d'avant 
+        		    		if (timeDateDao <= (dateToday.getTime() - milliSecondsDay) ) {
+        		    			jFirstDaoRecruistation = dao;
+        		    			break ;
+        		    		}
+        		    	}
+        		    	
+        		    	
+//        		    	Date jLastDaoDate = jLastDaoRecruistation.getDate();
+//        		    	mydate.setTimeInMillis(jLastDaoDate.getTime());
+//        		    	log.warning("Date de mise à jour :" + mydate.get( + Calendar.DAY_OF_MONTH)+"."+mydate.get(Calendar.MONTH)+"."+mydate.get(Calendar.YEAR));
+//        		    	dateUpdate =  mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE) ;
+
+        		    	
+        		    	
+        		    	
+      		    	//recup des users du bureau de R pour les 2 jours 
         		    	String jLastUsers =  jLastDaoRecruistation.getUsers().getValue();
         		    	String jFirstUsers =  jFirstDaoRecruistation.getUsers().getValue();
         		    	log.warning("========lancement ReadPersistPlayersRecruistation ============== jLastUsers"  + jLastUsers);
@@ -97,8 +127,8 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    			listMembersDeleted.add(jFirstUser);
         		    		}
         		    	}
-
-        		    	
+        		    	//format date 
+   
         		    	
         		    }else {
         		    	log.warning("========lancement ReadPersistPlayersRecruistation ============== no result " );
@@ -139,7 +169,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         					//ent�tes des colonnes
 			        		append("<TR>").
 								append("<TH>").
-									append("Entrées de Joueurs dans BR").
+									append("Entrées de Joueurs dans BR : " + dateUpdate).
 								append("</TH>").
 							append("</TR>").
         					append("<TR>").
