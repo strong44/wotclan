@@ -55,7 +55,7 @@ public class CronDeletePlayersStats extends HttpServlet {
 			    		    for (DaoCommunityAccount2 myDaoCommunityAccount2 : resultsTmp) {
 			    		    	pm.currentTransaction().begin();
 					        	//
-			    		    	log.warning(myDaoCommunityAccount2.getDateCommunityAccount().toString());
+			    		    	//log.warning(myDaoCommunityAccount2.getDateCommunityAccount().toString());
 			    		    	//
 			    		    	if (myDaoCommunityAccount2.getData() != null && myDaoCommunityAccount2.getData().getStats() != null) {
 			    		    		pm.deletePersistent(myDaoCommunityAccount2.getData().getStats());
@@ -82,7 +82,7 @@ public class CronDeletePlayersStats extends HttpServlet {
 			    		    for (DaoDataCommunityAccountStatsVehicules myDao : resultsVeh) {
 			    		    	pm.currentTransaction().begin();
 					        	//
-			    		    	log.warning(myDao.getName());
+			    		    	//log.warning(myDao.getName());
 			    		    	//
 					        	pm.deletePersistent(myDao);
 					        	pm.currentTransaction().commit();
