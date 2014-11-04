@@ -35,7 +35,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
        String dateUpdate = "";
        
        if (nbJours == null || "".equalsIgnoreCase(nbJours) ) 
-    		   nbJours = "2"; 
+    		   nbJours = "5"; 
         
         if(true ) {
         	
@@ -78,7 +78,10 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	long milliSecondsDay = 1000 *60 * 60 * 24 ;
         		    	
         		    	for (DaoRecruistation dao : resultsTmp) {
+        		    		
         		    		long timeDateDao = dao.getDate().getTime() ;
+        		    		mydate.setTime(dao.getDate());
+        		    		log.warning(mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE)) ;
         		    		//trouver l'enregistrement du jour d'avant 
         		    		if (timeDateDao <= (dateToday.getTime() - milliSecondsDay) ) {
         		    			jFirstDaoRecruistation = dao;

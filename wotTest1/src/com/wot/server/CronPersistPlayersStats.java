@@ -177,7 +177,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 				while ((lineUser = readerUser.readLine()) != null) {
 					AllLinesUser = AllLinesUser + lineUser;
 				}
-				log.warning(url + " --> " + AllLinesUser.substring(0, 50)); 
+				//log.warning(url + " --> " + AllLinesUser.substring(0, 50)); 
 				
 				
 				readerUser.close();
@@ -200,7 +200,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 						
 						//make some calculation of stats 
 						//calcul average level 
-						log.warning("communityAccount.getIdUser() " + dataPlayerInfos.getAccount_id());
+						//log.warning("communityAccount.getIdUser() " + dataPlayerInfos.getAccount_id());
 						List<DataPlayerTankRatings> listPlayerTanksRatings = mapDataPlayerTankRatings.get(String.valueOf(dataPlayerInfos.getAccount_id()));
 						
 						if(listPlayerTanksRatings == null) 
