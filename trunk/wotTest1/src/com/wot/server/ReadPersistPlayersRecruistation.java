@@ -1,11 +1,18 @@
 package com.wot.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,9 +22,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.google.appengine.api.datastore.Text;
+import com.google.gson.Gson;
 import com.wot.shared.AllCommunityAccount;
 import com.wot.shared.CommunityAccount;
+import com.wot.shared.DataTankEncyclopedia;
+import com.wot.shared.TankEncyclopedia;
 
 @SuppressWarnings("serial")
 public class ReadPersistPlayersRecruistation extends HttpServlet {
@@ -27,19 +43,45 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	private static	List<String> listMembersAdded = null;
 	private static	List<String> listMembersDeleted = null;
 
+	private static	HashMap<String, String> hmMembersWn8Added = new HashMap<String, String>();
+	
+	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
+	private static String urlServerEU =  "http://api.worldoftanks.eu";
+
+	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
     	log.warning("========lancement doGet  ReadPersistPlayersRecruistation ============== " );
         resp.setContentType("text/html");
-       String nbJours = req.getParameter("NbJours");
-       String dateUpdate = "";
-       
-       if (nbJours == null || "".equalsIgnoreCase(nbJours) ) 
-    		   nbJours = "5"; 
         
+        //paramétre from=lastSAve : http://wotachievement.appspot.com/readPersistPlayersRecruistation?from=lastSave
+        //Recupère les recrues entre les 2 derniers point de sauvegarde
+        //
+        //from=lastDay
+        //Recupère les recrues de tous les points de sauvegarde de la dernière journée
+        
+       String paramFrom = req.getParameter("from");
+       
+       String dateLastUpdate = "";
+       String dateFirstUpdate = "";
+       String nbSave = "2";
+       
+       //valeur par défaut du paramètre from = lastSave
+       if (paramFrom == null || "".equalsIgnoreCase(paramFrom) )  
+    	   paramFrom = "lastSave"; 
+       
+       //en fonction de la valeur du paramètre from lastSave ou lastDay on récupère plus ou moins de sauvegarde <nbSave> (avec comme max 10 pour une journée !) 
+       
+       if (paramFrom.equalsIgnoreCase("lastSave")) {
+    	   nbSave = "2";
+       }else if (paramFrom.equalsIgnoreCase("lastDay")) {
+    	   nbSave = "10";
+       }
+       
+       
         if(true ) {
         	
-        	log.warning("========lancement ReadPersistPlayersRecruistation ============== "  + Long.valueOf(nbJours));
+        	log.warning("========lancement ReadPersistPlayersRecruistation ============== "  + " Param from : " + paramFrom + " nbSave to read : " + Long.valueOf(nbSave));
         	
         	//lecture de la composition du clan en base wotachievement et seulement une fois 
         	if (true ) {
@@ -54,7 +96,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    //query.setFilter("idClan == nameParam");
         		    //query.setOrdering("name desc");
         		    query.setOrdering("date desc");
-        		    query.setRange(0, Long.valueOf(nbJours)); //only nbJours results 
+        		    query.setRange(0, Long.valueOf(nbSave)); //only nbJours results 
         		    //query.setOrdering("hireDate desc");
         		    //query.declareParameters("String nameParam");
         		    List<DaoRecruistation> resultsTmp = (List<DaoRecruistation>) query.execute();
@@ -73,32 +115,28 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	DaoRecruistation jLastDaoRecruistation =  resultsTmp.get(0); //le dernier jour sauvegardé  
         		    	DaoRecruistation jFirstDaoRecruistation =  resultsTmp.get(size-1); //le premier jour sauvegardé
         		    	
-        		    	//milliseconds for one day
-        		    	// 1000 * 1s * 60s * 60mn * 24 
-        		    	long milliSecondsDay = 1000 *60 * 60 * 24 ;
-        		    	
-        		    	for (DaoRecruistation dao : resultsTmp) {
-        		    		
-        		    		long timeDateDao = dao.getDate().getTime() ;
-        		    		mydate.setTime(dao.getDate());
-        		    		log.warning(mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE)) ;
-        		    		//trouver l'enregistrement du jour d'avant 
-        		    		if (timeDateDao <= (dateToday.getTime() - milliSecondsDay) ) {
-        		    			jFirstDaoRecruistation = dao;
-        		    			break ;
-        		    		}
+        		    	//si on veut toutes les dernieres sauvegarde de la journée
+        		    	//on recherche la sauvegarde vieille de 1 jour
+        		    	if(paramFrom.equalsIgnoreCase("lastDay")) {
+	        		    	//milliseconds for one day
+	        		    	// 1000 * 1s * 60s * 60mn * 24 
+	        		    	long milliSecondsDay = 1000 *60 * 60 * 24 ;
+	        		    	
+	        		    	for (DaoRecruistation dao : resultsTmp) {
+	        		    		
+	        		    		long timeDateDao = dao.getDate().getTime() ;
+	        		    		mydate.setTime(dao.getDate());
+	        		    		log.warning(mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE)) ;
+	        		    		//trouver l'enregistrement du jour d'avant 
+	        		    		if (timeDateDao <= (dateToday.getTime() - milliSecondsDay) ) {
+	        		    			jFirstDaoRecruistation = dao;
+	        		    			break ;
+	        		    		}
+	        		    	}
         		    	}
         		    	
         		    	
-//        		    	Date jLastDaoDate = jLastDaoRecruistation.getDate();
-//        		    	mydate.setTimeInMillis(jLastDaoDate.getTime());
-//        		    	log.warning("Date de mise à jour :" + mydate.get( + Calendar.DAY_OF_MONTH)+"."+mydate.get(Calendar.MONTH)+"."+mydate.get(Calendar.YEAR));
-//        		    	dateUpdate =  mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE) ;
-
-        		    	
-        		    	
-        		    	
-      		    	//recup des users du bureau de R pour les 2 jours 
+        		    	//recup des users du bureau de Recrutement   
         		    	String jLastUsers =  jLastDaoRecruistation.getUsers().getValue();
         		    	String jFirstUsers =  jFirstDaoRecruistation.getUsers().getValue();
         		    	log.warning("========lancement ReadPersistPlayersRecruistation ============== jLastUsers"  + jLastUsers);
@@ -131,6 +169,13 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    		}
         		    	}
         		    	//format date 
+        		    	//long timeDate = jLastDaoRecruistation.getDate().getTime() ;
+    		    		mydate.setTime(jLastDaoRecruistation.getDate());
+    		    		dateLastUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
+    		    		
+    		    		mydate.setTime(jFirstDaoRecruistation.getDate());
+    		    		dateFirstUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
+    		    		
    
         		    	
         		    }else {
@@ -146,65 +191,162 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         	
         	
         	//build a HTML result
-        	if (true ) { 
-        		String userNameAdded = "";
-        		String userNameDeleted = "";
-        		
-				for ( String members :listMembersAdded) {
-					
-					userNameAdded = userNameAdded + " " + members +"<BR>";
-				}
-				for ( String members :listMembersDeleted) {
-					
-					userNameDeleted = userNameDeleted + " " + members +"<BR>";
-				}
-        		
-        		StringBuffer strBuf = new StringBuffer();
-        		//<html
-        		strBuf.append("<HTML>");
-        		strBuf.append("<BODY bgcolor='#FFFFFF'>"); //fond blanc de l'iframe
+    		String userNameAdded = "";
+    		String userNameDeleted = "";
+    		
+			for ( String member :listMembersAdded) {
+				
+				//get wn8
+				String statUser = getWn8(member, "WN8");
+				hmMembersWn8Added.put(member, statUser);
+				
+				String aUrl = "<a href=\"http://wotlabs.net/eu/player/" + member + "\"" + " title=\"" + statUser +"\" target=\"_blank\">" + member +"</a>";
+				userNameAdded = userNameAdded + "&nbsp" + aUrl + "&nbsp" + statUser +"<BR>";
+				//userNameAdded = userNameAdded + "&nbsp" + member + "&nbsp" + statUser + "&nbsp" + aUrl + "<BR>";
+				
+				
+			}
+			for ( String members :listMembersDeleted) {
+				
+				userNameDeleted = userNameDeleted + " " + members +"<BR>";
+			}
+    		
+			//Voir aussi si on peut ajouter le WN8 des joueurs
+			//http://wotlabs.net/eu/player/strong44
+			/*
+			 * <div class="boxStats boxWn green" style="width:18%;float:left;margin-right:2.5%;margin-bottom:25px;">
+				‌¶‌→
+				<span>WN8</span>
+				‌¶‌→1149‌→
+				</div>
+			 */
+			
+			if ("".equalsIgnoreCase(userNameAdded) )
+				userNameAdded = "pas de joueur <BR>";
+
+			if ("".equalsIgnoreCase(userNameDeleted) )
+				userNameDeleted = "pas de joueur <BR>";
+
+			
+    		StringBuffer strBuf = new StringBuffer();
+    		//<html
+    		strBuf.append("<HTML>");
+    		strBuf.append("<BODY bgcolor='#FFFFFF'>"); //fond blanc de l'iframe
  
         		String userAddedCodeColor= "#6d9521"; //vert;
-        		String userDeletedCodeColor= "#cd3333"; //rouge;
-        		
+    		String userDeletedCodeColor= "#cd3333"; //rouge;
+    		
 
-        		strBuf.append("<TABLE width='150' border bgcolor='" + userAddedCodeColor + "' style='color:white;' >").
-        					//ent�tes des colonnes
-			        		append("<TR>").
-								append("<TH>").
-									append("Entrées de Joueurs dans BR : " + dateUpdate).
-								append("</TH>").
-							append("</TR>").
-        					append("<TR>").
-        						append("<TD>").
-        							append(userNameAdded).
-        						append("</TD>").
-        					append("</TR>").
-        				append("</TABLE>");
-        		//== WR
-        		strBuf.append("<TABLE width='150' border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
-				//ent�tes des colonnes
-        		append("<TR>").
-					append("<TH>").
-						append("Sorties de joueurs du BR").
-					append("</TH>").
-				append("</TR>").
+    		strBuf.append("<TABLE width='150' border bgcolor='" + userAddedCodeColor + "' style='color:white;' >").
+    					//ent�tes des colonnes
+		        		append("<TR>").
+							append("<TH>").
+								append("Entrées de Joueurs dans BR entre le  " + dateLastUpdate + " et le " + dateFirstUpdate).
+							append("</TH>").
+							append("<TH>").
+								append("Stats "+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp").
+							append("</TH>");
+						
+    		Set<Entry<String,String>> setEntry = hmMembersWn8Added.entrySet();
+    		
+    		for (Entry<String,String> entry :setEntry ) {
+    			strBuf.append("</TR>").
 				append("<TR>").
 					append("<TD>").
-						append(userNameDeleted).
+						append(entry.getKey()).
 					append("</TD>").
-				append("</TR>").
+					append("<TD>").
+						append(entry.getValue()).
+					append("</TD>").
+				append("</TR>");
+		
+    		}
+			strBuf.append("</TABLE>");
+    		
+    		
+    		//== WR
+    		strBuf.append("<TABLE width='300' border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
+			//ent�tes des colonnes
+    		append("<TR>").
+				append("<TH>").
+					append("Sorties de joueurs du BR").
+				append("</TH>").
+			append("</TR>").
+			append("<TR>").
+				append("<TD>").
+					append(userNameDeleted).
+				append("</TD>").
+			append("</TR>").
 			append("</TABLE>");
-        		
-        		strBuf.append("</BODY>");
-        		strBuf.append("</HTML>");
-        		String buf= strBuf.toString();
-        		resp.getWriter().println(buf);
-        	}
-        	
-		}else {
-			log.warning("WARNING: =======lancement ReadPersistPlayersRecruistation  with nbJours =" + nbJours );
-		}
+    		
+    		
+    		
+    		
+    		strBuf.append("</BODY>");
+    		strBuf.append("</HTML>");
+    		String buf= strBuf.toString();
+    		resp.getWriter().println(buf);
+    	}
+    	
+		
     }
+    
+    
+    
+	public static String getWn8(String member, String keyStat) throws IOException {
+		//=======================
+		/*
+		 * 	WN8 805
+ 			Win Rate 48.2%
+ 			Recent WN8 785
+ 			Recent WR 44.64%
+ 			WN Rank 260966
+
+		 */
+		String res = "";
+		
+		//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
+		String urlServer = "http://wotlabs.net/eu/player/" + member ;
+		URL url = null;
+		
+		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+			url = new URL(WotServiceImpl.proxy + urlServer );
+		}
+		else {
+			url = new URL(urlServer );
+		}
+		
+		////////////////////
+		//On se connecte au site et on charge le document html
+		Connection connection = Jsoup.connect(urlServer);
+		connection.timeout(30*1000); //in miliseondes
+		
+		Document doc = connection.url(urlServer).get();
+		
+		//On récupère dans ce document la premiere balise ayant comme nom h1 et pour attribut class="title"
+		Elements elements= doc.getElementsByClass("boxStats");
+		
+		//Voir aussi si on peut ajouter le WN8 des joueurs
+		//http://wotlabs.net/eu/player/strong44
+		/*
+		 * <div class="boxStats boxWn green" style="width:18%;float:left;margin-right:2.5%;margin-bottom:25px;">
+			‌¶‌→
+			<span>WN8</span>
+			‌¶‌→1149‌→
+			</div>
+		 */
+		for (Element ele : elements ) {
+			log.warning(ele.text());
+			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
+				res =  res + " : " + ele.text();
+			}
+			
+		}
+		
+		
+		return res ;
+		
+		
+	}
 
 }
