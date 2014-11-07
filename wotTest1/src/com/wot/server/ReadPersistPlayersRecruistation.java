@@ -42,8 +42,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	
 	private static	List<String> listMembersAdded = null;
 	private static	List<String> listMembersDeleted = null;
-
-	private static	HashMap<String, String> hmMembersWn8Added = new HashMap<String, String>();
+	private static	HashMap<String, String> hmMembersWn8Added = null;
 	
 	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
 	private static String urlServerEU =  "http://api.worldoftanks.eu";
@@ -87,7 +86,8 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         	if (true ) {
         		listMembersAdded = new ArrayList<String>();
         		listMembersDeleted = new ArrayList<String>();
-
+        		hmMembersWn8Added = new HashMap<String, String>();
+        		
          		PersistenceManager pm = null;
         		pm = PMF.get().getPersistenceManager();
         		
@@ -198,12 +198,12 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				
 				//get wn8
 				String statUser = getWn8(member, "WN8");
-				hmMembersWn8Added.put(member, statUser);
+				
 				
 				String aUrl = "<a href=\"http://wotlabs.net/eu/player/" + member + "\"" + " title=\"" + statUser +"\" target=\"_blank\">" + member +"</a>";
 				userNameAdded = userNameAdded + "&nbsp" + aUrl + "&nbsp" + statUser +"<BR>";
 				//userNameAdded = userNameAdded + "&nbsp" + member + "&nbsp" + statUser + "&nbsp" + aUrl + "<BR>";
-				
+				hmMembersWn8Added.put(aUrl, statUser);
 				
 			}
 			for ( String members :listMembersDeleted) {
@@ -237,15 +237,27 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		String userDeletedCodeColor= "#cd3333"; //rouge;
     		
 
-    		strBuf.append("<TABLE width='150' border bgcolor='" + userAddedCodeColor + "' style='color:white;' >").
+    		strBuf.append("<TABLE border bgcolor='" + userAddedCodeColor + "' style='color:white;' >").
     					//ent�tes des colonnes
-		        		append("<TR>").
+		        		append("<TR >").
+							append("<TH width='200'>").
+								append("Entrées de Joueurs dans BR entre le  ").
+							append("</TH>").
+						
+							append("<TH width='200'>").
+								append(dateLastUpdate + " et le " + dateFirstUpdate).
+							append("</TH>").
+						
+						append("</TR>").
+						//2ème ligne d'entête 
+						append("<TR>").
 							append("<TH>").
-								append("Entrées de Joueurs dans BR entre le  " + dateLastUpdate + " et le " + dateFirstUpdate).
+								append("Joueurs").
 							append("</TH>").
 							append("<TH>").
-								append("Stats "+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp"+ "&nbsp").
-							append("</TH>");
+								append("Stats" ).
+							append("</TH>")
+						.append("</TR>");
 						
     		Set<Entry<String,String>> setEntry = hmMembersWn8Added.entrySet();
     		
@@ -265,7 +277,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		
     		
     		//== WR
-    		strBuf.append("<TABLE width='300' border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
+    		strBuf.append("<TABLE width='400' border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
 			//ent�tes des colonnes
     		append("<TR>").
 				append("<TH>").
@@ -338,9 +350,11 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		for (Element ele : elements ) {
 			log.warning(ele.text());
 			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
-				res =  res + " : " + ele.text();
+				if ("".equalsIgnoreCase(res) )
+					res =  ele.text();
+				else
+					res =  res + " : " + ele.text();
 			}
-			
 		}
 		
 		
