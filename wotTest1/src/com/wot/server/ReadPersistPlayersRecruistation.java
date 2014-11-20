@@ -197,12 +197,16 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		String userNameDeleted = "";
     		
     		String statUser = "";
+    		List<String> listStatUser = new ArrayList<String>();
+    		listStatUser.add("WN8");
+    		listStatUser.add("Battles");
+    		
 			for ( String member :listMembersAdded) {
 				
 				//get wn8
 				statUser = "";
 				if (!hmStatWn8Member.containsKey(member)) {
-					statUser = getWn8(member, "WN8");
+					statUser = getWn8(member, listStatUser);
 					//on mémorise dans un cache les stats  
 					hmStatWn8Member.put(member, statUser);
 				}else {
@@ -305,7 +309,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     
     
     
-	public static String getWn8(String member, String keyStat) throws IOException {
+	public static String getWn8(String member, List<String> listKeyStat) throws IOException {
 		//=======================
 		/*
 		 * 	WN8 805
@@ -357,19 +361,29 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 			Elements eleTableSorter = elementTableSorter.getElementsByTag("td"); //on cherche le TD WN8 Rating 
 			
 			boolean next = false ;
+			String keyStatMem = "";
 			for (Element eleSorter : eleTableSorter ) {
 				if (next)
 				{
-					next = false;
+					
 					if ("".equalsIgnoreCase(res) )
-						res =  eleSorter.text();
+						res =  keyStatMem + ":" +eleSorter.text();
 					else
-						res =  res + " : " + eleSorter.text();
+						res =  res + "  " + keyStatMem + ":" + eleSorter.text();
+					//
+					next = false;
+					keyStatMem = "";
 				}
-				if (eleSorter.text().contains(keyStat)) {
-					//le td suivant est le bon
-					next = true ;
+				 
+				for (String keyStat : listKeyStat) {
+					if (eleSorter.text().contains(keyStat)) {
+						//le td suivant est le bon
+						keyStatMem = keyStat;
+						next = true ; 
+						break;
+					}
 				}
+				
 			}
 			
 //			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
