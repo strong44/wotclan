@@ -47,6 +47,8 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
 	private static String urlServerEU =  "http://api.worldoftanks.eu";
 
+	private static 	HashMap<String , String> hmStatWn8Member = new HashMap<String, String>();
+ 
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -194,13 +196,21 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		String userNameAdded = "";
     		String userNameDeleted = "";
     		
+    		String statUser = "";
 			for ( String member :listMembersAdded) {
 				
 				//get wn8
-				String statUser = getWn8(member, "WN8");
-				
-				
-				String aUrl = "<a href=\"http://wotlabs.net/eu/player/" + member + "\"" + " title=\"" + statUser +"\" target=\"_blank\">" + member +"</a>";
+				statUser = "";
+				if (!hmStatWn8Member.containsKey(member)) {
+					statUser = getWn8(member, "WN8");
+					//on mémorise dans un cache les stats  
+					hmStatWn8Member.put(member, statUser);
+				}else {
+					//on recup du cache
+					statUser = hmStatWn8Member.get(member);
+				}
+
+				String aUrl = "<a href=\"http://www.noobmeter.com/player/eu/" + member + "\"" + " title=\"" + statUser +"\" target=\"_blank\">" + member +"</a>";
 				userNameAdded = userNameAdded + "&nbsp" + aUrl + "&nbsp" + statUser +"<BR>";
 				//userNameAdded = userNameAdded + "&nbsp" + member + "&nbsp" + statUser + "&nbsp" + aUrl + "<BR>";
 				hmMembersWn8Added.put(aUrl, statUser);
@@ -211,16 +221,6 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				userNameDeleted = userNameDeleted + " " + members +"<BR>";
 			}
     		
-			//Voir aussi si on peut ajouter le WN8 des joueurs
-			//http://wotlabs.net/eu/player/strong44
-			/*
-			 * <div class="boxStats boxWn green" style="width:18%;float:left;margin-right:2.5%;margin-bottom:25px;">
-				‌¶‌→
-				<span>WN8</span>
-				‌¶‌→1149‌→
-				</div>
-			 */
-			
 			if ("".equalsIgnoreCase(userNameAdded) )
 				userNameAdded = "pas de joueur <BR>";
 
@@ -318,7 +318,9 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		String res = "";
 		
 		//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
-		String urlServer = "http://wotlabs.net/eu/player/" + member ;
+		//http://www.noobmeter.com/player/eu/ 
+		//tablesorter
+		String urlServer = "http://www.noobmeter.com/player/eu/ " + member ;
 		URL url = null;
 		
 		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
@@ -336,7 +338,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		Document doc = connection.url(urlServer).get();
 		
 		//On récupère dans ce document la premiere balise ayant comme nom h1 et pour attribut class="title"
-		Elements elements= doc.getElementsByClass("boxStats");
+		Elements elementsTablesorter= doc.getElementsByClass("tablesorter");
 		
 		//Voir aussi si on peut ajouter le WN8 des joueurs
 		//http://wotlabs.net/eu/player/strong44
@@ -347,14 +349,35 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 			‌¶‌→1149‌→
 			</div>
 		 */
-		for (Element ele : elements ) {
-			log.warning(ele.text());
-			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
-				if ("".equalsIgnoreCase(res) )
-					res =  ele.text();
-				else
-					res =  res + " : " + ele.text();
+		
+		for (Element elementTableSorter : elementsTablesorter ) {
+			//log.warning(elementTableSorter.text());
+			
+			
+			Elements eleTableSorter = elementTableSorter.getElementsByTag("td"); //on cherche le TD WN8 Rating 
+			
+			boolean next = false ;
+			for (Element eleSorter : eleTableSorter ) {
+				if (next)
+				{
+					next = false;
+					if ("".equalsIgnoreCase(res) )
+						res =  eleSorter.text();
+					else
+						res =  res + " : " + eleSorter.text();
+				}
+				if (eleSorter.text().contains(keyStat)) {
+					//le td suivant est le bon
+					next = true ;
+				}
 			}
+			
+//			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
+//				if ("".equalsIgnoreCase(res) )
+//					res =  ele.text();
+//				else
+//					res =  res + " : " + ele.text();
+//			}
 		}
 		
 		
