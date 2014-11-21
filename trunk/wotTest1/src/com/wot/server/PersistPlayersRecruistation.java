@@ -29,11 +29,19 @@ public class PersistPlayersRecruistation extends HttpServlet {
             throws IOException {
     	log.warning("========lancement doGet  PersistPlayersRecruistation ============== " );
         resp.setContentType("text/plain");
-        resp.getWriter().println("Hello, PersistPlayersRecruistation ");
         String recrues = req.getParameter("Recrues");
+        String pwd = req.getParameter("pwd");
         if(recrues != null && !"".equalsIgnoreCase(recrues)) {
-        	persistAllUsersRecruistation( new Date(), recrues);
+        	if (pwd != null && pwd.equalsIgnoreCase("nvs")) {
+        		persistAllUsersRecruistation( new Date(), recrues);
+        		resp.getWriter().println("Hello, PersistPlayersRecruistation Done");
+        	}
+        	else {
+        		resp.getWriter().println("Hello, PersistPlayersRecruistation without param pwd !");
+    			log.severe("ERROR: =======lancement PersistPlayersRecruistation  with bad pwd value  ===");
+    		}
 		}else {
+			resp.getWriter().println("Hello, PersistPlayersRecruistation without param Recrues !");
 			log.severe("ERROR: =======lancement PersistPlayersRecruistation  with Recrues null ===");
 		}
     }

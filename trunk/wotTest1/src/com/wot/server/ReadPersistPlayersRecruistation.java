@@ -199,7 +199,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		String statUser = "";
     		List<String> listStatUser = new ArrayList<String>();
     		listStatUser.add("WN8");
-    		listStatUser.add("Battles");
+    		listStatUser.add("Battles:");
     		
 			for ( String member :listMembersAdded) {
 				
