@@ -367,9 +367,9 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				{
 					
 					if ("".equalsIgnoreCase(res) )
-						res =  keyStatMem + ":" +eleSorter.text();
+						res =  "<td>" + keyStatMem + ":" +eleSorter.text() +"</td>" ;
 					else
-						res =  res + "  " + keyStatMem + ":" + eleSorter.text();
+						res =  res + "<td>"  + keyStatMem + ":" + eleSorter.text() + "</td>";
 					//
 					next = false;
 					keyStatMem = "";
