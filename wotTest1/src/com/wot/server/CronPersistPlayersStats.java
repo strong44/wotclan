@@ -616,7 +616,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 	
 			for (DataCommunityClanMembers dataClanMember : listClanMembers) {
 				for (DataCommunityMembers member : dataClanMember.getMembers()) {
-					log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
+					//log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
 					String idUser = member.getAccount_id();
 					//log.warning("treatUser " + treatUser);
 					listIdUser.add(idUser);
@@ -710,7 +710,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 
 					for (DataCommunityClanMembers dataClanMember : listClanMembers) {
 						for (DataCommunityMembers member : dataClanMember.getMembers()) {
-							log.warning("previous member " + member.getAccount_name() + " " + member.getAccount_id() );
+							//log.warning("previous member " + member.getAccount_name() + " " + member.getAccount_id() );
 							String idUser = member.getAccount_id();
 							//log.warning("Previous User " + member.getAccount_name());
 							mapPrevDaoMembers.put(idUser, member.getAccount_name());
@@ -732,7 +732,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 
 						for (DataCommunityClanMembers dataClanMember : listClanMembers) {
 							for (DataCommunityMembers member : dataClanMember.getMembers()) {
-								log.warning("member " + member.getAccount_name() + " " + member.getAccount_id() );
+								//log.warning("member " + member.getAccount_name() + " " + member.getAccount_id() );
 								String idUser = member.getAccount_id();
 								//log.warning("Previous User " + member.getAccount_name());
 								mapCurrentDaoMembers.put(idUser, member.getAccount_name());
@@ -755,11 +755,11 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    		 
 		    		 if (!mapPrevDaoMembers.containsKey(entryCurrentDaoMember.getKey())  ) {
 		    			 //joueur nouveau ds Clan 
-			    		 log.warning("joueur ajouté " + entryCurrentDaoMember.getValue());
+			    		 //log.warning("joueur ajouté " + entryCurrentDaoMember.getValue());
 			    		 userAdded = userAdded + " " + entryCurrentDaoMember.getValue();
 
 		    		 }else {
-		    			 log.warning("joueur deja la  " + entryCurrentDaoMember.getValue());
+		    			 //log.warning("joueur deja la  " + entryCurrentDaoMember.getValue());
 		    		 }
 		    		 
 		    	 }
@@ -768,10 +768,10 @@ public class CronPersistPlayersStats extends HttpServlet {
 		    		 
 		    		 if (!mapCurrentDaoMembers.containsKey(entryPrevDaoMember.getKey())) {
 		    			 //Joueur parti du clan 
-		    			 log.warning("joueur parti du clan " + entryPrevDaoMember.getValue());
+		    			 //log.warning("joueur parti du clan " + entryPrevDaoMember.getValue());
 		    			 userDeleted = userDeleted + " " + entryPrevDaoMember.getValue();
 		    		 }else {
-		    			 log.warning("joueur tjrs la " + entryPrevDaoMember.getValue());
+		    			 //log.warning("joueur tjrs la " + entryPrevDaoMember.getValue());
 		    		 }
 		    		 
 		    	 }
@@ -816,7 +816,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 
 			for (DataCommunityClanMembers dataClanMember : listClanMembers) {
 				for (DataCommunityMembers member : dataClanMember.getMembers()) {
-					log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
+					//log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
 					String idUser = member.getAccount_id();
 					//log.warning("treatUser " + treatUser);
 					hMidUser.put(idUser, member.getAccount_name());

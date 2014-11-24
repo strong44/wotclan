@@ -82,7 +82,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
        
         if(true ) {
         	
-        	log.warning("========lancement ReadPersistPlayersRecruistation ============== "  + " Param from : " + paramFrom + " nbSave to read : " + Long.valueOf(nbSave));
+        	//log.warning("========lancement ReadPersistPlayersRecruistation ============== "  + " Param from : " + paramFrom + " nbSave to read : " + Long.valueOf(nbSave));
         	
         	//lecture de la composition du clan en base wotachievement et seulement une fois 
         	if (true ) {
@@ -141,8 +141,8 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	//recup des users du bureau de Recrutement   
         		    	String jLastUsers =  jLastDaoRecruistation.getUsers().getValue();
         		    	String jFirstUsers =  jFirstDaoRecruistation.getUsers().getValue();
-        		    	log.warning("========lancement ReadPersistPlayersRecruistation ============== jLastUsers"  + jLastUsers);
-        		    	log.warning("========lancement ReadPersistPlayersRecruistation ============== jFirstUsers"  + jFirstUsers);
+        		    	//log.warning("========lancement ReadPersistPlayersRecruistation ============== jLastUsers"  + jLastUsers);
+        		    	//log.warning("========lancement ReadPersistPlayersRecruistation ============== jFirstUsers"  + jFirstUsers);
         		    	//on split la chaine users en tableau 
         		    	String tabJLastUsers[] = jLastUsers.split(",");
         		    	String tabJFirstUsers[] = jFirstUsers.split(",");
