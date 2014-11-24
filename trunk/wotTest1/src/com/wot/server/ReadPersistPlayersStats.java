@@ -365,7 +365,7 @@ public class ReadPersistPlayersStats extends HttpServlet {
 			String accountName = null;
 			for (DataCommunityClanMembers dataClanMember : listClanMembers) {
 				for (DataCommunityMembers member : dataClanMember.getMembers()) {
-					log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
+					//log.warning("membermember " + member.getAccount_name() + " " + member.getAccount_id() );
 					accountName = member.getAccount_name();
 					String idUser = member.getAccount_id();
 					//log.warning("treatUser " + treatUser);
