@@ -666,10 +666,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	 */
 	public List<CommunityAccount> getHistorizedStatsUsers(String stat, List<String> listIdUsers, int range ) throws Exception {
 		
-		for (String user :  listIdUsers ) {
-			
-			log.warning("getHistorizedStatsUsers for user : " + hMapIdUserName.get(user));
-		}
+//		for (String user :  listIdUsers ) {
+//			
+//			log.warning("getHistorizedStatsUsers for user : " + hMapIdUserName.get(user));
+//		}
 		
 		List<CommunityAccount> resultsFinal = new ArrayList<CommunityAccount>();
 		
@@ -938,7 +938,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			
 			for(String idUser :listIdUser) {
 				
-				log.warning("Request stat for user : " + hMapIdUserName.get(idUser));
+				//log.warning("Request stat for user : " + hMapIdUserName.get(idUser));
 				
 				if("".equalsIgnoreCase(AllIdUser))
 					AllIdUser =  idUser;
