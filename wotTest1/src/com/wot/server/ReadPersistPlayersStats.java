@@ -471,9 +471,9 @@ public class ReadPersistPlayersStats extends HttpServlet {
 			strWn8 = strWn8 + "(" + signWN8 + Double.valueOf(wn8Bef).toString() + ")" ;
 			strWr = strWr + "(" + signWr + Double.valueOf(wrBef).toString() + ")" ;
 		}
-		System.out.println("strWn8 " + strWn8);
+		//System.out.println("strWn8 " + strWn8);
 		
-		System.out.println("strWr " + strWr);
+		//System.out.println("strWr " + strWr);
 		
 		
 	}
