@@ -206,7 +206,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				//get wn8
 				statUser = "";
 				if (!hmStatWn8Member.containsKey(member)) {
-					statUser = getWn8(member, listStatUser);
+					statUser = getStats(member, listStatUser);
 					//on mémorise dans un cache les stats  
 					hmStatWn8Member.put(member, statUser);
 				}else {
@@ -214,7 +214,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 					statUser = hmStatWn8Member.get(member);
 				}
 
-				String aUrl = "<a href=\"http://www.noobmeter.com/player/eu/" + member + "\"" + " title=\"" + statUser +"\" target=\"_blank\">" + member +"</a>";
+				String aUrl = "<a href=\"http://www.noobmeter.com/player/eu/" + member + "\"" + " title=\"" + member +"\" target=\"_blank\">" + member +"</a>";
 				userNameAdded = userNameAdded + "&nbsp" + aUrl + "&nbsp" + statUser +"<BR>";
 				//userNameAdded = userNameAdded + "&nbsp" + member + "&nbsp" + statUser + "&nbsp" + aUrl + "<BR>";
 				hmMembersWn8Added.put(aUrl, statUser);
@@ -266,14 +266,14 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		Set<Entry<String,String>> setEntry = hmMembersWn8Added.entrySet();
     		
     		for (Entry<String,String> entry :setEntry ) {
-    			strBuf.append("</TR>").
-				append("<TR>").
+    			//strBuf.append("</TR>").
+    			strBuf.append("<TR>").
 					append("<TD>").
 						append(entry.getKey()).
 					append("</TD>").
-					append("<TD>").
-						append(entry.getValue()).
-					append("</TD>").
+					//append("<TD>").
+					append(entry.getValue()).
+					//append("</TD>").
 				append("</TR>");
 		
     		}
@@ -309,7 +309,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     
     
     
-	public static String getWn8(String member, List<String> listKeyStat) throws IOException {
+	public static String getStats(String member, List<String> listKeyStat) throws IOException {
 		//=======================
 		/*
 		 * 	WN8 805

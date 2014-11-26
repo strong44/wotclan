@@ -32,7 +32,7 @@ public class PersistPlayersRecruistation extends HttpServlet {
         String recrues = req.getParameter("Recrues");
         String pwd = req.getParameter("gogole");
         if(recrues != null && !"".equalsIgnoreCase(recrues)) {
-        	if (pwd != null && pwd.equalsIgnoreCase("thleconn")) {
+        	if (pwd != null && pwd.equalsIgnoreCase("zorro")) {
         		persistAllUsersRecruistation( new Date(), recrues);
         		resp.getWriter().println("Hello, PersistPlayersRecruistation Done");
         	}
