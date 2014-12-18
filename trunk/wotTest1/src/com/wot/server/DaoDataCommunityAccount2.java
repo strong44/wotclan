@@ -20,6 +20,14 @@ public class DaoDataCommunityAccount2 implements Serializable {
     private Key key;
 
 	
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
 	@Persistent
 	String name ;
 	

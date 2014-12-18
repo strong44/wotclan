@@ -19,56 +19,56 @@ public class DaoDataCommunityAccountRatings2 implements Serializable {
     private Key key;
 
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 spotted = new DaoDataCommunityAccountRatingsElement2();
+	  public DaoDataCommunityAccountRatingsElement2 spotted = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 dropped_ctf_points = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 dropped_ctf_points = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 battle_avg_xp = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 battle_avg_xp = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 xp = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 xp = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 battles = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 battles = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 damage_dealt = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 damage_dealt = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ctf_points = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ctf_points = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 integrated_rating = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 integrated_rating = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 battle_avg_performance = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 battle_avg_performance = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 battle_avg_performanceCalc = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 battle_avg_performanceCalc = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 frags = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 frags = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 battle_wins = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 battle_wins = new DaoDataCommunityAccountRatingsElement2();
 	
 	  //info calculée
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ratioCtfPoints = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ratioCtfPoints = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ratioDamagePoints = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ratioDamagePoints = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ratioDroppedCtfPoints = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ratioDroppedCtfPoints = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ratioDestroyedPoints = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ratioDestroyedPoints = new DaoDataCommunityAccountRatingsElement2();
 	
 	@Persistent
-	  private DaoDataCommunityAccountRatingsElement2 ratioDetectedPoints = new DaoDataCommunityAccountRatingsElement2();
+	public DaoDataCommunityAccountRatingsElement2 ratioDetectedPoints = new DaoDataCommunityAccountRatingsElement2();
 
 	@Persistent
 	private Double averageLevelCal;
