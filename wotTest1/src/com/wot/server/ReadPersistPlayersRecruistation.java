@@ -249,19 +249,28 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 							append("</TH>").
 						
 							append("<TH width='200'>").
-								append(dateLastUpdate + " et le " + dateFirstUpdate).
+								append(dateLastUpdate ).
 							append("</TH>").
-						
+							append("<TH>").
+								append(" et le " + dateFirstUpdate).
+							append("</TH>").
 						append("</TR>").
 						//2ème ligne d'entête 
 						append("<TR>").
 							append("<TH>").
 								append("Joueurs").
-							append("</TH>").
-							append("<TH>").
-								append("Stats" ).
-							append("</TH>")
-						.append("</TR>");
+							append("</TH>");
+							//append("<TH>");
+    		
+    					//listStatUser
+			    		for (String stat  : listStatUser) {
+			    			strBuf.append("<TH>").
+			    			append(stat.replace(":", "")).
+							append("</TH>");
+			    		}
+//    					strBuf.append("Stats" ).
+//							append("</TH>")
+						strBuf.append("</TR>");
 						
     		Set<Entry<String,String>> setEntry = hmMembersWn8Added.entrySet();
     		
@@ -281,10 +290,10 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
     		
     		
     		//== WR
-    		strBuf.append("<TABLE width='400' border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
+    		strBuf.append("<TABLE  border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
 			//ent�tes des colonnes
     		append("<TR>").
-				append("<TH>").
+				append("<TH width='400'>").
 					append("Sorties de joueurs du BR").
 				append("</TH>").
 			append("</TR>").
@@ -367,9 +376,12 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				{
 					
 					if ("".equalsIgnoreCase(res) )
-						res =  "<td>" + keyStatMem + ":" +eleSorter.text() +"</td>" ;
+						//res =  "<td>" + keyStatMem + ":" +eleSorter.text() +"</td>" ;
+						res =  "<td>" +eleSorter.text() +"</td>" ;
 					else
-						res =  res + "<td>"  + keyStatMem + ":" + eleSorter.text() + "</td>";
+						
+						//res =  res + "<td>"  + keyStatMem + ":" + eleSorter.text() + "</td>";
+						res =  res + "<td>"  +eleSorter.text() + "</td>";
 					//
 					next = false;
 					keyStatMem = "";
