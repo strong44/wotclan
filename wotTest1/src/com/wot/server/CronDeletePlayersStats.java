@@ -25,7 +25,7 @@ public class CronDeletePlayersStats extends HttpServlet {
         resp.getWriter().println("Hello, CronDeletePlayersStats ");
         String nbDelete = req.getParameter("nbDelete");
         int nb = Integer.valueOf(nbDelete);
-        if(nbDelete != null && !"".equalsIgnoreCase(nbDelete) && nb > 0) {
+        if(nbDelete != null && !"".equalsIgnoreCase(nbDelete) ) {
         	cronDeleteSomeStats( new Date(), nb);
 		}else {
 			log.info("ERROR: =======lancement CronDeletePlayersStats avec " + nbDelete);
@@ -40,6 +40,10 @@ public class CronDeletePlayersStats extends HttpServlet {
 	public void cronDeleteSomeStats(Date date, int nb) {
 			
 			log.warning("========lancement cronDeleteSomeStats : " +  date + ":" + nb + " :============== " );
+			
+			if (nb ==0) //pas de delete à faire
+				return; 
+			
 			
 			PersistenceManager pm =null;
 			pm = PMF.get().getPersistenceManager();
@@ -97,7 +101,7 @@ public class CronDeletePlayersStats extends HttpServlet {
 			    		    	
 			    		    	boolean orphin = true ;
 			    		    	for (DaoCommunityAccount2 myDaoCommunityAccount2 : resultsDaoCommunityAccount2Tmp) {
-			    		    		if (myDaoCommunityAccount2.getData().getKey() == myDaoDataCommunityAccount2.getKey()) {
+			    		    		if (myDaoCommunityAccount2.getData() != null && myDaoCommunityAccount2.getData().getKey() == myDaoDataCommunityAccount2.getKey()) {
 			    		    			//ce myDaoDataCommunityAccount2 n 'est pas orphelin 
 			    		    			orphin = false ; 
 			    		    			break ;
@@ -131,7 +135,8 @@ public class CronDeletePlayersStats extends HttpServlet {
 			    catch(Exception e){
 			    	e.printStackTrace();
 			    	log.log(Level.SEVERE, "Exception while deleting daoCommunityAccount", e);
-		        	pm.currentTransaction().rollback();
+			    	if(pm.currentTransaction().isActive())
+			    		pm.currentTransaction().rollback();
 		        }
 			    			    
 			    
@@ -168,10 +173,10 @@ public class CronDeletePlayersStats extends HttpServlet {
 				e.printStackTrace();
 				log.throwing("Delete stats", "", e);
 				log.severe("Exception " + e.getLocalizedMessage());
-				 StackTraceElement[] stack = e.getStackTrace();
-				 for (StackTraceElement st : stack) {
-					 log.severe(st.getMethodName()+":"+st.getLineNumber());
-				 }
+//				 StackTraceElement[] stack = e.getStackTrace();
+//				 for (StackTraceElement st : stack) {
+//					 log.severe(st.getMethodName()+":"+st.getLineNumber());
+//				 }
 			}
 			finally {
 				if (pm != null)
