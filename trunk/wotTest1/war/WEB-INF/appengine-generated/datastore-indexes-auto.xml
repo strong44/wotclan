@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<datastore-indexes  autoGenerate="true">
-   	<datastore-index kind="DaoCommunityClan2" ancestor="false" source="manual">
-       	<property name="idClan" direction="asc"/>
-       	<property name="dateCommunityClan" direction="desc"/>
-	</datastore-index>
+<datastore-indexes  autoGenerate="false">
+   	
 
-
+	<datastore-index kind="DaoCommunityClan2" ancestor="false" source="manual">
+        <property name="idClan" direction="asc"/>
+        <property name="dateCommunityClan" direction="desc"/>
+    </datastore-index>
+    
    	<datastore-index kind="DaoCommunityAccount2" ancestor="false" source="manual">
-       	<property name="name" direction="desc"/>
-       	<property name="dateCommunityAccount" direction="desc"/>
-	</datastore-index>
-	
+        <property name="idUser" direction="asc"/>
+        <property name="dateCommunityAccount" direction="desc"/>
+    </datastore-index>
+    
 </datastore-indexes>
