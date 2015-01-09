@@ -42,7 +42,6 @@ public class BuildWikiFile {
 			}
 			reader.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
