@@ -110,7 +110,6 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
 
 	@Override
 	public int compareTo(CommunityAccount o) {
-		// TODO Auto-generated method stub
 		return (o == null || o.getName() == null) ? -1 : o.getName().compareTo(getName());
 	}
 
@@ -123,12 +122,10 @@ public class CommunityAccount implements Serializable, Comparable<CommunityAccou
     }
 
 	public void setListVehPlayedSincePreviousDay0(List<DataCommunityAccountVehicules> listVehPlayed) {
-		// TODO Auto-generated method stub
 		this.listVehPlayedDay0 = listVehPlayed;
 	}
 	
 	public void setListVehPlayedSincePreviousDay1(List<DataCommunityAccountVehicules> listVehPlayed) {
-		// TODO Auto-generated method stub
 		this.listVehPlayedDay1 = listVehPlayed;
 	}
 	
