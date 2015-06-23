@@ -53,7 +53,7 @@ public class CronAmazone extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	private static String urlServerEU =  "https://www.amazon.fr/s/ref=nb_sb_ss_i_7_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords=samsung+galaxy+tab4+7+pouces&sprefix=samsung+galaxy+tab4+%2Caps%2C207";
-
+	private static String lieu = "boulot"; 
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -73,7 +73,7 @@ public class CronAmazone extends HttpServlet {
 				URL url = null ;
 				String urlServer = urlServerEU ;
 				
-				if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
 					url = new URL(WotServiceImpl.proxy + urlServer );
 				}
 				else {
@@ -92,14 +92,47 @@ public class CronAmazone extends HttpServlet {
 				/*
 				 * <span id="priceblock_ourprice" class="a-size-medium a-color-price">EUR 141,10</span>
 				 */
-				 
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+				conn.setReadTimeout(60000);
+				conn.setConnectTimeout(60000);
+				conn.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				
-				 org.jsoup.nodes.Document doc = Jsoup.parse(url, 20000);
-				 org.jsoup.select.Elements links =  doc.select("span[id]");
-				 
-				 for (Element link : links) {
-			            print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
-			     }
+				String line = "";
+				String AllLines = "";
+			
+				while ((line = reader.readLine()) != null) {
+					AllLines = AllLines + line;
+				}
+				System.out.println(AllLines);
+				reader.close();
+				
+				//title="Samsung Galaxy Tab 4 Tablette Tactile 7&quot;
+				//<span class="a-size-base a-color-price s-price a-text-bold">EUR 141,10</span></a>  
+				int indexTitle = AllLines.indexOf("title=\"Samsung Galaxy Tab 4 Tablette Tactile 7&quot;");
+				if (indexTitle> 0){ 
+					int indexDebutEur = AllLines.indexOf("EUR", indexTitle);
+					if (indexDebutEur > 0) {
+						int indexDebutSpan = AllLines.indexOf("span", indexDebutEur);
+						if (indexDebutSpan > 0)
+							System.out.println("Prix : " + AllLines.substring(indexDebutEur, indexDebutSpan - 2));
+						else
+							System.out.println("Erreur index of indexDebutSpan");
+					}
+					else
+						System.out.println("Erreur index of indexDebutEur");
+				}
+				else
+					System.out.println("Erreur index of indexTitle");
+				
+				
+				
+//				 org.jsoup.nodes.Document doc = Jsoup.parse(AllLines, "http://wotnvs.appspot.com");
+//				 org.jsoup.select.Elements links =  doc.select("span[id]");
+//				 
+//				 for (Element link : links) {
+//			            print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
+//			     }
 				
 				
 			} catch (MalformedURLException e) {
