@@ -14,5 +14,11 @@
      <timezone>Europe/Paris</timezone>
   </cron>
   
+  <cron>
+    <url>/cronAmazone</url>
+    <description>cronAmazone</description>
+    <schedule>every 2 hours</schedule>
+     <timezone>Europe/Paris</timezone>
+  </cron>
 
 </cronentries>

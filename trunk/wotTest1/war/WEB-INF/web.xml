@@ -48,6 +48,10 @@
         <servlet-class>com.wot.server.ReadPersistPlayersAddedOrDeletedInClan</servlet-class>
    </servlet>
    
+   <servlet>
+        <servlet-name>cronAmazone</servlet-name>
+        <servlet-class>com.wot.server.CronAmazone</servlet-class>
+   </servlet>
    
    <servlet>
         <servlet-name>proxyWotWeb</servlet-name>
@@ -87,6 +91,11 @@
 
 
       
+   <servlet-mapping>
+        <servlet-name>cronAmazone</servlet-name>
+        <url-pattern>/cronAmazone</url-pattern>
+   </servlet-mapping>
+   
       <servlet-mapping>
         <servlet-name>readPersistPlayersAddedOrDeletedInClan</servlet-name>
         <url-pattern>/readPersistPlayersAddedOrDeletedInClan</url-pattern>
