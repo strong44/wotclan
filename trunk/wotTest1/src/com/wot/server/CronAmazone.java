@@ -48,12 +48,22 @@ import com.wot.shared.PlayersInfos;
 import com.wot.shared.TankEncyclopedia;
 import com.wot.shared.WnEfficientyTank;
 
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 @SuppressWarnings("serial")
 public class CronAmazone extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	private static String urlServerEU =  "https://www.amazon.fr/s/ref=nb_sb_ss_i_7_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords=samsung+galaxy+tab4+7+pouces&sprefix=samsung+galaxy+tab4+%2Caps%2C207";
-	private static String lieu = "maison"; 
+	private static String lieu = "boulot"; 
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -115,7 +125,47 @@ public class CronAmazone extends HttpServlet {
 					if (indexDebutEur > 0) {
 						int indexDebutSpan = AllLines.indexOf("span", indexDebutEur);
 						if (indexDebutSpan > 0)
-							System.out.println("Prix : " + AllLines.substring(indexDebutEur, indexDebutSpan - 2));
+						{
+							//EUR 136,90
+							String strPrix= AllLines.substring(indexDebutEur + 4 , indexDebutSpan - 2);
+							System.out.println("Prix str: " + strPrix);
+							try {
+								Float floatPrix = Float.parseFloat(strPrix.replace(",", "."));
+								System.out.println("Prix float: " + floatPrix);
+								if (floatPrix < 140) {
+									System.out.println("Prix < 140");
+									
+									
+									 Properties props = new Properties();
+								        Session session = Session.getDefaultInstance(props, null);
+
+								        String msgBody = "Le prix de la galaxy tab4 7 pouces est à :" + strPrix;
+
+								        try {
+								            Message msg = new MimeMessage(session);
+								            msg.setFrom(new InternetAddress("thierry.leconniat@gmail.com", "Example.com Admin"));
+								            msg.addRecipient(Message.RecipientType.TO,
+								                             new InternetAddress("thierry.leconniat@gmail.com", "Mr. User"));
+								            msg.setSubject("La recherche de samsung galaxy tab4 ");
+								            msg.setText(msgBody);
+								            Transport.send(msg);
+
+								        } catch (AddressException e) {
+								            // ...
+								        } catch (MessagingException e) {
+								            // ...
+								        }
+								}
+								else
+									System.out.println("Prix > 130");
+								
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								System.out.println("Erreur de conversion de prix en float: " + strPrix);
+							}
+							
+						}
 						else
 							System.out.println("Erreur index of indexDebutSpan");
 					}
