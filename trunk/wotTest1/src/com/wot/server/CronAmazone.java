@@ -132,21 +132,22 @@ public class CronAmazone extends HttpServlet {
 							try {
 								Float floatPrix = Float.parseFloat(strPrix.replace(",", "."));
 								System.out.println("Prix float: " + floatPrix);
-								if (floatPrix < 140) {
-									System.out.println("Prix < 140");
+								int prixMax = 137 ;
+								if (floatPrix < prixMax) {
+									System.out.println("Prix < " +prixMax);
 									
 									
 									 Properties props = new Properties();
 								        Session session = Session.getDefaultInstance(props, null);
 
-								        String msgBody = "Le prix de la galaxy tab4 7 pouces est à :" + strPrix;
+								        String msgBody = "Le prix de la tablette samsung galaxy tab4 7 pouces est à :" + strPrix;
 
 								        try {
 								            Message msg = new MimeMessage(session);
-								            msg.setFrom(new InternetAddress("thierry.leconniat@gmail.com", "Example.com Admin"));
+								            msg.setFrom(new InternetAddress("thierry.leconniat@gmail.com", "Thierry LE CONNIAT"));
 								            msg.addRecipient(Message.RecipientType.TO,
-								                             new InternetAddress("thierry.leconniat@gmail.com", "Mr. User"));
-								            msg.setSubject("La recherche de samsung galaxy tab4 ");
+								                             new InternetAddress("esthetic.auto29@yahoo.fr", "SARL Esthetic"));
+								            msg.setSubject("La recherche de la tablette Samsung galaxy tab4 7 pouces");
 								            msg.setText(msgBody);
 								            Transport.send(msg);
 
@@ -157,7 +158,7 @@ public class CronAmazone extends HttpServlet {
 								        }
 								}
 								else
-									System.out.println("Prix > 130");
+									System.out.println("Prix > " +prixMax);
 								
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
