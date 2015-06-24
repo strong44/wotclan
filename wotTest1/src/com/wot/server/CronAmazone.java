@@ -63,7 +63,7 @@ public class CronAmazone extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	private static String urlServerEU =  "https://www.amazon.fr/s/ref=nb_sb_ss_i_7_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords=samsung+galaxy+tab4+7+pouces&sprefix=samsung+galaxy+tab4+%2Caps%2C207";
-	private static String lieu = "boulot"; 
+	private static String lieu = "maison"; 
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
