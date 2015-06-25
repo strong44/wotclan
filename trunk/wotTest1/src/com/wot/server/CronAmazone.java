@@ -6,49 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.parser.Parser;
-
-import org.jsoup.Jsoup;
-import org.jsoup.examples.HtmlToPlainText;
-import org.jsoup.nodes.Element;
-
-import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.gargoylesoftware.htmlunit.html.HTMLParser;
-import com.google.gson.Gson;
-import com.wot.server.api.TransformDtoObject;
-import com.wot.shared.AllCommunityAccount;
-import com.wot.shared.AllStatistics;
-import com.wot.shared.CommunityAccount;
-import com.wot.shared.CommunityClan;
-import com.wot.shared.DataCommunityClan;
-import com.wot.shared.DataCommunityClanMembers;
-import com.wot.shared.DataCommunityMembers;
-import com.wot.shared.DataPlayerInfos;
-import com.wot.shared.DataPlayerTankRatings;
-import com.wot.shared.DataTankEncyclopedia;
-import com.wot.shared.DataWnEfficientyTank;
-import com.wot.shared.PlayerTankRatings;
-import com.wot.shared.PlayersInfos;
-import com.wot.shared.TankEncyclopedia;
-import com.wot.shared.WnEfficientyTank;
-
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -57,6 +16,9 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class CronAmazone extends HttpServlet {
@@ -64,6 +26,7 @@ public class CronAmazone extends HttpServlet {
 	private static final Logger log = Logger.getLogger(WotServiceImpl.class.getName());
 	private static String urlServerEU =  "https://www.amazon.fr/s/ref=nb_sb_ss_i_7_20?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&url=search-alias%3Daps&field-keywords=samsung+galaxy+tab4+7+pouces&sprefix=samsung+galaxy+tab4+%2Caps%2C207";
 	private static String lieu = "maison"; 
+	static boolean waitOrNot = false;  
 	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -74,8 +37,25 @@ public class CronAmazone extends HttpServlet {
     }
 
 	public static void  cronAmazone( ) {
+
 			
 			log.warning("========lancement cronAmazone : " );
+			
+			try {
+				if (waitOrNot){
+					System.out.println("Wait 30 minutes ");
+					Thread.sleep(1000 + 30 * 60); //attente de 30 minutes pour tromper les déctecteurs de robot
+					waitOrNot = !waitOrNot; 
+				}else{
+					System.out.println("Not wait 30 minutes ");
+					waitOrNot = !waitOrNot;
+				}
+					
+				
+			} catch (InterruptedException e1) {
+			
+				e1.printStackTrace();
+			} 
 			
 			try {
 				
@@ -102,6 +82,7 @@ public class CronAmazone extends HttpServlet {
 				/*
 				 * <span id="priceblock_ourprice" class="a-size-medium a-color-price">EUR 141,10</span>
 				 */
+				
 				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 				conn.setReadTimeout(60000);
 				conn.setConnectTimeout(60000);
@@ -114,7 +95,7 @@ public class CronAmazone extends HttpServlet {
 				while ((line = reader.readLine()) != null) {
 					AllLines = AllLines + line;
 				}
-				System.out.println(AllLines);
+				//System.out.println(AllLines);
 				reader.close();
 				
 				//title="Samsung Galaxy Tab 4 Tablette Tactile 7&quot;
@@ -147,6 +128,8 @@ public class CronAmazone extends HttpServlet {
 								            msg.setFrom(new InternetAddress("thierry.leconniat@gmail.com", "Thierry LE CONNIAT"));
 								            msg.addRecipient(Message.RecipientType.TO,
 								                             new InternetAddress("esthetic.auto29@yahoo.fr", "SARL Esthetic"));
+								            msg.addRecipient(Message.RecipientType.CC,
+						                             new InternetAddress("thierry.leconniat@gmail.com", "Thierry LE CONNIAT"));
 								            msg.setSubject("La recherche de la tablette Samsung galaxy tab4 7 pouces");
 								            msg.setText(msgBody);
 								            Transport.send(msg);
@@ -220,16 +203,7 @@ public class CronAmazone extends HttpServlet {
 		}
 
 
-	 private static String trim(String s, int width) {
-	        if (s.length() > width)
-	            return s.substring(0, width-1) + ".";
-	        else
-	            return s;
-	    }
-	
-	 private static void print(String msg, Object... args) {
-	        System.out.println(String.format(msg, args));
-	 }
+
 	
 
 	public static void main(String args[]) {
