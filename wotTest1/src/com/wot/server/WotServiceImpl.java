@@ -209,13 +209,18 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			URL urlClan = null ;
 			input = input.replace(" ", "%20");
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL(proxy + "http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input);					
+				urlClan = new URL(proxy + "http://api.worldoftanks.eu/wgn/clans/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input);					
 			}
 			else {
 				//NVS : 500006074
 				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/500006074/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
 				//http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=
-				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
+				
+				/* new from 9.10 */
+				/* https://api.worldoftanks.eu/wgn/clans/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=NOVA%20SNAIL */
+				
+				
+				urlClan = new URL("http://api.worldoftanks.eu/wgn/clans/list/?application_id=d0a293dc77667c9328783d489c8cef73&search=" +  input );		
 			}
 			
 			//lecture de la rÃ©ponse recherche du clan

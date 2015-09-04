@@ -4090,67 +4090,13 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<ItemsDataClan> idColumn = new TextColumn<ItemsDataClan>() {
 	      @Override
 	      public String getValue(ItemsDataClan object) {
-	        return object.getId();
+	        return object.getId().toString();
 	      }
 	    };
 	    tableClan.addColumn(idColumn, "Clan Id");
 
 	    
-	    // Add a text column to show the abbrev.
-	    TextColumn<ItemsDataClan> abbrevColumn = new TextColumn<ItemsDataClan>() {
-	      @Override
-	      public String getValue(ItemsDataClan object) {
-	        return String.valueOf(object.getAbbreviation());
-	      }
-	    };
-	    tableClan.addColumn(abbrevColumn, "Abreviation");
-	    
-	    abbrevColumn.setSortable(true);
-	    
-	 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    // java.util.List.
-	    columnSortHandler.setComparator(abbrevColumn,
-	        new Comparator<ItemsDataClan>() {
-	          public int compare(ItemsDataClan o1, ItemsDataClan o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
 
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	String val1 = o1.getAbbreviation();
-	            	String val2 = o2.getAbbreviation();
-	              return (o2 != null) ? val1.compareTo(val2) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-
-	    
-	    
-	    
-	    // Add a text column to show the getClan_emblem_url().
-		    
-    		Column<ItemsDataClan, String> emblemColumn = new
-    		Column<ItemsDataClan, String>(new ImageCell())
-    		       {
-		               @Override
-		               public String getValue(ItemsDataClan object) {
-
-		                       return object.getClan_emblem_url();
-		               }
-
-    		       };
-
-   
-		    //////////////////////
-//		    TextColumn<ItemsDataClan> emblemColumn = new TextColumn<ItemsDataClan>() {
-//		      @Override
-//		      public String getValue(ItemsDataClan object) {
-//		        return String.valueOf(object.getClan_emblem_url() );
-//		      }
-//		    };
-	    tableClan.addColumn(emblemColumn, "Emblem");
 	    
 //		    emblemColumn.setSortable(true);
 //		    
@@ -4203,66 +4149,7 @@ public class WotTest1 implements EntryPoint {
 	          }
 	        });
 	    
-	    // Add a text column to show the motto.
-	    TextColumn<ItemsDataClan> mottoColumn = new TextColumn<ItemsDataClan>() {
-	      @Override
-	      public String getValue(ItemsDataClan object) {
-	        return String.valueOf(object.getMotto());
-	      }
-	    };
-	    tableClan.addColumn(mottoColumn, "Motto");
-
-	    //////
-	    mottoColumn.setSortable(true);
-	    
-		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(mottoColumn,
-	        new Comparator<ItemsDataClan>() {
-	          public int compare(ItemsDataClan o1, ItemsDataClan o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	String val1 = o1.getMotto();
-	            	String val2 = o2.getMotto();
-	              return (o2 != null) ? val1.compareTo(val2) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-	    
 		    
-	    // Add a text column to show owner.
-	    TextColumn<ItemsDataClan> ownerColumn = new TextColumn<ItemsDataClan>() {
-	      @Override
-	      public String getValue(ItemsDataClan object) {
-	        return String.valueOf(object.getOwner());
-	      }
-	    };
-	    tableClan.addColumn(ownerColumn, "Owner");
-
-	    ownerColumn.setSortable(true);
-	    
-		 // Add a ColumnSortEvent.ListHandler to connect sorting to the
-	    columnSortHandler.setComparator(ownerColumn,
-	        new Comparator<ItemsDataClan>() {
-	          public int compare(ItemsDataClan o1, ItemsDataClan o2) {
-	            if (o1 == o2) {
-	              return 0;
-	            }
-
-	            // Compare the columns.
-	            if (o1 != null) {
-	            	String val1 = o1.getOwner();
-	            	String val2 = o2.getOwner();
-	              return (o2 != null) ? val1.compareTo(val2) : 1;
-	            }
-	            return -1;
-	          }
-	        });
-    
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<ItemsDataClan> selectionModel = new SingleSelectionModel<ItemsDataClan>();
 	    tableClan.setSelectionModel(selectionModel);
@@ -4272,7 +4159,7 @@ public class WotTest1 implements EntryPoint {
 	    	  
 	        if (selected != null) {
 	          //Window.alert("You selected: " + selected.getName() +". You can find members now !");
-	          idClan = selected.getId();
+	          idClan = selected.getId().toString();
 	          
 	          getMembersClan();
 	        }
@@ -4696,7 +4583,7 @@ public class WotTest1 implements EntryPoint {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-									String status_code= listClan.getStatus_code();
+									
 									String status= listClan.getStatus();
 //									"status": "ok", 
 //									  "status_code": "NO_ERROR", 
@@ -4750,10 +4637,10 @@ public class WotTest1 implements EntryPoint {
 										
 									}else {
 										dialogBox
-										.setText(status_code);
+										.setText(status);
 										serverResponseLabel
 												.addStyleName("serverResponseLabelError");
-										serverResponseLabel.setHTML(status_code + " An error arrived , please Retry again ! " );
+										serverResponseLabel.setHTML(status + " An error arrived , please Retry again ! " );
 										dialogBox.center();
 										closeButton.setFocus(true);
 									}

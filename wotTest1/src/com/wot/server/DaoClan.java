@@ -49,8 +49,8 @@ public class DaoClan implements Serializable{
 		return data;
 	}
 
-	public void setItems(List<DaoItemsDataClan> items) {
-		this.data = items;
+	public void setItems(List<DaoItemsDataClan> list) {
+		this.data = list;
 	}
 	
 	public String getStatus() {

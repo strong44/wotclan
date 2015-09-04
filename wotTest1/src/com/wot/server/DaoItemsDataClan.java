@@ -35,10 +35,10 @@ public class DaoItemsDataClan implements Serializable{
     String name;
 	
 	@Persistent
-    String created_at;
+    Integer created_at;
 	
 	@Persistent
-    String member_count;
+    Integer member_count;
 	
 	@Persistent
     String owner;
@@ -50,7 +50,7 @@ public class DaoItemsDataClan implements Serializable{
     String clan_emblem_url;
 	
 	@Persistent
-    String id;
+    Integer id;
 	
 	@Persistent
     String clan_color;
@@ -68,17 +68,17 @@ public class DaoItemsDataClan implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCreated_at() {
+	public Integer getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+	public void setCreated_at(Integer integer) {
+		this.created_at = integer;
 	}
-	public String getMember_count() {
+	public Integer getMember_count() {
 		return member_count;
 	}
-	public void setMember_count(String member_count) {
-		this.member_count = member_count;
+	public void setMember_count(Integer integer) {
+		this.member_count = integer;
 	}
 	public String getOwner() {
 		return owner;
@@ -98,11 +98,11 @@ public class DaoItemsDataClan implements Serializable{
 	public void setClan_emblem_url(String clan_emblem_url) {
 		this.clan_emblem_url = clan_emblem_url;
 	}
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(Integer integer) {
+		this.id = integer;
 	}
 	public String getClan_color() {
 		return clan_color;

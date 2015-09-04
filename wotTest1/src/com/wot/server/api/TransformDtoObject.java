@@ -40,7 +40,6 @@ public class TransformDtoObject {
 		
 		DaoClan daoClan = new DaoClan();
 		daoClan.setStatus( clan.getStatus());
-		daoClan.setStatus_code(clan.getStatus_code());
 		
 		daoClan.setItems(TransformItemsDataClanToDaoItemsDataClan(clan.getItems()));
 		return daoClan;
@@ -71,10 +70,8 @@ public class TransformDtoObject {
 		
 		DaoItemsDataClan daoItemsDataClan = new DaoItemsDataClan();
 
-		daoItemsDataClan.setAbbreviation(itemsDataclan.getAbbreviation());
 		daoItemsDataClan.setClan_color(itemsDataclan.getClan_color());
 		
-		daoItemsDataClan.setClan_emblem_url(itemsDataclan.getClan_emblem_url());
 		
 		daoItemsDataClan.setCreated_at(itemsDataclan.getCreated_at());
 		
@@ -82,11 +79,9 @@ public class TransformDtoObject {
 		
 		daoItemsDataClan.setMember_count(itemsDataclan.getMember_count());
 		
-		daoItemsDataClan.setMotto(itemsDataclan.getMotto());
 		
 		daoItemsDataClan.setName(itemsDataclan.getName());
 		
-		daoItemsDataClan.setOwner(itemsDataclan.getOwner());
 		
 		
 		return daoItemsDataClan;
