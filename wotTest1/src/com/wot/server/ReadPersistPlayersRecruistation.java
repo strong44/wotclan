@@ -1,9 +1,6 @@
 package com.wot.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,13 +24,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import com.google.appengine.api.datastore.Text;
-import com.google.gson.Gson;
-import com.wot.shared.AllCommunityAccount;
-import com.wot.shared.CommunityAccount;
-import com.wot.shared.DataTankEncyclopedia;
-import com.wot.shared.TankEncyclopedia;
 
 @SuppressWarnings("serial")
 public class ReadPersistPlayersRecruistation extends HttpServlet {
@@ -111,7 +101,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	
         		    	//Rechercher la sauvegarde du jour d'avant j-1
          		    	Calendar mydate = Calendar.getInstance();
-        		    	log.warning("Date of the day :" + mydate.get(Calendar.DAY_OF_MONTH)+"."+mydate.get(Calendar.MONTH)+"."+mydate.get(Calendar.YEAR));
+        		    	log.warning("Date of the day :" + mydate.get(Calendar.DAY_OF_MONTH)+"."+ (mydate.get(Calendar.MONTH)+1)+"."+mydate.get(Calendar.YEAR));
         		    	Date dateToday = mydate.getTime();
           		    	
         		    	DaoRecruistation jLastDaoRecruistation =  resultsTmp.get(0); //le dernier jour sauvegardé  
@@ -128,7 +118,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	        		    		
 	        		    		long timeDateDao = dao.getDate().getTime() ;
 	        		    		mydate.setTime(dao.getDate());
-	        		    		log.warning(mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE)) ;
+	        		    		log.warning(mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+(mydate.get(Calendar.MONTH)+1)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR) + ":" + mydate.get(Calendar.MINUTE)) ;
 	        		    		//trouver l'enregistrement du jour d'avant 
 	        		    		if (timeDateDao <= (dateToday.getTime() - milliSecondsDay) ) {
 	        		    			jFirstDaoRecruistation = dao;
@@ -173,10 +163,10 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
         		    	//format date 
         		    	//long timeDate = jLastDaoRecruistation.getDate().getTime() ;
     		    		mydate.setTime(jLastDaoRecruistation.getDate());
-    		    		dateLastUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
+    		    		dateLastUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+(mydate.get(Calendar.MONTH)+1)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
     		    		
     		    		mydate.setTime(jFirstDaoRecruistation.getDate());
-    		    		dateFirstUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+mydate.get(Calendar.MONTH)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
+    		    		dateFirstUpdate = mydate.get( + Calendar.DAY_OF_MONTH)+ "/"+(mydate.get(Calendar.MONTH)+1)+"/"+mydate.get(Calendar.YEAR) + " " + mydate.get(Calendar.HOUR_OF_DAY) + ":" + mydate.get(Calendar.MINUTE) ;
     		    		
    
         		    	
