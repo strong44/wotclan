@@ -424,6 +424,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 					        	//pour eviter trop de donn�es en base 60 write OP 
 					        	//daoCommunityAccount.getData().setAchievements(null);
 					        	daoCommunityAccount2.setDateCommunityAccount(date);
+					        	
 					        	//
 					        	pm.makePersistent(daoCommunityAccount2);
 					        	pm.currentTransaction().commit();
@@ -581,11 +582,11 @@ public class CronPersistPlayersStats extends HttpServlet {
 		urlClan = null ;
 			
 		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
 		}
 		else {
 			//500006074
-			urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+			urlClan = new URL("http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 		}
 		
 		
@@ -604,6 +605,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 		reader.close();
 		Gson gson = new Gson();
 		DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
+		
 		daoCommunityClan.setIdClan(idClan);
 		daoCommunityClan.setDateCommunityClan(date);
 		//persist clan ?
@@ -651,11 +653,11 @@ public class CronPersistPlayersStats extends HttpServlet {
 		urlClan = null ;
 			
 		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
 		}
 		else {
 			//500006074
-			urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+			urlClan = new URL("http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 		}
 		
 		
@@ -674,6 +676,7 @@ public class CronPersistPlayersStats extends HttpServlet {
 		reader.close();
 		Gson gson = new Gson();
 		DaoCommunityClan2 daoCommunityClan = gson.fromJson(AllLines, DaoCommunityClan2.class);
+		
 		daoCommunityClan.setIdClan(idClan);
 		daoCommunityClan.setDateCommunityClan(date);
 		

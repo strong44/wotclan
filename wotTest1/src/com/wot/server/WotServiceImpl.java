@@ -335,13 +335,17 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			// recup des membres du clan NVS
 			urlClan = null ;
 			if(lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				urlClan = new URL(proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
+				/* http://api.worldoftanks.eu/2.0/clan/info/?application_id*/
+				urlClan = new URL(proxy + "http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );				
 			}
 			else {
 				//500006074
 				//http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074
 				//urlClan = new URL("http://api.worldoftanks.eu/community/clans/" + idClan + "/api/1.0/?source_token=WG-WoT_Assistant-1.3.2");
-				urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
+				
+				// change in 9.10 
+				/* https://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=500006074 */
+				urlClan = new URL("http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id=" + idClan );
 			}
 	
 			HttpURLConnection conn = (HttpURLConnection)urlClan.openConnection();

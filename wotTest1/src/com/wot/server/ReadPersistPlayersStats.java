@@ -329,11 +329,11 @@ public class ReadPersistPlayersStats extends HttpServlet {
 		urlClan = null ;
 			
 		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
+			urlClan = new URL(WotServiceImpl.proxy + "http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);				
 		}
 		else {
 			//500006074
-			urlClan = new URL("http://api.worldoftanks.eu/2.0/clan/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
+			urlClan = new URL("http://api.worldoftanks.eu/wgn/clans/info/?application_id=d0a293dc77667c9328783d489c8cef73&clan_id="+idClan);
 		}
 		
 		
@@ -372,12 +372,9 @@ public class ReadPersistPlayersStats extends HttpServlet {
 					if (userName != null && accountName  != null && userName.equalsIgnoreCase(accountName))
 						listIdUser.add(idUser);
 
-					
 					//si on apr�cis� un username, on ne veut alors que l'ID de ce USER
 					if (userName != null && accountName  != null && userName.equalsIgnoreCase(accountName))
 						break ;
-
-					
 					
 				}
 				//si on apr�cis� un username, on ne veut alors que l'ID de ce USER
