@@ -12,10 +12,7 @@ import com.wot.server.DaoCommunityAccount2;
 import com.wot.server.DaoCommunityClan2;
 import com.wot.server.DaoDataClan;
 import com.wot.server.DaoDataCommunityAccount2;
-import com.wot.server.DaoDataCommunityAccountAchievements;
 import com.wot.server.DaoDataCommunityAccountRatings2;
-//import com.wot.server.DaoDataCommunityAccountStats;
-import com.wot.server.DaoDataCommunityAccountStatsVehicules;
 import com.wot.server.DaoDataCommunityClanMembers;
 import com.wot.server.DaoDataCommunityMembers;
 import com.wot.server.DaoItemsDataClan;
@@ -24,15 +21,14 @@ import com.wot.shared.Clan;
 import com.wot.shared.CommunityAccount;
 import com.wot.shared.CommunityClan;
 import com.wot.shared.DataClan;
-import com.wot.shared.DataCommunityAccountAchievements;
-import com.wot.shared.DataPlayerInfos;
-import com.wot.shared.DataCommunityAccountVehicules;
 import com.wot.shared.DataCommunityClan;
 import com.wot.shared.DataCommunityClanMembers;
 import com.wot.shared.DataCommunityMembers;
+import com.wot.shared.DataPlayerInfos;
 import com.wot.shared.ItemsDataClan;
 import com.wot.shared.PlayersInfos;
 import com.wot.shared.Statistics;
+//import com.wot.server.DaoDataCommunityAccountStats;
 
 public class TransformDtoObject {
 
@@ -144,9 +140,9 @@ public class TransformDtoObject {
 		//myDataCommunityClanMembers.setAccount_name(clanMembers.getAccount_name());
 		
 		//Transform 
-		Set<Entry<String, DaoDataCommunityMembers>> set =  clanMembers.getMembers().entrySet();
-		for (Entry<String, DaoDataCommunityMembers> entry :set) {
-			listDataCommunityMembers.add(TransformDaoDataCommunityMembersToDataCommunityMembers(entry.getValue()));
+		//Set<Entry<String, DaoDataCommunityMembers>> set =  clanMembers.getMembers();
+		for (DaoDataCommunityMembers myDaoDataCommunityMembers :  clanMembers.getMembers()) {
+			listDataCommunityMembers.add(TransformDaoDataCommunityMembersToDataCommunityMembers(myDaoDataCommunityMembers));
 		}
 		
 		//add list !! 
@@ -325,49 +321,49 @@ public class TransformDtoObject {
 		return myDaoDataCommunityAccountRatings;
 	}
 
-	private static List<DaoDataCommunityAccountStatsVehicules> TransformDataCommunityAccountStatsVehiculesToDaoDataCommunityAccountStatsVehicules(
-			List<DataCommunityAccountVehicules> vehicules) {
-		// TODO Auto-generated method stub
-		List<DaoDataCommunityAccountStatsVehicules> listDaoDataCommunityAccountStatsVehicules = new ArrayList<DaoDataCommunityAccountStatsVehicules>();
-		
-		for (DataCommunityAccountVehicules myDataCommunityAccountVehicules : vehicules) {
-			//on ne prend que les chars qui ont + de 100 batailles sinon trop de chars
-			if (myDataCommunityAccountVehicules.getBattle_count()>=100) {
-				listDaoDataCommunityAccountStatsVehicules.add(TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(myDataCommunityAccountVehicules));
-			}
-		}
-		return listDaoDataCommunityAccountStatsVehicules;
-	}
+//	private static List<DaoDataCommunityAccountStatsVehicules> TransformDataCommunityAccountStatsVehiculesToDaoDataCommunityAccountStatsVehicules(
+//			List<DataCommunityAccountVehicules> vehicules) {
+//		// TODO Auto-generated method stub
+//		List<DaoDataCommunityAccountStatsVehicules> listDaoDataCommunityAccountStatsVehicules = new ArrayList<DaoDataCommunityAccountStatsVehicules>();
+//		
+//		for (DataCommunityAccountVehicules myDataCommunityAccountVehicules : vehicules) {
+//			//on ne prend que les chars qui ont + de 100 batailles sinon trop de chars
+//			if (myDataCommunityAccountVehicules.getBattle_count()>=100) {
+//				listDaoDataCommunityAccountStatsVehicules.add(TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(myDataCommunityAccountVehicules));
+//			}
+//		}
+//		return listDaoDataCommunityAccountStatsVehicules;
+//	}
 
-	private static DaoDataCommunityAccountStatsVehicules TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(
-			DataCommunityAccountVehicules myDataCommunityAccountVehicules) {
-		// TODO Auto-generated method stub
-		/**
-		 * 	/**
-	 * {
-        "spotted": 0, 
-        "localized_name": "KV-1S", 
-        "name": "KV-1s", 
-        "level": 6, 
-        "damageDealt": 0, 
-        "survivedBattles": 0, 
-        "battle_count": 1400, 
-        "nation": "ussr", 
-        "image_url": "/static/2.7.0/encyclopedia/tankopedia/vehicle/small/ussr-kv-1s.png", 
-        "frags": 0, 
-        "win_count": 773, 
-        "class": "heavyTank"
-      },  */
-		DaoDataCommunityAccountStatsVehicules myDaoDataCommunityAccountStatsVehicules = new DaoDataCommunityAccountStatsVehicules();
-		myDaoDataCommunityAccountStatsVehicules.setBattle_count(myDataCommunityAccountVehicules.getBattle_count());
-		myDaoDataCommunityAccountStatsVehicules.setImage_url(myDataCommunityAccountVehicules.getImage_url());
-		myDaoDataCommunityAccountStatsVehicules.setLevel(myDataCommunityAccountVehicules.getLevel());
-		myDaoDataCommunityAccountStatsVehicules.setLocalized_name(myDataCommunityAccountVehicules.getLocalized_name());
-		myDaoDataCommunityAccountStatsVehicules.setName(myDataCommunityAccountVehicules.getName());
-		myDaoDataCommunityAccountStatsVehicules.setNation(myDataCommunityAccountVehicules.getNation());
-		myDaoDataCommunityAccountStatsVehicules.setWin_count(myDataCommunityAccountVehicules.getWin_count());
-		return myDaoDataCommunityAccountStatsVehicules;
-	}
+//	private static DaoDataCommunityAccountStatsVehicules TransformDataCommunityAccountStatsVehiculeToDaoDataCommunityAccountStatsVehicule(
+//			DataCommunityAccountVehicules myDataCommunityAccountVehicules) {
+//		// TODO Auto-generated method stub
+//		/**
+//		 * 	/**
+//	 * {
+//        "spotted": 0, 
+//        "localized_name": "KV-1S", 
+//        "name": "KV-1s", 
+//        "level": 6, 
+//        "damageDealt": 0, 
+//        "survivedBattles": 0, 
+//        "battle_count": 1400, 
+//        "nation": "ussr", 
+//        "image_url": "/static/2.7.0/encyclopedia/tankopedia/vehicle/small/ussr-kv-1s.png", 
+//        "frags": 0, 
+//        "win_count": 773, 
+//        "class": "heavyTank"
+//      },  */
+//		DaoDataCommunityAccountStatsVehicules myDaoDataCommunityAccountStatsVehicules = new DaoDataCommunityAccountStatsVehicules();
+//		myDaoDataCommunityAccountStatsVehicules.setBattle_count(myDataCommunityAccountVehicules.getBattle_count());
+//		myDaoDataCommunityAccountStatsVehicules.setImage_url(myDataCommunityAccountVehicules.getImage_url());
+//		myDaoDataCommunityAccountStatsVehicules.setLevel(myDataCommunityAccountVehicules.getLevel());
+//		myDaoDataCommunityAccountStatsVehicules.setLocalized_name(myDataCommunityAccountVehicules.getLocalized_name());
+//		myDaoDataCommunityAccountStatsVehicules.setName(myDataCommunityAccountVehicules.getName());
+//		myDaoDataCommunityAccountStatsVehicules.setNation(myDataCommunityAccountVehicules.getNation());
+//		myDaoDataCommunityAccountStatsVehicules.setWin_count(myDataCommunityAccountVehicules.getWin_count());
+//		return myDaoDataCommunityAccountStatsVehicules;
+//	}
 
 //	private static DataCommunityAccount TransformDaoDataCommunityAccountToDataCommunityAccount(DaoDataCommunityAccount data) {
 //		DataCommunityAccount myDataCommunityAccount = new DataCommunityAccount();
@@ -380,21 +376,21 @@ public class TransformDtoObject {
 //	}
 	
 	
-	private static List<DataCommunityAccountVehicules> TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(List<DaoDataCommunityAccountStatsVehicules> statsVehicules) {
-		// TODO Auto-generated method stub
-		List<DataCommunityAccountVehicules> listDataCommAccVeh = new ArrayList<DataCommunityAccountVehicules>();
-		for(DaoDataCommunityAccountStatsVehicules myDaoDataCommunityAccountStatsVehicules : statsVehicules ) {
-			DataCommunityAccountVehicules  myDataCommunityAccountVehicules = new DataCommunityAccountVehicules();
-			myDataCommunityAccountVehicules.setBattle_count(myDaoDataCommunityAccountStatsVehicules.getBattle_count());
-			myDataCommunityAccountVehicules.setName(myDaoDataCommunityAccountStatsVehicules.getName());
-			myDataCommunityAccountVehicules.setWin_count(myDaoDataCommunityAccountStatsVehicules.getWin_count());
-			myDataCommunityAccountVehicules.setImage_url(myDaoDataCommunityAccountStatsVehicules.getImage_url());
-			myDataCommunityAccountVehicules.setLevel(myDaoDataCommunityAccountStatsVehicules.getLevel());
-			myDataCommunityAccountVehicules.setNation(myDaoDataCommunityAccountStatsVehicules.getNation());
-			listDataCommAccVeh.add(myDataCommunityAccountVehicules);
-		}
-		return listDataCommAccVeh;
-	}
+//	private static List<DataCommunityAccountVehicules> TransformDaoDataCommunityAccountVehiclesToDataCommunityAccountVehicles(List<DaoDataCommunityAccountStatsVehicules> statsVehicules) {
+//		// TODO Auto-generated method stub
+//		List<DataCommunityAccountVehicules> listDataCommAccVeh = new ArrayList<DataCommunityAccountVehicules>();
+//		for(DaoDataCommunityAccountStatsVehicules myDaoDataCommunityAccountStatsVehicules : statsVehicules ) {
+//			DataCommunityAccountVehicules  myDataCommunityAccountVehicules = new DataCommunityAccountVehicules();
+//			myDataCommunityAccountVehicules.setBattle_count(myDaoDataCommunityAccountStatsVehicules.getBattle_count());
+//			myDataCommunityAccountVehicules.setName(myDaoDataCommunityAccountStatsVehicules.getName());
+//			myDataCommunityAccountVehicules.setWin_count(myDaoDataCommunityAccountStatsVehicules.getWin_count());
+//			myDataCommunityAccountVehicules.setImage_url(myDaoDataCommunityAccountStatsVehicules.getImage_url());
+//			myDataCommunityAccountVehicules.setLevel(myDaoDataCommunityAccountStatsVehicules.getLevel());
+//			myDataCommunityAccountVehicules.setNation(myDaoDataCommunityAccountStatsVehicules.getNation());
+//			listDataCommAccVeh.add(myDataCommunityAccountVehicules);
+//		}
+//		return listDataCommAccVeh;
+//	}
 
 //	private static DataPlayerInfos TransformDaoDataCommunityAccountStatsToDataCommunityAccountStats(DaoDataCommunityAccountStats stats) {
 //		DataPlayerInfos myDataCommunityAccountStats =  new DataPlayerInfos();
@@ -416,42 +412,42 @@ public class TransformDtoObject {
 //		return myDataCommunityAccountStats;
 //	}
 
-	private static DataCommunityAccountAchievements TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(DaoDataCommunityAccountAchievements achievements) {
-		// TODO Auto-generated method stub
-		DataCommunityAccountAchievements myDataCommunityAccountAchievements = new DataCommunityAccountAchievements();
-		myDataCommunityAccountAchievements.setBeasthunter(achievements.getBeasthunter());
-		myDataCommunityAccountAchievements.setDefender(achievements.getDefender());
-		myDataCommunityAccountAchievements.setDiehard(achievements.getDiehard());
-		myDataCommunityAccountAchievements.setInvader(achievements.getInvader());
-		myDataCommunityAccountAchievements.setLumberjack(achievements.getLumberjack());
-		myDataCommunityAccountAchievements.setMedalAbrams(achievements.getMedalAbrams());
-		myDataCommunityAccountAchievements.setMedalBillotte(achievements.getMedalBillotte());
-		myDataCommunityAccountAchievements.setMedalBurda(achievements.getMedalBurda());
-		myDataCommunityAccountAchievements.setMedalCarius(achievements.getMedalCarius());
-		myDataCommunityAccountAchievements.setMedalEkins(achievements.getMedalEkins());
-		myDataCommunityAccountAchievements.setMedalFadin(achievements.getMedalFadin());
-		myDataCommunityAccountAchievements.setMedalHalonen(achievements.getMedalHalonen());
-		myDataCommunityAccountAchievements.setMedalKay(achievements.getMedalKay());
-		myDataCommunityAccountAchievements.setMedalKnispel(achievements.getMedalKnispel());
-		myDataCommunityAccountAchievements.setMedalKolobanov(achievements.getMedalKolobanov());
-		myDataCommunityAccountAchievements.setMedalLavrinenko(achievements.getMedalLavrinenko());
-		myDataCommunityAccountAchievements.setMedalLeClerc(achievements.getMedalLeClerc());
-		myDataCommunityAccountAchievements.setMedalOrlik(achievements.getMedalOrlik());
-		myDataCommunityAccountAchievements.setMedalOskin(achievements.getMedalOskin());
-		myDataCommunityAccountAchievements.setMedalPoppel(achievements.getMedalPoppel() );
-		myDataCommunityAccountAchievements.setMedalWittmann(achievements.getMedalWittmann());
-		myDataCommunityAccountAchievements.setMousebane(achievements.getMousebane());
-		myDataCommunityAccountAchievements.setRaider(achievements.getRaider());
-		myDataCommunityAccountAchievements.setScout(achievements.getScout());
-		myDataCommunityAccountAchievements.setSniper(achievements.getSniper());
-		myDataCommunityAccountAchievements.setSupporter(achievements.getSupporter());
-		myDataCommunityAccountAchievements.setTankExpert(achievements.getTankExpert());
-		myDataCommunityAccountAchievements.setTitleSniper(achievements.getTitleSniper());
-		myDataCommunityAccountAchievements.setWarrior(achievements.getWarrior());
-		
-		return myDataCommunityAccountAchievements;
-	}
-
+//	private static DataCommunityAccountAchievements TransformDaoDataCommunityAccountAchievementsToDataCommunityAccountAchievements(DaoDataCommunityAccountAchievements achievements) {
+//		// TODO Auto-generated method stub
+//		DataCommunityAccountAchievements myDataCommunityAccountAchievements = new DataCommunityAccountAchievements();
+//		myDataCommunityAccountAchievements.setBeasthunter(achievements.getBeasthunter());
+//		myDataCommunityAccountAchievements.setDefender(achievements.getDefender());
+//		myDataCommunityAccountAchievements.setDiehard(achievements.getDiehard());
+//		myDataCommunityAccountAchievements.setInvader(achievements.getInvader());
+//		myDataCommunityAccountAchievements.setLumberjack(achievements.getLumberjack());
+//		myDataCommunityAccountAchievements.setMedalAbrams(achievements.getMedalAbrams());
+//		myDataCommunityAccountAchievements.setMedalBillotte(achievements.getMedalBillotte());
+//		myDataCommunityAccountAchievements.setMedalBurda(achievements.getMedalBurda());
+//		myDataCommunityAccountAchievements.setMedalCarius(achievements.getMedalCarius());
+//		myDataCommunityAccountAchievements.setMedalEkins(achievements.getMedalEkins());
+//		myDataCommunityAccountAchievements.setMedalFadin(achievements.getMedalFadin());
+//		myDataCommunityAccountAchievements.setMedalHalonen(achievements.getMedalHalonen());
+//		myDataCommunityAccountAchievements.setMedalKay(achievements.getMedalKay());
+//		myDataCommunityAccountAchievements.setMedalKnispel(achievements.getMedalKnispel());
+//		myDataCommunityAccountAchievements.setMedalKolobanov(achievements.getMedalKolobanov());
+//		myDataCommunityAccountAchievements.setMedalLavrinenko(achievements.getMedalLavrinenko());
+//		myDataCommunityAccountAchievements.setMedalLeClerc(achievements.getMedalLeClerc());
+//		myDataCommunityAccountAchievements.setMedalOrlik(achievements.getMedalOrlik());
+//		myDataCommunityAccountAchievements.setMedalOskin(achievements.getMedalOskin());
+//		myDataCommunityAccountAchievements.setMedalPoppel(achievements.getMedalPoppel() );
+//		myDataCommunityAccountAchievements.setMedalWittmann(achievements.getMedalWittmann());
+//		myDataCommunityAccountAchievements.setMousebane(achievements.getMousebane());
+//		myDataCommunityAccountAchievements.setRaider(achievements.getRaider());
+//		myDataCommunityAccountAchievements.setScout(achievements.getScout());
+//		myDataCommunityAccountAchievements.setSniper(achievements.getSniper());
+//		myDataCommunityAccountAchievements.setSupporter(achievements.getSupporter());
+//		myDataCommunityAccountAchievements.setTankExpert(achievements.getTankExpert());
+//		myDataCommunityAccountAchievements.setTitleSniper(achievements.getTitleSniper());
+//		myDataCommunityAccountAchievements.setWarrior(achievements.getWarrior());
+//		
+//		return myDataCommunityAccountAchievements;
+//	}
+//
 	
 	
 	
@@ -475,41 +471,41 @@ public class TransformDtoObject {
 //		return myDaoDataCommunityAccountStats;
 //	}
 
-	private static DaoDataCommunityAccountAchievements TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(DataCommunityAccountAchievements achievements) {
-		// TODO Auto-generated method stub
-		DaoDataCommunityAccountAchievements myDaoDataCommunityAccountAchievements = new DaoDataCommunityAccountAchievements();
-		myDaoDataCommunityAccountAchievements.setBeasthunter(achievements.getBeasthunter());
-		myDaoDataCommunityAccountAchievements.setDefender(achievements.getDefender());
-		myDaoDataCommunityAccountAchievements.setDiehard(achievements.getDiehard());
-		myDaoDataCommunityAccountAchievements.setInvader(achievements.getInvader());
-		myDaoDataCommunityAccountAchievements.setLumberjack(achievements.getLumberjack());
-		myDaoDataCommunityAccountAchievements.setMedalAbrams(achievements.getMedalAbrams());
-		myDaoDataCommunityAccountAchievements.setMedalBillotte(achievements.getMedalBillotte());
-		myDaoDataCommunityAccountAchievements.setMedalBurda(achievements.getMedalBurda());
-		myDaoDataCommunityAccountAchievements.setMedalCarius(achievements.getMedalCarius());
-		myDaoDataCommunityAccountAchievements.setMedalEkins(achievements.getMedalEkins());
-		myDaoDataCommunityAccountAchievements.setMedalFadin(achievements.getMedalFadin());
-		myDaoDataCommunityAccountAchievements.setMedalHalonen(achievements.getMedalHalonen());
-		myDaoDataCommunityAccountAchievements.setMedalKay(achievements.getMedalKay());
-		myDaoDataCommunityAccountAchievements.setMedalKnispel(achievements.getMedalKnispel());
-		myDaoDataCommunityAccountAchievements.setMedalKolobanov(achievements.getMedalKolobanov());
-		myDaoDataCommunityAccountAchievements.setMedalLavrinenko(achievements.getMedalLavrinenko());
-		myDaoDataCommunityAccountAchievements.setMedalLeClerc(achievements.getMedalLeClerc());
-		myDaoDataCommunityAccountAchievements.setMedalOrlik(achievements.getMedalOrlik());
-		myDaoDataCommunityAccountAchievements.setMedalOskin(achievements.getMedalOskin());
-		myDaoDataCommunityAccountAchievements.setMedalPoppel(achievements.getMedalPoppel() );
-		myDaoDataCommunityAccountAchievements.setMedalWittmann(achievements.getMedalWittmann());
-		myDaoDataCommunityAccountAchievements.setMousebane(achievements.getMousebane());
-		myDaoDataCommunityAccountAchievements.setRaider(achievements.getRaider());
-		myDaoDataCommunityAccountAchievements.setScout(achievements.getScout());
-		myDaoDataCommunityAccountAchievements.setSniper(achievements.getSniper());
-		myDaoDataCommunityAccountAchievements.setSupporter(achievements.getSupporter());
-		myDaoDataCommunityAccountAchievements.setTankExpert(achievements.getTankExpert());
-		myDaoDataCommunityAccountAchievements.setTitleSniper(achievements.getTitleSniper());
-		myDaoDataCommunityAccountAchievements.setWarrior(achievements.getWarrior());
-		
-		return myDaoDataCommunityAccountAchievements;
-	}
+//	private static DaoDataCommunityAccountAchievements TransformDataCommunityAccountAchievementsToDaoDataCommunityAccountAchievements(DataCommunityAccountAchievements achievements) {
+//		// TODO Auto-generated method stub
+//		DaoDataCommunityAccountAchievements myDaoDataCommunityAccountAchievements = new DaoDataCommunityAccountAchievements();
+//		myDaoDataCommunityAccountAchievements.setBeasthunter(achievements.getBeasthunter());
+//		myDaoDataCommunityAccountAchievements.setDefender(achievements.getDefender());
+//		myDaoDataCommunityAccountAchievements.setDiehard(achievements.getDiehard());
+//		myDaoDataCommunityAccountAchievements.setInvader(achievements.getInvader());
+//		myDaoDataCommunityAccountAchievements.setLumberjack(achievements.getLumberjack());
+//		myDaoDataCommunityAccountAchievements.setMedalAbrams(achievements.getMedalAbrams());
+//		myDaoDataCommunityAccountAchievements.setMedalBillotte(achievements.getMedalBillotte());
+//		myDaoDataCommunityAccountAchievements.setMedalBurda(achievements.getMedalBurda());
+//		myDaoDataCommunityAccountAchievements.setMedalCarius(achievements.getMedalCarius());
+//		myDaoDataCommunityAccountAchievements.setMedalEkins(achievements.getMedalEkins());
+//		myDaoDataCommunityAccountAchievements.setMedalFadin(achievements.getMedalFadin());
+//		myDaoDataCommunityAccountAchievements.setMedalHalonen(achievements.getMedalHalonen());
+//		myDaoDataCommunityAccountAchievements.setMedalKay(achievements.getMedalKay());
+//		myDaoDataCommunityAccountAchievements.setMedalKnispel(achievements.getMedalKnispel());
+//		myDaoDataCommunityAccountAchievements.setMedalKolobanov(achievements.getMedalKolobanov());
+//		myDaoDataCommunityAccountAchievements.setMedalLavrinenko(achievements.getMedalLavrinenko());
+//		myDaoDataCommunityAccountAchievements.setMedalLeClerc(achievements.getMedalLeClerc());
+//		myDaoDataCommunityAccountAchievements.setMedalOrlik(achievements.getMedalOrlik());
+//		myDaoDataCommunityAccountAchievements.setMedalOskin(achievements.getMedalOskin());
+//		myDaoDataCommunityAccountAchievements.setMedalPoppel(achievements.getMedalPoppel() );
+//		myDaoDataCommunityAccountAchievements.setMedalWittmann(achievements.getMedalWittmann());
+//		myDaoDataCommunityAccountAchievements.setMousebane(achievements.getMousebane());
+//		myDaoDataCommunityAccountAchievements.setRaider(achievements.getRaider());
+//		myDaoDataCommunityAccountAchievements.setScout(achievements.getScout());
+//		myDaoDataCommunityAccountAchievements.setSniper(achievements.getSniper());
+//		myDaoDataCommunityAccountAchievements.setSupporter(achievements.getSupporter());
+//		myDaoDataCommunityAccountAchievements.setTankExpert(achievements.getTankExpert());
+//		myDaoDataCommunityAccountAchievements.setTitleSniper(achievements.getTitleSniper());
+//		myDaoDataCommunityAccountAchievements.setWarrior(achievements.getWarrior());
+//		
+//		return myDaoDataCommunityAccountAchievements;
+//	}
 
 //	public static CommunityAccount TransformPlayerRatingsToCommunityAccount(PlayersInfos playerRatings) {
 //		// TODO Auto-generated method stub

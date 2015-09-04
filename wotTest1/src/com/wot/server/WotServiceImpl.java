@@ -371,7 +371,7 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 			//persist clan ?
 			
 			for (DaoDataCommunityClanMembers members : daoCommunityClan.getData().values() ) {
-				for (DaoDataCommunityMembers member : members.getMembers().values() ) {
+				for (DaoDataCommunityMembers member : members.getMembers() ) {
 					hMapIdUserName.put(member.getAccount_id(), member.getAccount_name());
 					hMapUserNameId.put( member.getAccount_name(), member.getAccount_id());
 				}

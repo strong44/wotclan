@@ -2,6 +2,7 @@ package com.wot.server;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -225,7 +226,7 @@ public class DaoDataCommunityClanMembers implements Serializable {
 
 	///ajout test
 	@Persistent
-	Map<String, DaoDataCommunityMembers> members;
+	List<DaoDataCommunityMembers> members;
 	
 	@Persistent
 	Map<String, String> membersAdded = new HashMap<String, String>();
@@ -250,11 +251,11 @@ public class DaoDataCommunityClanMembers implements Serializable {
 		this.membersDeleted = membersDeleted;
 	}
 
-	public Map<String, DaoDataCommunityMembers> getMembers() {
+	public List< DaoDataCommunityMembers> getMembers() {
 		return members;
 	}
 
-	public void setMembers(Map<String, DaoDataCommunityMembers> members) {
+	public void setMembers(List< DaoDataCommunityMembers> members) {
 		this.members = members;
 	}
 

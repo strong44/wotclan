@@ -5,7 +5,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wot.server.DaoCommunityClan2;
-import com.wot.shared.CommunityClan;
 
 public class GsonTest {
 
@@ -19,8 +18,8 @@ public class GsonTest {
 
         String quotes = "{\"mapField\": {\"5\": \"6\", \"7\": \"8\"}}";
         String keyQuotes = "{\"mapField\": {\"5\": 6, \"7\": 8}}";
-        String noQuotes = "{\"mapField\": {5: 6, 7: 8}}";
-
+//        String noQuotes = "{\"mapField\": {5: 6, 7: 8}}";
+//
         TestClass res = null;
         res = gson.fromJson(quotes, TestClass.class);
         res = gson.fromJson(keyQuotes, TestClass.class);
