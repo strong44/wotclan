@@ -106,7 +106,7 @@ public class DaoDataCommunityClanMembers implements Serializable {
 	//Boolean private;
 	String tag; /* NVS*/
 	Integer  members_count; /*62*/
-	String description_html; /* <p><i>* Age minimum : 18 ans et +\ ...*/ 
+	//String description_html; /* <p><i>* Age minimum : 18 ans et +\ ...*/ 
 	Integer creator_id; /*502116599 */
 	String leader_name; /* stadetoulousain */
 	
@@ -133,7 +133,7 @@ public class DaoDataCommunityClanMembers implements Serializable {
 
 	Integer renamed_at;
 	String old_tag;
-	String description ; /* _* Age minimum : 18 ans et +\ ...*/
+	//String description ; /* _* Age minimum : 18 ans et +\ ...*/
 	
 	String old_name;
     Boolean is_clan_disbanded;
@@ -156,9 +156,9 @@ public class DaoDataCommunityClanMembers implements Serializable {
 		return members_count;
 	}
 
-	public String getDescription_html() {
-		return description_html;
-	}
+//	public String getDescription_html() {
+//		return description_html;
+//	}
 
 	public String getLeader_name() {
 		return leader_name;
@@ -168,9 +168,9 @@ public class DaoDataCommunityClanMembers implements Serializable {
 		return clan_id;
 	}
 
-	public String getDescription() {
-		return description;
-	}
+//	public String getDescription() {
+//		return description;
+//	}
 
 	public String getMotto() {
 		return motto;
@@ -196,9 +196,9 @@ public class DaoDataCommunityClanMembers implements Serializable {
 		this.members_count = members_count;
 	}
 
-	public void setDescription_html(String description_html) {
-		this.description_html = description_html;
-	}
+//	public void setDescription_html(String description_html) {
+//		this.description_html = description_html;
+//	}
 
 	public void setLeader_name(String leader_name) {
 		this.leader_name = leader_name;
@@ -208,9 +208,9 @@ public class DaoDataCommunityClanMembers implements Serializable {
 		this.clan_id = clan_id;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+//	public void setDescription(String description) {
+//		this.description = description;
+//	}
 
 	public void setMotto(String motto) {
 		this.motto = motto;
