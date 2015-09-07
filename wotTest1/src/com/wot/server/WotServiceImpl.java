@@ -52,7 +52,7 @@ import com.wot.shared.XmlWiki;
 public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 	static public String proxy =  "http://wotnvs.appspot.com/WotWeb?";
 	
-	static public String lieu = "boulot"; //boulot ou maison si boulot -> WotWeb
+	static public String lieu = "maison"; //boulot ou maison si boulot -> WotWeb
 	boolean saveData = true;
 	private boolean saveDataPlayer = true;
 	XmlWiki wiki =  null;
@@ -1013,15 +1013,37 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 				//log.warning("histStatUser.getData() " + histStatUser.getData());
 				///log.warning("commAcc.getData().getAverageLevel " + commAcc.getData().getAverageLevel);
 				
-				Double averageLevelTank =histStatUser.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
-				Double wn8 =histStatUser.getData().getStatistics().getAllStatistics().getWn8(); 
-				
 				DataPlayerInfos myDataCommunityAccountRatings = communityAccount.getData();
+				if(histStatUser != null && histStatUser.getData() != null ) {
+					Double averageLevelTank =histStatUser.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
+					Double wn8 =histStatUser.getData().getStatistics().getAllStatistics().getWn8();
+					
+					//average level tank
+					myDataCommunityAccountRatings.getStatistics().getAllStatistics().setAverageLevelTankCalc(averageLevelTank);
+					//wn8
+					myDataCommunityAccountRatings.getStatistics().getAllStatistics().setWn8(wn8);
+				}else {
+					//WN8 : recup de noobmeter
+					ArrayList<String> param = new ArrayList<String>();
+					param.add("WN8");
+					String statsWN8 = ReadPersistPlayersRecruistation.getStats(communityAccount.getData().getNickname(), param);
+					String statsWN8RemovedTD = statsWN8.replaceAll("<td>", "");
+					statsWN8RemovedTD = statsWN8RemovedTD.replaceAll("</td>", "");
+					statsWN8RemovedTD = statsWN8RemovedTD.substring(0, statsWN8RemovedTD.indexOf("(") -1);
+					try {
+						Double wn8 = Double.valueOf(statsWN8RemovedTD);
+						//wn8
+						myDataCommunityAccountRatings.getStatistics().getAllStatistics().setWn8(wn8);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
 				
-				//average level tank
-				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setAverageLevelTankCalc(averageLevelTank);
 				
-				myDataCommunityAccountRatings.getStatistics().getAllStatistics().setWn8(wn8);
+				
+				
 				
 				//== WR calculated
 				int battles = myDataCommunityAccountRatings.getStatistics().getAllStatistics().getBattles();

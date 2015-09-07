@@ -336,9 +336,14 @@ public class WotTest1 implements EntryPoint {
 	    	  Double spot = object.getData().getStatistics().getAllStatistics().getRatioDetectedPoints();
 	    	  Double cap = object.getData().getStatistics().getAllStatistics().getRatioCtfPoints();
 	    	  Double def = object.getData().getStatistics().getAllStatistics().getRatioDroppedCtfPoints();
-	    	  object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc();
-	    	  double tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); //TODO : Ajouter ER dans parse JSON
-	    	  double er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;
+	    	  
+	    	  double tier = 0.0;
+	    	  double er = 0.0;
+	    	  
+	    	  if (object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc() != null){
+	    		  tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); //TODO : Ajouter ER dans parse JSON
+		    	  er= dmg * (10 / (tier + 2)) * (0.21 + 3*tier / 100) + frags * 250 + spot * 150 + Math.log(cap + 1) / Math.log(1.732) * 150 + def * 150;  
+	    	  }
 	    	  /*
 	    	   * wrCal = wrCal * 100; //ex : 51,844444
 					int intWrCal = (int) (wrCal * 100); //ex : 5184
@@ -472,7 +477,9 @@ public class WotTest1 implements EntryPoint {
 	    TextColumn<CommunityAccount> tierCalcColumn = new TextColumn<CommunityAccount>() {
 	      @Override
 	      public String getValue(CommunityAccount object) {
-	    	  double tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
+	    	  double tier = 0.0;
+	    	  if(object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc() != null )
+	    	   tier = object.getData().getStatistics().getAllStatistics().getAverageLevelTankCalc(); 
 	    	  
 	    	  
 	    	  int wnTruncate= (int) (tier * 100);
