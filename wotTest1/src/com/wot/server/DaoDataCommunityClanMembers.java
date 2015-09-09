@@ -225,6 +225,7 @@ public class DaoDataCommunityClanMembers implements Serializable {
 	}
 
 	///ajout test
+	
 	@Persistent
 	List<DaoDataCommunityMembers> members;
 	
