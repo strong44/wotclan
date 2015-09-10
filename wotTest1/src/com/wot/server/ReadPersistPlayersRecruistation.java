@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	
 	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
 	private static String urlServerEU =  "http://api.worldoftanks.eu";
+	private static String urlServer = "http://www.noobmeter.com/player/eu/ " ;
 
 	private static 	HashMap<String , String> hmStatWn8Member = new HashMap<String, String>();
  
@@ -323,22 +325,22 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
 		//http://www.noobmeter.com/player/eu/ 
 		//tablesorter
-		String urlServer = "http://www.noobmeter.com/player/eu/ " + member ;
+		String urlServerLocal = urlServer + member ;
 		URL url = null;
 		
 		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-			url = new URL(WotServiceImpl.proxy + urlServer );
+			url = new URL(WotServiceImpl.proxy + urlServerLocal );
 		}
 		else {
-			url = new URL(urlServer );
+			url = new URL(urlServerLocal );
 		}
 		
 		////////////////////
 		//On se connecte au site et on charge le document html
-		Connection connection = Jsoup.connect(urlServer);
+		Connection connection = Jsoup.connect(urlServerLocal);
 		connection.timeout(30*1000); //in miliseondes
 		
-		Document doc = connection.url(urlServer).get();
+		Document doc = connection.url(urlServerLocal).get();
 		
 		//On récupère dans ce document la premiere balise ayant comme nom h1 et pour attribut class="title"
 		Elements elementsTablesorter= doc.getElementsByClass("tablesorter");
@@ -354,8 +356,6 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		 */
 		
 		for (Element elementTableSorter : elementsTablesorter ) {
-			//log.warning(elementTableSorter.text());
-			
 			
 			Elements eleTableSorter = elementTableSorter.getElementsByTag("td"); //on cherche le TD WN8 Rating 
 			
@@ -388,12 +388,7 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				
 			}
 			
-//			if (ele.text() != null && ele.text().toLowerCase().contains(keyStat.toLowerCase())) {
-//				if ("".equalsIgnoreCase(res) )
-//					res =  ele.text();
-//				else
-//					res =  res + " : " + ele.text();
-//			}
+
 		}
 		
 		
@@ -402,4 +397,91 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		
 	}
 
+	/**
+	 *  
+	 *  
+	 *  */
+	public static Map<String, String> getStatsWithoutFormat(String member, List<String> listKeyStat) throws IOException {
+		
+		//=======================
+		/*
+		 * 	WN8 805
+ 			Win Rate 48.2%
+ 			Recent WN8 785
+ 			Recent WR 44.64%
+ 			WN Rank 260966
+
+		 */
+		Map<String, String> mapStats = new HashMap<String, String>();
+		
+		//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
+		//http://www.noobmeter.com/player/eu/ 
+		//tablesorter
+		String urlServerLocal = urlServer + member ;
+		String url = null;
+	
+		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+			url = WotServiceImpl.proxy + urlServerLocal ;
+		}
+		else {
+			url = urlServerLocal ;
+		}
+		
+		////////////////////
+		//On se connecte au site et on charge le document html
+		Connection connection = Jsoup.connect(url);
+		connection.timeout(30*1000); //in miliseondes
+		
+		Document doc = connection.url(url).get();
+		
+		//On récupère dans ce document la premiere balise ayant comme nom h1 et pour attribut class="title"
+		Elements elementsTablesorter= doc.getElementsByClass("tablesorter");
+		
+		//Voir aussi si on peut ajouter le WN8 des joueurs
+		//http://wotlabs.net/eu/player/strong44
+		/*
+		 * <div class="boxStats boxWn green" style="width:18%;float:left;margin-right:2.5%;margin-bottom:25px;">
+			‌¶‌→
+			<span>WN8</span>
+			‌¶‌→1149‌→
+			</div>
+		 */
+		
+		for (Element elementTableSorter : elementsTablesorter ) {
+			Elements eleTableSorter = elementTableSorter.getElementsByTag("td"); //on cherche le TD WN8 Rating 
+			
+			boolean next = false ;
+			String keyStatMem = "";
+			for (Element eleSorter : eleTableSorter ) {
+				
+				//Recup de la valeur de la stat (une fois que le champ a été trouvé)
+				if (next)
+				{
+					//ajout au resultat ex: WN8/1200
+					//eleSorter.text() = 1200 (Good) 
+					//supression de la fin à partir de la pranthèse
+					String tmpStat =  eleSorter.text();
+					tmpStat = tmpStat.substring(0, tmpStat.indexOf("(")-1);
+					
+					mapStats.put(keyStatMem, tmpStat);
+					next = false;
+					keyStatMem = "";
+				}
+				
+				//recherche du titre de la stat ex: WN8
+				for (String keyStat : listKeyStat) {
+					if (eleSorter.text().contains(keyStat)) {
+						//le td suivant est le bon
+						keyStatMem = keyStat;
+						next = true ; 
+						break;
+					}
+				}
+				
+			}
+		}
+		return mapStats ;
+	}
+
+	
 }

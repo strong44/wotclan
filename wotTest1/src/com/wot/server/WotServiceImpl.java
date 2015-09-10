@@ -1026,12 +1026,10 @@ public class WotServiceImpl extends RemoteServiceServlet implements WotService {
 					//WN8 : recup de noobmeter
 					ArrayList<String> param = new ArrayList<String>();
 					param.add("WN8");
-					String statsWN8 = ReadPersistPlayersRecruistation.getStats(communityAccount.getData().getNickname(), param);
-					String statsWN8RemovedTD = statsWN8.replaceAll("<td>", "");
-					statsWN8RemovedTD = statsWN8RemovedTD.replaceAll("</td>", "");
-					statsWN8RemovedTD = statsWN8RemovedTD.substring(0, statsWN8RemovedTD.indexOf("(") -1);
+					String statsWN8 = ReadPersistPlayersRecruistation.getStatsWithoutFormat(communityAccount.getData().getNickname(), param).get("WN8");
+					
 					try {
-						Double wn8 = Double.valueOf(statsWN8RemovedTD);
+						Double wn8 = Double.valueOf(statsWN8);
 						//wn8
 						myDataCommunityAccountRatings.getStatistics().getAllStatistics().setWn8(wn8);
 					} catch (NumberFormatException e) {
