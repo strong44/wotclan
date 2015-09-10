@@ -264,9 +264,9 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 //							append("</TH>")
 						strBuf.append("</TR>");
 						
-    		Set<Entry<String,String>> setEntry = hmMembersWn8Added.entrySet();
+    		Set<Entry<String,String>> setEntryUsersAdded = hmMembersWn8Added.entrySet();
     		
-    		for (Entry<String,String> entry :setEntry ) {
+    		for (Entry<String,String> entry :setEntryUsersAdded ) {
     			//strBuf.append("</TR>").
     			strBuf.append("<TR>").
 					append("<TD>").
@@ -279,7 +279,6 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		
     		}
 			strBuf.append("</TABLE>");
-    		
     		
     		//== WR
     		strBuf.append("<TABLE  border bgcolor='" + userDeletedCodeColor + "' style='color:white;' >").
@@ -295,9 +294,6 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				append("</TD>").
 			append("</TR>").
 			append("</TABLE>");
-    		
-    		
-    		
     		
     		strBuf.append("</BODY>");
     		strBuf.append("</HTML>");
@@ -482,6 +478,5 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		}
 		return mapStats ;
 	}
-
 	
 }
