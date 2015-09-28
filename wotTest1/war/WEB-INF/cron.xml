@@ -7,12 +7,13 @@
      <timezone>Europe/Paris</timezone>
   </cron>
   
-  <cron>
+<!--   <cron>
     <url>/cronDeletePlayersStats?nbDelete=80</url>
     <description>Delete some stats of users</description>
     <schedule>every day 04:00</schedule>
      <timezone>Europe/Paris</timezone>
   </cron>
+  -->
   
   <cron>
     <url>/cronAmazone</url>
