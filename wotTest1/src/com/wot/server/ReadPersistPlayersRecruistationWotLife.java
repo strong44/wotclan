@@ -250,6 +250,8 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
     		
     		String styleColorHeader = " style='color: black;background-color: rgb(60, 60, 60);' ";
     		
+    		String styleColorPlayer = " style='color: black;background-color: rgb(50, 105, 105);' ";
+    		
         	//tableau noir
     		strBuf.append("<TABLE border  " + " style='color: white;background-color: rgb(5, 5, 5);' >").
     					//entêtes des colonnes
@@ -278,7 +280,7 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 							append("</TH>").
 						append("</TR>").
 						
-						// ===== 2ème ligne d'entête ===== 
+						// ===== 2ème ligne d'entête Joueurs WN8 Battles tanks ===== 
 						append("<TR>").
 							append("<TH"+ styleColorHeader + ">").
 								append("Joueurs").
@@ -293,7 +295,6 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 			    		append("Battles").
 						append("</TH>");
 
-			    		
 			    		//colonne tanks
 			    		strBuf.append("<TH colspan=\"2\"" + styleColorHeader + ">").
 		    			append("Tanks").
@@ -318,7 +319,7 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 		    		
 						strBuf.append("</TR>");
 						
-						//===== 3ème ligne d'entête ======
+						//===== 3ème ligne d'entête Total - 24 heures ...======
 						strBuf.append("<TR>").
 						append("<TH"+ styleColorHeader + ">").
 							append("").//colonne joueur 
@@ -368,11 +369,11 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 						
 						
     		Set<Entry<String,String>> setEntryUsersAdded = hmMembersWn8Added.entrySet();
-    		
+    		//==== lignes de stats des joueurs ======== 
     		for (Entry<String,String> entryUser :setEntryUsersAdded ) {
     			//strBuf.append("</TR>").
     			strBuf.append("<TR>").
-					append("<TD>").
+					append("<TD"+ styleColorPlayer +">").
 						append(entryUser.getKey()).//nom du joueur 
 					append("</TD>").
 					append(entryUser.getValue().replaceAll("style='WN8'", styleColorWN8).replaceAll("style='Battles'", styleColorBattles)).//les stats WN8 +Battles
