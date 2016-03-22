@@ -38,7 +38,8 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 	private static String applicationIdEU = "d0a293dc77667c9328783d489c8cef73";
 	private static String urlServerEU =  "http://api.worldoftanks.eu";
 	private static String urlServer = "http://www.noobmeter.com/player/eu/ " ;
-
+	private static String urlServerWotLife = "https://fr.wot-life.com/eu/player/" ;
+	
 	private static 	HashMap<String , String> hmStatWn8Member = new HashMap<String, String>();
  
 	
@@ -310,11 +311,11 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 		//=======================
 		/*
 		 * 	WN8 805
- 			Win Rate 48.2%
- 			Recent WN8 785
- 			Recent WR 44.64%
- 			WN Rank 260966
-
+			Win Rate 48.2%
+			Recent WN8 785
+			Recent WR 44.64%
+			WN Rank 260966
+	
 		 */
 		String res = "";
 		
@@ -384,9 +385,104 @@ public class ReadPersistPlayersRecruistation extends HttpServlet {
 				
 			}
 			
-
+	
 		}
 		
+		
+		return res ;
+		
+		
+	}
+
+
+
+	public static String getStatsWotLife(String member, List<String> listKeyStat) throws IOException {
+		//=======================
+		/*
+		 * 	WN8 805
+ 			Win Rate 48.2%
+ 			Recent WN8 785
+ 			Recent WR 44.64%
+ 			WN Rank 260966
+
+		 */
+		String res = "";
+		
+		//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
+		//http://www.noobmeter.com/player/eu/ 
+		//tablesorter
+		String urlServerLocal = urlServerWotLife + member ;
+		URL url = null;
+		
+//		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+//			url = new URL(WotServiceImpl.proxy + urlServerLocal );
+//		}
+//		else {
+//			url = new URL(urlServerLocal );
+//		}
+		
+		////////////////////
+		//On se connecte au site et on charge le document html
+		Connection connection = Jsoup.connect(urlServerLocal);
+		connection.timeout(30*1000); //in miliseondes
+		
+		Document doc = connection.url(urlServerLocal).get();
+		
+		//On récupère dans ce document la premiere balise de type HEADER et portant le nom <Nombre de batailles>
+		/*
+		 * <table class="stats-table table-md">
+        <tr><td style="width: 180px;"></td>
+          <th colspan="2">Total</th>
+          <th colspan="2">Depuis 24 heures</th>
+          <th colspan="2">Depuis 7 jours</th>
+          <th colspan="2">Depuis 30 jours</th>
+        </tr>
+        <tr>
+          <th>Nombre de batailles</th>
+          <td colspan="2" class="text-right">15686</td>
+          <td colspan="2" class="text-right">0</td>
+          <td colspan="2" class="text-right">72</td>
+          <td colspan="2" class="text-right">357</td>
+		 */
+		
+		Elements elementsTablesorter= doc.getElementsByTag("th");
+		for (Element elementTableSorter : elementsTablesorter ) {
+			if (elementTableSorter.text().contains("WN8")) {
+				//on peut rechercher le WN8
+				Elements elementsTD= elementTableSorter.getElementsByTag("td");
+				
+				for (Element eleSorter : elementsTD ) {
+					if ("".equalsIgnoreCase(res) )
+						//res =  "<td>" + keyStatMem + ":" +eleSorter.text() +"</td>" ;
+						res =  "<td>" +eleSorter.text() +"</td>" ;
+					else
+						
+						//res =  res + "<td>"  + keyStatMem + ":" + eleSorter.text() + "</td>";
+						res =  res + "<td>"  +eleSorter.text() + "</td>";
+					//
+				}
+			}
+		}
+		
+		
+		elementsTablesorter= doc.getElementsByTag("th");
+		for (Element elementTableSorter : elementsTablesorter ) {
+			if (elementTableSorter.text().contains("Nombre de batailles")) {
+				//on peut rechercher le nb de batailles
+				Elements elementsTD= elementTableSorter.getElementsByTag("td");
+				
+				for (Element eleSorter : elementsTD ) {
+					if ("".equalsIgnoreCase(res) )
+						//res =  "<td>" + keyStatMem + ":" +eleSorter.text() +"</td>" ;
+						res =  "<td>" +eleSorter.text() +"</td>" ;
+					else
+						
+						//res =  res + "<td>"  + keyStatMem + ":" + eleSorter.text() + "</td>";
+						res =  res + "<td>"  +eleSorter.text() + "</td>";
+					//
+				}
+			}
+		}
 		
 		return res ;
 		

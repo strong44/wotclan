@@ -68,6 +68,62 @@ public class CronPersistPlayersStats extends HttpServlet {
 		}
     }
 
+	public static void generateTankEncyclopedia() throws IOException {
+		///Recuperation de l'encyclop�die des tanks ( n�cessaire pour connaitre le level de chaque char )  (pour calcul average level) 
+		//=======================
+		if (tankEncyclopedia == null) {
+			//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
+			String urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
+			URL url = null;
+			
+			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+				url = new URL(WotServiceImpl.proxy + urlServer );
+			}
+			else {
+				url = new URL(urlServer );
+			}
+			
+			
+			HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
+			conn2.setReadTimeout(20000);
+			conn2.setConnectTimeout(20000);
+			conn2.getInputStream();
+			BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
+	
+			String lineUser = "";
+			String AllLinesUser = "";
+	
+			while ((lineUser = readerUser.readLine()) != null) {
+				AllLinesUser = AllLinesUser + lineUser;
+			}
+			readerUser.close();
+	
+			Gson gsonUser = new Gson();
+			tankEncyclopedia = gsonUser.fromJson(AllLinesUser, TankEncyclopedia.class);
+		}
+		
+		//contr�le --------
+		if (tankEncyclopedia == null) {
+			log.severe("tankEncyclopedia is null" );
+			
+		}
+		else {
+			log.warning("tankEncyclopedia is good" );
+			if (tankEncyclopedia.getData() ==null ) {
+				log.severe("tankEncyclopedia data is null" );
+			}
+			else {
+				 Set<Entry<String, DataTankEncyclopedia>>  set = tankEncyclopedia.getData().entrySet();
+				
+				if (tankEncyclopedia.getData().get("6417") == null ){
+					log.severe("tankEncyclopedia data get tank id 6417 is null" );
+				}
+			}
+					
+		}
+		
+	}
+
 	public static List<String> cronPersistAllStats(Date date, String idClan) {
 			
 			log.warning("========lancement cronPersistAllStats : " +  date + ":" + idClan + " :============== " );
@@ -475,61 +531,6 @@ public class CronPersistPlayersStats extends HttpServlet {
 		
 		}
 
-	public static void generateTankEncyclopedia() throws IOException {
-		///Recuperation de l'encyclop�die des tanks ( n�cessaire pour connaitre le level de chaque char )  (pour calcul average level) 
-		//=======================
-		if (tankEncyclopedia == null) {
-			//http://api.worldoftanks.eu/2.0/encyclopedia/tanks/?application_id=d0a293dc77667c9328783d489c8cef73
-			String urlServer = urlServerEU +"/2.0/encyclopedia/tanks/?application_id=" + applicationIdEU ;
-			URL url = null;
-			
-			if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
-				url = new URL(WotServiceImpl.proxy + urlServer );
-			}
-			else {
-				url = new URL(urlServer );
-			}
-			
-			
-			HttpURLConnection conn2 = (HttpURLConnection)url.openConnection();
-			conn2.setReadTimeout(20000);
-			conn2.setConnectTimeout(20000);
-			conn2.getInputStream();
-			BufferedReader readerUser = new BufferedReader(new InputStreamReader(conn2.getInputStream()));
-
-			String lineUser = "";
-			String AllLinesUser = "";
-
-			while ((lineUser = readerUser.readLine()) != null) {
-				AllLinesUser = AllLinesUser + lineUser;
-			}
-			readerUser.close();
-
-			Gson gsonUser = new Gson();
-			tankEncyclopedia = gsonUser.fromJson(AllLinesUser, TankEncyclopedia.class);
-		}
-		
-		//contr�le --------
-		if (tankEncyclopedia == null) {
-			log.severe("tankEncyclopedia is null" );
-			
-		}
-		else {
-			log.warning("tankEncyclopedia is good" );
-			if (tankEncyclopedia.getData() ==null ) {
-				log.severe("tankEncyclopedia data is null" );
-			}
-			else {
-				 Set<Entry<String, DataTankEncyclopedia>>  set = tankEncyclopedia.getData().entrySet();
-				
-				if (tankEncyclopedia.getData().get("6417") == null ){
-					log.severe("tankEncyclopedia data get tank id 6417 is null" );
-				}
-			}
-					
-		}
-		
-	}
 	
 	public static void generateWnEfficientyTank() throws IOException {
 		if (wnEfficientyTank == null) {
