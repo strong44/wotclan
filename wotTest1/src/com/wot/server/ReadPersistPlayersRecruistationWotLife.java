@@ -554,6 +554,8 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 		//index ---
 		Integer indexNameTankInTable = 2;//nom du tank
 		Integer indexTierTankInTable = 6;//tier du tank
+		Integer indexWN8TankInTable = 11;//wn8 du tank
+		
 		String listTankT6 ="";
 		String listTankT8 ="";
 		
@@ -563,8 +565,12 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 				if(elementsTDTable.size()> 10) {
 					Element myElementTierTank = elementsTDTable.get(indexTierTankInTable);
 					Element myElementNameTank = elementsTDTable.get(indexNameTankInTable);
+					Element myElementWN8Tank = elementsTDTable.get(indexWN8TankInTable);
+					
 					Integer tierTank = Integer.valueOf (myElementTierTank.ownText());
 					String nameTank = myElementNameTank.ownText();
+					String wn8Tank = myElementWN8Tank.ownText();
+					wn8Tank = "(" +wn8Tank + ")";
 					
 					if (tierTank == 6) {
 						//Cz08 T 25
@@ -579,7 +585,7 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 								nameTank.equalsIgnoreCase("59-16") ||
 								nameTank.equalsIgnoreCase("Cz08 T 25") ||
 								nameTank.equalsIgnoreCase("KV-2") ) {
-							listTankT6 = listTankT6 + "<br>" + nameTank;
+							listTankT6 = listTankT6 + "<br>" + nameTank + wn8Tank;
 						}
 					}
 	
@@ -599,7 +605,7 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 								nameTank.equalsIgnoreCase("Spähpanzer Ru 251") ||
 								nameTank.equalsIgnoreCase("AMX 13 90") 
 								 ) {
-							listTankT8 = listTankT8 + "<br>" + nameTank;
+							listTankT8 = listTankT8 + "<br>" + nameTank+ wn8Tank;
 						}
 					}
 	
