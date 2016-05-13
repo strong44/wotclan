@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.wot.client.WotService;
+import com.wot.client.WotServiceAsync;
+import com.wot.shared.CommunityClan;
+import com.wot.shared.DataCommunityClanMembers;
+import com.wot.shared.DataCommunityMembers;
+
 @SuppressWarnings("serial")
 public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 	
@@ -37,10 +46,10 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 	
 	private static String urlServer = "http://www.noobmeter.com/player/eu/ " ;
 	private static String urlServerWotLife = "https://fr.wot-life.com/eu/player/" ;
+	private static String urlServerWotForum = "http://nova.snail.soforums.com/profile.php?mode=viewprofile&u=" ;
 	
 	private static 	HashMap<String , String> hmStatWn8Member = new HashMap<String, String>();
  
-	
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
     	log.warning("========lancement doGet  ReadPersistPlayersRecruistation ============== " );
@@ -398,7 +407,36 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 		
     		}
 			strBuf.append("</TABLE>");
-    		
+
+			//traitement de recup d'infos sur forum
+			ArrayList<String> listUserForum = new ArrayList<String>();
+			listUserForum.add("samuel52");
+			listUserForum.add("strong44");
+			
+			
+			
+			//getAllMembersClan(String idClan)
+			//renseigner les users des hashMap si NULL ou vide
+//			if (WotServiceImpl.hMapUserNameId != null && WotServiceImpl.hMapUserNameId.size()> 0){
+//				//String clan_id= "500006074";
+//				////////////
+//				strBuf.append("<TABLE>");
+//				Set<Entry<String, String>> setUserId = WotServiceImpl.hMapUserNameId .entrySet();
+//				
+//				for (Entry<String, String> entryUserId : setUserId) {
+//					String res = getStatsWotForum(entryUserId.getKey(), "Localisation");
+//					
+//					strBuf.append("<TR>");
+//						strBuf.append("<TD>");
+//						strBuf.append(res);
+//						strBuf.append("</TD>");
+//					strBuf.append("</TR>");
+//				}
+//				strBuf.append("</TABLE>");
+//			}
+			
+			////////////
+			//
     		strBuf.append("</BODY>");
     		strBuf.append("</HTML>");
     		String buf= strBuf.toString();
@@ -425,18 +463,18 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 		//On récupère dans ce document la premiere balise de type HEADER et portant le nom <Nombre de batailles>
 		/*
 		 * <table class="stats-table table-md">
-        <tr><td style="width: 180px;"></td>
-          <th colspan="2">Total</th>
-          <th colspan="2">Depuis 24 heures</th>
-          <th colspan="2">Depuis 7 jours</th>
-          <th colspan="2">Depuis 30 jours</th>
-        </tr>
-        <tr>
-          <th>Nombre de batailles</th>
-          <td colspan="2" class="text-right">15686</td>
-          <td colspan="2" class="text-right">0</td>
-          <td colspan="2" class="text-right">72</td>
-          <td colspan="2" class="text-right">357</td>
+	    <tr><td style="width: 180px;"></td>
+	      <th colspan="2">Total</th>
+	      <th colspan="2">Depuis 24 heures</th>
+	      <th colspan="2">Depuis 7 jours</th>
+	      <th colspan="2">Depuis 30 jours</th>
+	    </tr>
+	    <tr>
+	      <th>Nombre de batailles</th>
+	      <td colspan="2" class="text-right">15686</td>
+	      <td colspan="2" class="text-right">0</td>
+	      <td colspan="2" class="text-right">72</td>
+	      <td colspan="2" class="text-right">357</td>
 		 */
 		//---WN8--- 
 		Elements elementsTablesorter= doc.getElementsByTag("th");
@@ -615,6 +653,60 @@ public class ReadPersistPlayersRecruistationWotLife extends HttpServlet {
 			}
 		}
 		res = res + "<td>"  +listTankT6 + "</td>" +"<td>"  +listTankT8 + "</td>";
+		return res ;
+		
+		
+	}
+
+
+
+	public static String getStatsWotForum(String member, String key) throws IOException {
+		String res = "";
+		String urlServerLocal = urlServerWotForum + member ;
+		
+		
+		////////////////////
+		String url = null;
+		
+		if(WotServiceImpl.lieu.equalsIgnoreCase("boulot")){ //on passe par 1 proxy
+			url = WotServiceImpl.proxy + urlServerLocal ;
+		}
+		else {
+			url = urlServerLocal ;
+		}
+		
+		
+		//On se connecte au site et on charge le document html
+		Connection connection = Jsoup.connect(url);
+		connection.timeout(30*1000); //in miliseondes
+		
+		Document doc = connection.url(urlServerLocal).get();
+		
+		//---recherche de la balise TAG "voir le profil"   --- 
+		Elements elementsTablesorter= doc.getElementsByTag("th");
+		for (Element elementTableSorter : elementsTablesorter ) {
+			
+			//System.out.println(elementTableSorter.text());
+			
+			if (elementTableSorter.text().contains("Voir le profil")) {
+				System.out.println("user :" + member + " found ");
+				
+				res =  "<td style='user'>" + member+ "</td>";
+				//
+				//user-id-304 profile-field-Date-20de-20naissance
+				//Elements elementsClassSorter= doc.getElementsByClass("profile-field-Date-20de-20naissance");
+				Elements elementsClassSorter= doc.getElementsByClass("profile-field-Localisation");
+				if (elementsClassSorter!= null && elementsClassSorter.size()> 0) {
+					res =  res + "<td style='user'>"  +key +"</TD><TD> " + elementsClassSorter.text()+ "</td>";
+					break;
+				}
+				break;
+			}
+		}
+		if (res.isEmpty()) {
+			res =  "<td style='user'>"  +"USER NOT FOUND</TD><TD>" + member + "</td>";
+			return res ;
+		}
 		return res ;
 		
 		
